@@ -19,9 +19,12 @@ export default function Navbar() {
           Home
         </a>
 
-        <a href="#" style={{ color: "white", textDecoration: "none" }}>
-          <Link href="/tools">Tools</Link>
-        </a>
+        <Link
+  href="/tools"
+  style={{ color: "white", textDecoration: "none" }}
+>
+  Tools
+</Link>
 
         <a href="#" style={{ color: "white", textDecoration: "none" }}>
           About
