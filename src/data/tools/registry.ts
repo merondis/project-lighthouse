@@ -212,6 +212,60 @@ export const toolRegistry: ToolConfig[] = [
     relatedSlugs: ["json-formatter"],
   },
   {
+    slug: "merge-pdf",
+    category: "pdf",
+    title: "Merge PDF",
+    shortDescription: "Combine multiple PDF files into one.",
+    metaDescription: "Free online tool to merge multiple PDF files into a single PDF document, directly in your browser.",
+    h1: "Merge PDF",
+    intro: "Combine multiple PDF files into a single document. Reorder files before merging, all processed securely in your browser.",
+    icon: "📎",
+    status: "live",
+    widgetType: "mergePdf",
+    faqs: [
+      {
+        question: "Are my files uploaded to a server?",
+        answer: "No, all merging happens directly in your browser using client-side processing. Your files are never uploaded anywhere.",
+      },
+      {
+        question: "Can I change the order of the pages before merging?",
+        answer: "Yes, use the up and down arrows next to each file to reorder them before merging. Files are combined in the order shown.",
+      },
+      {
+        question: "Is there a limit to how many PDFs I can merge?",
+        answer: "There's no hard limit, but very large files or a very high number of PDFs may take longer to process depending on your device.",
+      },
+    ],
+    relatedSlugs: ["split-pdf"],
+  },
+  {
+    slug: "split-pdf",
+    category: "pdf",
+    title: "Split PDF",
+    shortDescription: "Extract a page range from a PDF file.",
+    metaDescription: "Free online tool to split a PDF and extract a specific page range into a new PDF document.",
+    h1: "Split PDF",
+    intro: "Extract a specific range of pages from a PDF file into a brand new document, processed securely in your browser.",
+    icon: "✂️",
+    status: "live",
+    widgetType: "splitPdf",
+    faqs: [
+      {
+        question: "Are my files uploaded to a server?",
+        answer: "No, all splitting happens directly in your browser. Your file is never uploaded anywhere.",
+      },
+      {
+        question: "Can I extract multiple separate ranges at once?",
+        answer: "Currently this tool extracts one continuous page range per use. Run the tool again for a different range.",
+      },
+      {
+        question: "Will the extracted pages keep their original formatting?",
+        answer: "Yes, page content, formatting and layout are preserved exactly as they appear in the original document.",
+      },
+    ],
+    relatedSlugs: ["merge-pdf"],
+  },
+  {
     slug: "bmi-calculator",
     category: "health",
     title: "BMI Calculator",

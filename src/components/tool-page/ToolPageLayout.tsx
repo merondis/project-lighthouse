@@ -1,3 +1,5 @@
+import { SplitPdfWidget } from "@/components/tool-page/SplitPdfWidget";
+import { MergePdfWidget } from "@/components/tool-page/MergePdfWidget";
 import { ToolConfig } from "@/types/tool";
 import { Container } from "@/components/ui/Container";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
@@ -14,6 +16,8 @@ function renderWidget(tool: ToolConfig) {
   if (tool.widgetType === "unitConverter") {
     return <UnitConverterWidget category={tool.converterCategory ?? "length"} />;
   }
+  if (tool.widgetType === "mergePdf") return <MergePdfWidget />;
+  if (tool.widgetType === "splitPdf") return <SplitPdfWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }
 

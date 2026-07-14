@@ -48,7 +48,7 @@ export interface ToolConfig {
   intro: string;
   icon: string;
   status: ToolStatus;
-  widgetType?: "standard" | "countdown" | "unitConverter";
+  widgetType?: "standard" | "countdown" | "unitConverter" | "mergePdf" | "splitPdf";
   converterCategory?: "length" | "weight" | "temperature";
   inputFields?: InputFieldConfig[];
   resultFields?: ResultFieldConfig[];
