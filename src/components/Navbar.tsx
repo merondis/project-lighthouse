@@ -1,34 +1,52 @@
 import Link from "next/link";
+
 export default function Navbar() {
   return (
     <nav
       style={{
-        height: "70px",
-        backgroundColor: "#111827",
-        color: "white",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: "0 40px",
+        padding: "20px 40px",
+        backgroundColor: "#111827",
       }}
     >
-      <h2>🚀 Project Lighthouse</h2>
+      <Link
+        href="/"
+        style={{
+          color: "white",
+          textDecoration: "none",
+          fontWeight: "bold",
+          fontSize: "24px",
+        }}
+      >
+        Merondis
+      </Link>
 
-      <div style={{ display: "flex", gap: "20px" }}>
-        <a href="#" style={{ color: "white", textDecoration: "none" }}>
+      <div
+        style={{
+          display: "flex",
+          gap: "30px",
+        }}
+      >
+        <Link href="/" style={{ color: "white", textDecoration: "none" }}>
           Home
-        </a>
+        </Link>
+
+        <Link href="/tools" style={{ color: "white", textDecoration: "none" }}>
+          Tools
+        </Link>
 
         <Link
-  href="/tools"
-  style={{ color: "white", textDecoration: "none" }}
->
-  Tools
-</Link>
+          href="/categories"
+          style={{ color: "white", textDecoration: "none" }}
+        >
+          Categories
+        </Link>
 
-        <a href="#" style={{ color: "white", textDecoration: "none" }}>
+        <Link href="/about" style={{ color: "white", textDecoration: "none" }}>
           About
-        </a>
+        </Link>
       </div>
     </nav>
   );
