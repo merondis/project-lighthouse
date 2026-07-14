@@ -1,3 +1,5 @@
+import { formatJson, JsonAction } from "@/utils/calculators/json-formatter";
+import { processBase64, Base64Action } from "@/utils/calculators/base64-tool";
 import { calculateBmr, ActivityLevel, Gender } from "@/utils/calculators/bmr-calculator";
 import { countWords } from "@/utils/calculators/word-counter";
 import { convertCase, CaseMode } from "@/utils/calculators/case-converter";
@@ -114,6 +116,100 @@ export const toolRegistry: ToolConfig[] = [
       },
     ],
     relatedSlugs: ["age-calculator", "discount-calculator"],
+  },
+  {
+    slug: "json-formatter",
+    category: "developer",
+    title: "JSON Formatter",
+    shortDescription: "Format, validate and minify JSON instantly.",
+    metaDescription: "Free online JSON formatter and validator to beautify or minify JSON data instantly.",
+    h1: "JSON Formatter",
+    intro: "Paste your JSON to format it with proper indentation, or minify it to a single line. Also validates JSON syntax.",
+    icon: "🧩",
+    status: "live",
+    inputFields: [
+      { key: "json", label: "Your JSON", type: "textarea", placeholder: '{"example": "paste your JSON here"}' },
+      {
+        key: "action",
+        label: "Action",
+        type: "select",
+        options: [
+          { label: "Format / Beautify", value: "format" },
+          { label: "Minify", value: "minify" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "isValid", label: "Status", highlight: true },
+      { key: "output", label: "Result", wide: true },
+    ],
+    calculate: (inputs) => {
+      const json = String(inputs.json ?? "");
+      const action = String(inputs.action) as JsonAction;
+      const output = formatJson(json, action);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What happens if my JSON is invalid?",
+        answer: "The tool will show an error message describing that the JSON has a syntax issue, such as a missing comma, bracket, or quotation mark.",
+      },
+      {
+        question: "Is my JSON data sent to a server?",
+        answer: "No, all formatting and validation happens entirely in your browser. Your data is never transmitted or stored.",
+      },
+      {
+        question: "What is the difference between format and minify?",
+        answer: "Format adds indentation and line breaks for readability, while minify removes all unnecessary whitespace to reduce file size.",
+      },
+    ],
+    relatedSlugs: ["base64-tool"],
+  },
+  {
+    slug: "base64-tool",
+    category: "developer",
+    title: "Base64 Encoder / Decoder",
+    shortDescription: "Encode or decode Base64 text instantly.",
+    metaDescription: "Free online Base64 encoder and decoder to convert text to and from Base64 format.",
+    h1: "Base64 Encoder / Decoder",
+    intro: "Encode plain text into Base64, or decode Base64 back into readable text.",
+    icon: "🔐",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Enter text to encode or decode..." },
+      {
+        key: "action",
+        label: "Action",
+        type: "select",
+        options: [
+          { label: "Encode to Base64", value: "encode" },
+          { label: "Decode from Base64", value: "decode" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "Result", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const action = String(inputs.action) as Base64Action;
+      const result = processBase64(text, action);
+      return { result };
+    },
+    faqs: [
+      {
+        question: "What is Base64 encoding used for?",
+        answer:
+          "Base64 encoding converts binary or text data into an ASCII string format, commonly used for embedding data in URLs, emails, or JSON payloads.",
+      },
+      {
+        question: "Does this tool support Unicode characters?",
+        answer: "Yes, this tool correctly encodes and decodes Unicode text, including accented characters and emoji.",
+      },
+      {
+        question: "Is Base64 encoding a form of encryption?",
+        answer: "No, Base64 is not encryption or security, it is simply a reversible encoding format and should not be used to protect sensitive data.",
+      },
+    ],
+    relatedSlugs: ["json-formatter"],
   },
   {
     slug: "bmi-calculator",
