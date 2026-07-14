@@ -1,50 +1,33 @@
-import Navbar from "../components/Navbar";
-export default function Home() {
+import { Hero } from "@/components/home/Hero";
+import { CategoryCard } from "@/components/home/CategoryCard";
+import { AdSensePlaceholder } from "@/components/ads/AdSensePlaceholder";
+import { Container } from "@/components/ui/Container";
+import { categories } from "@/data/categories";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  title: "Free Online Calculators & Tools",
+  description:
+    "Merondis (Project Lighthouse) offers 100+ free online calculators, converters and developer tools. No signup required.",
+  path: "/",
+});
+
+export default function HomePage() {
+  const featured = categories.slice(0, 4);
+
   return (
-    <>
-      <main
-      style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "#0f172a",
-        color: "white",
-        fontFamily: "Arial",
-        textAlign: "center",
-        padding: "20px",
-      }}
-    >
-      <h1 style={{ fontSize: "60px", marginBottom: "10px" }}>
-        🚀 Project Lighthouse by Merondis
-      </h1>
+    <Container>
+      <Hero />
 
-      <p style={{ fontSize: "24px", color: "#cbd5e1" }}>
-        Free Online Tools for Everyone
-      </p>
-
-      <div style={{ marginTop: "40px", fontSize: "22px" }}>
-        <p>✅ 100+ Free Tools</p>
-        <p>✅ Fast & Easy to Use</p>
-        <p>✅ No Signup Required</p>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {featured.map((category) => (
+          <CategoryCard key={category.slug} category={category} />
+        ))}
       </div>
 
-      <button
-        style={{
-          marginTop: "40px",
-          padding: "15px 35px",
-          fontSize: "20px",
-          borderRadius: "10px",
-          border: "none",
-          backgroundColor: "#2563eb",
-          color: "white",
-          cursor: "pointer",
-        }}
-      >
-        Explore Tools
-      </button>
-    </main>
-    </>
+      <div className="my-16">
+        <AdSensePlaceholder />
+      </div>
+    </Container>
   );
 }
