@@ -1,3 +1,5 @@
+import { calculatePercentage, PercentageMode } from "@/utils/calculators/percentage-calculator";
+import { calculateBmi } from "@/utils/calculators/bmi-calculator";
 import { ToolConfig } from "@/types/tool";
 import { calculateAge } from "@/utils/calculators/age-calculator";
 
@@ -60,8 +62,48 @@ export const toolRegistry: ToolConfig[] = [
     h1: "Percentage Calculator",
     intro: "Calculate percentages, percentage change, and percentage of a number quickly and accurately.",
     icon: "📊",
-    status: "comingSoon",
-    faqs: [],
+    status: "live",
+    inputFields: [
+      {
+        key: "mode",
+        label: "Calculation Type",
+        type: "select",
+        options: [
+          { label: "X% of Y", value: "percentOf" },
+          { label: "X is what % of Y", value: "isWhatPercent" },
+          { label: "Percentage change from X to Y", value: "percentageChange" },
+        ],
+      },
+      { key: "valueA", label: "First Number (X)", type: "number", step: 0.01 },
+      { key: "valueB", label: "Second Number (Y)", type: "number", step: 0.01 },
+    ],
+    resultFields: [
+      { key: "result", label: "Result", unit: "%", highlight: true },
+      { key: "explanation", label: "Explanation" },
+    ],
+    calculate: (inputs) => {
+      const mode = String(inputs.mode) as PercentageMode;
+      const valueA = Number(inputs.valueA);
+      const valueB = Number(inputs.valueB);
+      const output = calculatePercentage(mode, valueA, valueB);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "How do I calculate what percentage one number is of another?",
+        answer:
+          "Choose 'X is what % of Y', enter the two numbers, and the calculator divides X by Y and multiplies by 100.",
+      },
+      {
+        question: "How is percentage change calculated?",
+        answer:
+          "Percentage change is calculated as (New Value − Old Value) ÷ Old Value × 100, showing the increase or decrease as a percentage.",
+      },
+      {
+        question: "Can this calculator handle negative numbers?",
+        answer: "Yes, it works with negative numbers for all three calculation types.",
+      },
+    ],
     relatedSlugs: ["age-calculator", "discount-calculator"],
   },
   {
@@ -73,9 +115,38 @@ export const toolRegistry: ToolConfig[] = [
     h1: "BMI Calculator",
     intro: "Calculate your Body Mass Index (BMI) using your height and weight to understand your weight category.",
     icon: "⚖️",
-    status: "comingSoon",
-    faqs: [],
-    relatedSlugs: ["age-calculator"],
+    status: "live",
+    inputFields: [
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+    ],
+    resultFields: [
+      { key: "bmi", label: "BMI", highlight: true },
+      { key: "category", label: "Category", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const heightCm = Number(inputs.heightCm);
+      const weightKg = Number(inputs.weightKg);
+      const output = calculateBmi(heightCm, weightKg);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What is a healthy BMI range?",
+        answer:
+          "A BMI between 18.5 and 24.9 is generally considered a healthy weight range for most adults.",
+      },
+      {
+        question: "Is BMI accurate for everyone?",
+        answer:
+          "BMI is a general screening tool and does not account for muscle mass, bone density, or body composition, so it may not be fully accurate for athletes or older adults.",
+      },
+      {
+        question: "How often should I check my BMI?",
+        answer: "Checking BMI periodically (e.g. monthly) can help track general weight trends over time.",
+      },
+    ],
+    relatedSlugs: ["age-calculator", "percentage-calculator"],
   },
   {
     slug: "discount-calculator",

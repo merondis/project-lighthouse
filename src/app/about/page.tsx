@@ -1,70 +1,48 @@
-export default function About() {
+import { Container } from "@/components/ui/Container";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  title: "About",
+  description: "Learn more about Project Lighthouse and Merondis — free online calculators and tools for everyone.",
+  path: "/about",
+});
+
+const GOALS = [
+  "100% Free Tools",
+  "Fast Loading",
+  "No Registration",
+  "Mobile Friendly",
+  "Easy to Use",
+];
+
+export default function AboutPage() {
   return (
-    <main
-      style={{
-        minHeight: "100vh",
-        backgroundColor: "#111827",
-        color: "white",
-        padding: "60px",
-        fontFamily: "Arial",
-      }}
-    >
-      <h1
-        style={{
-          fontSize: "48px",
-          marginBottom: "30px",
-        }}
-      >
-        🚀 About Project Lighthouse
-      </h1>
+    <Container className="py-12">
+      <div className="mx-auto max-w-3xl">
+        <SectionHeading icon="🚀" title="About Project Lighthouse" />
 
-      <p
-        style={{
-          fontSize: "22px",
-          lineHeight: "1.8",
-          maxWidth: "900px",
-        }}
-      >
-        Project Lighthouse is a growing collection of free online tools,
-        calculators and developer utilities designed to help students,
-        professionals, businesses and everyday users solve problems quickly.
-      </p>
+        <p className="text-brand-secondary">
+          Project Lighthouse is a growing collection of free online tools, calculators and developer
+          utilities designed to help students, professionals, businesses and everyday users solve
+          problems quickly.
+        </p>
 
-      <br />
+        <p className="mt-6 font-medium text-white">Our goal is simple:</p>
 
-      <p
-        style={{
-          fontSize: "22px",
-          lineHeight: "1.8",
-          maxWidth: "900px",
-        }}
-      >
-        Our goal is simple:
-      </p>
+        <ul className="mt-4 space-y-3">
+          {GOALS.map((goal) => (
+            <li key={goal} className="flex items-center gap-3 text-white">
+              <span className="flex h-5 w-5 items-center justify-center rounded bg-green-500 text-xs text-white">
+                ✓
+              </span>
+              {goal}
+            </li>
+          ))}
+        </ul>
 
-      <ul
-        style={{
-          fontSize: "22px",
-          lineHeight: "2",
-          marginTop: "20px",
-        }}
-      >
-        <li>✅ 100% Free Tools</li>
-        <li>✅ Fast Loading</li>
-        <li>✅ No Registration</li>
-        <li>✅ Mobile Friendly</li>
-        <li>✅ Easy to Use</li>
-      </ul>
-
-      <p
-        style={{
-          marginTop: "40px",
-          fontSize: "20px",
-          color: "#cbd5e1",
-        }}
-      >
-        More tools are being added regularly.
-      </p>
-    </main>
+        <p className="mt-8 text-brand-secondary">More tools are being added regularly.</p>
+      </div>
+    </Container>
   );
 }
