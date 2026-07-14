@@ -15,7 +15,7 @@ export type ToolStatus = "live" | "comingSoon";
 export interface InputFieldConfig {
   key: string;
   label: string;
-  type: "number" | "date" | "select" | "text";
+  type: "number" | "date" | "select" | "text" | "textarea" | "checkbox";
   unit?: string;
   placeholder?: string;
   min?: number;
@@ -30,6 +30,7 @@ export interface ResultFieldConfig {
   label: string;
   unit?: string;
   highlight?: boolean;
+  wide?: boolean;
 }
 
 export interface FaqItem {
@@ -47,6 +48,8 @@ export interface ToolConfig {
   intro: string;
   icon: string;
   status: ToolStatus;
+  widgetType?: "standard" | "countdown" | "unitConverter";
+  converterCategory?: "length" | "weight" | "temperature";
   inputFields?: InputFieldConfig[];
   resultFields?: ResultFieldConfig[];
   calculate?: (

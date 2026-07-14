@@ -3,16 +3,25 @@ import { Container } from "@/components/ui/Container";
 import { Breadcrumb } from "@/components/layout/Breadcrumb";
 import { AdSensePlaceholder } from "@/components/ads/AdSensePlaceholder";
 import { CalculatorWidget } from "@/components/tool-page/CalculatorWidget";
+import { CountdownWidget } from "@/components/tool-page/CountdownWidget";
+import { UnitConverterWidget } from "@/components/tool-page/UnitConverterWidget";
 import { ToolFAQ } from "@/components/tool-page/ToolFAQ";
 import { RelatedTools } from "@/components/tool-page/RelatedTools";
 import { getCategory } from "@/data/categories";
+
+function renderWidget(tool: ToolConfig) {
+  if (tool.widgetType === "countdown") return <CountdownWidget />;
+  if (tool.widgetType === "unitConverter") {
+    return <UnitConverterWidget category={tool.converterCategory ?? "length"} />;
+  }
+  return <CalculatorWidget slug={tool.slug} />;
+}
 
 export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
   const category = getCategory(tool.category);
 
   return (
     <Container className="py-12">
-      {/* Centered content column — leaves natural gutters on wide screens for side ads */}
       <div className="mx-auto max-w-3xl">
         <Breadcrumb
           items={[
@@ -34,7 +43,7 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
         </div>
 
         {tool.status === "live" ? (
-          <CalculatorWidget slug={tool.slug} />
+          renderWidget(tool)
         ) : (
           <div className="rounded-xl border border-white/5 bg-brand-card p-10 text-center">
             <p className="text-lg font-semibold text-white">This tool is coming soon.</p>
