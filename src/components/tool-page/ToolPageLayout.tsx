@@ -1,3 +1,4 @@
+import { getToolIcon } from "@/lib/icons";
 import { CompressPdfWidget } from "@/components/tool-page/CompressPdfWidget";
 import { CurrencyConverterWidget } from "@/components/tool-page/CurrencyConverterWidget";
 import { SplitPdfWidget } from "@/components/tool-page/SplitPdfWidget";
@@ -40,8 +41,15 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
           ]}
         />
 
-        <div className="text-center sm:text-left">
-          <div className="mb-3 text-4xl">{tool.icon}</div>
+<div className="text-center sm:text-left">
+          {(() => {
+            const Icon = getToolIcon(tool.slug);
+            return (
+              <span className="mb-3 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-brand-card text-brand-accent">
+                <Icon className="h-7 w-7" />
+              </span>
+            );
+          })()}
           <h1 className="text-3xl font-bold text-white sm:text-4xl">{tool.h1}</h1>
           <p className="mt-3 text-brand-secondary">{tool.intro}</p>
         </div>
