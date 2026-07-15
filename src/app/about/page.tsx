@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   title: "About",
-  description: "Learn more about Project Lighthouse and Merondis — free online calculators and tools for everyone.",
+  description: "Learn more about Merondis — free online calculators and tools for everyone.",
   path: "/about",
 });
 
@@ -20,10 +20,10 @@ export default function AboutPage() {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading icon="🚀" title="About Project Lighthouse" />
+        <SectionHeading icon="🚀" title="About Merondis" />
 
         <p className="text-brand-secondary">
-          Project Lighthouse is a growing collection of free online tools, calculators and developer
+          Merondis is a growing collection of free online tools, calculators and developer
           utilities designed to help students, professionals, businesses and everyday users solve
           problems quickly.
         </p>
