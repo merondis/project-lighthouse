@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | Merondis",
   },
   description:
-    "Merondis (Project Lighthouse) offers 100+ free online calculators, converters and developer tools. No signup required.",
+    "Merondis offers free online calculators, converters and developer tools. No signup required.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

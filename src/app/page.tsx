@@ -8,7 +8,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata = buildMetadata({
   title: "Free Online Calculators & Tools",
   description:
-    "Merondis (Project Lighthouse) offers 100+ free online calculators, converters and developer tools. No signup required.",
+    "Merondis offers free online calculators, converters and developer tools. No signup required.",
   path: "/",
 });
 
