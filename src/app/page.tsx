@@ -1,4 +1,5 @@
 import { RecentlyViewedTools } from "@/components/home/RecentlyViewedTools";
+import { PopularTools } from "@/components/home/PopularTools";
 import { Hero } from "@/components/home/Hero";
 import { CategoryCard } from "@/components/home/CategoryCard";
 import { AdSensePlaceholder } from "@/components/ads/AdSensePlaceholder";
@@ -16,9 +17,11 @@ export const metadata = buildMetadata({
 export default function HomePage() {
   return (
     <Container>
-      <Hero />
+<Hero />
 
       <RecentlyViewedTools />
+
+      <PopularTools />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((category) => (

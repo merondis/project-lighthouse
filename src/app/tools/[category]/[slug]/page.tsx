@@ -4,7 +4,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { getToolBySlug, toolRegistry } from "@/data/tools/registry";
 import { getCategory } from "@/data/categories";
 import { buildMetadata } from "@/lib/seo";
-import { buildBreadcrumbSchema, buildFaqSchema, buildSoftwareAppSchema } from "@/lib/schema";
+import { buildBreadcrumbSchema, buildFaqSchema, buildSoftwareAppSchema, buildHowToSchema } from "@/lib/schema";
 
 export function generateStaticParams() {
   return toolRegistry.map((tool) => ({ category: tool.category, slug: tool.slug }));
@@ -61,13 +61,15 @@ export default async function ToolPage({
     { name: tool.title, path: `/tools/${tool.category}/${tool.slug}` },
   ]);
 
-  const faqSchema = buildFaqSchema(tool.faqs);
+const faqSchema = buildFaqSchema(tool.faqs);
   const appSchema = buildSoftwareAppSchema(tool);
+  const howToSchema = tool.status === "live" ? buildHowToSchema(tool) : null;
 
   return (
     <>
       <JsonLd data={breadcrumbSchema} />
       <JsonLd data={appSchema} />
+      <JsonLd data={howToSchema} />
       <JsonLd data={faqSchema} />
       <ToolPageLayout tool={tool} />
     </>

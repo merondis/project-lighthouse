@@ -6,6 +6,7 @@ export interface BlogPost {
   publishedDate: string; // ISO format
   content: string[]; // array of paragraphs, rendered as <p> tags
   relatedToolSlugs: string[];
+  relatedPostSlugs?: string[];
 }
 
 export const blogPosts: BlogPost[] = [
@@ -25,6 +26,7 @@ export const blogPosts: BlogPost[] = [
       "You don't need to do this by hand. Our EMI Calculator takes your loan amount, annual interest rate and tenure in months, and instantly shows your monthly EMI, total interest paid, and total repayment amount, so you can compare loan offers side by side before committing to one.",
     ],
     relatedToolSlugs: ["emi-calculator", "loan-calculator", "gst-calculator"],
+    relatedPostSlugs: ["why-take-home-pay-differs-from-salary", "sales-tax-vs-vat-vs-gst"],
   },
   {
     slug: "bmi-vs-bmr-difference",
@@ -42,6 +44,7 @@ export const blogPosts: BlogPost[] = [
       "In short: use BMI as a quick general screening number, and use BMR (and its maintenance-calorie extension) when you actually want to understand your energy needs. Neither one replaces a conversation with a doctor or nutritionist, especially if you have a specific health goal or condition, but both are useful starting points. You can calculate both instantly with our BMI Calculator and BMR / Calorie Calculator.",
     ],
     relatedToolSlugs: ["bmi-calculator", "bmr-calculator", "age-calculator"],
+    relatedPostSlugs: [],
   },
   {
     slug: "gst-add-vs-remove-explained",
@@ -58,7 +61,8 @@ export const blogPosts: BlogPost[] = [
       "This distinction matters most when you're reading an invoice or a price tag and need to know exactly how much of what you're paying is tax versus the actual cost of the item or service, or when you're pricing something and need to back-calculate what to charge so that, after tax, it lands on a specific total.",
       "Rather than doing this division by hand every time, our GST Calculator has both directions built in, choose \"Add GST\" when you have a tax-exclusive amount, or \"Remove GST\" when your amount already includes tax, and it handles the correct formula for each case automatically.",
     ],
-relatedToolSlugs: ["gst-calculator", "discount-calculator", "emi-calculator"],
+    relatedToolSlugs: ["gst-calculator", "discount-calculator", "emi-calculator"],
+    relatedPostSlugs: ["sales-tax-vs-vat-vs-gst", "how-emi-is-calculated"],
   },
   {
     slug: "strong-password-guide",
@@ -76,6 +80,7 @@ relatedToolSlugs: ["gst-calculator", "discount-calculator", "emi-calculator"],
       "Putting this together, a strong password is long (aim for 16+ characters where a site allows it), genuinely random rather than a modified word or phrase, and unique to that one account. Since remembering dozens of long random passwords isn't realistic, this is exactly what a password manager is for, it generates and stores them so you never have to. Our Password Generator lets you create a random password with your choice of length and character types, generated entirely in your browser.",
     ],
     relatedToolSlugs: ["password-generator"],
+    relatedPostSlugs: [],
   },
   {
     slug: "understanding-unit-conversion-precision",
@@ -92,7 +97,8 @@ relatedToolSlugs: ["gst-calculator", "discount-calculator", "emi-calculator"],
       "This matters practically in a few places. If you're doing a rough mental estimate, it's fine to round, 1 mile is roughly 1.6 km for casual purposes. But if you're working on something where precision matters, engineering measurements, recipes that need to scale accurately, or financial-adjacent calculations, using the full precision matters, because rounding errors compound if you convert back and forth multiple times.",
       "Our Length Converter, Weight Converter and Temperature Converter all use full-precision standard conversion factors rather than rounded approximations, so the result you get is the mathematically accurate one, decimals and all.",
     ],
-relatedToolSlugs: ["length-converter", "weight-converter", "temperature-converter"],
+    relatedToolSlugs: ["length-converter", "weight-converter", "temperature-converter"],
+    relatedPostSlugs: [],
   },
   {
     slug: "json-formatting-why-it-matters",

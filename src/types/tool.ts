@@ -48,6 +48,7 @@ export interface ToolConfig {
   intro: string;
   icon: string;
   status: ToolStatus;
+  featured?: boolean;
   widgetType?:
     | "standard"
     | "countdown"

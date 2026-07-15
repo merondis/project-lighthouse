@@ -39,6 +39,7 @@ export const toolRegistry: ToolConfig[] = [
       "Enter your date of birth to instantly calculate your exact age in years, months and days, along with your total age in weeks and days.",
     icon: "🎂",
     status: "live",
+    featured: true,
     inputFields: [
       { key: "birthDate", label: "Date of Birth", type: "date" },
       { key: "toDate", label: "Age at Date (optional)", type: "date" },
@@ -520,6 +521,7 @@ export const toolRegistry: ToolConfig[] = [
     intro: "Combine multiple PDF files into a single document. Reorder files before merging, all processed securely in your browser.",
     icon: "📎",
     status: "live",
+    featured: true,
     widgetType: "mergePdf",
     faqs: [
       {
@@ -574,6 +576,7 @@ export const toolRegistry: ToolConfig[] = [
     intro: "Convert between major world currencies using regularly updated exchange rates.",
     icon: "💱",
     status: "live",
+    featured: true,
     widgetType: "currencyConverter",
     faqs: [
       {
@@ -628,6 +631,7 @@ export const toolRegistry: ToolConfig[] = [
     intro: "Calculate your Body Mass Index (BMI) using your height and weight to understand your weight category.",
     icon: "⚖️",
     status: "live",
+    featured: true,
     inputFields: [
       { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
       { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
@@ -1195,6 +1199,7 @@ export const toolRegistry: ToolConfig[] = [
     intro: "Generate a strong, random password with your choice of length and character types.",
     icon: "🔑",
     status: "live",
+    featured: true,
     inputFields: [
       { key: "length", label: "Password Length", type: "number", min: 4, max: 128, step: 1, defaultValue: 16 },
       { key: "includeUppercase", label: "Include Uppercase Letters (A-Z)", type: "checkbox", defaultValue: "true" },
@@ -1280,6 +1285,7 @@ export const toolRegistry: ToolConfig[] = [
     intro: "Calculate your Equated Monthly Installment (EMI) for a loan based on principal, interest rate and tenure.",
     icon: "💰",
     status: "live",
+    featured: true,
     inputFields: [
       { key: "principal", label: "Loan Amount", type: "number", step: 0.01, placeholder: "e.g. 500000" },
       { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 8.5" },

@@ -6,6 +6,8 @@ import { ToolCard } from "@/components/home/ToolCard";
 import { blogPosts, getBlogPostBySlug } from "@/data/blog/posts";
 import { toolRegistry } from "@/data/tools/registry";
 import { buildMetadata } from "@/lib/seo";
+import { buildArticleSchema } from "@/lib/schema";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export function generateStaticParams() {
   return blogPosts.map((post) => ({ slug: post.slug }));
@@ -39,12 +41,25 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   if (!post) notFound();
 
+  const relatedPosts = (post.relatedPostSlugs ?? [])
+    .map((postSlug) => blogPosts.find((p) => p.slug === postSlug))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
   const relatedTools = post.relatedToolSlugs
     .map((toolSlug) => toolRegistry.find((t) => t.slug === toolSlug))
     .filter((t): t is NonNullable<typeof t> => Boolean(t));
 
+  const articleSchema = buildArticleSchema({
+    title: post.title,
+    description: post.metaDescription,
+    publishedDate: post.publishedDate,
+    path: "/blog/" + post.slug,
+  });
+
   return (
-    <Container className="py-12">
+    <>
+      <JsonLd data={articleSchema} />
+      <Container className="py-12">
       <div className="mx-auto max-w-3xl">
         <Breadcrumb
           items={[
@@ -52,7 +67,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             { name: "Blog", href: "/blog" },
             { name: post.title, href: `/blog/${post.slug}` },
           ]}
-        />
+      />
 
         <p className="text-xs text-brand-secondary">
           {new Date(post.publishedDate).toLocaleDateString("en-US", {
@@ -72,7 +87,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           ))}
         </div>
 
-        {relatedTools.length > 0 && (
+{relatedTools.length > 0 && (
           <div className="mt-12">
             <h2 className="text-2xl font-bold text-white">Related Tools</h2>
             <div className="mt-6 grid gap-6 sm:grid-cols-2">
@@ -83,12 +98,31 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           </div>
         )}
 
-        <div className="mt-12">
+        {relatedPosts.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold text-white">Further Reading</h2>
+            <div className="mt-6 flex flex-col gap-4">
+              {relatedPosts.map((relatedPost) => (
+                <Link
+                  key={relatedPost.slug}
+                  href={"/blog/" + relatedPost.slug}
+                  className="tool-card rounded-lg border border-white/5 bg-brand-card p-5"
+                >
+                  <p className="font-medium text-white">{relatedPost.title}</p>
+                  <p className="mt-1 text-sm text-brand-secondary">{relatedPost.excerpt}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+<div className="mt-12">
           <Link href="/blog" className="text-sm text-brand-accent hover:underline">
             ← Back to Blog
           </Link>
         </div>
       </div>
-    </Container>
+      </Container>
+    </>
   );
 }
