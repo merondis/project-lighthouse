@@ -68,7 +68,7 @@ widgetType?:
   aiSystemPrompt?: string;
   aiActionLabel?: string;
   aiPlaceholder?: string;
-  converterCategory?: "length" | "weight" | "temperature";
+  converterCategory?: "length" | "weight" | "temperature" | "dataStorage";
   inputFields?: InputFieldConfig[];
   resultFields?: ResultFieldConfig[];
   calculate?: (
