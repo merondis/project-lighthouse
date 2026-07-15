@@ -55,7 +55,11 @@ export interface ToolConfig {
     | "mergePdf"
     | "splitPdf"
     | "currencyConverter"
-    | "compressPdf";
+    | "compressPdf"
+    | "aiText";
+  aiSystemPrompt?: string;
+  aiActionLabel?: string;
+  aiPlaceholder?: string;
   converterCategory?: "length" | "weight" | "temperature";
   inputFields?: InputFieldConfig[];
   resultFields?: ResultFieldConfig[];

@@ -33,6 +33,7 @@ export function SearchBar() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search for a tool..."
+          aria-label="Search for a tool"
           className="w-full rounded-lg border border-white/10 bg-brand-card px-5 py-3 text-white placeholder:text-brand-secondary focus:border-brand-accent focus:outline-none"
         />
       </form>

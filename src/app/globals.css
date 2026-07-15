@@ -34,3 +34,17 @@ details > summary {
 details > summary::-webkit-details-marker {
   display: none;
 }
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  z-index: 50;
+  background-color: var(--color-brand-primary);
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.skip-link:focus {
+  left: 1rem;
+}

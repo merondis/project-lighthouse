@@ -1,3 +1,4 @@
+import { AiTextToolWidget } from "@/components/tool-page/AiTextToolWidget";
 import { getToolIcon } from "@/lib/icons";
 import { CompressPdfWidget } from "@/components/tool-page/CompressPdfWidget";
 import { CurrencyConverterWidget } from "@/components/tool-page/CurrencyConverterWidget";
@@ -23,6 +24,15 @@ function renderWidget(tool: ToolConfig) {
   if (tool.widgetType === "splitPdf") return <SplitPdfWidget />;
   if (tool.widgetType === "currencyConverter") return <CurrencyConverterWidget />;
   if (tool.widgetType === "compressPdf") return <CompressPdfWidget />;
+  if (tool.widgetType === "aiText") {
+    return (
+      <AiTextToolWidget
+        systemPrompt={tool.aiSystemPrompt ?? "You are a helpful writing assistant."}
+        actionLabel={tool.aiActionLabel ?? "Submit"}
+        placeholder={tool.aiPlaceholder ?? "Enter your text..."}
+      />
+    );
+  }
   return <CalculatorWidget slug={tool.slug} />;
 }
 

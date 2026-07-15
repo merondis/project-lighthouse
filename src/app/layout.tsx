@@ -17,8 +17,7 @@ export const metadata: Metadata = {
     default: "Merondis | Free Online Calculators & Tools",
     template: "%s | Merondis",
   },
-  description:
-    "Merondis offers free online calculators, converters and developer tools. No signup required.",
+  description: "Merondis offers free online calculators, converters and developer tools. No signup required.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -26,21 +25,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body className={`${sora.variable} min-h-screen bg-brand-bg text-white antialiased`}>
-        {gaId && (
-          <>
-            <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />
-            <Script id="ga-init" strategy="afterInteractive">
-              {`window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${gaId}');`}
-            </Script>
-          </>
-        )}
+      <body className={sora.variable + " min-h-screen bg-brand-bg text-white antialiased"}>
+        <a href="#main-content" className="skip-link">
+          Skip to main content
+        </a>
+
+        {gaId ? (
+          <Script src={"https://www.googletagmanager.com/gtag/js?id=" + gaId} strategy="afterInteractive" />
+        ) : null}
+        {gaId ? (
+          <Script id="ga-init" strategy="afterInteractive">
+            {"window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', '" + gaId + "');"}
+          </Script>
+        ) : null}
 
         <Navbar />
-        <main>{children}</main>
+        <main id="main-content">{children}</main>
         <Footer />
       </body>
     </html>

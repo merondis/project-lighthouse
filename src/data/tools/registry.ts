@@ -209,6 +209,63 @@ export const toolRegistry: ToolConfig[] = [
     relatedSlugs: ["password-generator"],
   },
   {
+    slug: "text-summarizer",
+    category: "ai",
+    title: "AI Text Summarizer",
+    shortDescription: "Summarize long text into key points using AI.",
+    metaDescription: "Free AI text summarizer to condense long articles or documents into concise summaries.",
+    h1: "AI Text Summarizer",
+    intro: "Paste long text and get a concise AI-generated summary. Requires your own OpenAI API key.",
+    icon: "✨",
+    status: "live",
+    widgetType: "aiText",
+    aiSystemPrompt: "You are a summarization assistant. Summarize the user's text into a concise, clear summary that captures the key points, using 3-5 sentences unless the text is very short.",
+    aiActionLabel: "Summarize",
+    aiPlaceholder: "Paste the text you want summarized...",
+    faqs: [
+      {
+        question: "Why do I need my own API key?",
+        answer:
+          "This keeps the tool free with no usage limits imposed by us. Your key is used only for your request and is never stored or logged on our servers.",
+      },
+      {
+        question: "Where do I get an OpenAI API key?",
+        answer: "Sign up at platform.openai.com and create a key under API Keys in your account settings. New accounts typically receive some free trial credit.",
+      },
+      {
+        question: "Is my text sent anywhere else?",
+        answer: "Your text and key are sent directly to OpenAI to generate the response and are not stored by Merondis.",
+      },
+    ],
+    relatedSlugs: ["paragraph-rewriter", "word-counter"],
+  },
+  {
+    slug: "paragraph-rewriter",
+    category: "ai",
+    title: "AI Paragraph Rewriter",
+    shortDescription: "Rewrite and rephrase text using AI.",
+    metaDescription: "Free AI paragraph rewriter to rephrase text while keeping the original meaning.",
+    h1: "AI Paragraph Rewriter",
+    intro: "Paste a paragraph and get an AI-rewritten version with different phrasing. Requires your own OpenAI API key.",
+    icon: "✨",
+    status: "live",
+    widgetType: "aiText",
+    aiSystemPrompt: "You are a rewriting assistant. Rewrite the user's text using different wording and sentence structure while preserving the original meaning and tone. Return only the rewritten text.",
+    aiActionLabel: "Rewrite",
+    aiPlaceholder: "Paste the paragraph you want rewritten...",
+    faqs: [
+      {
+        question: "Will the rewritten text mean the same thing?",
+        answer: "The AI is instructed to preserve the original meaning while changing the wording and structure, though it's always worth reviewing the result yourself.",
+      },
+      {
+        question: "Why do I need my own API key?",
+        answer: "This keeps the tool free with no usage limits imposed by us. Your key is used only for your request and is never stored or logged on our servers.",
+      },
+    ],
+    relatedSlugs: ["text-summarizer", "case-converter"],
+  },
+  {
     slug: "json-formatter",
     category: "developer",
     title: "JSON Formatter",

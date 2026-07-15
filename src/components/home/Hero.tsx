@@ -4,7 +4,7 @@ import { Rocket } from "lucide-react";
 export function Hero() {
   return (
     <div className="py-16 text-center sm:py-20">
-      <div className="mb-4 flex justify-center">
+     <div className="mb-4 flex justify-center" aria-hidden="true">
         <span className="flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-card text-brand-accent">
           <Rocket className="h-8 w-8" />
         </span>
