@@ -1,3 +1,4 @@
+import { LayoutGrid } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CategoryCard } from "@/components/home/CategoryCard";
@@ -13,7 +14,7 @@ export const metadata = buildMetadata({
 export default function CategoriesPage() {
   return (
     <Container className="py-12">
-      <SectionHeading icon="📂" title="Categories" subtitle="Browse tools by category." />
+      <SectionHeading icon={<LayoutGrid className="h-8 w-8 text-brand-accent" />} title="Categories" subtitle="Browse tools by category." />
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {categories.map((category) => (
           <CategoryCard key={category.slug} category={category} />

@@ -35,6 +35,10 @@ import {
   ShieldCheck,
   Wrench,
   HelpCircle,
+  Briefcase,
+  Calculator,
+  Layers,
+  Fuel,
   type LucideIcon,
 } from "lucide-react";
 
@@ -65,6 +69,13 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "tip-calculator": HandCoins,
   "simple-interest-calculator": Coins,
   "random-number-generator": Dices,
+  "salary-calculator": Briefcase,
+  "sales-tax-calculator": Calculator,
+  "fuel-cost-calculator": Fuel,
+  "discount-stack-calculator": Layers,
+  "extra-payment-calculator": Landmark,
+  "text-summarizer": Sparkles,
+  "paragraph-rewriter": Sparkles,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
