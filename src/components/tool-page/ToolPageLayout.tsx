@@ -1,3 +1,5 @@
+import { CompressPdfWidget } from "@/components/tool-page/CompressPdfWidget";
+import { CurrencyConverterWidget } from "@/components/tool-page/CurrencyConverterWidget";
 import { SplitPdfWidget } from "@/components/tool-page/SplitPdfWidget";
 import { MergePdfWidget } from "@/components/tool-page/MergePdfWidget";
 import { ToolConfig } from "@/types/tool";
@@ -18,6 +20,8 @@ function renderWidget(tool: ToolConfig) {
   }
   if (tool.widgetType === "mergePdf") return <MergePdfWidget />;
   if (tool.widgetType === "splitPdf") return <SplitPdfWidget />;
+  if (tool.widgetType === "currencyConverter") return <CurrencyConverterWidget />;
+  if (tool.widgetType === "compressPdf") return <CompressPdfWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }
 

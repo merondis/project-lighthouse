@@ -236,7 +236,7 @@ export const toolRegistry: ToolConfig[] = [
         answer: "There's no hard limit, but very large files or a very high number of PDFs may take longer to process depending on your device.",
       },
     ],
-    relatedSlugs: ["split-pdf"],
+    relatedSlugs: ["split-pdf", "compress-pdf"],
   },
   {
     slug: "split-pdf",
@@ -263,7 +263,61 @@ export const toolRegistry: ToolConfig[] = [
         answer: "Yes, page content, formatting and layout are preserved exactly as they appear in the original document.",
       },
     ],
-    relatedSlugs: ["merge-pdf"],
+    relatedSlugs: ["merge-pdf", "compress-pdf"],
+  },
+  {
+    slug: "currency-converter",
+    category: "converters",
+    title: "Currency Converter",
+    shortDescription: "Convert between world currencies using live exchange rates.",
+    metaDescription: "Free online currency converter with live exchange rates for USD, EUR, GBP, INR and more.",
+    h1: "Currency Converter",
+    intro: "Convert between major world currencies using regularly updated exchange rates.",
+    icon: "💱",
+    status: "live",
+    widgetType: "currencyConverter",
+    faqs: [
+      {
+        question: "How often are exchange rates updated?",
+        answer: "Exchange rates are refreshed periodically, typically every few hours, to balance accuracy with performance.",
+      },
+      {
+        question: "Can I use this for official financial transactions?",
+        answer: "No, this tool is for general informational purposes only. For official transactions, always check rates directly with your bank or payment provider.",
+      },
+      {
+        question: "Which currencies are supported?",
+        answer: "This tool supports major world currencies including USD, EUR, GBP, INR, JPY and more.",
+      },
+    ],
+    relatedSlugs: ["length-converter", "weight-converter"],
+  },
+  {
+    slug: "compress-pdf",
+    category: "pdf",
+    title: "Compress PDF",
+    shortDescription: "Reduce the file size of a PDF.",
+    metaDescription: "Free online tool to compress a PDF and reduce its file size, directly in your browser.",
+    h1: "Compress PDF",
+    intro: "Reduce your PDF's file size for easier sharing and uploading, processed entirely in your browser.",
+    icon: "🗜️",
+    status: "live",
+    widgetType: "compressPdf",
+    faqs: [
+      {
+        question: "Are my files uploaded to a server?",
+        answer: "No, all compression happens directly in your browser. Your file is never uploaded anywhere.",
+      },
+      {
+        question: "How much will my file shrink?",
+        answer: "It depends on the PDF's contents. Files with large embedded images typically compress the most, while text-only or already-optimized PDFs may see minimal reduction.",
+      },
+      {
+        question: "Will compression affect the quality of my document?",
+        answer: "Text and layout remain unaffected. This tool focuses on reducing file overhead rather than lowering image quality.",
+      },
+    ],
+    relatedSlugs: ["merge-pdf", "split-pdf"],
   },
   {
     slug: "bmi-calculator",

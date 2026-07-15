@@ -58,7 +58,41 @@ export const blogPosts: BlogPost[] = [
       "This distinction matters most when you're reading an invoice or a price tag and need to know exactly how much of what you're paying is tax versus the actual cost of the item or service, or when you're pricing something and need to back-calculate what to charge so that, after tax, it lands on a specific total.",
       "Rather than doing this division by hand every time, our GST Calculator has both directions built in, choose \"Add GST\" when you have a tax-exclusive amount, or \"Remove GST\" when your amount already includes tax, and it handles the correct formula for each case automatically.",
     ],
-    relatedToolSlugs: ["gst-calculator", "discount-calculator", "emi-calculator"],
+relatedToolSlugs: ["gst-calculator", "discount-calculator", "emi-calculator"],
+  },
+  {
+    slug: "strong-password-guide",
+    title: "What Actually Makes a Password Strong (It's Not Just Length)",
+    metaDescription:
+      "Length, randomness and uniqueness all matter for password strength, here's how they actually work together and why.",
+    excerpt:
+      "Password strength gets reduced to 'use 12+ characters' a lot. Here's what's actually happening under that advice.",
+    publishedDate: "2026-06-22",
+    content: [
+      "Most password advice boils down to a few rules: make it long, make it random, don't reuse it. These rules aren't arbitrary, each one closes off a specific way attackers actually try to break in, and understanding why helps the advice stick better than just following it blindly.",
+      "Length matters because of how brute-force attacks work. An attacker guessing passwords isn't typing them one by one, they're running software that tries combinations extremely fast. Every additional character multiplies the number of possible combinations, not adds to it. Going from an 8-character password to a 12-character one doesn't make it 50% harder to guess, it makes it many orders of magnitude harder, because the possibilities compound with each added character.",
+      "Randomness matters because attackers don't only brute-force blindly, they also use dictionaries of common passwords, real words, and predictable patterns like replacing 'a' with '@' or adding '123' at the end. A long password built from a real phrase or predictable substitution is still far more guessable than a long password made of genuinely random characters, because it fits patterns attackers already test for first.",
+      "Uniqueness matters for a different reason entirely, it's not about any single password being cracked, it's about what happens when a completely unrelated website you use gets breached. If you reuse a password across sites, a leak from one low-security website can be used to log into your email, banking, or anywhere else you used the same password, a technique called credential stuffing. This is arguably the single biggest real-world cause of account compromise, and it has nothing to do with how strong the password itself was.",
+      "Putting this together, a strong password is long (aim for 16+ characters where a site allows it), genuinely random rather than a modified word or phrase, and unique to that one account. Since remembering dozens of long random passwords isn't realistic, this is exactly what a password manager is for, it generates and stores them so you never have to. Our Password Generator lets you create a random password with your choice of length and character types, generated entirely in your browser.",
+    ],
+    relatedToolSlugs: ["password-generator"],
+  },
+  {
+    slug: "understanding-unit-conversion-precision",
+    title: "Why Unit Conversions Sometimes Look 'Off' by a Tiny Amount",
+    metaDescription:
+      "Ever converted a unit and gotten a slightly odd-looking decimal? Here's why that happens and why it's actually correct.",
+    excerpt:
+      "1 mile converts to 1.609344 km, not a clean 1.6. Here's why unit conversion often produces long decimals, and why that's expected.",
+    publishedDate: "2026-06-29",
+    content: [
+      "If you've ever converted a measurement and gotten a result like 3.28084 feet instead of a clean round number, it can look like something went wrong. It didn't, this is just what happens when you convert between two measurement systems that weren't designed to line up neatly with each other.",
+      "The metric system is built entirely around powers of ten, a kilometer is exactly 1000 meters, a centimeter is exactly one-hundredth of a meter. Converting within the metric system is just shifting a decimal point. The imperial system wasn't designed this way at all, its units grew historically from different, often unrelated origins, a foot from a human foot, a mile originally from a Roman measure of a thousand paces. There's no clean mathematical relationship between an inch and a centimeter because they were never meant to relate to each other in the first place.",
+      "That's why an exact conversion factor like 1 inch equals exactly 2.54 centimeters looks so specific. It's not an approximation, it's the internationally agreed exact definition, but because it doesn't divide evenly, converting between the two systems will almost always produce a long, non-round decimal on one side or the other.",
+      "This matters practically in a few places. If you're doing a rough mental estimate, it's fine to round, 1 mile is roughly 1.6 km for casual purposes. But if you're working on something where precision matters, engineering measurements, recipes that need to scale accurately, or financial-adjacent calculations, using the full precision matters, because rounding errors compound if you convert back and forth multiple times.",
+      "Our Length Converter, Weight Converter and Temperature Converter all use full-precision standard conversion factors rather than rounded approximations, so the result you get is the mathematically accurate one, decimals and all.",
+    ],
+    relatedToolSlugs: ["length-converter", "weight-converter", "temperature-converter"],
   },
 ];
 
