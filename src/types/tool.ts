@@ -38,6 +38,11 @@ export interface FaqItem {
   answer: string;
 }
 
+export interface ExplanationSection {
+  heading: string;
+  paragraphs: string[];
+}
+
 export interface ToolConfig {
   slug: string;
   category: ToolCategorySlug;
@@ -71,4 +76,5 @@ widgetType?:
   ) => Record<string, string | number>;
   faqs: FaqItem[];
   relatedSlugs: string[];
+  explanation?: ExplanationSection[];
 }

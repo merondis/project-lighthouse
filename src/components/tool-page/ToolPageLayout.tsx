@@ -1,3 +1,4 @@
+import { ToolExplanation } from "@/components/tool-page/ToolExplanation";
 import { AmortizationWidget } from "@/components/tool-page/AmortizationWidget";
 import { RecordRecentTool } from "@/components/tool-page/RecordRecentTool";
 import { PrintButton } from "@/components/ui/PrintButton";
@@ -90,11 +91,13 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
           <AdSensePlaceholder />
         </div>
 
-        {tool.status === "live" ? (
+{tool.status === "live" ? (
           <div className="mb-8 flex justify-center">
             <PrintButton />
           </div>
         ) : null}
+
+        <ToolExplanation sections={tool.explanation} />
 
         <ToolFAQ faqs={tool.faqs} />
         <RelatedTools slugs={tool.relatedSlugs} />

@@ -58,6 +58,21 @@ export const toolRegistry: ToolConfig[] = [
       const result = calculateAge(birthDate, toDate);
       return { ...result };
     },
+        explanation: [
+      {
+        heading: "How age is calculated",
+        paragraphs: [
+          "This calculator finds the difference between your date of birth and a target date (today, by default) by counting complete years, then complete months within the remaining time, then the remaining days.",
+          "For example, someone born on March 15, 2000, checking their age on July 15, 2026, has completed 26 full years (March 2000 to March 2026), plus 4 more complete months (March to July), plus 0 remaining days, giving 26 years, 4 months, 0 days.",
+        ],
+      },
+      {
+        heading: "Why this differs from a simple day count",
+        paragraphs: [
+          "A naive approach might divide total days by 365.25, but this doesn't match how people actually express age. This calculator instead counts real calendar years, months and days, correctly handling that months have different lengths and that leap years add an extra day roughly every four years.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How is age calculated?",
@@ -112,6 +127,26 @@ export const toolRegistry: ToolConfig[] = [
       const output = calculatePercentage(mode, valueA, valueB);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "X% of Y",
+        paragraphs: [
+          "This is calculated as (X ÷ 100) × Y. For example, 20% of 150 is (20 ÷ 100) × 150 = 30.",
+        ],
+      },
+      {
+        heading: "X is what percent of Y",
+        paragraphs: [
+          "This is calculated as (X ÷ Y) × 100. For example, 30 is what percent of 150 is (30 ÷ 150) × 100 = 20%.",
+        ],
+      },
+      {
+        heading: "Percentage change from X to Y",
+        paragraphs: [
+          "This is calculated as ((Y − X) ÷ |X|) × 100. For example, a change from 150 to 180 is ((180 − 150) ÷ 150) × 100 = 20%, representing a 20% increase.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How do I calculate what percentage one number is of another?",
@@ -646,6 +681,21 @@ export const toolRegistry: ToolConfig[] = [
       const output = calculateBmi(heightCm, weightKg);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "The BMI formula",
+        paragraphs: [
+          "BMI is calculated as weight in kilograms divided by height in meters, squared: BMI = weight (kg) ÷ height (m)². This calculator converts your height from centimeters to meters automatically before applying the formula.",
+          "For example, a person weighing 70 kg with a height of 175 cm (1.75 m) has a BMI of 70 ÷ (1.75 × 1.75) = 70 ÷ 3.0625 ≈ 22.9, which falls in the normal weight range.",
+        ],
+      },
+      {
+        heading: "BMI categories",
+        paragraphs: [
+          "A BMI below 18.5 is categorized as underweight, 18.5 to 24.9 as normal weight, 25 to 29.9 as overweight, and 30 or above as obese. These thresholds are widely used general screening ranges, not a personalized health assessment.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is a healthy BMI range?",
@@ -703,6 +753,21 @@ export const toolRegistry: ToolConfig[] = [
       const output = calculateCompoundInterest(principal, annualRate, years, frequency);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "The compound interest formula",
+        paragraphs: [
+          "The final amount is calculated as: A = P × (1 + r/n)^(n×t), where P is the initial principal, r is the annual interest rate as a decimal, n is the number of times interest compounds per year, and t is the number of years.",
+          "For example, 10,000 invested at 7% annual interest, compounded monthly (n=12), for 10 years grows to 10,000 × (1 + 0.07/12)^(12×10), which works out to roughly 20,097, meaning about 10,097 in interest earned over the period.",
+        ],
+      },
+      {
+        heading: "Why compounding frequency matters",
+        paragraphs: [
+          "More frequent compounding means interest gets added to the balance more often, so subsequent interest calculations are based on a slightly larger amount each time. This is why monthly compounding yields marginally more than annual compounding at the same nominal rate.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is compound interest?",
@@ -812,6 +877,20 @@ export const toolRegistry: ToolConfig[] = [
       const output = calculateBmr(gender, age, heightCm, weightKg, activityLevel);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "The Mifflin-St Jeor formula",
+        paragraphs: [
+          "This calculator uses the Mifflin-St Jeor equation, one of the most widely validated BMR formulas: for men, BMR = 10 × weight (kg) + 6.25 × height (cm) − 5 × age (years) + 5. For women, the same calculation is used but 161 is subtracted instead of adding 5.",
+        ],
+      },
+      {
+        heading: "From BMR to maintenance calories",
+        paragraphs: [
+          "BMR alone only reflects calories burned at rest. To estimate total daily calorie needs, this figure is multiplied by an activity multiplier: 1.2 for sedentary, 1.375 for light activity, 1.55 for moderate, 1.725 for active, and 1.9 for very active lifestyles, giving your estimated maintenance calories.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is BMR?",
@@ -1218,6 +1297,20 @@ export const toolRegistry: ToolConfig[] = [
       });
       return { password };
     },
+explanation: [
+      {
+        heading: "How the password is built",
+        paragraphs: [
+          "The generator builds a character set from the categories you select (uppercase letters, lowercase letters, numbers, symbols), then randomly picks characters from that combined set, one at a time, for your chosen length. Each character position is selected independently, so the result isn't based on any word, pattern or dictionary entry.",
+        ],
+      },
+      {
+        heading: "Why length matters more than complexity rules",
+        paragraphs: [
+          "Every additional character multiplies the total number of possible password combinations, rather than just adding to it. A longer password made from a smaller set of characters (say, just lowercase letters and numbers) can still be harder to guess than a shorter password using every character type, simply because of how quickly the possibilities compound with length.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Are these passwords generated securely?",
@@ -1288,6 +1381,21 @@ export const toolRegistry: ToolConfig[] = [
     featured: true,
     widgetType: "amortization",
     amortizationTenureUnit: "months",
+explanation: [
+      {
+        heading: "The EMI formula",
+        paragraphs: [
+          "EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan principal, r is the monthly interest rate (annual rate divided by 12, then by 100), and n is the number of monthly installments.",
+          "This formula produces a single fixed payment that, when paid every month for n months, exactly pays off both the principal and all accumulated interest by the final payment.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a loan of 500,000 at 8.5% annual interest over 60 months: the monthly rate is 8.5 ÷ 12 ÷ 100 = 0.007083. Plugging this into the formula gives a fixed monthly EMI, with the exact breakdown of how much goes to principal versus interest each month shown in the amortization schedule below.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How is EMI calculated?",
@@ -1345,6 +1453,20 @@ export const toolRegistry: ToolConfig[] = [
       const output = calculateGst(amount, gstRate, mode);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "Adding GST",
+        paragraphs: [
+          "When your amount doesn't yet include GST, the GST amount is calculated as: GST = amount × (rate ÷ 100), and the total is the original amount plus that GST amount. For example, 1000 with 18% GST gives GST of 180, for a total of 1180.",
+        ],
+      },
+      {
+        heading: "Removing GST",
+        paragraphs: [
+          "When your amount already includes GST, the base price is calculated by dividing by (1 + rate ÷ 100), not by simply subtracting the percentage. For example, 1180 (GST-inclusive at 18%) divided by 1.18 gives back exactly 1000 as the base price, with 180 as the GST portion.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What does 'Add GST' mean?",
