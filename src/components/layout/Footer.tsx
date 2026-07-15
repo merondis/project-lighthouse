@@ -4,7 +4,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="mt-20 border-t border-white/5 bg-brand-bg py-8">
+    <footer className="print:hidden mt-20 border-t border-white/5 bg-brand-bg py-8">
       <Container className="text-center">
         <p className="text-sm text-white">© {year} Merondis</p>
         <p className="mt-1 text-sm text-brand-secondary">

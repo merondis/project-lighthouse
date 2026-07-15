@@ -7,7 +7,7 @@ interface BreadcrumbItem {
 
 export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
   return (
-    <nav aria-label="Breadcrumb" className="mb-6 text-sm text-brand-secondary">
+    <nav aria-label="Breadcrumb" className="print:hidden mb-6 text-sm text-brand-secondary">
       <ol className="flex flex-wrap items-center gap-2">
         {items.map((item, index) => (
           <li key={item.href} className="flex items-center gap-2">

@@ -16,7 +16,7 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="border-b border-white/5 bg-brand-bg">
+    <header className="print:hidden border-b border-white/5 bg-brand-bg">
       <Container>
         <nav className="flex h-20 items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-white">

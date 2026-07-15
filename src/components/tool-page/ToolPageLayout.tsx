@@ -1,3 +1,5 @@
+import { RecordRecentTool } from "@/components/tool-page/RecordRecentTool";
+import { PrintButton } from "@/components/ui/PrintButton";
 import { AiTextToolWidget } from "@/components/tool-page/AiTextToolWidget";
 import { getToolIcon } from "@/lib/icons";
 import { CompressPdfWidget } from "@/components/tool-page/CompressPdfWidget";
@@ -41,6 +43,7 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
 
   return (
     <Container className="py-12">
+      <RecordRecentTool slug={tool.slug} />
       <div className="mx-auto max-w-3xl">
         <Breadcrumb
           items={[
@@ -79,9 +82,15 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
           </div>
         )}
 
-        <div className="my-8">
+<div className="my-8">
           <AdSensePlaceholder />
         </div>
+
+        {tool.status === "live" ? (
+          <div className="mb-8 flex justify-center">
+            <PrintButton />
+          </div>
+        ) : null}
 
         <ToolFAQ faqs={tool.faqs} />
         <RelatedTools slugs={tool.relatedSlugs} />

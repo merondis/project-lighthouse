@@ -1,5 +1,5 @@
 "use client";
-
+import { CopyButton } from "@/components/ui/CopyButton";
 import { useMemo, useState } from "react";
 import {
   convertUnit,
@@ -92,9 +92,12 @@ export function UnitConverterWidget({ category }: { category: UnitCategory }) {
 
       {error && <p className="mt-6 text-sm font-medium text-red-400">{error}</p>}
 
-      {result !== null && !error && (
+{result !== null && !error && (
         <div className="mt-8 rounded-lg border-t border-white/5 bg-brand-bg p-6 pt-6 text-center">
-          <p className="text-xs uppercase tracking-wide text-brand-secondary">Result</p>
+          <div className="flex items-center justify-center gap-2">
+            <p className="text-xs uppercase tracking-wide text-brand-secondary">Result</p>
+            <CopyButton value={result + " " + resultUnitLabel} />
+          </div>
           <p className="mt-2 break-words text-3xl font-bold text-brand-accent">
             {result} {resultUnitLabel}
           </p>

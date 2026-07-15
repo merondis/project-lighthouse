@@ -1,5 +1,5 @@
 "use client";
-
+import { CopyButton } from "@/components/ui/CopyButton";
 import { useEffect, useMemo, useState } from "react";
 import { CURRENCIES } from "@/data/currencies";
 
@@ -130,7 +130,10 @@ export function CurrencyConverterWidget() {
 
           {result !== null && (
             <div className="mt-8 rounded-lg bg-brand-bg p-6 text-center">
-              <p className="text-xs uppercase tracking-wide text-brand-secondary">Result</p>
+              <div className="flex items-center justify-center gap-2">
+                <p className="text-xs uppercase tracking-wide text-brand-secondary">Result</p>
+                <CopyButton value={result + " " + toCurrency} />
+              </div>
               <p className="mt-2 break-words text-3xl font-bold text-brand-accent">
                 {result} {toCurrency}
               </p>

@@ -1,5 +1,5 @@
 "use client";
-
+import { CopyButton } from "@/components/ui/CopyButton";
 import { useState, FormEvent } from "react";
 import { getToolBySlug } from "@/data/tools/registry";
 import { Button } from "@/components/ui/Button";
@@ -135,24 +135,35 @@ export function CalculatorWidget({ slug }: { slug: string }) {
 
       {result && !error && (
         <div className="mt-8 grid grid-cols-1 gap-4 border-t border-white/5 pt-6 sm:grid-cols-2">
-          {resultFields.map((field) =>
-            field.wide ? (
-              <div key={field.key} className="rounded-lg bg-brand-bg p-4 sm:col-span-2">
-                <p className="text-xs uppercase tracking-wide text-brand-secondary">{field.label}</p>
-                <p className="mt-2 break-words font-mono text-lg text-brand-accent">
-                  {result[field.key] ?? "-"}
-                </p>
-              </div>
-            ) : (
+          {resultFields.map((field) => {
+            const rawValue = result[field.key];
+            const displayValue = rawValue !== undefined && rawValue !== null ? String(rawValue) : "-";
+
+            if (field.wide) {
+              return (
+                <div key={field.key} className="rounded-lg bg-brand-bg p-4 sm:col-span-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-xs uppercase tracking-wide text-brand-secondary">{field.label}</p>
+                    <CopyButton value={displayValue} />
+                  </div>
+                  <p className="mt-2 break-words font-mono text-lg text-brand-accent">{displayValue}</p>
+                </div>
+              );
+            }
+
+            return (
               <div key={field.key} className="rounded-lg bg-brand-bg p-4 text-center">
-                <p className="text-xs uppercase tracking-wide text-brand-secondary">{field.label}</p>
-                <p className={`mt-1 text-2xl font-bold ${field.highlight ? "text-brand-accent" : "text-white"}`}>
-                  {result[field.key] ?? "-"}
-                  {field.unit && <span className="ml-1 text-sm text-brand-secondary">{field.unit}</span>}
+                <div className="flex items-center justify-between">
+                  <p className="text-xs uppercase tracking-wide text-brand-secondary">{field.label}</p>
+                  <CopyButton value={displayValue} />
+                </div>
+                <p className={"mt-1 text-2xl font-bold " + (field.highlight ? "text-brand-accent" : "text-white")}>
+                  {displayValue}
+                  {field.unit ? <span className="ml-1 text-sm text-brand-secondary">{field.unit}</span> : null}
                 </p>
               </div>
-            )
-          )}
+            );
+          })}
         </div>
       )}
     </div>
