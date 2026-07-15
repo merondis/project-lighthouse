@@ -19,18 +19,27 @@ export async function generateMetadata({
   const tool = getToolBySlug(slug);
 
   if (!tool || tool.category !== category) {
-    return buildMetadata({
-      title: "Tool Not Found",
-      description: "This tool could not be found.",
-      path: `/tools/${category}/${slug}`,
-    });
+    return {
+      ...buildMetadata({
+        title: "Tool Not Found",
+        description: "This tool could not be found.",
+        path: `/tools/${category}/${slug}`,
+      }),
+      robots: { index: false, follow: false },
+    };
   }
 
-  return buildMetadata({
+  const base = buildMetadata({
     title: tool.title,
     description: tool.metaDescription,
     path: `/tools/${tool.category}/${tool.slug}`,
   });
+
+  if (tool.status === "comingSoon") {
+    return { ...base, robots: { index: false, follow: true } };
+  }
+
+  return base;
 }
 
 export default async function ToolPage({

@@ -42,6 +42,8 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
 
       <SectionHeading icon={category.icon} title={`${category.name} Tools`} subtitle={category.description} />
 
+      <p className="mb-8 max-w-3xl text-brand-secondary">{category.intro}</p>
+
       {tools.length > 0 ? (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {tools.map((tool) => (

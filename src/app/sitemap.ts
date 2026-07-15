@@ -1,11 +1,12 @@
 import { MetadataRoute } from "next";
 import { categories } from "@/data/categories";
 import { toolRegistry } from "@/data/tools/registry";
+import { blogPosts } from "@/data/blog/posts";
 
 const SITE_URL = "https://merondis.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticPages = ["", "/about", "/tools", "/categories", "/contact", "/privacy-policy", "/terms", "/disclaimer"].map(
+  const staticPages = ["", "/about", "/tools", "/categories", "/blog", "/contact", "/privacy-policy", "/terms", "/disclaimer"].map(
     (path) => ({
       url: `${SITE_URL}${path}`,
       lastModified: new Date(),
@@ -24,5 +25,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
     }));
 
-  return [...staticPages, ...categoryPages, ...toolPages];
+  const blogPages = blogPosts.map((post) => ({
+    url: `${SITE_URL}/blog/${post.slug}`,
+    lastModified: new Date(post.publishedDate),
+  }));
+
+  return [...staticPages, ...categoryPages, ...toolPages, ...blogPages];
 }

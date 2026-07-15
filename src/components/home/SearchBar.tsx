@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toolRegistry } from "@/data/tools/registry";
 
 export function SearchBar() {
   const [query, setQuery] = useState("");
+  const router = useRouter();
 
   const results = useMemo(() => {
     if (!query.trim()) return [];
@@ -18,15 +20,22 @@ export function SearchBar() {
       .slice(0, 6);
   }, [query]);
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    router.push(`/search?q=${encodeURIComponent(query)}`);
+  }
+
   return (
     <div className="relative">
-      <input
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search for a tool..."
-        className="w-full rounded-lg border border-white/10 bg-brand-card px-5 py-3 text-white placeholder:text-brand-secondary focus:border-brand-accent focus:outline-none"
-      />
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search for a tool..."
+          className="w-full rounded-lg border border-white/10 bg-brand-card px-5 py-3 text-white placeholder:text-brand-secondary focus:border-brand-accent focus:outline-none"
+        />
+      </form>
 
       {results.length > 0 && (
         <ul className="absolute left-0 right-0 top-full z-10 mt-2 overflow-hidden rounded-lg border border-white/10 bg-brand-card text-left shadow-xl">
@@ -44,6 +53,14 @@ export function SearchBar() {
               </Link>
             </li>
           ))}
+          <li>
+            <button
+              onClick={handleSubmit}
+              className="w-full px-4 py-3 text-left text-sm font-medium text-brand-accent hover:bg-white/5"
+            >
+              See all results for &quot;{query}&quot; →
+            </button>
+          </li>
         </ul>
       )}
     </div>
