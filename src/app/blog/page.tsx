@@ -25,7 +25,7 @@ export default function BlogPage() {
             <Link
               key={post.slug}
               href={`/blog/${post.slug}`}
-              className="rounded-xl border border-white/5 bg-brand-card p-6 transition-colors hover:border-brand-accent/50"
+              className="tool-card rounded-xl border border-white/5 bg-brand-card p-6"
             >
               <p className="text-xs text-brand-secondary">
                 {new Date(post.publishedDate).toLocaleDateString("en-US", {

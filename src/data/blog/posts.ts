@@ -126,7 +126,58 @@ relatedToolSlugs: ["length-converter", "weight-converter", "temperature-converte
       "Fonts play a smaller but real role too. When a PDF embeds a full font file (so the document displays correctly on any device, even ones without that font installed), that adds overhead, especially if multiple font weights or families are embedded. This is usually a much smaller contributor than images, but it adds up in documents with unusual typography.",
       "This is also why PDF compression results vary so much between different documents. A PDF compression tool can meaningfully shrink a file with large embedded images, sometimes dramatically, but a PDF that's already mostly text and light on images has much less to compress in the first place, there's simply less redundant data to remove. Our Compress PDF tool works entirely in your browser and will show you the before and after size so you can see exactly how much, if anything, was saved for your specific file.",
     ],
-    relatedToolSlugs: ["compress-pdf", "merge-pdf", "split-pdf"],
+relatedToolSlugs: ["compress-pdf", "merge-pdf", "split-pdf"],
+  },
+  {
+    slug: "why-take-home-pay-differs-from-salary",
+    title: "Why Your Take-Home Pay Is Always Less Than Your Salary (And By How Much)",
+    metaDescription:
+      "The gap between your quoted salary and what actually lands in your bank account can be surprising. Here's what's typically in between.",
+    excerpt:
+      "A $60,000 salary rarely means $5,000 a month in your account. Here's where the difference usually goes.",
+    publishedDate: "2026-07-20",
+    content: [
+      "When a job offer states a salary, that number is almost never what shows up in your bank account each month. The gap between quoted salary and actual take-home pay catches a lot of people off guard, especially with a first job or when moving to a new country with different rules, so it's worth understanding what typically sits between the two.",
+      "Income tax is usually the largest piece. Most tax systems are progressive, meaning higher portions of income are taxed at higher rates, so the effective tax rate on your total salary is often lower than the top bracket you technically fall into, but it still adds up to a meaningful chunk, commonly somewhere between 15 and 35 percent of gross income depending on the country, income level, and any deductions or credits you qualify for.",
+      "Beyond income tax, there are usually mandatory social contributions, things like social security, national insurance, or pension contributions, which fund government programs like retirement benefits or unemployment insurance. These are typically a smaller percentage than income tax but are still deducted before you ever see the money.",
+      "Then there are the deductions that are technically optional but common enough to matter: retirement plan contributions, health insurance premiums, and similar benefits, all of which come out of gross pay before it becomes net pay. These vary enormously based on what your employer offers and what you personally choose to contribute.",
+      "Because all of this varies so much by country, region and individual circumstances, there's no single universal percentage that applies to everyone. A reasonable approach is to look at a recent pay stub (yours or, if you're planning ahead, a typical one for your situation), calculate what percentage of gross pay was deducted, and use that as your estimate going forward. Our Take-Home Salary Calculator lets you plug in your own deduction percentage to quickly see the monthly and annual difference between gross and net pay.",
+    ],
+    relatedToolSlugs: ["salary-calculator", "gst-calculator"],
+  },
+  {
+    slug: "sales-tax-vs-vat-vs-gst",
+    title: "Sales Tax, VAT and GST: Same Idea, Different Machinery",
+    metaDescription:
+      "Sales tax, VAT and GST all tax purchases, but they work differently under the hood. Here's what actually distinguishes them.",
+    excerpt:
+      "They all add a percentage to a purchase price, but sales tax, VAT and GST calculate and collect that tax in genuinely different ways.",
+    publishedDate: "2026-07-27",
+    content: [
+      "Sales tax, VAT (Value Added Tax) and GST (Goods and Services Tax) all accomplish the same basic goal, taxing purchases, and from a shopper's perspective they can look nearly identical: a percentage gets added to the price at checkout. But underneath, they're structured quite differently, and understanding that difference explains some real-world quirks people run into.",
+      "Sales tax, most commonly used in the United States, is typically collected only once, at the final point of sale to the end consumer. A business buying raw materials to manufacture a product usually doesn't pay sales tax on that purchase, since they're not the final consumer, the tax gets applied only when the finished product is sold to someone who won't resell it.",
+      "VAT and GST, used in most of the rest of the world, work differently: tax is collected at every stage of production and distribution, not just the final sale. A manufacturer pays VAT/GST on their raw materials, then charges VAT/GST when they sell to a distributor, who charges it again when selling to a retailer, and so on. To avoid taxing the same value multiple times, businesses at each stage can typically reclaim the tax they paid on their own purchases, a mechanism called input tax credit, so the net effect is that tax accumulates on the value added at each stage, hence the name.",
+      "This structural difference has real consequences. VAT/GST systems tend to be harder to evade because tax is collected incrementally with paper trails at every stage, which is part of why so many countries have adopted VAT/GST over pure sales tax models. It also means invoices in VAT/GST countries typically show the tax breakdown explicitly, since it matters for businesses claiming their credits, while sales tax in the US is usually just a single line added at checkout.",
+      "For calculating what you'll actually pay as a shopper, the practical math ends up similar in both systems, a percentage applied to a price, whether you're adding sales tax or working with a GST-inclusive price. Our Sales Tax Calculator handles the straightforward add-on case, while our GST Calculator specifically supports both adding GST to an exclusive price and extracting GST from an already-inclusive price, which is the calculation people most often get stuck on with VAT/GST systems.",
+    ],
+    relatedToolSlugs: ["sales-tax-calculator", "gst-calculator"],
+  },
+  {
+    slug: "estimating-trip-costs-before-you-go",
+    title: "How to Actually Estimate What a Road Trip Will Cost in Fuel",
+    metaDescription:
+      "Fuel cost is one of the easiest trip expenses to estimate accurately, if you know which numbers to plug in. Here's how.",
+    excerpt:
+      "Trip fuel cost comes down to three numbers you can usually find in under a minute. Here's how to get a genuinely useful estimate.",
+    publishedDate: "2026-08-03",
+    content: [
+      "Of all the costs in planning a road trip, fuel is one of the easiest to estimate accurately in advance, because it comes down to just three numbers: how far you're going, how efficiently your vehicle uses fuel, and what fuel costs where you'll be driving. Get reasonably accurate numbers for those three, and the estimate that comes out is usually close to what you'll actually spend.",
+      "Distance is the easiest one, any mapping app will give you a reliable figure for a planned route, including round trips if that's relevant. The only nuance worth considering is whether your actual driving will deviate meaningfully from the direct route, extra stops, detours, or driving around once you arrive somewhere all add distance that a simple point-to-point estimate won't capture.",
+      "Fuel efficiency is where estimates most commonly go wrong, because people tend to use their vehicle's advertised efficiency rating rather than their actual real-world efficiency, and the two are often different. Official ratings are measured under fairly ideal, standardized conditions, real driving, especially with air conditioning running, hills, city traffic, or a fully loaded vehicle, typically uses more fuel than the rating suggests. If you know your vehicle's actual recent efficiency (many cars display this, or you can calculate it from a fuel receipt and the odometer), that number will give a far more accurate estimate than the sticker rating.",
+      "Fuel price is the most volatile of the three, since prices can vary meaningfully even within the same region, and even more so across a long road trip that crosses state or country lines. For a rough estimate, using the current price near your starting point is reasonable; for a longer trip, checking prices along your planned route, many mapping and fuel-price apps let you do this, can meaningfully improve accuracy since fuel is sometimes noticeably cheaper or more expensive in specific regions.",
+      "Once you have those three numbers, distance divided by efficiency gives you how much fuel you'll need, multiplying that by the price gives you total cost. Our Fuel Cost Calculator does this instantly, just make sure the units you use for distance, efficiency and price are consistent with each other, miles with miles-per-gallon and price-per-gallon, or kilometers with kilometers-per-liter and price-per-liter.",
+    ],
+    relatedToolSlugs: ["fuel-cost-calculator", "length-converter", "currency-converter"],
   },
 ];
 
