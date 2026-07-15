@@ -1,3 +1,6 @@
+import { calculateTakeHomeSalary } from "@/utils/calculators/salary-calculator";
+import { calculateSalesTax } from "@/utils/calculators/sales-tax-calculator";
+import { calculateFuelCost } from "@/utils/calculators/fuel-cost-calculator";
 import { calculateSimpleInterest } from "@/utils/calculators/simple-interest-calculator";
 import { generateRandomNumbers } from "@/utils/calculators/random-number-generator";
 import { calculateCompoundInterest, CompoundFrequency } from "@/utils/calculators/compound-interest-calculator";
@@ -754,6 +757,124 @@ export const toolRegistry: ToolConfig[] = [
       },
     ],
     relatedSlugs: ["word-counter"],
+  },
+  {
+    slug: "salary-calculator",
+    category: "finance",
+    title: "Take-Home Salary Calculator",
+    shortDescription: "Estimate your monthly and annual take-home pay.",
+    metaDescription: "Free online take-home salary calculator to estimate your net pay after deductions.",
+    h1: "Take-Home Salary Calculator",
+    intro: "Estimate your take-home pay by entering your annual gross salary and an estimated total deduction percentage for tax and other withholdings.",
+    icon: "💼",
+    status: "live",
+    inputFields: [
+      { key: "annualGross", label: "Annual Gross Salary", type: "number", step: 0.01, placeholder: "e.g. 60000" },
+      { key: "deductionPercent", label: "Estimated Total Deductions (%)", type: "number", step: 0.1, placeholder: "e.g. 25" },
+    ],
+    resultFields: [
+      { key: "monthlyNet", label: "Monthly Take-Home", highlight: true },
+      { key: "annualNet", label: "Annual Take-Home", highlight: true },
+      { key: "monthlyGross", label: "Monthly Gross" },
+      { key: "totalDeductions", label: "Total Annual Deductions" },
+    ],
+    calculate: (inputs) => {
+      const annualGross = Number(inputs.annualGross);
+      const deductionPercent = Number(inputs.deductionPercent);
+      const output = calculateTakeHomeSalary(annualGross, deductionPercent);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What counts as a deduction?",
+        answer:
+          "Deductions typically include income tax, social security, retirement contributions, health insurance and other withholdings. This calculator uses a single combined percentage rather than modeling any specific country's tax brackets.",
+      },
+      {
+        question: "Why doesn't this calculator use exact tax brackets?",
+        answer:
+          "Tax rules vary significantly by country, state and personal circumstances. This tool gives a quick estimate using your own deduction percentage rather than assuming one specific tax system, which could otherwise mislead visitors in a different jurisdiction.",
+      },
+      {
+        question: "How do I find my actual deduction percentage?",
+        answer: "Check a recent pay stub, divide your total deductions by your gross pay for that period, and multiply by 100 to get your personal deduction percentage.",
+      },
+    ],
+    relatedSlugs: ["emi-calculator", "gst-calculator"],
+  },
+  {
+    slug: "sales-tax-calculator",
+    category: "finance",
+    title: "Sales Tax Calculator",
+    shortDescription: "Calculate sales tax and total price.",
+    metaDescription: "Free online sales tax calculator to find the tax amount and total price for a purchase.",
+    h1: "Sales Tax Calculator",
+    intro: "Calculate the sales tax amount and final total price based on a price and tax rate.",
+    icon: "🧮",
+    status: "live",
+    inputFields: [
+      { key: "price", label: "Price Before Tax", type: "number", step: 0.01, placeholder: "e.g. 100" },
+      { key: "taxRate", label: "Sales Tax Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 8.25" },
+    ],
+    resultFields: [
+      { key: "taxAmount", label: "Tax Amount", highlight: true },
+      { key: "totalPrice", label: "Total Price", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const price = Number(inputs.price);
+      const taxRate = Number(inputs.taxRate);
+      const output = calculateSalesTax(price, taxRate);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "How do I find my local sales tax rate?",
+        answer: "Sales tax rates vary by country, state, and sometimes city or county. Check your local government's tax authority website for the exact current rate in your area.",
+      },
+      {
+        question: "Is this the same as GST or VAT?",
+        answer: "GST and VAT work similarly to sales tax in principle, calculated as a percentage of the price, but rules on what's taxed and how it's applied can differ. Our GST Calculator has a dedicated add/remove mode for GST-inclusive pricing.",
+      },
+    ],
+    relatedSlugs: ["gst-calculator", "discount-calculator"],
+  },
+  {
+    slug: "fuel-cost-calculator",
+    category: "misc",
+    title: "Fuel Cost Calculator",
+    shortDescription: "Estimate fuel cost for a trip.",
+    metaDescription: "Free online fuel cost calculator to estimate how much fuel you'll need and its cost for a given distance.",
+    h1: "Fuel Cost Calculator",
+    intro: "Estimate the fuel needed and total cost for a trip based on distance, fuel efficiency and fuel price.",
+    icon: "⛽",
+    status: "live",
+    inputFields: [
+      { key: "distance", label: "Trip Distance", type: "number", step: 0.1, placeholder: "e.g. 300" },
+      { key: "fuelEfficiency", label: "Fuel Efficiency (distance per fuel unit)", type: "number", step: 0.1, placeholder: "e.g. 15" },
+      { key: "fuelPrice", label: "Fuel Price (per fuel unit)", type: "number", step: 0.01, placeholder: "e.g. 1.5" },
+    ],
+    resultFields: [
+      { key: "fuelNeeded", label: "Fuel Needed", highlight: true },
+      { key: "totalCost", label: "Total Fuel Cost", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const distance = Number(inputs.distance);
+      const fuelEfficiency = Number(inputs.fuelEfficiency);
+      const fuelPrice = Number(inputs.fuelPrice);
+      const output = calculateFuelCost(distance, fuelEfficiency, fuelPrice);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What units should I use?",
+        answer: "Use any consistent unit system, for example miles for distance with miles-per-gallon for efficiency and price-per-gallon for fuel price, or kilometers with kilometers-per-liter and price-per-liter. As long as all three inputs use matching units, the result will be accurate.",
+      },
+      {
+        question: "Does this account for traffic, terrain or driving style?",
+        answer: "No, this calculator uses a fixed fuel efficiency value you provide. Actual fuel consumption can vary based on traffic, terrain, speed and driving habits.",
+      },
+    ],
+    relatedSlugs: ["length-converter", "currency-converter"],
   },
   {
     slug: "length-converter",
