@@ -1,3 +1,6 @@
+import { calculateRoi } from "@/utils/calculators/roi-calculator";
+import { calculateMarkup } from "@/utils/calculators/markup-calculator";
+import { processUrlEncoding, UrlEncodeAction } from "@/utils/calculators/url-encoder";
 import { calculateStackedDiscounts } from "@/utils/calculators/discount-stack-calculator";
 import { calculateExtraPaymentImpact } from "@/utils/calculators/extra-payment-calculator";
 import { calculateTakeHomeSalary } from "@/utils/calculators/salary-calculator";
@@ -243,6 +246,149 @@ export const toolRegistry: ToolConfig[] = [
       },
     ],
     relatedSlugs: ["paragraph-rewriter", "word-counter"],
+  },
+  {
+    slug: "roi-calculator",
+    category: "finance",
+    title: "ROI Calculator",
+    shortDescription: "Calculate return on investment.",
+    metaDescription: "Free online ROI calculator to calculate return on investment and net profit percentage.",
+    h1: "ROI Calculator",
+    intro: "Calculate the return on investment (ROI) and net profit based on your initial investment and final value.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "initialInvestment", label: "Initial Investment", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "finalValue", label: "Final Value", type: "number", step: 0.01, placeholder: "e.g. 12500" },
+    ],
+    resultFields: [
+      { key: "roiPercent", label: "ROI", unit: "%", highlight: true },
+      { key: "netProfit", label: "Net Profit", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const initialInvestment = Number(inputs.initialInvestment);
+      const finalValue = Number(inputs.finalValue);
+      const output = calculateRoi(initialInvestment, finalValue);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "How is ROI calculated?",
+        answer: "ROI is calculated as the net profit (final value minus initial investment) divided by the initial investment, expressed as a percentage.",
+      },
+      {
+        question: "Can ROI be negative?",
+        answer: "Yes, a negative ROI means the final value is less than the initial investment, indicating a loss.",
+      },
+      {
+        question: "Does this account for the time period of the investment?",
+        answer: "No, this is a simple ROI calculation and doesn't factor in how long the investment was held. For comparing investments over different time periods, an annualized return would be more appropriate.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "simple-interest-calculator"],
+  },
+  {
+    slug: "markup-calculator",
+    category: "finance",
+    title: "Markup Calculator",
+    shortDescription: "Calculate selling price, profit and margin from cost and markup.",
+    metaDescription: "Free online markup calculator to find selling price, profit amount and profit margin from cost price and markup percentage.",
+    h1: "Markup Calculator",
+    intro: "Calculate your selling price, profit, and profit margin based on cost price and markup percentage.",
+    icon: "💹",
+    status: "live",
+    inputFields: [
+      { key: "cost", label: "Cost Price", type: "number", step: 0.01, placeholder: "e.g. 50" },
+      { key: "markupPercent", label: "Markup (%)", type: "number", step: 0.01, placeholder: "e.g. 40" },
+    ],
+    resultFields: [
+      { key: "sellingPrice", label: "Selling Price", highlight: true },
+      { key: "profit", label: "Profit", highlight: true },
+      { key: "marginPercent", label: "Profit Margin", unit: "%" },
+    ],
+    calculate: (inputs) => {
+      const cost = Number(inputs.cost);
+      const markupPercent = Number(inputs.markupPercent);
+      const output = calculateMarkup(cost, markupPercent);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What's the difference between markup and margin?",
+        answer:
+          "Markup is profit expressed as a percentage of cost price, while margin is profit expressed as a percentage of selling price. They use the same profit amount but different bases, so a 40% markup is not the same as a 40% margin.",
+      },
+      {
+        question: "Which one should I use for pricing decisions?",
+        answer: "Markup is often used when setting prices from cost, while margin is often used when analyzing profitability of sales. Many businesses track both.",
+      },
+    ],
+    relatedSlugs: ["discount-calculator", "roi-calculator"],
+  },
+  {
+    slug: "data-storage-converter",
+    category: "converters",
+    title: "Data Storage Converter",
+    shortDescription: "Convert between bits, bytes, KB, MB, GB and TB.",
+    metaDescription: "Free online data storage converter to convert between bits, bytes, kilobytes, megabytes, gigabytes and terabytes.",
+    h1: "Data Storage Converter",
+    intro: "Convert digital storage measurements between bits, bytes, kilobytes, megabytes, gigabytes and terabytes.",
+    icon: "💾",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "dataStorage",
+    faqs: [
+      {
+        question: "Is this based on 1000 or 1024?",
+        answer: "This calculator uses 1024 as the conversion factor between units (the binary standard commonly used by operating systems), rather than 1000 (the decimal standard sometimes used by storage manufacturers), which is why file sizes can appear slightly different between your OS and a drive's advertised capacity.",
+      },
+      {
+        question: "Why does my hard drive show less space than advertised?",
+        answer: "Manufacturers typically advertise storage using the 1000-based decimal system, while operating systems display it using the 1024-based binary system, causing an apparent (but explainable) discrepancy.",
+      },
+    ],
+    relatedSlugs: ["length-converter", "weight-converter"],
+  },
+  {
+    slug: "url-encoder",
+    category: "developer",
+    title: "URL Encoder / Decoder",
+    shortDescription: "Encode or decode URL strings instantly.",
+    metaDescription: "Free online URL encoder and decoder to convert text to and from URL-encoded (percent-encoded) format.",
+    h1: "URL Encoder / Decoder",
+    intro: "Encode text into URL-safe format, or decode a URL-encoded string back into readable text.",
+    icon: "🔗",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Enter text or a URL-encoded string..." },
+      {
+        key: "action",
+        label: "Action",
+        type: "select",
+        options: [
+          { label: "Encode", value: "encode" },
+          { label: "Decode", value: "decode" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "Result", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const action = String(inputs.action) as UrlEncodeAction;
+      const result = processUrlEncoding(text, action);
+      return { result };
+    },
+    faqs: [
+      {
+        question: "When do I need to URL-encode text?",
+        answer: "URL encoding is needed when including special characters, spaces, or symbols in a URL query string or parameter, since URLs can only safely contain a limited set of characters.",
+      },
+      {
+        question: "What happens to spaces when encoding?",
+        answer: "Spaces are converted to %20 in standard URL encoding, ensuring the URL remains valid and correctly interpreted by browsers and servers.",
+      },
+    ],
+    relatedSlugs: ["json-formatter", "base64-tool"],
   },
   {
     slug: "paragraph-rewriter",

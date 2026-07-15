@@ -39,6 +39,10 @@ import {
   Calculator,
   Layers,
   Fuel,
+  BarChart3,
+  LineChart,
+  HardDrive,
+  Link2,
   type LucideIcon,
 } from "lucide-react";
 
@@ -76,6 +80,10 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "extra-payment-calculator": Landmark,
   "text-summarizer": Sparkles,
   "paragraph-rewriter": Sparkles,
+  "roi-calculator": BarChart3,
+  "markup-calculator": LineChart,
+  "data-storage-converter": HardDrive,
+  "url-encoder": Link2,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

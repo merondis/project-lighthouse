@@ -1,4 +1,4 @@
-export type UnitCategory = "length" | "weight" | "temperature";
+export type UnitCategory = "length" | "weight" | "temperature" | "dataStorage";
 
 export interface UnitDefinition {
   key: string;
@@ -56,6 +56,25 @@ export const TEMPERATURE_UNITS: UnitDefinition[] = [
   { key: "kelvin", label: "Kelvin (K)" },
 ];
 
+// ---------- DATA STORAGE ----------
+const DATA_TO_BYTES: Record<string, number> = {
+  bit: 0.125,
+  byte: 1,
+  kilobyte: 1024,
+  megabyte: 1024 ** 2,
+  gigabyte: 1024 ** 3,
+  terabyte: 1024 ** 4,
+};
+
+export const DATA_STORAGE_UNITS: UnitDefinition[] = [
+  { key: "bit", label: "Bits (b)" },
+  { key: "byte", label: "Bytes (B)" },
+  { key: "kilobyte", label: "Kilobytes (KB)" },
+  { key: "megabyte", label: "Megabytes (MB)" },
+  { key: "gigabyte", label: "Gigabytes (GB)" },
+  { key: "terabyte", label: "Terabytes (TB)" },
+];
+
 function toCelsius(value: number, unit: string): number {
   switch (unit) {
     case "celsius":
@@ -94,6 +113,8 @@ export function getUnitsForCategory(category: UnitCategory): UnitDefinition[] {
       return WEIGHT_UNITS;
     case "temperature":
       return TEMPERATURE_UNITS;
+    case "dataStorage":
+      return DATA_STORAGE_UNITS;
   }
 }
 
@@ -112,7 +133,15 @@ export function convertUnit(
     return roundResult(fromCelsius(celsius, toUnit));
   }
 
-  const table = category === "length" ? LENGTH_TO_METERS : WEIGHT_TO_GRAMS;
+  let table: Record<string, number>;
+  if (category === "length") {
+    table = LENGTH_TO_METERS;
+  } else if (category === "weight") {
+    table = WEIGHT_TO_GRAMS;
+  } else {
+    table = DATA_TO_BYTES;
+  }
+
   const base = value * table[fromUnit];
   const result = base / table[toUnit];
   return roundResult(result);
