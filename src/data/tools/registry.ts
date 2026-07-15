@@ -1,3 +1,5 @@
+import { calculateCompoundInterest, CompoundFrequency } from "@/utils/calculators/compound-interest-calculator";
+import { calculateTip } from "@/utils/calculators/tip-calculator";
 import { formatJson, JsonAction } from "@/utils/calculators/json-formatter";
 import { processBase64, Base64Action } from "@/utils/calculators/base64-tool";
 import { calculateBmr, ActivityLevel, Gender } from "@/utils/calculators/bmr-calculator";
@@ -360,6 +362,103 @@ export const toolRegistry: ToolConfig[] = [
       },
     ],
     relatedSlugs: ["age-calculator", "percentage-calculator"],
+  },
+  {
+    slug: "compound-interest-calculator",
+    category: "finance",
+    title: "Compound Interest Calculator",
+    shortDescription: "Calculate how your investment grows with compound interest.",
+    metaDescription: "Free online compound interest calculator to see how your savings or investment grows over time.",
+    h1: "Compound Interest Calculator",
+    intro: "Calculate how an investment grows over time with compound interest, choosing how often interest compounds.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "principal", label: "Initial Amount", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
+      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 10" },
+      {
+        key: "frequency",
+        label: "Compounding Frequency",
+        type: "select",
+        options: [
+          { label: "Annually", value: "annually" },
+          { label: "Semi-Annually", value: "semiannually" },
+          { label: "Quarterly", value: "quarterly" },
+          { label: "Monthly", value: "monthly" },
+          { label: "Daily", value: "daily" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "finalAmount", label: "Final Amount", highlight: true },
+      { key: "totalInterest", label: "Total Interest Earned", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const principal = Number(inputs.principal);
+      const annualRate = Number(inputs.annualRate);
+      const years = Number(inputs.years);
+      const frequency = String(inputs.frequency) as CompoundFrequency;
+      const output = calculateCompoundInterest(principal, annualRate, years, frequency);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What is compound interest?",
+        answer:
+          "Compound interest is interest calculated on both the original principal and the accumulated interest from previous periods, causing growth to accelerate over time compared to simple interest.",
+      },
+      {
+        question: "Does compounding frequency really make a difference?",
+        answer:
+          "Yes, more frequent compounding (like monthly or daily) results in slightly higher returns than less frequent compounding (like annually), for the same nominal interest rate, though the difference is usually modest.",
+      },
+      {
+        question: "Is this the same as calculating investment returns?",
+        answer:
+          "This calculator assumes a fixed interest rate and no additional contributions. Real investment returns often vary and may include regular deposits, which this tool does not account for.",
+      },
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator"],
+  },
+  {
+    slug: "tip-calculator",
+    category: "misc",
+    title: "Tip Calculator",
+    shortDescription: "Calculate tip amount and split the bill.",
+    metaDescription: "Free online tip calculator to calculate tip amount, total bill, and split the cost among multiple people.",
+    h1: "Tip Calculator",
+    intro: "Calculate the tip amount, total bill, and how much each person owes when splitting a bill.",
+    icon: "🧾",
+    status: "live",
+    inputFields: [
+      { key: "billAmount", label: "Bill Amount", type: "number", step: 0.01, placeholder: "e.g. 50" },
+      { key: "tipPercent", label: "Tip (%)", type: "number", step: 1, defaultValue: 15 },
+      { key: "numPeople", label: "Number of People", type: "number", step: 1, defaultValue: 1 },
+    ],
+    resultFields: [
+      { key: "tipAmount", label: "Tip Amount", highlight: true },
+      { key: "totalAmount", label: "Total Bill", highlight: true },
+      { key: "amountPerPerson", label: "Per Person" },
+    ],
+    calculate: (inputs) => {
+      const billAmount = Number(inputs.billAmount);
+      const tipPercent = Number(inputs.tipPercent);
+      const numPeople = Number(inputs.numPeople);
+      const output = calculateTip(billAmount, tipPercent, numPeople);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What is a standard tip percentage?",
+        answer: "Tipping norms vary by country and situation, but 15-20% is common for restaurant service in the United States.",
+      },
+      {
+        question: "How is the per-person amount calculated?",
+        answer: "The total bill, including tip, is divided evenly by the number of people entered.",
+      },
+    ],
+    relatedSlugs: ["percentage-calculator", "discount-calculator"],
   },
   {
     slug: "bmr-calculator",
