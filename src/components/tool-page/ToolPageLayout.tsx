@@ -1,3 +1,4 @@
+import { AmortizationWidget } from "@/components/tool-page/AmortizationWidget";
 import { RecordRecentTool } from "@/components/tool-page/RecordRecentTool";
 import { PrintButton } from "@/components/ui/PrintButton";
 import { AiTextToolWidget } from "@/components/tool-page/AiTextToolWidget";
@@ -26,7 +27,7 @@ function renderWidget(tool: ToolConfig) {
   if (tool.widgetType === "splitPdf") return <SplitPdfWidget />;
   if (tool.widgetType === "currencyConverter") return <CurrencyConverterWidget />;
   if (tool.widgetType === "compressPdf") return <CompressPdfWidget />;
-  if (tool.widgetType === "aiText") {
+if (tool.widgetType === "aiText") {
     return (
       <AiTextToolWidget
         systemPrompt={tool.aiSystemPrompt ?? "You are a helpful writing assistant."}
@@ -34,6 +35,9 @@ function renderWidget(tool: ToolConfig) {
         placeholder={tool.aiPlaceholder ?? "Enter your text..."}
       />
     );
+  }
+  if (tool.widgetType === "amortization") {
+    return <AmortizationWidget tenureUnit={tool.amortizationTenureUnit ?? "months"} />;
   }
   return <CalculatorWidget slug={tool.slug} />;
 }

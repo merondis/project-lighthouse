@@ -49,7 +49,7 @@ export interface ToolConfig {
   icon: string;
   status: ToolStatus;
   featured?: boolean;
-  widgetType?:
+widgetType?:
     | "standard"
     | "countdown"
     | "unitConverter"
@@ -57,7 +57,9 @@ export interface ToolConfig {
     | "splitPdf"
     | "currencyConverter"
     | "compressPdf"
-    | "aiText";
+    | "aiText"
+    | "amortization";
+  amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;
   aiPlaceholder?: string;

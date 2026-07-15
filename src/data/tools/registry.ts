@@ -1286,23 +1286,8 @@ export const toolRegistry: ToolConfig[] = [
     icon: "💰",
     status: "live",
     featured: true,
-    inputFields: [
-      { key: "principal", label: "Loan Amount", type: "number", step: 0.01, placeholder: "e.g. 500000" },
-      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 8.5" },
-      { key: "tenureMonths", label: "Tenure (Months)", type: "number", step: 1, placeholder: "e.g. 60" },
-    ],
-    resultFields: [
-      { key: "monthlyEmi", label: "Monthly EMI", highlight: true },
-      { key: "totalInterest", label: "Total Interest" },
-      { key: "totalPayment", label: "Total Payment" },
-    ],
-    calculate: (inputs) => {
-      const principal = Number(inputs.principal);
-      const annualRate = Number(inputs.annualRate);
-      const tenureMonths = Number(inputs.tenureMonths);
-      const output = calculateEmi(principal, annualRate, tenureMonths);
-      return { ...output };
-    },
+    widgetType: "amortization",
+    amortizationTenureUnit: "months",
     faqs: [
       {
         question: "How is EMI calculated?",
@@ -1314,9 +1299,13 @@ export const toolRegistry: ToolConfig[] = [
         answer:
           "Yes, a longer tenure generally reduces the monthly EMI amount, but increases the total interest paid over the life of the loan.",
       },
-      {
+{
         question: "Is the interest rate here monthly or annual?",
         answer: "Enter the annual interest rate. The calculator automatically converts it to a monthly rate internally.",
+      },
+      {
+        question: "What is an amortization schedule?",
+        answer: "An amortization schedule shows how each payment splits between principal and interest over the life of the loan, and how your remaining balance decreases over time.",
       },
     ],
     relatedSlugs: ["loan-calculator", "gst-calculator"],
@@ -1380,24 +1369,8 @@ export const toolRegistry: ToolConfig[] = [
     intro: "Estimate your loan repayment schedule, total interest and total repayment amount.",
     icon: "🏦",
     status: "live",
-    inputFields: [
-      { key: "principal", label: "Loan Amount", type: "number", step: 0.01, placeholder: "e.g. 250000" },
-      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 7.2" },
-      { key: "tenureYears", label: "Tenure (Years)", type: "number", step: 0.5, placeholder: "e.g. 15" },
-    ],
-    resultFields: [
-      { key: "monthlyPayment", label: "Monthly Payment", highlight: true },
-      { key: "totalInterest", label: "Total Interest" },
-      { key: "totalRepayment", label: "Total Repayment" },
-      { key: "tenureMonths", label: "Tenure (Months)" },
-    ],
-    calculate: (inputs) => {
-      const principal = Number(inputs.principal);
-      const annualRate = Number(inputs.annualRate);
-      const tenureYears = Number(inputs.tenureYears);
-      const output = calculateLoan(principal, annualRate, tenureYears);
-      return { ...output };
-    },
+    widgetType: "amortization",
+    amortizationTenureUnit: "years",
     faqs: [
       {
         question: "How is this different from the EMI calculator?",
@@ -1408,6 +1381,10 @@ export const toolRegistry: ToolConfig[] = [
         question: "Does this include additional fees?",
         answer:
           "No, this calculator estimates principal and interest only. Processing fees, insurance, or other charges are not included and vary by lender.",
+      },
+      {
+        question: "Can I see a full payment breakdown, not just totals?",
+        answer: "Yes, the amortization schedule below shows a year-by-year or month-by-month breakdown of principal, interest and remaining balance for the entire loan term.",
       },
     ],
     relatedSlugs: ["emi-calculator", "gst-calculator"],
