@@ -7,7 +7,7 @@ export function ToolCard({ tool }: { tool: ToolConfig }) {
   const Icon = getToolIcon(tool.slug);
 
   return (
-    <div className="flex h-full flex-col rounded-xl border border-white/5 bg-brand-card p-6 transition-shadow hover:shadow-lg hover:shadow-black/20">
+    <div className="tool-card flex h-full flex-col rounded-xl border border-white/5 bg-brand-card p-6">
       <div className="flex items-center gap-3">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand-bg text-brand-accent">
           <Icon className="h-5 w-5" />

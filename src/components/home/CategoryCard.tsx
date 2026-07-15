@@ -8,10 +8,10 @@ export function CategoryCard({ category }: { category: Category }) {
   return (
     <Link
       href={`/tools/${category.slug}`}
-      className="flex h-full flex-col items-center rounded-xl border border-white/5 bg-brand-card p-6 text-center transition-colors hover:border-brand-accent/50"
-    >
-      <span className="flex h-12 w-12 items-center justify-center rounded-lg bg-brand-bg text-brand-accent">
-        <Icon className="h-6 w-6" />
+      className="tool-card flex h-full flex-col items-center rounded-xl border border-white/5 bg-brand-card p-6 text-center"
+      >
+      <span className="flex h-14 w-14 items-center justify-center rounded-xl border border-brand-accent/20 bg-brand-bg text-brand-accent">
+        <Icon className="h-7 w-7" strokeWidth={2.25} />
       </span>
       <p className="mt-3 font-semibold text-white">{category.name}</p>
       <p className="mt-1 text-xs text-brand-secondary">{category.description}</p>

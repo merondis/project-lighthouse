@@ -48,3 +48,15 @@ details > summary::-webkit-details-marker {
 .skip-link:focus {
   left: 1rem;
 }
+.tool-card {
+  outline: 0px solid transparent;
+  outline-offset: -1px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, outline-color 0.15s ease, outline-width 0.15s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  outline: 3px solid rgba(245, 158, 11, 0.7);
+  outline-offset: -1px;
+}
