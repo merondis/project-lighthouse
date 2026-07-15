@@ -8,6 +8,14 @@
   --color-brand-accent-hover: #d97706;
   --color-brand-text: #ffffff;
   --color-brand-secondary: #cbd5e1;
+  --font-heading: var(--font-heading);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-heading), sans-serif;
 }
 
 body {

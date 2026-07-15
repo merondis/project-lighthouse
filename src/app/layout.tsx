@@ -1,8 +1,15 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { Sora } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
+
+const sora = Sora({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://merondis.com"),
@@ -19,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en">
-      <body className="min-h-screen bg-brand-bg text-white antialiased">
+      <body className={`${sora.variable} min-h-screen bg-brand-bg text-white antialiased`}>
         {gaId && (
           <>
             <Script src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`} strategy="afterInteractive" />

@@ -13,14 +13,12 @@ export const metadata = buildMetadata({
 });
 
 export default function HomePage() {
-  const featured = categories.slice(0, 4);
-
   return (
     <Container>
       <Hero />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {featured.map((category) => (
+        {categories.map((category) => (
           <CategoryCard key={category.slug} category={category} />
         ))}
       </div>
