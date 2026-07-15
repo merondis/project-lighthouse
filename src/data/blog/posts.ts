@@ -92,7 +92,41 @@ relatedToolSlugs: ["gst-calculator", "discount-calculator", "emi-calculator"],
       "This matters practically in a few places. If you're doing a rough mental estimate, it's fine to round, 1 mile is roughly 1.6 km for casual purposes. But if you're working on something where precision matters, engineering measurements, recipes that need to scale accurately, or financial-adjacent calculations, using the full precision matters, because rounding errors compound if you convert back and forth multiple times.",
       "Our Length Converter, Weight Converter and Temperature Converter all use full-precision standard conversion factors rather than rounded approximations, so the result you get is the mathematically accurate one, decimals and all.",
     ],
-    relatedToolSlugs: ["length-converter", "weight-converter", "temperature-converter"],
+relatedToolSlugs: ["length-converter", "weight-converter", "temperature-converter"],
+  },
+  {
+    slug: "json-formatting-why-it-matters",
+    title: "Why JSON Formatting Matters More Than It Seems",
+    metaDescription:
+      "Minified JSON and formatted JSON contain the same data, so why does formatting matter? Here's what changes.",
+    excerpt:
+      "Two JSON files can hold identical data and look nothing alike. Here's why formatting isn't just cosmetic.",
+    publishedDate: "2026-07-06",
+    content: [
+      "JSON has no concept of formatting built into its actual meaning, a machine reading minified JSON on a single line and the same JSON spread across fifty indented lines sees exactly the same data. So why does formatting matter at all? Because JSON isn't only read by machines, it's read by people debugging, reviewing, and understanding data, and that's where formatting earns its keep.",
+      "Minified JSON exists for a real reason, removing whitespace reduces file size, which matters when JSON is being sent over a network repeatedly, like in an API response. Every unnecessary space and line break adds up across thousands or millions of requests. This is why production APIs typically return minified JSON, it's not laziness, it's a genuine performance decision.",
+      "Formatted, indented JSON exists for a different real reason: human comprehension. When you're debugging why a nested field isn't showing up correctly, or reviewing a configuration file, or trying to understand the shape of data you're about to work with, indentation instantly shows you the structure, what's nested inside what, where an array starts and ends, which fields belong to which object. Reading the same structure in minified form means mentally counting brackets, which is slow and error-prone.",
+      "There's a third, often overlooked benefit to formatting: it makes invalid JSON obvious faster. A missing comma or unclosed bracket in a giant minified string is nearly impossible to spot by eye. The same error in properly indented JSON usually jumps out immediately, because the visual structure breaks in an obviously wrong way.",
+      "The practical takeaway is to treat these as two different states for two different purposes, keep JSON minified for transmission and storage where size matters, and format it any time a human, including future you, needs to actually read or debug it. Our JSON Formatter does both directions instantly, paste in either minified or formatted JSON, and switch between the two with one click, while also validating that the JSON is syntactically correct.",
+    ],
+    relatedToolSlugs: ["json-formatter", "base64-tool"],
+  },
+  {
+    slug: "why-pdf-file-size-varies-so-much",
+    title: "Why Two PDFs With Similar Content Can Have Wildly Different File Sizes",
+    metaDescription:
+      "Ever wondered why one PDF is 200KB and another with similar content is 20MB? Here's what actually drives PDF file size.",
+    excerpt:
+      "Page count barely affects PDF file size. Here's what actually does, and why compression results vary so much.",
+    publishedDate: "2026-07-13",
+    content: [
+      "It's a common surprise: two PDFs, similar page counts, similar-looking content, and one is a few hundred kilobytes while the other is tens of megabytes. Page count turns out to be one of the least important factors in PDF file size, what actually drives it is almost always the content embedded inside those pages.",
+      "Text itself is remarkably cheap in terms of file size. A PDF that's purely text, even hundreds of pages of it, compresses extremely well because text has a lot of repetitive structure that compression algorithms handle efficiently. A 300-page text-only PDF might easily stay under a megabyte.",
+      "Images are almost always the real culprit. A single high-resolution photo embedded at print quality can easily be several megabytes on its own, and PDFs often contain images that are far higher resolution than needed for on-screen viewing, a scanned document, a photo pasted in at full camera resolution, a screenshot saved without compression. Multiply that across many pages of a scanned document, and file sizes balloon quickly.",
+      "Fonts play a smaller but real role too. When a PDF embeds a full font file (so the document displays correctly on any device, even ones without that font installed), that adds overhead, especially if multiple font weights or families are embedded. This is usually a much smaller contributor than images, but it adds up in documents with unusual typography.",
+      "This is also why PDF compression results vary so much between different documents. A PDF compression tool can meaningfully shrink a file with large embedded images, sometimes dramatically, but a PDF that's already mostly text and light on images has much less to compress in the first place, there's simply less redundant data to remove. Our Compress PDF tool works entirely in your browser and will show you the before and after size so you can see exactly how much, if anything, was saved for your specific file.",
+    ],
+    relatedToolSlugs: ["compress-pdf", "merge-pdf", "split-pdf"],
   },
 ];
 
