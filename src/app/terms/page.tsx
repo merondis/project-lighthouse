@@ -1,3 +1,4 @@
+import { ScrollText } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { buildMetadata } from "@/lib/seo";
@@ -12,7 +13,7 @@ export default function TermsPage() {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading icon="📜" title="Terms of Service" />
+        <SectionHeading icon={<ScrollText className="h-8 w-8 text-brand-accent" />} title="Terms of Service" />
 
         <div className="space-y-6 text-brand-secondary">
           <p>Last updated: {new Date().getFullYear()}</p>

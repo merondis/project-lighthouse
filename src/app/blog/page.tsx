@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Newspaper } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { blogPosts } from "@/data/blog/posts";
@@ -18,7 +19,7 @@ export default function BlogPage() {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading icon="📰" title="Blog" subtitle="Guides and explainers on calculators, finance, health and more." />
+      <SectionHeading icon={<Newspaper className="h-8 w-8 text-brand-accent" />} title="Blog" subtitle="Guides and explainers on calculators, finance, health and more." />
 
         <div className="flex flex-col gap-6">
           {sortedPosts.map((post) => (

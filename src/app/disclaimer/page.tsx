@@ -1,3 +1,4 @@
+import { AlertTriangle } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { buildMetadata } from "@/lib/seo";
@@ -12,7 +13,7 @@ export default function DisclaimerPage() {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading icon="⚠️" title="Disclaimer" />
+        <SectionHeading icon={<AlertTriangle className="h-8 w-8 text-brand-accent" />} title="Disclaimer" />
 
         <div className="space-y-6 text-brand-secondary">
           <section>

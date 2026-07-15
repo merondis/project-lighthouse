@@ -1,3 +1,4 @@
+import { Mail } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { buildMetadata } from "@/lib/seo";
@@ -12,7 +13,7 @@ export default function ContactPage() {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading icon="✉️" title="Contact Us" />
+        <SectionHeading icon={<Mail className="h-8 w-8 text-brand-accent" />} title="Contact Us" />
 
         <p className="text-brand-secondary">
           Have feedback, found a bug, or want to suggest a new tool? We&apos;d love to hear from you.

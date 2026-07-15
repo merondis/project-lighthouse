@@ -1,3 +1,4 @@
+import { Lock } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { buildMetadata } from "@/lib/seo";
@@ -12,7 +13,7 @@ export default function PrivacyPolicyPage() {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading icon="🔒" title="Privacy Policy" />
+        <SectionHeading icon={<Lock className="h-8 w-8 text-brand-accent" />} title="Privacy Policy" />
 
         <div className="space-y-6 text-brand-secondary">
           <p>Last updated: {new Date().getFullYear()}</p>

@@ -1,3 +1,4 @@
+import { Rocket } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { buildMetadata } from "@/lib/seo";
@@ -20,7 +21,7 @@ export default function AboutPage() {
   return (
     <Container className="py-12">
       <div className="mx-auto max-w-3xl">
-        <SectionHeading icon="🚀" title="About Merondis" />
+        <SectionHeading icon={<Rocket className="h-8 w-8 text-brand-accent" />} title="About Merondis" />
 
         <p className="text-brand-secondary">
           Merondis is a growing collection of free online tools, calculators and developer

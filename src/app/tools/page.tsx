@@ -1,3 +1,4 @@
+import { Wrench } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ToolCard } from "@/components/home/ToolCard";
 import { Container } from "@/components/ui/Container";
@@ -13,7 +14,7 @@ export const metadata = buildMetadata({
 export default function ToolsPage() {
   return (
     <Container className="py-12">
-      <SectionHeading icon="🛠️" title="Free Online Tools" subtitle="Free calculators and utilities for everyone." />
+      <SectionHeading icon={<Wrench className="h-8 w-8 text-brand-accent" />} title="Free Online Tools" subtitle="Free calculators and utilities for everyone." />
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {toolRegistry.map((tool) => (
