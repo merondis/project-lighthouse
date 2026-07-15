@@ -1,3 +1,5 @@
+import { calculateStackedDiscounts } from "@/utils/calculators/discount-stack-calculator";
+import { calculateExtraPaymentImpact } from "@/utils/calculators/extra-payment-calculator";
 import { calculateTakeHomeSalary } from "@/utils/calculators/salary-calculator";
 import { calculateSalesTax } from "@/utils/calculators/sales-tax-calculator";
 import { calculateFuelCost } from "@/utils/calculators/fuel-cost-calculator";
@@ -949,6 +951,93 @@ export const toolRegistry: ToolConfig[] = [
       },
     ],
     relatedSlugs: ["length-converter", "weight-converter"],
+  },
+  {
+    slug: "discount-stack-calculator",
+    category: "finance",
+    title: "Stacked Discount Calculator",
+    shortDescription: "Calculate the final price after two discounts applied in sequence.",
+    metaDescription: "Free online stacked discount calculator to find the final price after applying two discounts one after another.",
+    h1: "Stacked Discount Calculator",
+    intro: "Calculate the final price when two discounts are applied one after another, not added together.",
+    icon: "🏷️",
+    status: "live",
+    inputFields: [
+      { key: "originalPrice", label: "Original Price", type: "number", step: 0.01, placeholder: "e.g. 1000" },
+      { key: "discount1", label: "First Discount (%)", type: "number", step: 0.01, placeholder: "e.g. 20" },
+      { key: "discount2", label: "Second Discount (%)", type: "number", step: 0.01, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "finalPrice", label: "Final Price", highlight: true },
+      { key: "totalDiscountAmount", label: "Total Amount Saved", highlight: true },
+      { key: "effectiveDiscountPercent", label: "Effective Discount", unit: "%" },
+    ],
+    calculate: (inputs) => {
+      const originalPrice = Number(inputs.originalPrice);
+      const discount1 = Number(inputs.discount1);
+      const discount2 = Number(inputs.discount2);
+      const output = calculateStackedDiscounts(originalPrice, discount1, discount2);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "Is 20% off plus 10% off the same as 30% off?",
+        answer:
+          "No. Stacked discounts apply one after the other to the already-reduced price, so 20% then 10% works out to an effective discount of 28%, not 30%, since the second discount applies to a smaller amount.",
+      },
+      {
+        question: "Does the order of the two discounts matter?",
+        answer: "No, applying discount A then discount B gives the same final price as applying B then A, multiplication is commutative either way.",
+      },
+    ],
+    relatedSlugs: ["discount-calculator", "percentage-calculator"],
+  },
+  {
+    slug: "extra-payment-calculator",
+    category: "finance",
+    title: "Loan Extra Payment Calculator",
+    shortDescription: "See how extra monthly payments shorten your loan and save interest.",
+    metaDescription: "Free online calculator to see how much time and interest you save by paying extra on your loan each month.",
+    h1: "Loan Extra Payment Calculator",
+    intro: "See how adding an extra amount to your monthly loan payment shortens your payoff time and reduces total interest.",
+    icon: "🏦",
+    status: "live",
+    inputFields: [
+      { key: "principal", label: "Remaining Loan Balance", type: "number", step: 0.01, placeholder: "e.g. 200000" },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 6.5" },
+      { key: "originalPayment", label: "Current Monthly Payment", type: "number", step: 0.01, placeholder: "e.g. 1500" },
+      { key: "extraPayment", label: "Extra Monthly Payment", type: "number", step: 0.01, placeholder: "e.g. 200" },
+    ],
+    resultFields: [
+      { key: "monthsSaved", label: "Months Saved", highlight: true, unit: "months" },
+      { key: "interestSaved", label: "Interest Saved", highlight: true },
+      { key: "originalMonths", label: "Original Payoff Time", unit: "months" },
+      { key: "newMonths", label: "New Payoff Time", unit: "months" },
+    ],
+    calculate: (inputs) => {
+      const principal = Number(inputs.principal);
+      const annualRate = Number(inputs.annualRate);
+      const originalPayment = Number(inputs.originalPayment);
+      const extraPayment = Number(inputs.extraPayment);
+      const output = calculateExtraPaymentImpact(principal, annualRate, originalPayment, extraPayment);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "Why does a small extra payment save so much interest?",
+        answer:
+          "Extra payments go directly toward reducing your principal balance, which reduces the interest charged in every subsequent month for the remaining life of the loan, so the savings compound over time.",
+      },
+      {
+        question: "Does this account for prepayment penalties?",
+        answer: "No, some loans charge a fee for paying off early or making extra payments. Check your loan agreement or with your lender before making extra payments.",
+      },
+      {
+        question: "What if my monthly payment is too low to ever pay off the loan?",
+        answer: "If your payment doesn't cover the monthly interest charge, the loan balance would never decrease. The calculator will show an error in this case rather than an incorrect result.",
+      },
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator"],
   },
   {
     slug: "password-generator",
