@@ -1,3 +1,5 @@
+import { calculateSimpleInterest } from "@/utils/calculators/simple-interest-calculator";
+import { generateRandomNumbers } from "@/utils/calculators/random-number-generator";
 import { calculateCompoundInterest, CompoundFrequency } from "@/utils/calculators/compound-interest-calculator";
 import { calculateTip } from "@/utils/calculators/tip-calculator";
 import { formatJson, JsonAction } from "@/utils/calculators/json-formatter";
@@ -118,6 +120,93 @@ export const toolRegistry: ToolConfig[] = [
       },
     ],
     relatedSlugs: ["age-calculator", "discount-calculator"],
+  },
+  {
+    slug: "simple-interest-calculator",
+    category: "finance",
+    title: "Simple Interest Calculator",
+    shortDescription: "Calculate simple interest on a principal amount.",
+    metaDescription: "Free online simple interest calculator to calculate interest earned or owed on a principal amount.",
+    h1: "Simple Interest Calculator",
+    intro: "Calculate simple interest based on principal, rate and time, without compounding.",
+    icon: "💵",
+    status: "live",
+    inputFields: [
+      { key: "principal", label: "Principal Amount", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 3" },
+    ],
+    resultFields: [
+      { key: "interestAmount", label: "Interest Amount", highlight: true },
+      { key: "totalAmount", label: "Total Amount", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const principal = Number(inputs.principal);
+      const annualRate = Number(inputs.annualRate);
+      const years = Number(inputs.years);
+      const output = calculateSimpleInterest(principal, annualRate, years);
+      return { ...output };
+    },
+    faqs: [
+      {
+        question: "What is the difference between simple and compound interest?",
+        answer:
+          "Simple interest is calculated only on the original principal for the entire period, while compound interest is calculated on the principal plus any accumulated interest, causing it to grow faster over time.",
+      },
+      {
+        question: "When is simple interest commonly used?",
+        answer:
+          "Simple interest is commonly used for short-term loans, certain bonds, and some auto loans, where interest doesn't compound over the loan term.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "emi-calculator"],
+  },
+  {
+    slug: "random-number-generator",
+    category: "misc",
+    title: "Random Number Generator",
+    shortDescription: "Generate random numbers within a range.",
+    metaDescription: "Free online random number generator to generate one or more random numbers within a custom range.",
+    h1: "Random Number Generator",
+    intro: "Generate random numbers within a custom range, with or without duplicates.",
+    icon: "🎲",
+    status: "live",
+    inputFields: [
+      { key: "min", label: "Minimum Value", type: "number", step: 1, defaultValue: 1 },
+      { key: "max", label: "Maximum Value", type: "number", step: 1, defaultValue: 100 },
+      { key: "count", label: "How Many Numbers", type: "number", step: 1, defaultValue: 1 },
+      {
+        key: "allowDuplicates",
+        label: "Allow Duplicate Numbers",
+        type: "select",
+        options: [
+          { label: "Yes", value: "true" },
+          { label: "No", value: "false" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "numbers", label: "Generated Numbers", wide: true }],
+    calculate: (inputs) => {
+      const min = Number(inputs.min);
+      const max = Number(inputs.max);
+      const count = Number(inputs.count);
+      const allowDuplicates = String(inputs.allowDuplicates) === "true";
+      const results = generateRandomNumbers({ min, max, count, allowDuplicates });
+      return { numbers: results.join(", ") };
+    },
+    faqs: [
+      {
+        question: "Is this truly random?",
+        answer:
+          "Numbers are generated using your browser's built-in random number function, which is suitable for general purposes like games, raffles and sampling, but not for cryptographic or security-critical uses.",
+      },
+      {
+        question: "What happens if I ask for more unique numbers than the range allows?",
+        answer:
+          "If you disable duplicates and request more numbers than exist in your chosen range, the tool will show an error explaining the range is too small for that count.",
+      },
+    ],
+    relatedSlugs: ["password-generator"],
   },
   {
     slug: "json-formatter",
