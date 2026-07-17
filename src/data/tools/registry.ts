@@ -1,3 +1,8 @@
+import { calculateWaterIntake, ActivityLevel as WaterActivityLevel } from "@/utils/calculators/water-intake-calculator";
+import { calculatePregnancyDueDate } from "@/utils/calculators/pregnancy-due-date-calculator";
+import { calculateFraction, FractionOperation } from "@/utils/calculators/fraction-calculator";
+import { generateUuids } from "@/utils/calculators/uuid-generator";
+import { generateLoremIpsum, LoremUnit } from "@/utils/calculators/lorem-ipsum-generator";
 import { calculateGpa } from "@/utils/calculators/gpa-calculator";
 import { calculateIdealWeight } from "@/utils/calculators/ideal-weight-calculator";
 import { calculateBodyFat } from "@/utils/calculators/body-fat-calculator";
@@ -106,6 +111,268 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "countdown-timer", "bmi-calculator"],
+  },
+  {
+    slug: "water-intake-calculator",
+    category: "health",
+    title: "Water Intake Calculator",
+    shortDescription: "Estimate your daily recommended water intake.",
+    metaDescription: "Free online water intake calculator to estimate how much water you should drink daily based on weight and activity level.",
+    h1: "Water Intake Calculator",
+    intro: "Estimate your recommended daily water intake based on your body weight and activity level.",
+    icon: "💧",
+    status: "live",
+    inputFields: [
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+      { key: "activityLevel", label: "Activity Level", type: "select", options: [
+        { label: "Low (little exercise)", value: "low" },
+        { label: "Moderate (some exercise)", value: "moderate" },
+        { label: "High (intense exercise)", value: "high" },
+      ] },
+    ],
+    resultFields: [
+      { key: "litersPerDay", label: "Liters per Day", highlight: true },
+      { key: "cupsPerDay", label: "Cups per Day" },
+      { key: "ouncesPerDay", label: "Ounces per Day" },
+    ],
+    calculate: (inputs) => {
+      const weightKg = Number(inputs.weightKg);
+      const activityLevel = String(inputs.activityLevel) as WaterActivityLevel;
+      const output = calculateWaterIntake(weightKg, activityLevel);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How daily water intake is calculated",
+        paragraphs: [
+          "This calculator uses a common baseline of 33 ml of water per kilogram of body weight, then adds extra for activity level: 350 ml for moderate activity, or 700 ml for high activity, reflecting additional fluid loss through sweat during exercise.",
+        ],
+      },
+      {
+        heading: "This is a general estimate, not medical advice",
+        paragraphs: [
+          "Actual hydration needs vary based on climate, individual health conditions, and diet (since food also contributes fluid intake). This calculator provides a general starting point, not a personalized medical recommendation.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this include water from food?",
+        answer: "No, this estimates fluid intake from drinking water specifically. Food, especially fruits and vegetables, also contributes meaningfully to daily hydration.",
+      },
+      {
+        question: "Should I drink more water in hot weather?",
+        answer: "Yes, hot weather and increased sweating raise fluid needs beyond this baseline estimate.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "bmr-calculator"],
+  },
+  {
+    slug: "pregnancy-due-date-calculator",
+    category: "health",
+    title: "Pregnancy Due Date Calculator",
+    shortDescription: "Estimate your due date and current pregnancy week.",
+    metaDescription: "Free online pregnancy due date calculator to estimate your due date and current week of pregnancy based on your last period.",
+    h1: "Pregnancy Due Date Calculator",
+    intro: "Estimate your due date and current week of pregnancy based on the first day of your last menstrual period.",
+    icon: "👶",
+    status: "live",
+    inputFields: [
+      { key: "lastPeriodDate", label: "First Day of Last Menstrual Period", type: "date" },
+    ],
+    resultFields: [
+      { key: "dueDate", label: "Estimated Due Date", highlight: true },
+      { key: "currentWeek", label: "Current Week", highlight: true },
+      { key: "currentDay", label: "Days Into Current Week" },
+      { key: "trimester", label: "Trimester" },
+    ],
+    calculate: (inputs) => {
+      const lastPeriodDate = String(inputs.lastPeriodDate ?? "");
+      const output = calculatePregnancyDueDate(lastPeriodDate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How due date is calculated (Naegele's Rule)",
+        paragraphs: [
+          "This calculator uses Naegele's Rule, the standard method for estimating due dates: it adds 280 days (40 weeks) to the first day of your last menstrual period. This assumes a typical 28-day cycle with ovulation around day 14.",
+        ],
+      },
+      {
+        heading: "This is an estimate, not a diagnosis",
+        paragraphs: [
+          "Only about 5% of babies are born exactly on their estimated due date, most arrive within a two-week window on either side. An ultrasound-based estimate from a healthcare provider is generally more precise than this calculation alone.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is this due date estimate?",
+        answer: "It's a widely used standard estimate, but actual delivery dates vary. An ultrasound dating scan from a healthcare provider typically offers a more precise estimate, especially for irregular cycles.",
+      },
+      {
+        question: "What if I don't know the exact date of my last period?",
+        answer: "If your last period date is uncertain, a healthcare provider can estimate your due date using an ultrasound instead, which is generally more reliable in that situation.",
+      },
+    ],
+    relatedSlugs: ["age-calculator", "date-calculator"],
+  },
+  {
+    slug: "fraction-calculator",
+    category: "misc",
+    title: "Fraction Calculator",
+    shortDescription: "Add, subtract, multiply or divide fractions.",
+    metaDescription: "Free online fraction calculator to add, subtract, multiply or divide fractions and simplify the result.",
+    h1: "Fraction Calculator",
+    intro: "Perform addition, subtraction, multiplication or division on two fractions, with the result automatically simplified.",
+    icon: "➗",
+    status: "live",
+    inputFields: [
+      { key: "num1", label: "First Numerator", type: "number", step: 1, placeholder: "e.g. 1" },
+      { key: "den1", label: "First Denominator", type: "number", step: 1, placeholder: "e.g. 2" },
+      { key: "operation", label: "Operation", type: "select", options: [
+        { label: "Add (+)", value: "add" },
+        { label: "Subtract (−)", value: "subtract" },
+        { label: "Multiply (×)", value: "multiply" },
+        { label: "Divide (÷)", value: "divide" },
+      ] },
+      { key: "num2", label: "Second Numerator", type: "number", step: 1, placeholder: "e.g. 1" },
+      { key: "den2", label: "Second Denominator", type: "number", step: 1, placeholder: "e.g. 3" },
+    ],
+    resultFields: [
+      { key: "result", label: "Result (Simplified)", highlight: true },
+      { key: "decimal", label: "Decimal Equivalent" },
+    ],
+    calculate: (inputs) => {
+      const num1 = Number(inputs.num1);
+      const den1 = Number(inputs.den1);
+      const num2 = Number(inputs.num2);
+      const den2 = Number(inputs.den2);
+      const operation = String(inputs.operation) as FractionOperation;
+      const output = calculateFraction(num1, den1, num2, den2, operation);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How fraction operations work",
+        paragraphs: [
+          "Adding and subtracting fractions requires a common denominator, achieved by cross-multiplying: a/b + c/d = (a×d + c×b) / (b×d). Multiplying fractions is simpler: multiply numerators together and denominators together. Dividing by a fraction is the same as multiplying by its reciprocal.",
+        ],
+      },
+      {
+        heading: "Simplifying fractions automatically",
+        paragraphs: [
+          "After calculating the result, this tool automatically simplifies the fraction by dividing both numerator and denominator by their greatest common divisor, so results like 4/8 are shown as the simplified 1/2.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I use negative numbers?",
+        answer: "Yes, this calculator supports negative numerators and denominators for all four operations.",
+      },
+      {
+        question: "Why is my result automatically simplified?",
+        answer: "Simplifying to lowest terms is standard mathematical practice and makes the result easier to read and use in further calculations.",
+      },
+    ],
+    relatedSlugs: ["percentage-calculator"],
+  },
+  {
+    slug: "uuid-generator",
+    category: "developer",
+    title: "UUID Generator",
+    shortDescription: "Generate random UUID v4 identifiers.",
+    metaDescription: "Free online UUID generator to create one or more random version 4 UUIDs (universally unique identifiers).",
+    h1: "UUID Generator",
+    intro: "Generate one or more random UUID v4 identifiers, commonly used for unique database keys, session tokens and object identifiers.",
+    icon: "🔑",
+    status: "live",
+    inputFields: [
+      { key: "count", label: "Number of UUIDs", type: "number", step: 1, defaultValue: 1 },
+    ],
+    resultFields: [{ key: "uuids", label: "Generated UUIDs", wide: true }],
+    calculate: (inputs) => {
+      const count = Number(inputs.count);
+      const uuids = generateUuids(count);
+      return { uuids: uuids.join("\n") };
+    },
+    explanation: [
+      {
+        heading: "What is a UUID v4",
+        paragraphs: [
+          "A UUID (Universally Unique Identifier) is a 128-bit value typically written as 32 hexadecimal characters split into five groups, such as 550e8400-e29b-41d4-a716-446655440000. Version 4 UUIDs are generated using random or pseudo-random numbers, making collisions (two identical UUIDs) astronomically unlikely even across billions of generated values.",
+        ],
+      },
+      {
+        heading: "Common uses for UUIDs",
+        paragraphs: [
+          "UUIDs are commonly used as database primary keys, session identifiers, API request tracking IDs, and unique object references in distributed systems, anywhere a unique identifier is needed without coordinating with a central authority.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Are these UUIDs guaranteed to be unique?",
+        answer: "UUID v4 uses randomness that makes collisions extremely unlikely in practice, though not mathematically impossible, this is the standard used across most production systems.",
+      },
+      {
+        question: "Is this generated securely in my browser?",
+        answer: "Yes, this uses your browser's built-in cryptographically secure random number generator when available, and never sends any data to a server.",
+      },
+    ],
+    relatedSlugs: ["password-generator"],
+  },
+  {
+    slug: "lorem-ipsum-generator",
+    category: "developer",
+    title: "Lorem Ipsum Generator",
+    shortDescription: "Generate placeholder Lorem Ipsum text.",
+    metaDescription: "Free online Lorem Ipsum generator to create placeholder text by words, sentences or paragraphs for design mockups.",
+    h1: "Lorem Ipsum Generator",
+    intro: "Generate placeholder Lorem Ipsum text by word count, sentence count, or paragraph count, commonly used in design mockups.",
+    icon: "📝",
+    status: "live",
+    inputFields: [
+      { key: "count", label: "Count", type: "number", step: 1, defaultValue: 3 },
+      { key: "unit", label: "Unit", type: "select", options: [
+        { label: "Paragraphs", value: "paragraphs" },
+        { label: "Sentences", value: "sentences" },
+        { label: "Words", value: "words" },
+      ] },
+    ],
+    resultFields: [{ key: "text", label: "Generated Text", wide: true }],
+    calculate: (inputs) => {
+      const count = Number(inputs.count);
+      const unit = String(inputs.unit) as LoremUnit;
+      const text = generateLoremIpsum(count, unit);
+      return { text };
+    },
+    explanation: [
+      {
+        heading: "What is Lorem Ipsum",
+        paragraphs: [
+          "Lorem Ipsum is scrambled, nonsensical Latin-derived text traditionally used as filler content in design mockups, print layouts, and web page prototypes, allowing designers to preview text-heavy layouts without being distracted by actual readable content.",
+        ],
+      },
+      {
+        heading: "Why designers use placeholder text",
+        paragraphs: [
+          "Using neutral placeholder text keeps focus on layout, typography, and spacing rather than the meaning of the words themselves, which is why Lorem Ipsum has remained the standard choice in design and publishing for decades.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is Lorem Ipsum actual Latin?",
+        answer: "It's derived from a classical Latin text but scrambled and altered, so it isn't meaningful or grammatically correct Latin, which is intentional, so it doesn't distract from layout review.",
+      },
+      {
+        question: "Can I generate a specific number of words instead of paragraphs?",
+        answer: "Yes, choose 'Words' from the unit dropdown and enter your desired word count instead of paragraphs or sentences.",
+      },
+    ],
+    relatedSlugs: ["word-counter"],
   },
   {
     slug: "percentage-calculator",
