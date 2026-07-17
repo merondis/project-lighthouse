@@ -59,6 +59,7 @@ import {
   Maximize,
   Regex,
   Palette,
+  Image,
   type LucideIcon,
 } from "lucide-react";
 

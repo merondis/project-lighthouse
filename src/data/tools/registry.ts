@@ -559,6 +559,47 @@ explanation: [
     relatedSlugs: ["json-formatter"],
   },
   {
+    slug: "pdf-to-jpg",
+    category: "pdf",
+    title: "PDF to JPG",
+    shortDescription: "Convert PDF pages into JPG images.",
+    metaDescription: "Free online PDF to JPG converter to convert each page of a PDF into a downloadable JPG image.",
+    h1: "PDF to JPG",
+    intro: "Convert each page of a PDF file into a high-quality JPG image, processed entirely in your browser.",
+    icon: "🖼️",
+    status: "live",
+    widgetType: "pdfToJpg",
+    explanation: [
+      {
+        heading: "How PDF to JPG conversion works",
+        paragraphs: [
+          "This tool renders each page of your PDF onto a canvas at high resolution, then exports that canvas as a JPG image, the same rendering approach browsers use to display PDFs natively. Multi-page PDFs are converted page by page and bundled into a downloadable ZIP file.",
+        ],
+      },
+      {
+        heading: "Why this stays entirely in your browser",
+        paragraphs: [
+          "Unlike many online PDF to JPG converters that upload your file to a server, this tool uses your browser's own rendering engine to do the conversion locally, meaning your PDF is never transmitted anywhere.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I download individual pages instead of the whole ZIP?",
+        answer: "Yes, each converted page has its own download link below the preview, alongside the option to download all pages together as a ZIP file.",
+      },
+      {
+        question: "What resolution are the output images?",
+        answer: "Pages are rendered at 2x scale for good print and screen quality, balancing image clarity with reasonable file size.",
+      },
+      {
+        question: "Does this work with scanned PDFs?",
+        answer: "Yes, since this renders the visual page content directly, it works the same way for scanned PDFs and text-based PDFs alike.",
+      },
+    ],
+    relatedSlugs: ["merge-pdf", "split-pdf", "compress-pdf"],
+  },
+  {
     slug: "percentage-calculator",
     category: "misc",
     title: "Percentage Calculator",
