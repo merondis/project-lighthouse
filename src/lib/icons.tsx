@@ -60,11 +60,16 @@ import {
   Regex,
   Palette,
   Image,
-  FileImage,
+FileImage,
   CreditCard,
   Flame as FlameIcon,
   GitCompare,
   ListX,
+  Car,
+  Scale as ScaleIcon,
+  HeartPulse as HeartPulseIcon,
+  Sigma,
+  Replace,
   type LucideIcon,
 } from "lucide-react";
 
@@ -126,8 +131,13 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "jpg-to-pdf": FileImage,
   "credit-card-payoff-calculator": CreditCard,
   "calorie-goal-calculator": FlameIcon,
-  "text-diff-checker": GitCompare,
+"text-diff-checker": GitCompare,
   "remove-duplicate-lines": ListX,
+  "auto-loan-calculator": Car,
+  "breakeven-calculator": ScaleIcon,
+  "heart-rate-zone-calculator": HeartPulseIcon,
+  "standard-deviation-calculator": Sigma,
+  "find-and-replace": Replace,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

@@ -1,3 +1,7 @@
+import { calculateBreakeven } from "@/utils/calculators/breakeven-calculator";
+import { calculateHeartRateZones } from "@/utils/calculators/heart-rate-zone-calculator";
+import { calculateStandardDeviation } from "@/utils/calculators/standard-deviation-calculator";
+import { findAndReplace } from "@/utils/calculators/find-and-replace";
 import { calculateCreditCardPayoff } from "@/utils/calculators/credit-card-payoff-calculator";
 import { calculateCalorieGoal, Gender as CalorieGender, ActivityLevel as CalorieActivityLevel, Goal as CalorieGoal } from "@/utils/calculators/calorie-goal-calculator";
 import { removeDuplicateLines } from "@/utils/calculators/remove-duplicate-lines";
@@ -151,6 +155,252 @@ explanation: [
       },
     ],
     relatedSlugs: ["pdf-to-jpg", "merge-pdf"],
+  },
+  {
+    slug: "auto-loan-calculator",
+    category: "finance",
+    title: "Auto Loan Calculator",
+    shortDescription: "Calculate your monthly car loan payment and full amortization schedule.",
+    metaDescription: "Free online auto loan calculator to calculate your monthly car payment with a full amortization schedule.",
+    h1: "Auto Loan Calculator",
+    intro: "Calculate your estimated monthly car loan payment based on loan amount, interest rate and term, with a full amortization schedule.",
+    icon: "🚗",
+    status: "live",
+    widgetType: "amortization",
+    amortizationTenureUnit: "months",
+    explanation: [
+      {
+        heading: "How auto loan payments are calculated",
+        paragraphs: [
+          "This auto loan calculator uses the same standard amortization formula as our other loan calculators: Monthly Payment = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan amount, r is the monthly interest rate, and n is the total number of monthly payments over your loan term.",
+        ],
+      },
+      {
+        heading: "What this calculator doesn't include",
+        paragraphs: [
+          "This tool estimates principal and interest only. It doesn't include sales tax, registration fees, dealer add-ons, or trade-in value, all of which affect the actual amount financed and your real monthly payment.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I use the total car price or the amount after down payment?",
+        answer: "Enter the amount you're actually financing, meaning the car's price minus any down payment or trade-in value, since that's the balance the loan and interest are calculated on.",
+      },
+      {
+        question: "What's a typical auto loan term?",
+        answer: "Common auto loan terms range from 36 to 72 months, with longer terms offering lower monthly payments but more total interest paid over the loan's life.",
+      },
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator"],
+  },
+  {
+    slug: "breakeven-calculator",
+    category: "finance",
+    title: "Break-Even Calculator",
+    shortDescription: "Calculate how many units you need to sell to break even.",
+    metaDescription: "Free online break-even calculator to calculate how many units you need to sell to cover your fixed costs.",
+    h1: "Break-Even Calculator",
+    intro: "Calculate the number of units you need to sell, and the revenue required, to cover your fixed costs and break even.",
+    icon: "⚖️",
+    status: "live",
+    inputFields: [
+      { key: "fixedCosts", label: "Total Fixed Costs", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "pricePerUnit", label: "Price per Unit", type: "number", step: 0.01, placeholder: "e.g. 50" },
+      { key: "variableCostPerUnit", label: "Variable Cost per Unit", type: "number", step: 0.01, placeholder: "e.g. 20" },
+    ],
+    resultFields: [
+      { key: "breakevenUnits", label: "Break-Even Units", highlight: true },
+      { key: "breakevenRevenue", label: "Break-Even Revenue", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const fixedCosts = Number(inputs.fixedCosts);
+      const pricePerUnit = Number(inputs.pricePerUnit);
+      const variableCostPerUnit = Number(inputs.variableCostPerUnit);
+      const output = calculateBreakeven(fixedCosts, pricePerUnit, variableCostPerUnit);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How break-even point is calculated",
+        paragraphs: [
+          "Break-even units are calculated as: Fixed Costs ÷ (Price per Unit − Variable Cost per Unit). The denominator, called the contribution margin, represents how much each unit sold contributes toward covering fixed costs after accounting for the cost of producing it.",
+          "For example, with 10,000 in fixed costs, a price of 50 per unit, and a variable cost of 20 per unit, the contribution margin is 30, giving a break-even point of 10,000 ÷ 30 ≈ 334 units.",
+        ],
+      },
+      {
+        heading: "Fixed costs vs variable costs",
+        paragraphs: [
+          "Fixed costs (like rent or salaries) stay the same regardless of how many units you sell. Variable costs (like materials per unit) scale directly with production volume. Understanding this split is essential for break-even analysis.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my price per unit is lower than my variable cost?",
+        answer: "In that case, you lose money on every unit sold regardless of volume, and there's no break-even point. The calculator will show an error in this scenario.",
+      },
+      {
+        question: "Does this account for taxes or one-time startup costs?",
+        answer: "No, this is a simplified break-even model covering ongoing fixed and variable costs only, not taxes or one-time capital expenses.",
+      },
+    ],
+    relatedSlugs: ["markup-calculator", "roi-calculator"],
+  },
+  {
+    slug: "heart-rate-zone-calculator",
+    category: "health",
+    title: "Heart Rate Zone Calculator",
+    shortDescription: "Calculate your target heart rate zones for exercise.",
+    metaDescription: "Free online heart rate zone calculator to find your target heart rate zones for different exercise intensities based on age.",
+    h1: "Heart Rate Zone Calculator",
+    intro: "Calculate your estimated maximum heart rate and target heart rate zones for different exercise intensities.",
+    icon: "❤️",
+    status: "live",
+    inputFields: [
+      { key: "age", label: "Age (years)", type: "number", step: 1, placeholder: "e.g. 30" },
+    ],
+    resultFields: [
+      { key: "maxHeartRate", label: "Estimated Max Heart Rate", unit: "bpm", highlight: true },
+      { key: "zone1", label: "Zone 1 (Warm Up, 50-60%)" },
+      { key: "zone2", label: "Zone 2 (Fat Burn, 60-70%)" },
+      { key: "zone3", label: "Zone 3 (Aerobic, 70-80%)" },
+      { key: "zone4", label: "Zone 4 (Anaerobic, 80-90%)" },
+      { key: "zone5", label: "Zone 5 (Max Effort, 90-100%)" },
+    ],
+    calculate: (inputs) => {
+      const age = Number(inputs.age);
+      const output = calculateHeartRateZones(age);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How heart rate zones are calculated",
+        paragraphs: [
+          "This calculator uses the common formula: Maximum Heart Rate = 220 − Age. Each training zone is then calculated as a percentage range of that maximum, from Zone 1 (light warm-up intensity) up to Zone 5 (maximum effort).",
+        ],
+      },
+      {
+        heading: "What each zone is used for",
+        paragraphs: [
+          "Zone 2 is often targeted for fat-burning and base endurance training, Zone 3 for general aerobic fitness, and Zones 4-5 for high-intensity interval training and performance gains. Training across different zones supports different fitness goals.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is the 220 minus age formula?",
+        answer: "It's a widely used general estimate, but individual maximum heart rate can vary meaningfully from this formula. A supervised fitness or medical test provides a more precise personal figure.",
+      },
+      {
+        question: "Should I consult a doctor before high-intensity training?",
+        answer: "If you have any heart conditions or are new to exercise, consulting a healthcare provider before starting high-intensity training is recommended.",
+      },
+    ],
+    relatedSlugs: ["bmr-calculator", "calorie-goal-calculator"],
+  },
+  {
+    slug: "standard-deviation-calculator",
+    category: "misc",
+    title: "Standard Deviation Calculator",
+    shortDescription: "Calculate mean, variance and standard deviation from a data set.",
+    metaDescription: "Free online standard deviation calculator to calculate mean, variance and standard deviation from a list of numbers.",
+    h1: "Standard Deviation Calculator",
+    intro: "Calculate the mean, variance and standard deviation of a data set by entering numbers separated by commas or spaces.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "numbers", label: "Numbers (comma or space separated)", type: "text", placeholder: "e.g. 4, 8, 15, 16, 23, 42" },
+    ],
+    resultFields: [
+      { key: "mean", label: "Mean", highlight: true },
+      { key: "standardDeviation", label: "Standard Deviation", highlight: true },
+      { key: "variance", label: "Variance" },
+      { key: "count", label: "Count" },
+    ],
+    calculate: (inputs) => {
+      const numbers = String(inputs.numbers ?? "");
+      const output = calculateStandardDeviation(numbers);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How standard deviation is calculated",
+        paragraphs: [
+          "Standard deviation measures how spread out a set of numbers is from the mean. It's calculated by finding the mean, then the squared difference of each number from that mean (called variance), then taking the square root of the variance.",
+        ],
+      },
+      {
+        heading: "Population vs sample standard deviation",
+        paragraphs: [
+          "This calculator computes population standard deviation, dividing by the total count of numbers. Sample standard deviation (used when your data is a sample of a larger population) divides by count minus one instead, resulting in a slightly larger value.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does a low vs high standard deviation mean?",
+        answer: "A low standard deviation means the numbers are clustered closely around the mean, while a high standard deviation means they're spread out over a wider range.",
+      },
+      {
+        question: "How do I enter my numbers?",
+        answer: "Enter numbers separated by commas, spaces, or both, for example '4, 8, 15, 16, 23, 42' or '4 8 15 16 23 42' both work.",
+      },
+    ],
+    relatedSlugs: ["percentage-calculator"],
+  },
+  {
+    slug: "find-and-replace",
+    category: "text",
+    title: "Find and Replace Tool",
+    shortDescription: "Find and replace text, with optional regex support.",
+    metaDescription: "Free online find and replace tool to search and replace text, with optional case sensitivity and regex support.",
+    h1: "Find and Replace Tool",
+    intro: "Search for text and replace all occurrences instantly, with optional case sensitivity and regular expression support.",
+    icon: "🔁",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste your text here..." },
+      { key: "findValue", label: "Find", type: "text", placeholder: "Text to find" },
+      { key: "replaceValue", label: "Replace With", type: "text", placeholder: "Replacement text" },
+      { key: "caseSensitive", label: "Case Sensitive", type: "checkbox", defaultValue: "false" },
+      { key: "useRegex", label: "Use Regular Expression", type: "checkbox", defaultValue: "false" },
+    ],
+    resultFields: [{ key: "result", label: "Result", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const findValue = String(inputs.findValue ?? "");
+      const replaceValue = String(inputs.replaceValue ?? "");
+      const caseSensitive = inputs.caseSensitive === "true";
+      const useRegex = inputs.useRegex === "true";
+      const result = findAndReplace(text, findValue, replaceValue, { caseSensitive, useRegex });
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How find and replace works",
+        paragraphs: [
+          "This tool searches your text for every occurrence of the value you enter in 'Find,' and replaces each one with your 'Replace With' value. By default, it treats your search term as plain text, not a pattern.",
+        ],
+      },
+      {
+        heading: "Using regular expressions",
+        paragraphs: [
+          "Enabling 'Use Regular Expression' lets you use pattern-matching syntax in the Find field, for example \\d+ to match any sequence of digits, useful for more advanced find-and-replace operations beyond exact text matches.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is my text sent to a server?",
+        answer: "No, all find-and-replace processing happens directly in your browser, your text is never transmitted anywhere.",
+      },
+      {
+        question: "What happens if my regex pattern is invalid?",
+        answer: "If you enable regex mode and enter an invalid pattern, the tool will show an error explaining the pattern couldn't be processed.",
+      },
+    ],
+    relatedSlugs: ["text-diff-checker", "regex-tester"],
   },
   {
     slug: "credit-card-payoff-calculator",
