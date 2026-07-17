@@ -1,3 +1,8 @@
+import { calculateGpa } from "@/utils/calculators/gpa-calculator";
+import { calculateIdealWeight } from "@/utils/calculators/ideal-weight-calculator";
+import { calculateBodyFat } from "@/utils/calculators/body-fat-calculator";
+import { calculateInflation } from "@/utils/calculators/inflation-calculator";
+import { calculateNetWorth } from "@/utils/calculators/net-worth-calculator";
 import { calculateRoi } from "@/utils/calculators/roi-calculator";
 import { calculateMarkup } from "@/utils/calculators/markup-calculator";
 import { processUrlEncoding, UrlEncodeAction } from "@/utils/calculators/url-encoder";
@@ -2013,7 +2018,311 @@ explanation: [
     ],
     relatedSlugs: ["age-calculator", "countdown-timer"],
   },
-{
+  {
+    slug: "gpa-calculator",
+    category: "misc",
+    title: "GPA Calculator",
+    shortDescription: "Calculate your Grade Point Average from course grades and credit hours.",
+    metaDescription: "Free online GPA calculator to calculate your Grade Point Average from letter grades and credit hours.",
+    h1: "GPA Calculator",
+    intro: "Calculate your GPA by entering letter grades and credit hours for up to five courses.",
+    icon: "🎓",
+    status: "live",
+    inputFields: [
+      { key: "grade1", label: "Course 1 Grade", type: "select", options: [
+        { label: "Not Used", value: "" }, { label: "A", value: "A" }, { label: "A-", value: "A-" },
+        { label: "B+", value: "B+" }, { label: "B", value: "B" }, { label: "B-", value: "B-" },
+        { label: "C+", value: "C+" }, { label: "C", value: "C" }, { label: "C-", value: "C-" },
+        { label: "D+", value: "D+" }, { label: "D", value: "D" }, { label: "F", value: "F" },
+      ] },
+      { key: "credits1", label: "Course 1 Credit Hours", type: "number", step: 1, placeholder: "e.g. 3" },
+      { key: "grade2", label: "Course 2 Grade", type: "select", options: [
+        { label: "Not Used", value: "" }, { label: "A", value: "A" }, { label: "A-", value: "A-" },
+        { label: "B+", value: "B+" }, { label: "B", value: "B" }, { label: "B-", value: "B-" },
+        { label: "C+", value: "C+" }, { label: "C", value: "C" }, { label: "C-", value: "C-" },
+        { label: "D+", value: "D+" }, { label: "D", value: "D" }, { label: "F", value: "F" },
+      ] },
+      { key: "credits2", label: "Course 2 Credit Hours", type: "number", step: 1, placeholder: "e.g. 3" },
+      { key: "grade3", label: "Course 3 Grade", type: "select", options: [
+        { label: "Not Used", value: "" }, { label: "A", value: "A" }, { label: "A-", value: "A-" },
+        { label: "B+", value: "B+" }, { label: "B", value: "B" }, { label: "B-", value: "B-" },
+        { label: "C+", value: "C+" }, { label: "C", value: "C" }, { label: "C-", value: "C-" },
+        { label: "D+", value: "D+" }, { label: "D", value: "D" }, { label: "F", value: "F" },
+      ] },
+      { key: "credits3", label: "Course 3 Credit Hours", type: "number", step: 1, placeholder: "e.g. 3" },
+      { key: "grade4", label: "Course 4 Grade", type: "select", options: [
+        { label: "Not Used", value: "" }, { label: "A", value: "A" }, { label: "A-", value: "A-" },
+        { label: "B+", value: "B+" }, { label: "B", value: "B" }, { label: "B-", value: "B-" },
+        { label: "C+", value: "C+" }, { label: "C", value: "C" }, { label: "C-", value: "C-" },
+        { label: "D+", value: "D+" }, { label: "D", value: "D" }, { label: "F", value: "F" },
+      ] },
+      { key: "credits4", label: "Course 4 Credit Hours", type: "number", step: 1, placeholder: "e.g. 3" },
+      { key: "grade5", label: "Course 5 Grade", type: "select", options: [
+        { label: "Not Used", value: "" }, { label: "A", value: "A" }, { label: "A-", value: "A-" },
+        { label: "B+", value: "B+" }, { label: "B", value: "B" }, { label: "B-", value: "B-" },
+        { label: "C+", value: "C+" }, { label: "C", value: "C" }, { label: "C-", value: "C-" },
+        { label: "D+", value: "D+" }, { label: "D", value: "D" }, { label: "F", value: "F" },
+      ] },
+      { key: "credits5", label: "Course 5 Credit Hours", type: "number", step: 1, placeholder: "e.g. 3" },
+    ],
+    resultFields: [
+      { key: "gpa", label: "GPA", highlight: true },
+      { key: "totalCredits", label: "Total Credit Hours" },
+    ],
+    calculate: (inputs) => {
+      const courses = [1, 2, 3, 4, 5].map((n) => ({
+        grade: String(inputs["grade" + n] ?? ""),
+        credits: Number(inputs["credits" + n]),
+      }));
+      const output = calculateGpa(courses);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How to calculate GPA (Grade Point Average)",
+        paragraphs: [
+          "GPA is calculated by converting each letter grade to a grade point value (A = 4.0, B = 3.0, C = 2.0, and so on), multiplying by that course's credit hours, summing all the results, then dividing by the total credit hours attempted.",
+          "For example, an A (4.0) in a 3-credit course and a B (3.0) in a 4-credit course gives (4.0×3 + 3.0×4) ÷ (3+4) = 24 ÷ 7 ≈ 3.43 GPA.",
+        ],
+      },
+      {
+        heading: "Weighted vs unweighted GPA",
+        paragraphs: [
+          "This is an unweighted GPA calculator, meaning every course counts equally regardless of difficulty. Some schools use weighted GPA, which gives extra grade points for honors or AP courses, this calculator does not apply that adjustment.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What grading scale does this GPA calculator use?",
+        answer: "This calculator uses the standard 4.0 scale (A = 4.0 down to F = 0.0), the most common grading scale used by US high schools and colleges.",
+      },
+      {
+        question: "Can I calculate GPA for more than 5 courses?",
+        answer: "This tool supports up to 5 courses at a time. For a full semester with more courses, you can calculate in batches and combine the weighted totals manually.",
+      },
+    ],
+    relatedSlugs: ["percentage-calculator"],
+  },
+  {
+    slug: "ideal-weight-calculator",
+    category: "health",
+    title: "Ideal Weight Calculator",
+    shortDescription: "Estimate your ideal body weight based on height and gender.",
+    metaDescription: "Free online ideal weight calculator to estimate your ideal body weight based on height and gender using the Devine formula.",
+    h1: "Ideal Weight Calculator",
+    intro: "Estimate your ideal body weight based on your height and gender using the widely used Devine formula.",
+    icon: "🎯",
+    status: "live",
+    inputFields: [
+      { key: "gender", label: "Gender", type: "select", options: [
+        { label: "Male", value: "male" }, { label: "Female", value: "female" },
+      ] },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+    ],
+    resultFields: [
+      { key: "idealWeightKg", label: "Ideal Weight (kg)", highlight: true },
+      { key: "idealWeightLb", label: "Ideal Weight (lb)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as "male" | "female";
+      const heightCm = Number(inputs.heightCm);
+      const output = calculateIdealWeight(gender, heightCm);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How ideal weight is calculated (Devine formula)",
+        paragraphs: [
+          "This calculator uses the Devine formula, one of the most widely used ideal body weight formulas: for men, Ideal Weight (kg) = 50 + 2.3 × (height in inches − 60). For women, the same formula is used but starting from 45.5 kg instead of 50.",
+          "The formula is based on height over 5 feet (60 inches), adding 2.3 kg for every inch above that baseline.",
+        ],
+      },
+      {
+        heading: "Ideal weight is a general estimate, not a personal target",
+        paragraphs: [
+          "This formula was originally developed for medical dosing calculations and provides only a general reference point. It doesn't account for muscle mass, bone structure, or individual body composition, so it shouldn't be treated as a strict personal weight goal.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is the Devine formula accurate for everyone?",
+        answer: "It's a general estimate widely used in medical settings, but it doesn't account for muscle mass, frame size, or individual body composition, so actual healthy weight can vary from this estimate.",
+      },
+      {
+        question: "Why does gender affect the result?",
+        answer: "The formula uses different baseline constants for men and women to reflect typical differences in body composition, this is a simplification, not a precise individual assessment.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "body-fat-calculator"],
+  },
+  {
+    slug: "body-fat-calculator",
+    category: "health",
+    title: "Body Fat Percentage Calculator",
+    shortDescription: "Estimate body fat percentage using the U.S. Navy method.",
+    metaDescription: "Free online body fat calculator to estimate body fat percentage using the U.S. Navy circumference method.",
+    h1: "Body Fat Percentage Calculator",
+    intro: "Estimate your body fat percentage using the U.S. Navy circumference method based on height, neck, waist and hip measurements.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "gender", label: "Gender", type: "select", options: [
+        { label: "Male", value: "male" }, { label: "Female", value: "female" },
+      ] },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "neckCm", label: "Neck Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 38" },
+      { key: "waistCm", label: "Waist Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 85" },
+      { key: "hipCm", label: "Hip Circumference (cm) — required for females", type: "number", step: 0.1, placeholder: "e.g. 95" },
+    ],
+    resultFields: [
+      { key: "bodyFatPercent", label: "Body Fat", unit: "%", highlight: true },
+      { key: "category", label: "Category", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as "male" | "female";
+      const heightCm = Number(inputs.heightCm);
+      const neckCm = Number(inputs.neckCm);
+      const waistCm = Number(inputs.waistCm);
+      const hipCm = Number(inputs.hipCm);
+      const output = calculateBodyFat(gender, heightCm, neckCm, waistCm, hipCm);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the U.S. Navy body fat method works",
+        paragraphs: [
+          "This method estimates body fat percentage using circumference measurements at the neck, waist, and (for women) hips, combined with height, using a formula developed by the U.S. Navy as a practical field alternative to more precise methods like DEXA scans or hydrostatic weighing.",
+        ],
+      },
+      {
+        heading: "How to measure neck, waist and hip correctly",
+        paragraphs: [
+          "For accurate results, measure your neck just below the larynx, your waist at the narrowest point (or navel level), and hips at the widest point, all with a flexible tape measure held snug but not compressing the skin.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is the Navy body fat method?",
+        answer: "It's reasonably accurate for most people as a field estimate, typically within a few percentage points of more precise clinical methods, but individual body shape variation can affect accuracy.",
+      },
+      {
+        question: "Why is hip measurement only used for women?",
+        answer: "The U.S. Navy formula uses different variables for men and women based on typical fat distribution patterns, the male formula only requires waist and neck, while the female formula also factors in hip measurement.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "ideal-weight-calculator"],
+  },
+  {
+    slug: "inflation-calculator",
+    category: "finance",
+    title: "Inflation Calculator",
+    shortDescription: "See how inflation affects the value of money over time.",
+    metaDescription: "Free online inflation calculator to see how much a sum of money will be worth in the future accounting for inflation.",
+    h1: "Inflation Calculator",
+    intro: "Calculate how inflation affects the future value of an amount of money over a chosen number of years, using your own assumed annual inflation rate.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "amount", label: "Amount", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "years", label: "Number of Years", type: "number", step: 1, placeholder: "e.g. 10" },
+      { key: "annualRate", label: "Assumed Annual Inflation Rate (%)", type: "number", step: 0.1, defaultValue: 3 },
+    ],
+    resultFields: [
+      { key: "futureValue", label: "Future Equivalent Value", highlight: true },
+      { key: "totalIncrease", label: "Total Increase" },
+      { key: "percentIncrease", label: "Percent Increase", unit: "%" },
+    ],
+    calculate: (inputs) => {
+      const amount = Number(inputs.amount);
+      const years = Number(inputs.years);
+      const annualRate = Number(inputs.annualRate);
+      const output = calculateInflation(amount, years, annualRate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this inflation calculator works",
+        paragraphs: [
+          "This calculator projects future value using compound growth: Future Value = Amount × (1 + Rate ÷ 100)^Years, applying your chosen annual inflation rate every year, the same mathematical pattern as compound interest.",
+        ],
+      },
+      {
+        heading: "This uses an assumed rate, not historical CPI data",
+        paragraphs: [
+          "Unlike calculators that pull real historical Consumer Price Index data for a specific country, this tool uses an annual inflation rate you specify, letting you model different scenarios (for example, comparing 2% versus 5% average inflation) rather than being limited to one country's historical record.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What inflation rate should I use?",
+        answer: "A commonly used long-term average is around 2 to 3% for many developed economies, but actual inflation varies significantly by country and year. Check your country's historical average for a more tailored estimate.",
+      },
+      {
+        question: "Does this use real historical inflation data?",
+        answer: "No, this calculator applies a constant rate you specify rather than pulling actual historical CPI data, making it a modeling tool rather than a historical lookup.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "net-worth-calculator"],
+  },
+  {
+    slug: "net-worth-calculator",
+    category: "finance",
+    title: "Net Worth Calculator",
+    shortDescription: "Calculate your net worth from total assets and liabilities.",
+    metaDescription: "Free online net worth calculator to calculate your net worth by subtracting liabilities from assets.",
+    h1: "Net Worth Calculator",
+    intro: "Calculate your net worth by entering your total assets and total liabilities.",
+    icon: "💳",
+    status: "live",
+    inputFields: [
+      { key: "totalAssets", label: "Total Assets", type: "number", step: 0.01, placeholder: "e.g. 150000" },
+      { key: "totalLiabilities", label: "Total Liabilities", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+    ],
+    resultFields: [
+      { key: "netWorth", label: "Net Worth", highlight: true },
+      { key: "status", label: "Status", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const totalAssets = Number(inputs.totalAssets);
+      const totalLiabilities = Number(inputs.totalLiabilities);
+      const output = calculateNetWorth(totalAssets, totalLiabilities);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How to calculate net worth",
+        paragraphs: [
+          "Net worth is calculated as: Net Worth = Total Assets − Total Liabilities. Assets include things like cash, savings, investments, retirement accounts, and property value. Liabilities include debts like mortgages, loans, and credit card balances.",
+        ],
+      },
+      {
+        heading: "Why tracking net worth matters",
+        paragraphs: [
+          "Unlike income or a single account balance, net worth gives a complete picture of financial position by combining everything you own and everything you owe. Tracking it over time, rather than as a single snapshot, is generally more useful for understanding financial progress.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What counts as an asset?",
+        answer: "Common assets include cash, bank account balances, investments, retirement accounts, real estate value, and vehicle value.",
+      },
+      {
+        question: "What counts as a liability?",
+        answer: "Common liabilities include mortgage balances, car loans, student loans, credit card debt, and any other money owed.",
+      },
+      {
+        question: "Is a negative net worth unusual?",
+        answer: "It's common, particularly earlier in life or after taking on debt like a mortgage or student loans. Net worth typically shifts over time as assets grow and debts are paid down.",
+      },
+    ],
+    relatedSlugs: ["inflation-calculator", "compound-interest-calculator"],
+  },
+  {
     slug: "countdown-timer",
     category: "date-time",
     title: "Countdown Timer",
@@ -2024,7 +2333,7 @@ explanation: [
     icon: "⏳",
     status: "live",
     widgetType: "countdown",
-widgetType: "countdown",
+    widgetType: "countdown",
     explanation: [
       {
         heading: "How a countdown timer works",

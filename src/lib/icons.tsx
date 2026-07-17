@@ -35,7 +35,7 @@ import {
   ShieldCheck,
   Wrench,
   HelpCircle,
-  Briefcase,
+Briefcase,
   Calculator,
   Layers,
   Fuel,
@@ -43,6 +43,11 @@ import {
   LineChart,
   HardDrive,
   Link2,
+  GraduationCap,
+  Target,
+  Activity,
+  PieChart,
+  BadgeDollarSign,
   type LucideIcon,
 } from "lucide-react";
 
@@ -78,12 +83,17 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "fuel-cost-calculator": Fuel,
   "discount-stack-calculator": Layers,
   "extra-payment-calculator": Landmark,
-  "text-summarizer": Sparkles,
+"text-summarizer": Sparkles,
   "paragraph-rewriter": Sparkles,
   "roi-calculator": BarChart3,
   "markup-calculator": LineChart,
   "data-storage-converter": HardDrive,
   "url-encoder": Link2,
+  "gpa-calculator": GraduationCap,
+  "ideal-weight-calculator": Target,
+  "body-fat-calculator": Activity,
+  "inflation-calculator": PieChart,
+  "net-worth-calculator": BadgeDollarSign,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
