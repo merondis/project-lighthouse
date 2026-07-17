@@ -13,6 +13,10 @@ import { HexRgbConverterWidget } from "@/components/tool-page/HexRgbConverterWid
 import { PdfToJpgWidget } from "@/components/tool-page/PdfToJpgWidget";
 import { JpgToPdfWidget } from "@/components/tool-page/JpgToPdfWidget";
 import { TextDiffWidget } from "@/components/tool-page/TextDiffWidget";
+import { RotatePdfWidget } from "@/components/tool-page/RotatePdfWidget";
+import { MarkdownPreviewWidget } from "@/components/tool-page/MarkdownPreviewWidget";
+import { ScientificCalculatorWidget } from "@/components/tool-page/ScientificCalculatorWidget";
+import { DebtPayoffWidget } from "@/components/tool-page/DebtPayoffWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -32,13 +36,17 @@ export function renderToolWidget(tool: ToolConfig) {
       />
     );
   }
-if (tool.widgetType === "amortization") {
+  if (tool.widgetType === "amortization") {
     return <AmortizationWidget tenureUnit={tool.amortizationTenureUnit ?? "months"} />;
   }
-if (tool.widgetType === "regexTester") return <RegexTesterWidget />;
+  if (tool.widgetType === "regexTester") return <RegexTesterWidget />;
   if (tool.widgetType === "hexRgbConverter") return <HexRgbConverterWidget />;
   if (tool.widgetType === "pdfToJpg") return <PdfToJpgWidget />;
   if (tool.widgetType === "jpgToPdf") return <JpgToPdfWidget />;
   if (tool.widgetType === "textDiff") return <TextDiffWidget />;
+  if (tool.widgetType === "rotatePdf") return <RotatePdfWidget />;
+  if (tool.widgetType === "markdownPreview") return <MarkdownPreviewWidget />;
+  if (tool.widgetType === "scientificCalculator") return <ScientificCalculatorWidget />;
+  if (tool.widgetType === "debtPayoff") return <DebtPayoffWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }

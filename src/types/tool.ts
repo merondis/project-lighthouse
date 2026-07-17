@@ -68,7 +68,11 @@ export interface ToolConfig {
     | "hexRgbConverter"
     | "pdfToJpg"
     | "jpgToPdf"
-    | "textDiff";
+    | "textDiff"
+    | "rotatePdf"
+    | "markdownPreview"
+    | "scientificCalculator"
+    | "debtPayoff";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;

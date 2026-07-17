@@ -1,3 +1,4 @@
+import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
 import { calculateBreakeven } from "@/utils/calculators/breakeven-calculator";
 import { calculateHeartRateZones } from "@/utils/calculators/heart-rate-zone-calculator";
 import { calculateStandardDeviation } from "@/utils/calculators/standard-deviation-calculator";
@@ -118,6 +119,208 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "countdown-timer", "bmi-calculator"],
+  },
+  {
+    slug: "debt-payoff-calculator",
+    category: "finance",
+    title: "Debt Payoff Calculator",
+    shortDescription: "Compare Avalanche vs Snowball strategies to pay off multiple debts.",
+    metaDescription: "Free online debt payoff calculator to compare the Avalanche and Snowball methods for paying off multiple debts.",
+    h1: "Debt Payoff Calculator",
+    intro: "Enter up to three debts to see how long it will take to become debt-free using the Avalanche or Snowball payoff strategy.",
+    icon: "❄️",
+    status: "live",
+    widgetType: "debtPayoff",
+    explanation: [
+      {
+        heading: "Avalanche vs Snowball payoff strategies",
+        paragraphs: [
+          "The Avalanche method pays extra toward the debt with the highest interest rate first, minimizing total interest paid over time. The Snowball method pays extra toward the smallest balance first, prioritizing quick wins and psychological momentum over pure mathematical efficiency.",
+        ],
+      },
+      {
+        heading: "How this calculator works",
+        paragraphs: [
+          "Each debt makes its minimum payment every month, while any extra payment you specify is directed entirely toward one debt at a time based on your chosen strategy, moving to the next debt once the current target is fully paid off.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Which strategy saves more money?",
+        answer: "Avalanche typically saves more in total interest since it targets high-interest debt first, but Snowball can be more motivating for some people since it clears smaller debts faster.",
+      },
+      {
+        question: "Can I enter more than three debts?",
+        answer: "This tool supports up to three debts at a time. For more debts, you can combine smaller balances into a single entry as an approximation.",
+      },
+    ],
+    relatedSlugs: ["credit-card-payoff-calculator", "extra-payment-calculator"],
+  },
+  {
+    slug: "quadratic-solver",
+    category: "misc",
+    title: "Quadratic Equation Solver",
+    shortDescription: "Solve quadratic equations of the form ax² + bx + c = 0.",
+    metaDescription: "Free online quadratic equation solver to find the roots of ax² + bx + c = 0 using the quadratic formula.",
+    h1: "Quadratic Equation Solver",
+    intro: "Solve any quadratic equation in the form ax² + bx + c = 0 using the quadratic formula.",
+    icon: "√",
+    status: "live",
+    inputFields: [
+      { key: "a", label: "a (coefficient of x²)", type: "number", step: 0.01, placeholder: "e.g. 1" },
+      { key: "b", label: "b (coefficient of x)", type: "number", step: 0.01, placeholder: "e.g. -3" },
+      { key: "c", label: "c (constant)", type: "number", step: 0.01, placeholder: "e.g. 2" },
+    ],
+    resultFields: [
+      { key: "root1", label: "Root 1 (x₁)", highlight: true },
+      { key: "root2", label: "Root 2 (x₂)", highlight: true },
+      { key: "discriminant", label: "Discriminant" },
+      { key: "nature", label: "Nature of Roots" },
+    ],
+    calculate: (inputs) => {
+      const a = Number(inputs.a);
+      const b = Number(inputs.b);
+      const c = Number(inputs.c);
+      const output = solveQuadratic(a, b, c);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The quadratic formula",
+        paragraphs: [
+          "The quadratic formula solves ax² + bx + c = 0 for x: x = (−b ± √(b² − 4ac)) / (2a). The term b² − 4ac is called the discriminant, and its sign determines whether the equation has two real roots, one repeated real root, or two complex roots.",
+        ],
+      },
+      {
+        heading: "Reading the discriminant",
+        paragraphs: [
+          "A positive discriminant means two distinct real roots. A discriminant of exactly zero means one repeated real root (the parabola touches the x-axis at a single point). A negative discriminant means the roots are complex numbers, meaning the parabola never crosses the x-axis.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if 'a' is zero?",
+        answer: "If a equals zero, the equation isn't quadratic anymore, it becomes linear. This calculator requires a nonzero value for a.",
+      },
+      {
+        question: "What does a complex root mean?",
+        answer: "A complex root includes an imaginary component (shown with 'i'), meaning the equation's graph doesn't intersect the x-axis at any real number.",
+      },
+    ],
+    relatedSlugs: ["standard-deviation-calculator", "fraction-calculator"],
+  },
+  {
+    slug: "rotate-pdf",
+    category: "pdf",
+    title: "Rotate PDF",
+    shortDescription: "Rotate all pages in a PDF file.",
+    metaDescription: "Free online tool to rotate all pages of a PDF file by 90, 180 or 270 degrees.",
+    h1: "Rotate PDF",
+    intro: "Rotate every page in a PDF document by 90, 180 or 270 degrees, processed entirely in your browser.",
+    icon: "🔄",
+    status: "live",
+    widgetType: "rotatePdf",
+    explanation: [
+      {
+        heading: "How PDF rotation works",
+        paragraphs: [
+          "This tool updates the rotation setting stored in each page of your PDF, rather than actually redrawing the page content, this is the same mechanism PDF viewers use internally, so the rotation applies instantly and preserves full document quality.",
+        ],
+      },
+      {
+        heading: "Why this stays entirely in your browser",
+        paragraphs: [
+          "Since rotation is applied locally using your browser's own processing, your PDF file is never uploaded to any server.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this rotate all pages the same way?",
+        answer: "Yes, the selected rotation is applied to every page in the document uniformly.",
+      },
+      {
+        question: "Will rotating reduce PDF quality?",
+        answer: "No, rotation only changes the page's orientation metadata, the actual page content is unaffected.",
+      },
+    ],
+    relatedSlugs: ["merge-pdf", "split-pdf", "compress-pdf"],
+  },
+  {
+    slug: "markdown-previewer",
+    category: "developer",
+    title: "Markdown Previewer",
+    shortDescription: "Write Markdown and see a live rendered preview.",
+    metaDescription: "Free online Markdown previewer to write Markdown and see a live rendered HTML preview side by side.",
+    h1: "Markdown Previewer",
+    intro: "Write Markdown on the left and see a live-rendered preview on the right, updated as you type.",
+    icon: "📄",
+    status: "live",
+    widgetType: "markdownPreview",
+    explanation: [
+      {
+        heading: "What is Markdown",
+        paragraphs: [
+          "Markdown is a lightweight text formatting syntax that converts simple symbols, like # for headings or ** for bold text, into formatted HTML. It's widely used in README files, documentation, forum posts, and note-taking apps because it's readable even in its raw, unformatted form.",
+        ],
+      },
+      {
+        heading: "Common Markdown syntax",
+        paragraphs: [
+          "# creates a heading, ** or __ around text makes it bold, * or _ makes it italic, - or * at the start of a line creates a bullet list, and [text](url) creates a hyperlink.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is my text saved anywhere?",
+        answer: "No, all rendering happens directly in your browser, nothing you type is sent to or stored on any server.",
+      },
+      {
+        question: "Which Markdown flavor does this support?",
+        answer: "This uses standard Markdown syntax (the CommonMark-based 'marked' parser), covering headings, lists, links, bold/italic text, code blocks and more.",
+      },
+    ],
+    relatedSlugs: ["word-counter", "json-formatter"],
+  },
+  {
+    slug: "scientific-calculator",
+    category: "misc",
+    title: "Scientific Calculator",
+    shortDescription: "A scientific calculator with trigonometric and logarithmic functions.",
+    metaDescription: "Free online scientific calculator with support for trigonometric, logarithmic and exponential functions.",
+    h1: "Scientific Calculator",
+    intro: "A scientific calculator supporting basic arithmetic, trigonometric functions, logarithms, square roots and exponents.",
+    icon: "🧮",
+    status: "live",
+    widgetType: "scientificCalculator",
+    explanation: [
+      {
+        heading: "Supported operations",
+        paragraphs: [
+          "This calculator supports standard arithmetic (+, −, ×, ÷), exponents (^), square roots, and trigonometric functions (sin, cos, tan), along with logarithms (log for base 10, ln for natural log). Trigonometric functions use radians, not degrees.",
+        ],
+      },
+      {
+        heading: "How expressions are evaluated",
+        paragraphs: [
+          "You can type a full expression like sqrt(16) + 2^3 and it will be evaluated following standard order of operations, respecting parentheses and function precedence.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this use degrees or radians for trig functions?",
+        answer: "Trigonometric functions use radians. To convert degrees to radians, multiply by pi and divide by 180.",
+      },
+      {
+        question: "Can I use parentheses for grouping?",
+        answer: "Yes, parentheses work as expected to control the order of operations within your expression.",
+      },
+    ],
+    relatedSlugs: ["quadratic-solver", "standard-deviation-calculator"],
   },
   {
     slug: "jpg-to-pdf",
