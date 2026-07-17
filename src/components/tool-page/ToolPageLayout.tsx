@@ -1,3 +1,4 @@
+import { ReferenceTable } from "@/components/tool-page/ReferenceTable";
 import { ToolExplanation } from "@/components/tool-page/ToolExplanation";
 import { AmortizationWidget } from "@/components/tool-page/AmortizationWidget";
 import { RecordRecentTool } from "@/components/tool-page/RecordRecentTool";
@@ -76,7 +77,7 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
           <AdSensePlaceholder />
         </div>
 
-        {tool.status === "live" ? (
+{tool.status === "live" ? (
           renderWidget(tool)
         ) : (
           <div className="rounded-xl border border-white/5 bg-brand-card p-10 text-center">
@@ -87,7 +88,11 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
           </div>
         )}
 
-<div className="my-8">
+        {tool.widgetType === "unitConverter" && tool.converterCategory ? (
+          <ReferenceTable category={tool.converterCategory} />
+        ) : null}
+
+        <div className="my-8">
           <AdSensePlaceholder />
         </div>
 

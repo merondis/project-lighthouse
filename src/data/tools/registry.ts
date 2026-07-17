@@ -1354,6 +1354,21 @@ explanation: [
       const output = calculateDiscount(originalPrice, discountPercent);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "The discount formula",
+        paragraphs: [
+          "The discount amount is calculated as: Discount = Original Price × (Discount % ÷ 100). The final price is then the original price minus that discount amount.",
+          "For example, an item priced at 1000 with a 20% discount has a discount amount of 1000 × (20 ÷ 100) = 200, giving a final price of 1000 − 200 = 800.",
+        ],
+      },
+      {
+        heading: "Calculating percentage off from a sale price",
+        paragraphs: [
+          "If you know both the original and sale price and want to find the discount percentage instead, that's a different calculation: divide the amount saved by the original price, then multiply by 100. Our Percentage Calculator's 'X is what % of Y' mode can be used for this in reverse.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How is the final price calculated?",
@@ -1493,6 +1508,20 @@ explanation: [
     status: "live",
     widgetType: "amortization",
     amortizationTenureUnit: "years",
+explanation: [
+      {
+        heading: "The loan repayment formula",
+        paragraphs: [
+          "This calculator uses the same underlying formula as EMI: Payment = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan principal, r is the monthly interest rate (annual rate ÷ 12 ÷ 100), and n is the total number of monthly payments. The tenure you enter in years is converted to months internally before applying the formula.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a loan of 250,000 at 7.2% annual interest over 15 years (180 months): the monthly rate is 7.2 ÷ 12 ÷ 100 = 0.006. Applying the formula gives a fixed monthly payment, with total interest and total repayment shown alongside the full amortization schedule below, which breaks down exactly how much of each payment goes toward principal versus interest.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How is this different from the EMI calculator?",
