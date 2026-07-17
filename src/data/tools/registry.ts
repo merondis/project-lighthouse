@@ -191,6 +191,21 @@ explanation: [
       const output = calculateSimpleInterest(principal, annualRate, years);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "Simple interest formula with example",
+        paragraphs: [
+          "The simple interest formula is: Simple Interest = (Principal × Rate × Time) ÷ 100, where Principal is the amount borrowed or invested, Rate is the annual interest rate as a percentage, and Time is the duration in years.",
+          "For example, to calculate simple interest on a principal of 5000 at 5% annual interest for 3 years: (5000 × 5 × 3) ÷ 100 = 750 in interest, for a total amount of 5750.",
+        ],
+      },
+      {
+        heading: "Simple interest vs compound interest",
+        paragraphs: [
+          "Unlike compound interest, which is calculated on the growing balance including previously earned interest, simple interest is always calculated on the original principal only, so it grows at a constant, linear rate rather than accelerating over time. This is why simple interest loans typically cost less in total interest than compound interest loans over the same term and rate.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is the difference between simple and compound interest?",
@@ -613,6 +628,20 @@ explanation: [
     status: "live",
     featured: true,
     widgetType: "currencyConverter",
+explanation: [
+      {
+        heading: "How currency conversion is calculated",
+        paragraphs: [
+          "To convert between currencies, the amount is first converted to a common base currency using the source currency's exchange rate, then converted from that base currency into the target currency using the target's exchange rate. This two-step process (via a shared base rate) is how most live currency converters handle any-to-any conversion between dozens of currencies without needing a direct rate between every possible pair.",
+        ],
+      },
+      {
+        heading: "Why exchange rates change constantly",
+        paragraphs: [
+          "Currency exchange rates fluctuate continuously based on global supply and demand, interest rate differences between countries, inflation, and economic events. This is different from fixed conversions like length or weight, which is why a currency calculator relies on regularly updated live exchange rate data rather than a static conversion factor.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How often are exchange rates updated?",
@@ -814,6 +843,20 @@ explanation: [
       const output = calculateTip(billAmount, tipPercent, numPeople);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "How to calculate a tip (tip formula)",
+        paragraphs: [
+          "To calculate a tip, the formula is: Tip Amount = Bill Amount × (Tip % ÷ 100). The total bill is then the original amount plus the tip. For example, calculating a 15% tip on a 50 bill: tip amount = 50 × (15 ÷ 100) = 7.50, for a total of 57.50.",
+        ],
+      },
+      {
+        heading: "How to split a bill with tip among multiple people",
+        paragraphs: [
+          "To split the bill, including tip, evenly among a group, the total bill (original amount plus tip) is divided by the number of people. For example, a 57.50 total split between 3 people works out to 19.17 per person, this is how a bill splitter calculator handles group dining.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is a standard tip percentage?",
@@ -934,6 +977,20 @@ explanation: [
       const output = countWords(text);
       return { ...output };
     },
+  explanation: [
+      {
+        heading: "How word count and character count are calculated",
+        paragraphs: [
+          "Word count is calculated by splitting the text on whitespace (spaces, tabs, line breaks), so consecutive spaces don't inflate the count. Character count includes every character typed, including spaces and punctuation, while the 'characters without spaces' figure excludes whitespace, useful for platforms with strict character limits.",
+        ],
+      },
+      {
+        heading: "How sentence and paragraph count work",
+        paragraphs: [
+          "Sentences are detected by counting sequences of text ending in a period, question mark, or exclamation point. Paragraphs are counted by splitting text on line breaks and counting non-empty sections, this is how a word counter tool estimates structure for essays, articles, and word-limit-sensitive writing like tweets or meta descriptions.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How is the word count calculated?",
@@ -1057,6 +1114,20 @@ explanation: [
       const output = calculateSalesTax(price, taxRate);
       return { ...output };
     },
+      explanation: [
+      {
+        heading: "How to calculate sales tax on a purchase",
+        paragraphs: [
+          "The sales tax formula is: Sales Tax = Price × (Tax Rate ÷ 100). The total price you pay is then the original price plus that tax amount. For example, to calculate sales tax on a 100 purchase at an 8.25% tax rate: sales tax = 100 × (8.25 ÷ 100) = 8.25, for a total price of 108.25.",
+        ],
+      },
+      {
+        heading: "How to calculate the price before tax (reverse sales tax)",
+        paragraphs: [
+          "If you know the final total price and want to find the pre-tax price instead, divide the total by (1 + Tax Rate ÷ 100). For example, a total of 108.25 at 8.25% tax gives a pre-tax price of 108.25 ÷ 1.0825 = 100, this reverse calculation is useful when a receipt only shows the final total.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How do I find my local sales tax rate?",
