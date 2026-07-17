@@ -54,7 +54,7 @@ export interface ToolConfig {
   icon: string;
   status: ToolStatus;
   featured?: boolean;
-widgetType?:
+  widgetType?:
     | "standard"
     | "countdown"
     | "unitConverter"
@@ -63,12 +63,14 @@ widgetType?:
     | "currencyConverter"
     | "compressPdf"
     | "aiText"
-    | "amortization";
+    | "amortization"
+    | "regexTester"
+    | "hexRgbConverter";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;
   aiPlaceholder?: string;
-  converterCategory?: "length" | "weight" | "temperature" | "dataStorage";
+converterCategory?: "length" | "weight" | "temperature" | "dataStorage" | "volume" | "speed" | "area";
   inputFields?: InputFieldConfig[];
   resultFields?: ResultFieldConfig[];
 calculate?: (

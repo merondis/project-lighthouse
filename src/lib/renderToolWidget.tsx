@@ -8,6 +8,8 @@ import { CurrencyConverterWidget } from "@/components/tool-page/CurrencyConverte
 import { CompressPdfWidget } from "@/components/tool-page/CompressPdfWidget";
 import { AiTextToolWidget } from "@/components/tool-page/AiTextToolWidget";
 import { AmortizationWidget } from "@/components/tool-page/AmortizationWidget";
+import { RegexTesterWidget } from "@/components/tool-page/RegexTesterWidget";
+import { HexRgbConverterWidget } from "@/components/tool-page/HexRgbConverterWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -27,8 +29,10 @@ export function renderToolWidget(tool: ToolConfig) {
       />
     );
   }
-  if (tool.widgetType === "amortization") {
+if (tool.widgetType === "amortization") {
     return <AmortizationWidget tenureUnit={tool.amortizationTenureUnit ?? "months"} />;
   }
+  if (tool.widgetType === "regexTester") return <RegexTesterWidget />;
+  if (tool.widgetType === "hexRgbConverter") return <HexRgbConverterWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }

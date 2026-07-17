@@ -1,4 +1,4 @@
-export type UnitCategory = "length" | "weight" | "temperature" | "dataStorage";
+export type UnitCategory = "length" | "weight" | "temperature" | "dataStorage" | "volume" | "speed" | "area";
 
 export interface UnitDefinition {
   key: string;
@@ -54,6 +54,71 @@ export const TEMPERATURE_UNITS: UnitDefinition[] = [
   { key: "celsius", label: "Celsius (°C)" },
   { key: "fahrenheit", label: "Fahrenheit (°F)" },
   { key: "kelvin", label: "Kelvin (K)" },
+];
+
+// ---------- VOLUME ----------
+const VOLUME_TO_LITERS: Record<string, number> = {
+  milliliter: 0.001,
+  liter: 1,
+  cubicMeter: 1000,
+  teaspoon: 0.00492892,
+  tablespoon: 0.0147868,
+  cup: 0.236588,
+  pint: 0.473176,
+  quart: 0.946353,
+  gallon: 3.78541,
+};
+
+export const VOLUME_UNITS: UnitDefinition[] = [
+  { key: "milliliter", label: "Milliliters (ml)" },
+  { key: "liter", label: "Liters (L)" },
+  { key: "cubicMeter", label: "Cubic Meters (m³)" },
+  { key: "teaspoon", label: "Teaspoons (tsp)" },
+  { key: "tablespoon", label: "Tablespoons (tbsp)" },
+  { key: "cup", label: "Cups" },
+  { key: "pint", label: "Pints (pt)" },
+  { key: "quart", label: "Quarts (qt)" },
+  { key: "gallon", label: "Gallons (gal)" },
+];
+
+// ---------- SPEED ----------
+const SPEED_TO_MPS: Record<string, number> = {
+  mps: 1,
+  kmh: 0.277778,
+  mph: 0.44704,
+  knot: 0.514444,
+  fps: 0.3048,
+};
+
+export const SPEED_UNITS: UnitDefinition[] = [
+  { key: "mps", label: "Meters per Second (m/s)" },
+  { key: "kmh", label: "Kilometers per Hour (km/h)" },
+  { key: "mph", label: "Miles per Hour (mph)" },
+  { key: "knot", label: "Knots (kn)" },
+  { key: "fps", label: "Feet per Second (ft/s)" },
+];
+
+// ---------- AREA ----------
+const AREA_TO_SQ_METERS: Record<string, number> = {
+  sqMeter: 1,
+  sqKilometer: 1000000,
+  sqCentimeter: 0.0001,
+  sqFoot: 0.092903,
+  sqYard: 0.836127,
+  sqMile: 2589988.11,
+  acre: 4046.86,
+  hectare: 10000,
+};
+
+export const AREA_UNITS: UnitDefinition[] = [
+  { key: "sqMeter", label: "Square Meters (m²)" },
+  { key: "sqKilometer", label: "Square Kilometers (km²)" },
+  { key: "sqCentimeter", label: "Square Centimeters (cm²)" },
+  { key: "sqFoot", label: "Square Feet (ft²)" },
+  { key: "sqYard", label: "Square Yards (yd²)" },
+  { key: "sqMile", label: "Square Miles (mi²)" },
+  { key: "acre", label: "Acres" },
+  { key: "hectare", label: "Hectares" },
 ];
 
 // ---------- DATA STORAGE ----------
@@ -115,6 +180,12 @@ export function getUnitsForCategory(category: UnitCategory): UnitDefinition[] {
       return TEMPERATURE_UNITS;
     case "dataStorage":
       return DATA_STORAGE_UNITS;
+    case "volume":
+      return VOLUME_UNITS;
+    case "speed":
+      return SPEED_UNITS;
+    case "area":
+      return AREA_UNITS;
   }
 }
 
@@ -133,13 +204,19 @@ export function convertUnit(
     return roundResult(fromCelsius(celsius, toUnit));
   }
 
-  let table: Record<string, number>;
+let table: Record<string, number>;
   if (category === "length") {
     table = LENGTH_TO_METERS;
   } else if (category === "weight") {
     table = WEIGHT_TO_GRAMS;
-  } else {
+  } else if (category === "dataStorage") {
     table = DATA_TO_BYTES;
+  } else if (category === "volume") {
+    table = VOLUME_TO_LITERS;
+  } else if (category === "speed") {
+    table = SPEED_TO_MPS;
+  } else {
+    table = AREA_TO_SQ_METERS;
   }
 
   const base = value * table[fromUnit];

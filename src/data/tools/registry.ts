@@ -375,6 +375,190 @@ explanation: [
     relatedSlugs: ["word-counter"],
   },
   {
+    slug: "mortgage-calculator",
+    category: "finance",
+    title: "Mortgage Calculator",
+    shortDescription: "Calculate your monthly mortgage payment and full amortization schedule.",
+    metaDescription: "Free online mortgage calculator to calculate monthly payments and view a full amortization schedule for your home loan.",
+    h1: "Mortgage Calculator",
+    intro: "Calculate your estimated monthly mortgage payment based on loan amount, interest rate and term, with a full amortization schedule.",
+    icon: "🏠",
+    status: "live",
+    widgetType: "amortization",
+    amortizationTenureUnit: "years",
+    explanation: [
+      {
+        heading: "How mortgage payments are calculated",
+        paragraphs: [
+          "This mortgage calculator uses the same standard loan amortization formula as our EMI and Loan calculators: Monthly Payment = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan principal, r is the monthly interest rate, and n is the total number of monthly payments over your mortgage term.",
+        ],
+      },
+      {
+        heading: "What this calculator doesn't include",
+        paragraphs: [
+          "This tool estimates principal and interest only. It doesn't include property taxes, homeowner's insurance, PMI (private mortgage insurance), or HOA fees, all of which typically add to your actual monthly housing payment beyond this estimate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this include property tax and insurance?",
+        answer: "No, this calculator estimates principal and interest only. Your actual monthly payment may be higher once taxes, insurance, PMI, and HOA fees are included.",
+      },
+      {
+        question: "What's a typical mortgage term?",
+        answer: "15-year and 30-year fixed terms are the most common in many markets, with 30-year terms offering lower monthly payments but more total interest paid over the loan's life.",
+      },
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator"],
+  },
+  {
+    slug: "volume-converter",
+    category: "converters",
+    title: "Volume Converter",
+    shortDescription: "Convert between milliliters, liters, cups, gallons and more.",
+    metaDescription: "Free online volume converter to convert between milliliters, liters, cups, pints, quarts and gallons.",
+    h1: "Volume Converter",
+    intro: "Convert volume measurements between metric and US customary units, useful for cooking, science, and everyday conversions.",
+    icon: "🧪",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "volume",
+    faqs: [
+      {
+        question: "How many cups are in a liter?",
+        answer: "One liter is approximately 4.23 cups, a common conversion for cooking and baking.",
+      },
+      {
+        question: "How accurate are these conversions?",
+        answer: "Conversions use standard exact conversion factors and are accurate to six decimal places.",
+      },
+    ],
+    relatedSlugs: ["weight-converter", "length-converter"],
+  },
+  {
+    slug: "speed-converter",
+    category: "converters",
+    title: "Speed Converter",
+    shortDescription: "Convert between mph, km/h, m/s and knots.",
+    metaDescription: "Free online speed converter to convert between miles per hour, kilometers per hour, meters per second and knots.",
+    h1: "Speed Converter",
+    intro: "Convert speed measurements between mph, km/h, m/s, knots and feet per second.",
+    icon: "🚀",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "speed",
+    faqs: [
+      {
+        question: "How do I convert mph to km/h?",
+        answer: "Multiply miles per hour by 1.60934 to get kilometers per hour, or use this converter for an instant result.",
+      },
+      {
+        question: "What is a knot?",
+        answer: "A knot is a unit of speed equal to one nautical mile per hour, commonly used in aviation and maritime navigation.",
+      },
+    ],
+    relatedSlugs: ["length-converter"],
+  },
+  {
+    slug: "area-converter",
+    category: "converters",
+    title: "Area Converter",
+    shortDescription: "Convert between square meters, square feet, acres and hectares.",
+    metaDescription: "Free online area converter to convert between square meters, square feet, acres, hectares and more.",
+    h1: "Area Converter",
+    intro: "Convert area measurements between metric and imperial units, including acres and hectares for land measurement.",
+    icon: "📐",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "area",
+    faqs: [
+      {
+        question: "How many square feet are in an acre?",
+        answer: "One acre equals 43,560 square feet, a standard unit for measuring land, especially in the US.",
+      },
+      {
+        question: "What's the difference between an acre and a hectare?",
+        answer: "A hectare (10,000 square meters) is larger than an acre (about 4,047 square meters), hectares are the standard metric unit for land area used in most countries outside the US.",
+      },
+    ],
+    relatedSlugs: ["length-converter", "volume-converter"],
+  },
+  {
+    slug: "regex-tester",
+    category: "developer",
+    title: "Regex Tester",
+    shortDescription: "Test regular expressions against sample text in real time.",
+    metaDescription: "Free online regex tester to test regular expressions against sample text with live match highlighting.",
+    h1: "Regex Tester",
+    intro: "Test a regular expression pattern against sample text and see matches update live as you type.",
+    icon: "🔍",
+    status: "live",
+    widgetType: "regexTester",
+    explanation: [
+      {
+        heading: "How to use this regex tester",
+        paragraphs: [
+          "Enter a regular expression pattern (without the surrounding slashes), specify flags like 'g' for global matching or 'i' for case-insensitive matching, then paste your test text. Matches update live and show the matched text along with its position in the string.",
+        ],
+      },
+      {
+        heading: "Common regex flags",
+        paragraphs: [
+          "'g' (global) finds all matches instead of stopping at the first one. 'i' (case-insensitive) ignores letter case. 'm' (multiline) changes how ^ and $ behave across multiple lines. Flags can be combined, for example 'gi' for global, case-insensitive matching.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What regex syntax does this support?",
+        answer: "This uses standard JavaScript regular expression syntax, which is very similar to PCRE (used in many other languages) but with some differences in advanced features.",
+      },
+      {
+        question: "Is my text sent to a server?",
+        answer: "No, all pattern matching happens directly in your browser using JavaScript's built-in regex engine, your text is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["json-formatter", "url-encoder"],
+  },
+  {
+    slug: "hex-rgb-converter",
+    category: "developer",
+    title: "Hex to RGB Converter",
+    shortDescription: "Convert between hex color codes and RGB values.",
+    metaDescription: "Free online hex to RGB converter to convert between hex color codes and RGB values with a live color preview.",
+    h1: "Hex to RGB Converter",
+    intro: "Convert between hex color codes and RGB values instantly, with a live color preview.",
+    icon: "🎨",
+    status: "live",
+    widgetType: "hexRgbConverter",
+    explanation: [
+      {
+        heading: "How hex and RGB color values relate",
+        paragraphs: [
+          "Hex color codes represent red, green and blue values as two-digit hexadecimal numbers (00 to FF, or 0 to 255 in decimal), combined into a single 6-character code like #2563EB. RGB notation expresses the same three values directly in decimal, like rgb(37, 99, 235).",
+        ],
+      },
+      {
+        heading: "Where each format is used",
+        paragraphs: [
+          "Hex codes are the most common format in CSS and design tools, while RGB notation is often used when you need to work with individual color channel values directly, such as adjusting brightness or blending colors programmatically.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why do hex colors use letters like A through F?",
+        answer: "Hex (hexadecimal) is base-16, using digits 0-9 and letters A-F to represent values from 0 to 15, allowing two hex digits to represent the full 0-255 range in a compact two-character format.",
+      },
+      {
+        question: "Does this support transparency (alpha values)?",
+        answer: "No, this tool converts standard 6-digit hex and RGB values without an alpha channel. 8-digit hex codes with transparency aren't currently supported.",
+      },
+    ],
+    relatedSlugs: ["json-formatter"],
+  },
+  {
     slug: "percentage-calculator",
     category: "misc",
     title: "Percentage Calculator",
