@@ -644,6 +644,21 @@ explanation: [
     status: "live",
     featured: true,
     widgetType: "mergePdf",
+widgetType: "mergePdf",
+    explanation: [
+      {
+        heading: "How to merge PDF files online",
+        paragraphs: [
+          "This tool combines multiple PDF files into a single document by reading each file's pages directly in your browser and copying them, in the order you specify, into one new PDF. You can reorder files before merging using the up and down arrows next to each one.",
+        ],
+      },
+      {
+        heading: "Why this PDF merger works entirely in your browser",
+        paragraphs: [
+          "Unlike many free PDF merge tools that upload your files to a server for processing, this tool uses client-side JavaScript to combine your PDFs locally on your device. Your files are never transmitted anywhere, which matters when merging documents containing sensitive or private information.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Are my files uploaded to a server?",
@@ -670,7 +685,21 @@ explanation: [
     intro: "Extract a specific range of pages from a PDF file into a brand new document, processed securely in your browser.",
     icon: "✂️",
     status: "live",
-    widgetType: "splitPdf",
+widgetType: "splitPdf",
+    explanation: [
+      {
+        heading: "How to split a PDF and extract specific pages",
+        paragraphs: [
+          "This tool lets you extract a range of pages (for example, pages 3 to 7) from a larger PDF and save them as a new, separate document. After uploading a file, it detects the total page count so you can choose exactly which pages to extract.",
+        ],
+      },
+      {
+        heading: "Why use a PDF page extractor",
+        paragraphs: [
+          "Splitting a PDF is useful when you only need to share, print, or archive a portion of a larger document, such as pulling one chapter from a report or isolating a signed page from a longer contract, without sending the entire original file.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Are my files uploaded to a server?",
@@ -739,7 +768,21 @@ explanation: [
     intro: "Reduce your PDF's file size for easier sharing and uploading, processed entirely in your browser.",
     icon: "🗜️",
     status: "live",
-    widgetType: "compressPdf",
+widgetType: "compressPdf",
+    explanation: [
+      {
+        heading: "How PDF compression reduces file size",
+        paragraphs: [
+          "This tool re-saves your PDF using optimized internal object storage, removing redundant data and overhead from the file structure. Unlike some compressors that reduce image quality, this tool focuses on structural optimization, so the amount of savings depends heavily on how the original PDF was created.",
+        ],
+      },
+      {
+        heading: "Why some PDFs compress more than others",
+        paragraphs: [
+          "PDFs containing large, high-resolution embedded images typically see the biggest reduction in file size, while text-only PDFs or files already optimized by other software may show minimal change, since there's simply less redundant data left to remove.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Are my files uploaded to a server?",
@@ -1157,6 +1200,20 @@ explanation: [
       const output = calculateTakeHomeSalary(annualGross, deductionPercent);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "How to calculate take-home pay (net salary)",
+        paragraphs: [
+          "This calculator finds your take-home pay by subtracting a total deduction percentage from your annual gross salary: Net Salary = Gross Salary − (Gross Salary × Deduction % ÷ 100). The result is then divided by 12 to show your monthly take-home pay alongside the annual figure.",
+        ],
+      },
+      {
+        heading: "Gross salary vs net salary",
+        paragraphs: [
+          "Gross salary is your total pay before any deductions, while net salary (take-home pay) is what actually lands in your bank account after tax, social security, retirement contributions and other withholdings are subtracted. The gap between the two varies significantly by country and individual circumstances.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What counts as a deduction?",
@@ -1251,6 +1308,20 @@ explanation: [
       const output = calculateFuelCost(distance, fuelEfficiency, fuelPrice);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "How to calculate fuel cost for a trip",
+        paragraphs: [
+          "The fuel cost formula is: Fuel Needed = Distance ÷ Fuel Efficiency, and Total Cost = Fuel Needed × Fuel Price. For example, a 300-mile trip in a vehicle averaging 15 miles per gallon needs 300 ÷ 15 = 20 gallons of fuel, costing 20 × 1.50 = 30 at 1.50 per gallon.",
+        ],
+      },
+      {
+        heading: "Estimating gas cost for a road trip",
+        paragraphs: [
+          "To estimate gas cost accurately, use your vehicle's real-world fuel efficiency (from a recent fill-up) rather than the official rated efficiency, since actual driving conditions, speed and load typically use more fuel than laboratory test ratings suggest.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What units should I use?",
@@ -1807,6 +1878,21 @@ explanation: [
     icon: "⏳",
     status: "live",
     widgetType: "countdown",
+widgetType: "countdown",
+    explanation: [
+      {
+        heading: "How a countdown timer works",
+        paragraphs: [
+          "This countdown timer calculates the exact difference between the current time and your chosen target date and time, then updates that difference every second, breaking it down into days, hours, minutes and seconds remaining.",
+        ],
+      },
+      {
+        heading: "Uses for a countdown timer",
+        paragraphs: [
+          "A live countdown is commonly used to track time remaining until an event, deadline, product launch, holiday, or any specific date and time you want to keep visible while the page stays open in your browser.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Does the countdown keep running if I leave the page open?",
