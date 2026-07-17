@@ -1,9 +1,11 @@
 "use client";
-import { CopyButton } from "@/components/ui/CopyButton";
+
 import { useState, FormEvent } from "react";
 import { getToolBySlug } from "@/data/tools/registry";
 import { Button } from "@/components/ui/Button";
 import { DatePicker } from "@/components/ui/DatePicker";
+import { CopyButton } from "@/components/ui/CopyButton";
+import { ResultInsight } from "@/components/tool-page/ResultInsight";
 
 export function CalculatorWidget({ slug }: { slug: string }) {
   const tool = getToolBySlug(slug);
@@ -28,6 +30,7 @@ export function CalculatorWidget({ slug }: { slug: string }) {
   });
 
   const [result, setResult] = useState<Record<string, string | number> | null>(null);
+  const [lastInputs, setLastInputs] = useState<Record<string, string | number> | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   if (!tool) return null;
@@ -56,9 +59,11 @@ export function CalculatorWidget({ slug }: { slug: string }) {
       });
       const output = tool.calculate(inputs);
       setResult(output);
+      setLastInputs(inputs);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please check your inputs.");
       setResult(null);
+      setLastInputs(null);
     }
   }
 
@@ -166,6 +171,10 @@ export function CalculatorWidget({ slug }: { slug: string }) {
           })}
         </div>
       )}
+
+      {result && !error && tool.interpret ? (
+        <ResultInsight insights={tool.interpret(result, lastInputs ?? {})} />
+      ) : null}
     </div>
   );
 }

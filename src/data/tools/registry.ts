@@ -52,11 +52,21 @@ export const toolRegistry: ToolConfig[] = [
       { key: "totalWeeks", label: "Total Weeks" },
       { key: "totalDays", label: "Total Days" },
     ],
-    calculate: (inputs) => {
+calculate: (inputs) => {
       const birthDate = String(inputs.birthDate ?? "");
       const toDate = inputs.toDate ? String(inputs.toDate) : undefined;
       const result = calculateAge(birthDate, toDate);
       return { ...result };
+    },
+    interpret: (result) => {
+      const years = Number(result.years);
+      const totalDays = Number(result.totalDays);
+      const nextBirthdayYears = years + 1;
+      return [
+        "You have lived approximately " + totalDays.toLocaleString() + " days so far.",
+        "You will turn " + nextBirthdayYears + " on your next birthday.",
+        "In total months, that's " + result.totalMonths + " months since birth.",
+      ];
     },
 explanation: [
       {
@@ -120,12 +130,25 @@ explanation: [
       { key: "result", label: "Result", unit: "%", highlight: true },
       { key: "explanation", label: "Explanation" },
     ],
-    calculate: (inputs) => {
+calculate: (inputs) => {
       const mode = String(inputs.mode) as PercentageMode;
       const valueA = Number(inputs.valueA);
       const valueB = Number(inputs.valueB);
       const output = calculatePercentage(mode, valueA, valueB);
       return { ...output };
+    },
+    interpret: (result, inputs) => {
+      const mode = String(inputs.mode);
+      const resultValue = Number(result.result);
+
+      if (mode === "percentageChange") {
+        return [
+          resultValue >= 0
+            ? "This represents an increase of " + Math.abs(resultValue) + "%."
+            : "This represents a decrease of " + Math.abs(resultValue) + "%.",
+        ];
+      }
+      return [String(result.explanation)];
     },
       explanation: [
       {
@@ -184,12 +207,21 @@ explanation: [
       { key: "interestAmount", label: "Interest Amount", highlight: true },
       { key: "totalAmount", label: "Total Amount", highlight: true },
     ],
-    calculate: (inputs) => {
+calculate: (inputs) => {
       const principal = Number(inputs.principal);
       const annualRate = Number(inputs.annualRate);
       const years = Number(inputs.years);
       const output = calculateSimpleInterest(principal, annualRate, years);
       return { ...output };
+    },
+    interpret: (result, inputs) => {
+      const principal = Number(inputs.principal);
+      const interestAmount = Number(result.interestAmount);
+      const ratio = principal > 0 ? (interestAmount / principal) * 100 : 0;
+      return [
+        "The interest earned equals " + Math.round(ratio) + "% of your original principal over this period.",
+        "Unlike compound interest, this amount grows at a constant rate, not an accelerating one.",
+      ];
     },
 explanation: [
       {
@@ -874,11 +906,32 @@ widgetType: "compressPdf",
       { key: "bmi", label: "BMI", highlight: true },
       { key: "category", label: "Category", highlight: true },
     ],
-    calculate: (inputs) => {
+calculate: (inputs) => {
       const heightCm = Number(inputs.heightCm);
       const weightKg = Number(inputs.weightKg);
       const output = calculateBmi(heightCm, weightKg);
       return { ...output };
+    },
+    interpret: (result) => {
+      const category = String(result.category);
+      const bmi = Number(result.bmi);
+      const insights: string[] = [];
+
+      if (category === "Underweight") {
+        insights.push("A BMI of " + bmi + " falls in the underweight range (below 18.5).");
+        insights.push("Consider speaking with a healthcare provider about a nutrition plan suited to your goals.");
+      } else if (category === "Normal weight") {
+        insights.push("A BMI of " + bmi + " falls within the healthy weight range (18.5 to 24.9).");
+        insights.push("Maintaining your current weight through balanced habits is generally a good target.");
+      } else if (category === "Overweight") {
+        insights.push("A BMI of " + bmi + " falls in the overweight range (25 to 29.9).");
+        insights.push("Small, sustainable changes to diet and activity level can help move toward the normal range.");
+      } else {
+        insights.push("A BMI of " + bmi + " falls in the obese range (30 or above).");
+        insights.push("Consulting a healthcare provider is recommended for personalized guidance.");
+      }
+      insights.push("Remember, BMI doesn't account for muscle mass or body composition.");
+      return insights;
     },
       explanation: [
       {
@@ -944,13 +997,22 @@ widgetType: "compressPdf",
       { key: "finalAmount", label: "Final Amount", highlight: true },
       { key: "totalInterest", label: "Total Interest Earned", highlight: true },
     ],
-    calculate: (inputs) => {
+calculate: (inputs) => {
       const principal = Number(inputs.principal);
       const annualRate = Number(inputs.annualRate);
       const years = Number(inputs.years);
       const frequency = String(inputs.frequency) as CompoundFrequency;
       const output = calculateCompoundInterest(principal, annualRate, years, frequency);
       return { ...output };
+    },
+    interpret: (result, inputs) => {
+      const principal = Number(inputs.principal);
+      const finalAmount = Number(result.finalAmount);
+      const growthMultiple = principal > 0 ? finalAmount / principal : 0;
+      return [
+        "Your initial investment grows to roughly " + growthMultiple.toFixed(2) + "x its original value.",
+        "Total interest earned (" + result.totalInterest + ") is " + Math.round((Number(result.totalInterest) / principal) * 100) + "% of your original principal.",
+      ];
     },
       explanation: [
       {
@@ -1776,7 +1838,7 @@ explanation: [
         answer:
           "Yes, a longer tenure generally reduces the monthly EMI amount, but increases the total interest paid over the life of the loan.",
       },
-{
+      {
         question: "Is the interest rate here monthly or annual?",
         answer: "Enter the annual interest rate. The calculator automatically converts it to a monthly rate internally.",
       },

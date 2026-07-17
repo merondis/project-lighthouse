@@ -71,9 +71,13 @@ widgetType?:
   converterCategory?: "length" | "weight" | "temperature" | "dataStorage";
   inputFields?: InputFieldConfig[];
   resultFields?: ResultFieldConfig[];
-  calculate?: (
+calculate?: (
     inputs: Record<string, string | number>
   ) => Record<string, string | number>;
+  interpret?: (
+    result: Record<string, string | number>,
+    inputs: Record<string, string | number>
+  ) => string[];
   faqs: FaqItem[];
   relatedSlugs: string[];
   explanation?: ExplanationSection[];
