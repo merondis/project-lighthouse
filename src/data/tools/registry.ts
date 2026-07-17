@@ -737,7 +737,6 @@ explanation: [
     status: "live",
     featured: true,
     widgetType: "mergePdf",
-widgetType: "mergePdf",
     explanation: [
       {
         heading: "How to merge PDF files online",
