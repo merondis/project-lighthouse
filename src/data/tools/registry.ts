@@ -322,6 +322,21 @@ explanation: [
       const output = calculateRoi(initialInvestment, finalValue);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "ROI formula: how to calculate return on investment",
+        paragraphs: [
+          "The ROI formula is: ROI % = ((Final Value − Initial Investment) ÷ Initial Investment) × 100. This expresses your net profit or loss as a percentage of what you originally invested, making it easy to compare returns across different investments regardless of size.",
+          "For example, an initial investment of 10,000 that grows to a final value of 12,500 has an ROI of ((12,500 − 10,000) ÷ 10,000) × 100 = 25%.",
+        ],
+      },
+      {
+        heading: "What counts as a good ROI",
+        paragraphs: [
+          "There's no universal 'good' ROI, it depends heavily on the type of investment, the time period involved, and the risk taken. A 25% ROI over one year is very different from a 25% ROI over ten years. This calculator shows a simple ROI percentage without factoring in time period, so it's most useful for comparing investments held over similar durations.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How is ROI calculated?",
@@ -363,6 +378,20 @@ explanation: [
       const output = calculateMarkup(cost, markupPercent);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "Markup formula: how to calculate selling price from cost",
+        paragraphs: [
+          "The markup formula is: Selling Price = Cost + (Cost × Markup % ÷ 100). For example, a product costing 50 with a 40% markup has a profit of 50 × (40 ÷ 100) = 20, giving a selling price of 70.",
+        ],
+      },
+      {
+        heading: "Markup vs margin: why they're not the same percentage",
+        paragraphs: [
+          "Markup is profit calculated as a percentage of cost price, while margin is the same profit amount calculated as a percentage of selling price, a different base number. In the example above, a 40% markup on a 50 cost produces a selling price of 70, but the profit margin is only 20 ÷ 70 ≈ 28.6% of the selling price, not 40%. Confusing these two is a common pricing mistake.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What's the difference between markup and margin?",
@@ -499,6 +528,20 @@ explanation: [
       const output = formatJson(json, action);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "How to format and validate JSON online",
+        paragraphs: [
+          "This tool parses your JSON text to check it's syntactically valid, then re-outputs it in your chosen format. 'Format' (also called beautify or pretty-print) adds indentation and line breaks so nested objects and arrays are easy to read visually. 'Minify' strips all unnecessary whitespace to produce the smallest possible file size, commonly used for production API responses.",
+        ],
+      },
+      {
+        heading: "Common JSON syntax errors this tool catches",
+        paragraphs: [
+          "A JSON validator like this one flags common mistakes such as missing commas between properties, unquoted property names, trailing commas after the last item (not allowed in strict JSON), and mismatched or missing brackets and braces, all frequent causes of a 'invalid JSON' error when working with APIs or config files.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What happens if my JSON is invalid?",
@@ -544,6 +587,20 @@ explanation: [
       const result = processBase64(text, action);
       return { result };
     },
+explanation: [
+      {
+        heading: "How Base64 encoding and decoding works",
+        paragraphs: [
+          "Base64 encoding converts binary or text data into a string using only 64 safe, printable ASCII characters (A-Z, a-z, 0-9, plus two symbols). This makes it safe to embed data in places that only reliably support plain text, such as URLs, email attachments, or JSON fields. Decoding reverses the process, converting the Base64 string back into its original form.",
+        ],
+      },
+      {
+        heading: "Base64 is encoding, not encryption",
+        paragraphs: [
+          "A common misconception is that Base64 provides security, it does not. Anyone can decode a Base64 string instantly using any Base64 decoder, including this one, since there's no key or secret involved. Base64 is purely a format conversion for compatibility, not a way to protect sensitive data.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is Base64 encoding used for?",
@@ -1034,6 +1091,20 @@ explanation: [
       const result = convertCase(text, mode);
       return { result };
     },
+explanation: [
+      {
+        heading: "How text case conversion works",
+        paragraphs: [
+          "Converting text case means changing the capitalization pattern without changing the actual words. UPPERCASE converts every letter to capital, lowercase converts every letter to small, Title Case capitalizes the first letter of every word (commonly used for headings and names), and Sentence case capitalizes only the first letter of each sentence, matching normal written English.",
+        ],
+      },
+      {
+        heading: "When to use each case format",
+        paragraphs: [
+          "Title case is typically used for headlines, book titles, and proper names. Sentence case is standard for body text and most everyday writing. UPPERCASE is often used for emphasis, acronyms, or legal disclaimers, while lowercase is sometimes used stylistically in usernames, hashtags, or casual branding.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is Title Case?",
