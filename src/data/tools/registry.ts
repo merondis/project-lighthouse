@@ -58,18 +58,18 @@ export const toolRegistry: ToolConfig[] = [
       const result = calculateAge(birthDate, toDate);
       return { ...result };
     },
-        explanation: [
+explanation: [
       {
-        heading: "How age is calculated",
+        heading: "How to calculate exact age (formula and example)",
         paragraphs: [
-          "This calculator finds the difference between your date of birth and a target date (today, by default) by counting complete years, then complete months within the remaining time, then the remaining days.",
-          "For example, someone born on March 15, 2000, checking their age on July 15, 2026, has completed 26 full years (March 2000 to March 2026), plus 4 more complete months (March to July), plus 0 remaining days, giving 26 years, 4 months, 0 days.",
+          "To calculate age from date of birth, this tool finds the difference between your date of birth and a target date (today, by default) by counting complete years, then complete months within the remaining time, then the remaining days.",
+          "For example, someone born on March 15, 2000, calculating their exact age on July 15, 2026, has completed 26 full years (March 2000 to March 2026), plus 4 more complete months (March to July), plus 0 remaining days, giving an age of 26 years, 4 months, 0 days.",
         ],
       },
       {
-        heading: "Why this differs from a simple day count",
+        heading: "Why age in years, months and days differs from a simple day count",
         paragraphs: [
-          "A naive approach might divide total days by 365.25, but this doesn't match how people actually express age. This calculator instead counts real calendar years, months and days, correctly handling that months have different lengths and that leap years add an extra day roughly every four years.",
+          "A naive age calculator might divide total days by 365.25, but this doesn't match how people actually express their age. This tool instead counts real calendar years, months and days, correctly handling that months have different lengths and that leap years add an extra day roughly every four years, the same method used to calculate age manually with a calendar.",
         ],
       },
     ],
@@ -127,23 +127,23 @@ export const toolRegistry: ToolConfig[] = [
       const output = calculatePercentage(mode, valueA, valueB);
       return { ...output };
     },
-explanation: [
+      explanation: [
       {
-        heading: "X% of Y",
+        heading: "How to calculate percentage of a number (X% of Y)",
         paragraphs: [
-          "This is calculated as (X ÷ 100) × Y. For example, 20% of 150 is (20 ÷ 100) × 150 = 30.",
+          "To find X% of Y, the formula is (X ÷ 100) × Y. For example, to calculate 20% of 150: (20 ÷ 100) × 150 = 30.",
         ],
       },
       {
-        heading: "X is what percent of Y",
+        heading: "How to find what percent one number is of another",
         paragraphs: [
-          "This is calculated as (X ÷ Y) × 100. For example, 30 is what percent of 150 is (30 ÷ 150) × 100 = 20%.",
+          "To calculate what percentage X is of Y, the formula is (X ÷ Y) × 100. For example, to find what percent 30 is of 150: (30 ÷ 150) × 100 = 20%.",
         ],
       },
       {
-        heading: "Percentage change from X to Y",
+        heading: "Percentage increase or decrease formula",
         paragraphs: [
-          "This is calculated as ((Y − X) ÷ |X|) × 100. For example, a change from 150 to 180 is ((180 − 150) ÷ 150) × 100 = 20%, representing a 20% increase.",
+          "To calculate percentage change (percentage increase or percentage decrease) from X to Y, the formula is ((Y − X) ÷ |X|) × 100. For example, a change from 150 to 180 is ((180 − 150) ÷ 150) × 100 = 20%, representing a 20% increase.",
         ],
       },
     ],
@@ -681,18 +681,18 @@ explanation: [
       const output = calculateBmi(heightCm, weightKg);
       return { ...output };
     },
-explanation: [
+      explanation: [
       {
-        heading: "The BMI formula",
+        heading: "BMI formula: how to calculate Body Mass Index",
         paragraphs: [
-          "BMI is calculated as weight in kilograms divided by height in meters, squared: BMI = weight (kg) ÷ height (m)². This calculator converts your height from centimeters to meters automatically before applying the formula.",
+          "The BMI formula is: BMI = weight (kg) ÷ height (m)², weight in kilograms divided by height in meters, squared. This calculator converts your height from centimeters to meters automatically before applying the formula, so you can enter height in cm directly.",
           "For example, a person weighing 70 kg with a height of 175 cm (1.75 m) has a BMI of 70 ÷ (1.75 × 1.75) = 70 ÷ 3.0625 ≈ 22.9, which falls in the normal weight range.",
         ],
       },
       {
-        heading: "BMI categories",
+        heading: "BMI chart and weight categories",
         paragraphs: [
-          "A BMI below 18.5 is categorized as underweight, 18.5 to 24.9 as normal weight, 25 to 29.9 as overweight, and 30 or above as obese. These thresholds are widely used general screening ranges, not a personalized health assessment.",
+          "According to the standard BMI chart, a BMI below 18.5 is categorized as underweight, 18.5 to 24.9 as normal weight, 25 to 29.9 as overweight, and 30 or above as obese. These BMI ranges are widely used general screening thresholds, not a personalized health assessment.",
         ],
       },
     ],
@@ -753,18 +753,18 @@ explanation: [
       const output = calculateCompoundInterest(principal, annualRate, years, frequency);
       return { ...output };
     },
-explanation: [
+      explanation: [
       {
-        heading: "The compound interest formula",
+        heading: "Compound interest formula: how compound interest is calculated",
         paragraphs: [
-          "The final amount is calculated as: A = P × (1 + r/n)^(n×t), where P is the initial principal, r is the annual interest rate as a decimal, n is the number of times interest compounds per year, and t is the number of years.",
-          "For example, 10,000 invested at 7% annual interest, compounded monthly (n=12), for 10 years grows to 10,000 × (1 + 0.07/12)^(12×10), which works out to roughly 20,097, meaning about 10,097 in interest earned over the period.",
+          "The compound interest formula for the final amount is: A = P × (1 + r/n)^(n×t), where P is the initial principal, r is the annual interest rate as a decimal, n is the number of times interest compounds per year, and t is the number of years.",
+          "For example, 10,000 invested at 7% annual interest, compounded monthly (n=12), for 10 years grows to 10,000 × (1 + 0.07/12)^(12×10), which works out to roughly 20,097, meaning about 10,097 in compound interest earned over the period.",
         ],
       },
       {
-        heading: "Why compounding frequency matters",
+        heading: "Monthly vs annual compounding: why frequency matters",
         paragraphs: [
-          "More frequent compounding means interest gets added to the balance more often, so subsequent interest calculations are based on a slightly larger amount each time. This is why monthly compounding yields marginally more than annual compounding at the same nominal rate.",
+          "More frequent compounding means interest gets added to the balance more often, so subsequent interest calculations are based on a slightly larger amount each time. This is why monthly compound interest yields marginally more than annual compounding at the same nominal interest rate, an important factor when comparing savings accounts or investments.",
         ],
       },
     ],
@@ -877,17 +877,17 @@ explanation: [
       const output = calculateBmr(gender, age, heightCm, weightKg, activityLevel);
       return { ...output };
     },
-explanation: [
+      explanation: [
       {
-        heading: "The Mifflin-St Jeor formula",
+        heading: "BMR formula: how to calculate Basal Metabolic Rate",
         paragraphs: [
-          "This calculator uses the Mifflin-St Jeor equation, one of the most widely validated BMR formulas: for men, BMR = 10 × weight (kg) + 6.25 × height (cm) − 5 × age (years) + 5. For women, the same calculation is used but 161 is subtracted instead of adding 5.",
+          "This calculator uses the Mifflin-St Jeor equation, one of the most widely validated BMR formulas for calculating basal metabolic rate: for men, BMR = 10 × weight (kg) + 6.25 × height (cm) − 5 × age (years) + 5. For women, the same BMR calculation is used but 161 is subtracted instead of adding 5.",
         ],
       },
       {
-        heading: "From BMR to maintenance calories",
+        heading: "How to calculate daily calorie needs from BMR",
         paragraphs: [
-          "BMR alone only reflects calories burned at rest. To estimate total daily calorie needs, this figure is multiplied by an activity multiplier: 1.2 for sedentary, 1.375 for light activity, 1.55 for moderate, 1.725 for active, and 1.9 for very active lifestyles, giving your estimated maintenance calories.",
+          "BMR alone only reflects calories burned at rest. To estimate total daily calorie needs (also called maintenance calories or TDEE), this figure is multiplied by an activity level multiplier: 1.2 for sedentary, 1.375 for light activity, 1.55 for moderate, 1.725 for active, and 1.9 for very active lifestyles.",
         ],
       },
     ],
@@ -1297,17 +1297,17 @@ explanation: [
       });
       return { password };
     },
-explanation: [
+      explanation: [
       {
-        heading: "How the password is built",
+        heading: "How a random password generator works",
         paragraphs: [
-          "The generator builds a character set from the categories you select (uppercase letters, lowercase letters, numbers, symbols), then randomly picks characters from that combined set, one at a time, for your chosen length. Each character position is selected independently, so the result isn't based on any word, pattern or dictionary entry.",
+          "This secure password generator builds a character set from the categories you select (uppercase letters, lowercase letters, numbers, symbols), then randomly picks characters from that combined set, one at a time, for your chosen password length. Each character position is selected independently, so the generated password isn't based on any word, pattern or dictionary entry.",
         ],
       },
       {
-        heading: "Why length matters more than complexity rules",
+        heading: "Password length vs complexity: what makes a strong password",
         paragraphs: [
-          "Every additional character multiplies the total number of possible password combinations, rather than just adding to it. A longer password made from a smaller set of characters (say, just lowercase letters and numbers) can still be harder to guess than a shorter password using every character type, simply because of how quickly the possibilities compound with length.",
+          "Every additional character multiplies the total number of possible password combinations, rather than just adding to it. A longer strong password made from a smaller set of characters (say, just lowercase letters and numbers) can still be harder to crack than a shorter complex password using every character type, simply because of how quickly the possibilities compound with length.",
         ],
       },
     ],
@@ -1354,18 +1354,18 @@ explanation: [
       const output = calculateDiscount(originalPrice, discountPercent);
       return { ...output };
     },
-explanation: [
+      explanation: [
       {
-        heading: "The discount formula",
+        heading: "Discount formula: how to calculate a discounted price",
         paragraphs: [
-          "The discount amount is calculated as: Discount = Original Price × (Discount % ÷ 100). The final price is then the original price minus that discount amount.",
-          "For example, an item priced at 1000 with a 20% discount has a discount amount of 1000 × (20 ÷ 100) = 200, giving a final price of 1000 − 200 = 800.",
+          "The discount formula is: Discount Amount = Original Price × (Discount % ÷ 100). The final sale price is then the original price minus that discount amount.",
+          "For example, to calculate 20% off an item priced at 1000: discount amount = 1000 × (20 ÷ 100) = 200, giving a final price of 1000 − 200 = 800.",
         ],
       },
       {
-        heading: "Calculating percentage off from a sale price",
+        heading: "How to find the discount percentage from a sale price",
         paragraphs: [
-          "If you know both the original and sale price and want to find the discount percentage instead, that's a different calculation: divide the amount saved by the original price, then multiply by 100. Our Percentage Calculator's 'X is what % of Y' mode can be used for this in reverse.",
+          "If you know both the original and sale price and want to work out what percentage off was applied, that's a reverse calculation: divide the amount saved by the original price, then multiply by 100. Our Percentage Calculator's 'X is what % of Y' mode can be used for this calculation.",
         ],
       },
     ],
@@ -1398,16 +1398,16 @@ explanation: [
     amortizationTenureUnit: "months",
 explanation: [
       {
-        heading: "The EMI formula",
+        heading: "EMI formula: how to calculate EMI manually",
         paragraphs: [
-          "EMI is calculated using the formula: EMI = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan principal, r is the monthly interest rate (annual rate divided by 12, then by 100), and n is the number of monthly installments.",
-          "This formula produces a single fixed payment that, when paid every month for n months, exactly pays off both the principal and all accumulated interest by the final payment.",
+          "The EMI formula (Equated Monthly Installment formula) is: EMI = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan principal, r is the monthly interest rate (annual rate divided by 12, then by 100), and n is the number of monthly installments.",
+          "This loan EMI formula produces a single fixed monthly payment that, when paid every month for n months, exactly pays off both the principal and all accumulated interest by the final payment, whether it's a home loan, car loan, or personal loan EMI.",
         ],
       },
       {
-        heading: "Worked example",
+        heading: "EMI calculation example",
         paragraphs: [
-          "For a loan of 500,000 at 8.5% annual interest over 60 months: the monthly rate is 8.5 ÷ 12 ÷ 100 = 0.007083. Plugging this into the formula gives a fixed monthly EMI, with the exact breakdown of how much goes to principal versus interest each month shown in the amortization schedule below.",
+          "For a loan of 500,000 at 8.5% annual interest over 60 months: the monthly interest rate is 8.5 ÷ 12 ÷ 100 = 0.007083. Plugging this into the EMI formula gives a fixed monthly EMI, with the exact month-by-month breakdown of how much goes to principal versus interest shown in the loan amortization schedule below.",
         ],
       },
     ],
@@ -1470,15 +1470,15 @@ explanation: [
     },
 explanation: [
       {
-        heading: "Adding GST",
+        heading: "How to add GST to a price (GST formula)",
         paragraphs: [
-          "When your amount doesn't yet include GST, the GST amount is calculated as: GST = amount × (rate ÷ 100), and the total is the original amount plus that GST amount. For example, 1000 with 18% GST gives GST of 180, for a total of 1180.",
+          "When your amount doesn't yet include GST, the GST formula to add GST is: GST amount = Price × (GST Rate ÷ 100), and the total price is the original price plus that GST amount. For example, a price of 1000 with 18% GST gives a GST amount of 180, for a GST-inclusive total of 1180.",
         ],
       },
       {
-        heading: "Removing GST",
+        heading: "How to remove GST from a price (reverse GST calculation)",
         paragraphs: [
-          "When your amount already includes GST, the base price is calculated by dividing by (1 + rate ÷ 100), not by simply subtracting the percentage. For example, 1180 (GST-inclusive at 18%) divided by 1.18 gives back exactly 1000 as the base price, with 180 as the GST portion.",
+          "When your amount already includes GST, the base price (GST-exclusive amount) is calculated by dividing by (1 + GST Rate ÷ 100), not by simply subtracting the percentage. For example, 1180 (GST-inclusive at 18%) divided by 1.18 gives back exactly 1000 as the base price, with 180 as the GST portion, this reverse GST calculation is a common source of confusion.",
         ],
       },
     ],
@@ -1508,17 +1508,17 @@ explanation: [
     status: "live",
     widgetType: "amortization",
     amortizationTenureUnit: "years",
-explanation: [
+      explanation: [
       {
-        heading: "The loan repayment formula",
+        heading: "Loan repayment formula: how monthly loan payments are calculated",
         paragraphs: [
-          "This calculator uses the same underlying formula as EMI: Payment = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan principal, r is the monthly interest rate (annual rate ÷ 12 ÷ 100), and n is the total number of monthly payments. The tenure you enter in years is converted to months internally before applying the formula.",
+          "This loan calculator uses the same underlying formula as EMI: Monthly Payment = P × r × (1+r)^n / ((1+r)^n − 1), where P is the loan principal, r is the monthly interest rate (annual rate ÷ 12 ÷ 100), and n is the total number of monthly payments. The loan tenure you enter in years is converted to months internally before applying the formula.",
         ],
       },
       {
-        heading: "Worked example",
+        heading: "Loan repayment calculation example",
         paragraphs: [
-          "For a loan of 250,000 at 7.2% annual interest over 15 years (180 months): the monthly rate is 7.2 ÷ 12 ÷ 100 = 0.006. Applying the formula gives a fixed monthly payment, with total interest and total repayment shown alongside the full amortization schedule below, which breaks down exactly how much of each payment goes toward principal versus interest.",
+          "For a loan of 250,000 at 7.2% annual interest over 15 years (180 months): the monthly interest rate is 7.2 ÷ 12 ÷ 100 = 0.006. Applying the loan formula gives a fixed monthly payment, with total interest and total repayment shown alongside the full loan amortization schedule below, which breaks down exactly how much of each payment goes toward principal versus interest.",
         ],
       },
     ],
