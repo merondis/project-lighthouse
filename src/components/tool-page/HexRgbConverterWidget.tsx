@@ -66,8 +66,8 @@ export function HexRgbConverterWidget() {
             />
           </label>
 
-          <div className="grid grid-cols-3 gap-3">
-            <label className="flex flex-col gap-2 text-sm font-medium text-white">
+<div className="grid grid-cols-3 gap-3">
+            <label className="flex w-full flex-col gap-2 text-sm font-medium text-white">
               R
               <input
                 type="number"
@@ -75,10 +75,10 @@ export function HexRgbConverterWidget() {
                 max={255}
                 value={r}
                 onChange={(e) => handleRgbChange(e.target.value, g, b)}
-                className="rounded-lg border border-white/10 bg-brand-bg px-3 py-2 text-white focus:border-brand-accent focus:outline-none"
+                className="w-full rounded-lg border border-white/10 bg-brand-bg px-3 py-2 text-white focus:border-brand-accent focus:outline-none"
               />
             </label>
-            <label className="flex flex-col gap-2 text-sm font-medium text-white">
+            <label className="flex w-full flex-col gap-2 text-sm font-medium text-white">
               G
               <input
                 type="number"
@@ -86,10 +86,10 @@ export function HexRgbConverterWidget() {
                 max={255}
                 value={g}
                 onChange={(e) => handleRgbChange(r, e.target.value, b)}
-                className="rounded-lg border border-white/10 bg-brand-bg px-3 py-2 text-white focus:border-brand-accent focus:outline-none"
+                className="w-full rounded-lg border border-white/10 bg-brand-bg px-3 py-2 text-white focus:border-brand-accent focus:outline-none"
               />
             </label>
-            <label className="flex flex-col gap-2 text-sm font-medium text-white">
+            <label className="flex w-full flex-col gap-2 text-sm font-medium text-white">
               B
               <input
                 type="number"
@@ -97,7 +97,7 @@ export function HexRgbConverterWidget() {
                 max={255}
                 value={b}
                 onChange={(e) => handleRgbChange(r, g, e.target.value)}
-                className="rounded-lg border border-white/10 bg-brand-bg px-3 py-2 text-white focus:border-brand-accent focus:outline-none"
+                className="w-full rounded-lg border border-white/10 bg-brand-bg px-3 py-2 text-white focus:border-brand-accent focus:outline-none"
               />
             </label>
           </div>
