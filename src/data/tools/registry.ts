@@ -2331,8 +2331,7 @@ explanation: [
     intro: "Set a target date and time and watch a live countdown in days, hours, minutes and seconds.",
     icon: "⏳",
     status: "live",
-    widgetType: "countdown",
-    widgetType: "countdown",
+    widgetType: "countdown",    
     explanation: [
       {
         heading: "How a countdown timer works",
