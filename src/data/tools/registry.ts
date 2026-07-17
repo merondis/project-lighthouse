@@ -253,6 +253,20 @@ explanation: [
       const results = generateRandomNumbers({ min, max, count, allowDuplicates });
       return { numbers: results.join(", ") };
     },
+explanation: [
+      {
+        heading: "How this random number generator works",
+        paragraphs: [
+          "This tool generates random whole numbers within a range you specify (a minimum and maximum value), using your browser's built-in random number function. You can choose how many numbers to generate at once, and whether duplicate numbers are allowed in the results.",
+        ],
+      },
+      {
+        heading: "Random numbers with or without duplicates",
+        paragraphs: [
+          "When duplicates are allowed, each number is picked independently, so the same value can appear more than once, similar to rolling a die multiple times. When duplicates are disallowed, each number can only appear once, similar to drawing raffle tickets or lottery numbers without replacement, which requires the range to contain at least as many values as the count requested.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Is this truly random?",
@@ -1262,6 +1276,20 @@ explanation: [
     status: "live",
     widgetType: "unitConverter",
     converterCategory: "length",
+explanation: [
+      {
+        heading: "How to convert length units (metric and imperial)",
+        paragraphs: [
+          "This length converter works by converting your input value to meters first (using standard exact conversion factors), then converting from meters into your target unit. For example, converting inches to centimeters uses the exact factor 1 inch = 2.54 cm internally, so 10 inches converts to 25.4 cm.",
+        ],
+      },
+      {
+        heading: "Common length conversions",
+        paragraphs: [
+          "Frequently used conversions include feet to meters (1 foot = 0.3048 m), miles to kilometers (1 mile = 1.609344 km), and centimeters to inches (1 cm ≈ 0.3937 in). The quick reference table below shows several common length and distance conversions at a glance.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How accurate are these conversions?",
@@ -1287,6 +1315,20 @@ explanation: [
     status: "live",
     widgetType: "unitConverter",
     converterCategory: "weight",
+explanation: [
+      {
+        heading: "How to convert weight units (kg, lb, oz, stone)",
+        paragraphs: [
+          "This weight converter works by converting your input value to grams first (using standard exact conversion factors), then converting from grams into your target unit. For example, converting kilograms to pounds uses the exact factor 1 kg = 2.20462 lb internally.",
+        ],
+      },
+      {
+        heading: "Common weight conversions",
+        paragraphs: [
+          "Frequently used conversions include kilograms to pounds (kg to lbs), pounds to kilograms, and grams to ounces, commonly needed for cooking, fitness tracking, or shipping weight limits. The quick reference table below shows several common weight conversions at a glance.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How accurate are these conversions?",
@@ -1311,6 +1353,21 @@ explanation: [
     status: "live",
     widgetType: "unitConverter",
     converterCategory: "temperature",
+explanation: [
+      {
+        heading: "Celsius to Fahrenheit formula (and Kelvin)",
+        paragraphs: [
+          "To convert Celsius to Fahrenheit, the formula is: °F = (°C × 9/5) + 32. For example, 20°C converts to (20 × 9/5) + 32 = 68°F. To convert Fahrenheit to Celsius, the reverse formula is: °C = (°F − 32) × 5/9.",
+          "To convert Celsius to Kelvin, simply add 273.15: K = °C + 273.15. Kelvin has no negative values, since 0 K (−273.15°C) represents absolute zero, the theoretical point where all molecular motion stops.",
+        ],
+      },
+      {
+        heading: "Common temperature reference points",
+        paragraphs: [
+          "Useful reference points for temperature conversion: water freezes at 0°C (32°F), room temperature is around 20°C (68°F), body temperature is approximately 37°C (98.6°F), and water boils at 100°C (212°F) at sea level. See the full temperature reference table below.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "What is the formula to convert Celsius to Fahrenheit?",
@@ -1711,6 +1768,21 @@ explanation: [
       const output = calculateDateDifference(startDate, endDate);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "How to calculate the number of days between two dates",
+        paragraphs: [
+          "To find the difference between two dates, this tool counts the exact number of calendar days, then converts that into complete years, months and remaining days, the same way you'd count age or a duration by hand, but automated and accounting for leap years and varying month lengths.",
+          "For example, from January 1, 2026 to July 15, 2026 is 195 days, or 6 months and 14 days when broken into a years/months/days format.",
+        ],
+      },
+      {
+        heading: "Date difference in weeks, months and total days",
+        paragraphs: [
+          "Alongside the years/months/days breakdown, this date duration calculator also shows the total number of weeks and total number of days between the two dates, useful for project planning, tracking deadlines, or calculating someone's exact age in days rather than years.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Does the order of the two dates matter?",
