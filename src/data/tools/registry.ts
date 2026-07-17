@@ -1,3 +1,6 @@
+import { calculateCreditCardPayoff } from "@/utils/calculators/credit-card-payoff-calculator";
+import { calculateCalorieGoal, Gender as CalorieGender, ActivityLevel as CalorieActivityLevel, Goal as CalorieGoal } from "@/utils/calculators/calorie-goal-calculator";
+import { removeDuplicateLines } from "@/utils/calculators/remove-duplicate-lines";
 import { calculateWaterIntake, ActivityLevel as WaterActivityLevel } from "@/utils/calculators/water-intake-calculator";
 import { calculatePregnancyDueDate } from "@/utils/calculators/pregnancy-due-date-calculator";
 import { calculateFraction, FractionOperation } from "@/utils/calculators/fraction-calculator";
@@ -111,6 +114,255 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "countdown-timer", "bmi-calculator"],
+  },
+  {
+    slug: "jpg-to-pdf",
+    category: "pdf",
+    title: "JPG to PDF",
+    shortDescription: "Convert JPG or PNG images into a PDF document.",
+    metaDescription: "Free online JPG to PDF converter to combine one or more images into a single PDF document.",
+    h1: "JPG to PDF",
+    intro: "Convert one or more JPG or PNG images into a single PDF document, processed entirely in your browser.",
+    icon: "🖼️",
+    status: "live",
+    widgetType: "jpgToPdf",
+    explanation: [
+      {
+        heading: "How JPG to PDF conversion works",
+        paragraphs: [
+          "This tool embeds each image you select directly into a new PDF document, creating one page per image sized to match the image's original dimensions. You can reorder images before converting to control the page order in the final PDF.",
+        ],
+      },
+      {
+        heading: "Why this stays entirely in your browser",
+        paragraphs: [
+          "Unlike many online image-to-PDF converters that upload your files to a server, this tool builds the PDF locally using your browser's own processing, so your images are never transmitted anywhere.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I combine both JPG and PNG images in one PDF?",
+        answer: "Yes, you can mix JPG and PNG images in the same conversion, each will become its own page in the resulting PDF.",
+      },
+      {
+        question: "Can I change the order of pages?",
+        answer: "Yes, use the up and down buttons next to each image to reorder them before converting, images are added to the PDF in the order shown.",
+      },
+    ],
+    relatedSlugs: ["pdf-to-jpg", "merge-pdf"],
+  },
+  {
+    slug: "credit-card-payoff-calculator",
+    category: "finance",
+    title: "Credit Card Payoff Calculator",
+    shortDescription: "See how long it will take to pay off a credit card balance.",
+    metaDescription: "Free online credit card payoff calculator to see how long it will take to pay off your balance and how much interest you'll pay.",
+    h1: "Credit Card Payoff Calculator",
+    intro: "Calculate how many months it will take to pay off a credit card balance at a fixed monthly payment, and how much interest you'll pay in total.",
+    icon: "💳",
+    status: "live",
+    inputFields: [
+      { key: "balance", label: "Current Balance", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "annualApr", label: "Annual APR (%)", type: "number", step: 0.01, placeholder: "e.g. 22" },
+      { key: "monthlyPayment", label: "Monthly Payment", type: "number", step: 0.01, placeholder: "e.g. 200" },
+    ],
+    resultFields: [
+      { key: "monthsToPayoff", label: "Months to Pay Off", highlight: true },
+      { key: "totalInterest", label: "Total Interest", highlight: true },
+      { key: "totalPaid", label: "Total Amount Paid" },
+    ],
+    calculate: (inputs) => {
+      const balance = Number(inputs.balance);
+      const annualApr = Number(inputs.annualApr);
+      const monthlyPayment = Number(inputs.monthlyPayment);
+      const output = calculateCreditCardPayoff(balance, annualApr, monthlyPayment);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How credit card payoff time is calculated",
+        paragraphs: [
+          "This calculator simulates your balance month by month: each month, interest is charged on the remaining balance, and your payment first covers that interest, with the rest reducing the principal, continuing until the balance reaches zero.",
+        ],
+      },
+      {
+        heading: "Why credit card debt can take so long to pay off",
+        paragraphs: [
+          "Credit cards typically carry much higher interest rates than other loans, often 15-25% APR or more, so a large portion of a minimum payment can go toward interest rather than reducing the actual balance, which is why balances can take years to clear at low payment amounts.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my payment doesn't cover the interest?",
+        answer: "If your monthly payment is less than or equal to the interest charged each month, the balance will never decrease. The calculator will show an error in this case rather than an incorrect result.",
+      },
+      {
+        question: "Does this account for new purchases added to the card?",
+        answer: "No, this assumes no new charges are added and only the existing balance is being paid down.",
+      },
+    ],
+    relatedSlugs: ["extra-payment-calculator", "simple-interest-calculator"],
+  },
+  {
+    slug: "calorie-goal-calculator",
+    category: "health",
+    title: "Calorie Calculator for Weight Goals",
+    shortDescription: "Calculate your daily calorie target to lose, maintain or gain weight.",
+    metaDescription: "Free online calorie calculator to find your daily calorie target based on your weight loss, maintenance or weight gain goal.",
+    h1: "Calorie Calculator for Weight Goals",
+    intro: "Calculate your daily calorie target based on your weight goal and desired rate of change per week.",
+    icon: "🔥",
+    status: "live",
+    inputFields: [
+      { key: "gender", label: "Gender", type: "select", options: [
+        { label: "Male", value: "male" }, { label: "Female", value: "female" },
+      ] },
+      { key: "age", label: "Age (years)", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+      { key: "activityLevel", label: "Activity Level", type: "select", options: [
+        { label: "Sedentary", value: "sedentary" },
+        { label: "Light", value: "light" },
+        { label: "Moderate", value: "moderate" },
+        { label: "Active", value: "active" },
+        { label: "Very Active", value: "veryActive" },
+      ] },
+      { key: "goal", label: "Goal", type: "select", options: [
+        { label: "Lose Weight", value: "lose" },
+        { label: "Maintain Weight", value: "maintain" },
+        { label: "Gain Weight", value: "gain" },
+      ] },
+      { key: "ratePerWeekKg", label: "Target Rate of Change (kg/week)", type: "number", step: 0.1, defaultValue: 0.5 },
+    ],
+    resultFields: [
+      { key: "targetCalories", label: "Daily Calorie Target", highlight: true },
+      { key: "maintenanceCalories", label: "Maintenance Calories" },
+      { key: "weeklyChangeKg", label: "Expected Weekly Change (kg)" },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as CalorieGender;
+      const age = Number(inputs.age);
+      const heightCm = Number(inputs.heightCm);
+      const weightKg = Number(inputs.weightKg);
+      const activityLevel = String(inputs.activityLevel) as CalorieActivityLevel;
+      const goal = String(inputs.goal) as CalorieGoal;
+      const ratePerWeekKg = Number(inputs.ratePerWeekKg);
+      const output = calculateCalorieGoal(gender, age, heightCm, weightKg, activityLevel, goal, ratePerWeekKg);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How your calorie target is calculated",
+        paragraphs: [
+          "This calculator first estimates your maintenance calories using the Mifflin-St Jeor BMR formula adjusted for activity level, then adjusts that number based on your goal: subtracting calories to lose weight, or adding calories to gain weight, using the common approximation that 1 kg of body weight corresponds to roughly 7700 kcal.",
+        ],
+      },
+      {
+        heading: "Why gradual rates of change are recommended",
+        paragraphs: [
+          "A rate of 0.25 to 0.5 kg per week is commonly considered a sustainable pace for weight loss or gain. Faster rates require larger calorie deficits or surpluses, which can be harder to maintain and may not be appropriate for everyone, consulting a healthcare provider is recommended for personalized guidance.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this the same as the BMR calculator?",
+        answer: "This tool builds on the same BMR formula as our BMR/Calorie Calculator, but adds a specific weight-change goal and target rate to calculate a daily calorie number tailored to that goal.",
+      },
+      {
+        question: "What if my calorie target seems too low?",
+        answer: "The calculator will show an error if your target rate of change would result in an unsafely low calorie target. Reduce your target rate of change or consult a healthcare provider.",
+      },
+    ],
+    relatedSlugs: ["bmr-calculator", "bmi-calculator"],
+  },
+  {
+    slug: "text-diff-checker",
+    category: "text",
+    title: "Text Diff Checker",
+    shortDescription: "Compare two blocks of text and highlight the differences.",
+    metaDescription: "Free online text diff checker to compare two blocks of text and highlight added and removed lines.",
+    h1: "Text Diff Checker",
+    intro: "Compare two versions of text line by line and see exactly what was added or removed.",
+    icon: "🔀",
+    status: "live",
+    widgetType: "textDiff",
+    explanation: [
+      {
+        heading: "How this text comparison tool works",
+        paragraphs: [
+          "This tool compares your two texts line by line, identifying which lines are unchanged, which were removed from the original, and which were added in the new version, similar to how source code diff tools work.",
+        ],
+      },
+      {
+        heading: "Reading the diff output",
+        paragraphs: [
+          "Lines shown in green with a plus sign were added in the second text. Lines shown in red with a minus sign were present in the first text but removed. Unmarked lines are unchanged and appear in both versions.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this compare word by word or line by line?",
+        answer: "This tool compares text at the line level, useful for comparing paragraphs, documents, or code where line structure matters.",
+      },
+      {
+        question: "Is my text sent to a server?",
+        answer: "No, the comparison happens entirely in your browser using JavaScript, your text is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["word-counter", "remove-duplicate-lines"],
+  },
+  {
+    slug: "remove-duplicate-lines",
+    category: "text",
+    title: "Remove Duplicate Lines",
+    shortDescription: "Remove duplicate lines from a block of text.",
+    metaDescription: "Free online tool to remove duplicate lines from text, keeping only the first occurrence of each line.",
+    h1: "Remove Duplicate Lines",
+    intro: "Paste your text to instantly remove duplicate lines, keeping only the first occurrence of each.",
+    icon: "🧹",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste text with duplicate lines..." },
+      { key: "caseSensitive", label: "Case Sensitive Matching", type: "checkbox", defaultValue: "true" },
+      { key: "trimWhitespace", label: "Ignore Leading/Trailing Whitespace", type: "checkbox", defaultValue: "true" },
+    ],
+    resultFields: [{ key: "result", label: "Result (Duplicates Removed)", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const caseSensitive = inputs.caseSensitive === "true";
+      const trimWhitespace = inputs.trimWhitespace === "true";
+      const result = removeDuplicateLines(text, { caseSensitive, trimWhitespace });
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How duplicate line removal works",
+        paragraphs: [
+          "This tool reads your text line by line, keeping only the first occurrence of each unique line and discarding any repeats that appear later, preserving the original order of the remaining lines.",
+        ],
+      },
+      {
+        heading: "Case sensitivity and whitespace options",
+        paragraphs: [
+          "With case-sensitive matching enabled, 'Apple' and 'apple' are treated as different lines. With whitespace trimming enabled, trailing spaces or leading indentation won't prevent otherwise identical lines from being treated as duplicates.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this remove blank lines too?",
+        answer: "Blank lines are treated like any other line, if multiple blank lines exist, only the first is kept unless you disable deduplication for that case manually by editing your input.",
+      },
+      {
+        question: "Is my text sent to a server?",
+        answer: "No, all processing happens directly in your browser, your text is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["text-diff-checker", "word-counter"],
   },
   {
     slug: "water-intake-calculator",

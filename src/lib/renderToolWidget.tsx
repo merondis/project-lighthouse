@@ -11,6 +11,8 @@ import { AmortizationWidget } from "@/components/tool-page/AmortizationWidget";
 import { RegexTesterWidget } from "@/components/tool-page/RegexTesterWidget";
 import { HexRgbConverterWidget } from "@/components/tool-page/HexRgbConverterWidget";
 import { PdfToJpgWidget } from "@/components/tool-page/PdfToJpgWidget";
+import { JpgToPdfWidget } from "@/components/tool-page/JpgToPdfWidget";
+import { TextDiffWidget } from "@/components/tool-page/TextDiffWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -36,5 +38,7 @@ if (tool.widgetType === "amortization") {
 if (tool.widgetType === "regexTester") return <RegexTesterWidget />;
   if (tool.widgetType === "hexRgbConverter") return <HexRgbConverterWidget />;
   if (tool.widgetType === "pdfToJpg") return <PdfToJpgWidget />;
+  if (tool.widgetType === "jpgToPdf") return <JpgToPdfWidget />;
+  if (tool.widgetType === "textDiff") return <TextDiffWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }

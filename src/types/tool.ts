@@ -66,7 +66,9 @@ export interface ToolConfig {
     | "amortization"
     | "regexTester"
     | "hexRgbConverter"
-    | "pdfToJpg";
+    | "pdfToJpg"
+    | "jpgToPdf"
+    | "textDiff";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;

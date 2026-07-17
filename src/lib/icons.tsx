@@ -60,6 +60,11 @@ import {
   Regex,
   Palette,
   Image,
+  FileImage,
+  CreditCard,
+  Flame as FlameIcon,
+  GitCompare,
+  ListX,
   type LucideIcon,
 } from "lucide-react";
 
@@ -117,6 +122,12 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "area-converter": Maximize,
   "regex-tester": Regex,
   "hex-rgb-converter": Palette,
+  "pdf-to-jpg": Image,
+  "jpg-to-pdf": FileImage,
+  "credit-card-payoff-calculator": CreditCard,
+  "calorie-goal-calculator": FlameIcon,
+  "text-diff-checker": GitCompare,
+  "remove-duplicate-lines": ListX,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
