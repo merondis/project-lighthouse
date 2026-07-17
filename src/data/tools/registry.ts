@@ -295,6 +295,20 @@ explanation: [
     aiSystemPrompt: "You are a summarization assistant. Summarize the user's text into a concise, clear summary that captures the key points, using 3-5 sentences unless the text is very short.",
     aiActionLabel: "Summarize",
     aiPlaceholder: "Paste the text you want summarized...",
+explanation: [
+      {
+        heading: "How AI text summarization works",
+        paragraphs: [
+          "This tool sends your text to an AI language model, which identifies the key points and generates a condensed summary that preserves the core meaning while significantly reducing length. It's useful for quickly understanding long articles, reports, or documents without reading the entire text.",
+        ],
+      },
+      {
+        heading: "Why this tool uses your own API key",
+        paragraphs: [
+          "Rather than running AI requests through our own paid account with usage limits, this tool uses your personal OpenAI API key, sent directly with each request and never stored. This keeps the summarizer completely free to use with no artificial caps, while you only pay OpenAI directly for what you use, often covered by free trial credit for light usage.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Why do I need my own API key?",
@@ -431,6 +445,20 @@ explanation: [
     status: "live",
     widgetType: "unitConverter",
     converterCategory: "dataStorage",
+explanation: [
+      {
+        heading: "How to convert between bytes, KB, MB, GB and TB",
+        paragraphs: [
+          "This data storage converter uses 1024 as the conversion factor between each unit (1 KB = 1024 bytes, 1 MB = 1024 KB, and so on), the binary standard used by operating systems for file sizes and memory. Your input is converted to bytes first, then converted into your target unit.",
+        ],
+      },
+      {
+        heading: "Why storage capacity looks different in different places",
+        paragraphs: [
+          "Storage device manufacturers typically advertise capacity using 1000 as the conversion factor (the decimal standard), while your computer's operating system displays file and drive sizes using 1024 (the binary standard). This is why a drive advertised as 1 TB often shows a slightly smaller capacity, around 931 GB, when viewed on your computer.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Is this based on 1000 or 1024?",
@@ -472,6 +500,20 @@ explanation: [
       const result = processUrlEncoding(text, action);
       return { result };
     },
+explanation: [
+      {
+        heading: "How URL encoding (percent-encoding) works",
+        paragraphs: [
+          "URL encoding converts characters that aren't safe to use directly in a URL, such as spaces, symbols, and non-ASCII characters, into a percent sign followed by a two-digit hex code (for example, a space becomes %20). This ensures the URL remains valid and is interpreted correctly by browsers and servers.",
+        ],
+      },
+      {
+        heading: "When to use a URL encoder or decoder",
+        paragraphs: [
+          "URL encoding is commonly needed when building query strings with user input, embedding special characters in a link, or passing data like an email address or search term as a URL parameter. Decoding reverses the process, turning percent-encoded text back into its original, readable form.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "When do I need to URL-encode text?",
@@ -498,6 +540,20 @@ explanation: [
     aiSystemPrompt: "You are a rewriting assistant. Rewrite the user's text using different wording and sentence structure while preserving the original meaning and tone. Return only the rewritten text.",
     aiActionLabel: "Rewrite",
     aiPlaceholder: "Paste the paragraph you want rewritten...",
+explanation: [
+      {
+        heading: "How AI paragraph rewriting works",
+        paragraphs: [
+          "This tool sends your paragraph to an AI language model with instructions to rephrase it using different wording and sentence structure while preserving the original meaning and tone, useful for avoiding repetitive phrasing, adjusting tone, or getting a fresh way to express the same idea.",
+        ],
+      },
+      {
+        heading: "Why this tool uses your own API key",
+        paragraphs: [
+          "Rather than running AI requests through our own paid account with usage limits, this tool uses your personal OpenAI API key, sent directly with each request and never stored. This keeps the rewriter completely free to use with no artificial caps, while you only pay OpenAI directly for what you use.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Will the rewritten text mean the same thing?",
@@ -1478,6 +1534,20 @@ explanation: [
       const output = calculateStackedDiscounts(originalPrice, discount1, discount2);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "How stacked discounts are calculated",
+        paragraphs: [
+          "When two discounts apply one after another, the second discount is calculated on the already-reduced price, not the original price. The formula is: Final Price = Original Price × (1 − Discount1 ÷ 100) × (1 − Discount2 ÷ 100).",
+        ],
+      },
+      {
+        heading: "Why 20% off plus 10% off isn't 30% off",
+        paragraphs: [
+          "For example, a 1000 item with 20% off first drops to 800, then a further 10% off that 800 (not the original 1000) removes another 80, giving a final price of 720. The effective total discount is 28%, not 30%, since the second discount applies to a smaller base amount, this is a common mistake when combining coupon codes or sale discounts.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Is 20% off plus 10% off the same as 30% off?",
@@ -1521,6 +1591,20 @@ explanation: [
       const output = calculateExtraPaymentImpact(principal, annualRate, originalPayment, extraPayment);
       return { ...output };
     },
+explanation: [
+      {
+        heading: "How extra loan payments reduce total interest",
+        paragraphs: [
+          "This calculator simulates your loan month by month, comparing your current payment schedule against the same schedule with an extra amount added each month. Because interest is calculated on the remaining balance, paying extra directly reduces principal faster, which lowers the interest charged in every future month for the rest of the loan.",
+        ],
+      },
+      {
+        heading: "Extra payments vs a shorter loan term",
+        paragraphs: [
+          "Adding even a modest extra amount to a monthly mortgage or loan payment can shave years off the payoff time and save a substantial amount in total interest, often more than the extra payments themselves might suggest, because the savings compound over the remaining life of the loan.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "Why does a small extra payment save so much interest?",
