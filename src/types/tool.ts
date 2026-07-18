@@ -72,7 +72,9 @@ export interface ToolConfig {
     | "rotatePdf"
     | "markdownPreview"
     | "scientificCalculator"
-    | "debtPayoff";
+    | "debtPayoff"
+    | "contrastChecker"
+    | "colorPalette";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;

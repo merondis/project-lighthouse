@@ -17,6 +17,8 @@ import { RotatePdfWidget } from "@/components/tool-page/RotatePdfWidget";
 import { MarkdownPreviewWidget } from "@/components/tool-page/MarkdownPreviewWidget";
 import { ScientificCalculatorWidget } from "@/components/tool-page/ScientificCalculatorWidget";
 import { DebtPayoffWidget } from "@/components/tool-page/DebtPayoffWidget";
+import { ContrastCheckerWidget } from "@/components/tool-page/ContrastCheckerWidget";
+import { ColorPaletteWidget } from "@/components/tool-page/ColorPaletteWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -48,5 +50,7 @@ export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "markdownPreview") return <MarkdownPreviewWidget />;
   if (tool.widgetType === "scientificCalculator") return <ScientificCalculatorWidget />;
   if (tool.widgetType === "debtPayoff") return <DebtPayoffWidget />;
+  if (tool.widgetType === "contrastChecker") return <ContrastCheckerWidget />;
+  if (tool.widgetType === "colorPalette") return <ColorPaletteWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }

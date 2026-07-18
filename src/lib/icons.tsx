@@ -75,6 +75,9 @@ import {
   RotateCw,
   FileCode,
   Divide as DivideIcon,
+  Contrast,
+  Palette as PaletteIcon,
+  Blend,
   type LucideIcon,
 } from "lucide-react";
 
@@ -148,6 +151,9 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "rotate-pdf": RotateCw,
   "markdown-previewer": FileCode,
   "scientific-calculator": DivideIcon,
+  "contrast-checker": Contrast,
+  "color-palette-generator": PaletteIcon,
+  "hsl-converter": Blend,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

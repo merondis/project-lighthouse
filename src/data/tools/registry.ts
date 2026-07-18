@@ -1,3 +1,4 @@
+import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
 import { calculateBreakeven } from "@/utils/calculators/breakeven-calculator";
 import { calculateHeartRateZones } from "@/utils/calculators/heart-rate-zone-calculator";
@@ -1229,11 +1230,11 @@ explanation: [
   {
     slug: "hex-rgb-converter",
     category: "developer",
-    title: "Hex to RGB Converter",
-    shortDescription: "Convert between hex color codes and RGB values.",
-    metaDescription: "Free online hex to RGB converter to convert between hex color codes and RGB values with a live color preview.",
-    h1: "Hex to RGB Converter",
-    intro: "Convert between hex color codes and RGB values instantly, with a live color preview.",
+    title: "Hex to RGB / RGB to Hex Converter",
+    shortDescription: "Convert between hex color codes and RGB values, both directions.",
+    metaDescription: "Free online hex to RGB and RGB to hex converter to convert color values both directions with a live color preview.",
+    h1: "Hex to RGB / RGB to Hex Converter",
+    intro: "Convert between hex color codes and RGB values instantly, in either direction, with a live color preview.",
     icon: "🎨",
     status: "live",
     widgetType: "hexRgbConverter",
@@ -1262,6 +1263,132 @@ explanation: [
       },
     ],
     relatedSlugs: ["json-formatter"],
+  },
+  {
+    slug: "contrast-checker",
+    category: "developer",
+    title: "Color Contrast Checker",
+    shortDescription: "Check WCAG contrast ratio between two colors for accessibility.",
+    metaDescription: "Free online color contrast checker to test WCAG AA and AAA accessibility compliance between text and background colors.",
+    h1: "Color Contrast Checker",
+    intro: "Check the contrast ratio between a text color and background color against WCAG AA and AAA accessibility standards.",
+    icon: "◐",
+    status: "live",
+    widgetType: "contrastChecker",
+    explanation: [
+      {
+        heading: "How contrast ratio is calculated",
+        paragraphs: [
+          "Contrast ratio is calculated from the relative luminance of both colors using the WCAG formula, producing a ratio from 1:1 (identical colors, no contrast) up to 21:1 (pure black on pure white, maximum contrast).",
+        ],
+      },
+      {
+        heading: "Understanding WCAG AA and AAA levels",
+        paragraphs: [
+          "WCAG AA requires a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text (18pt or larger, or 14pt bold). WCAG AAA is stricter, requiring 7:1 for normal text and 4.5:1 for large text. AA is the commonly required standard for most websites.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What contrast level should my website meet?",
+        answer: "WCAG AA is the widely recommended minimum standard for web accessibility and is often a legal requirement in many jurisdictions. AAA is a stricter, optional standard for enhanced accessibility.",
+      },
+      {
+        question: "Does font size affect the required contrast ratio?",
+        answer: "Yes, large text (18pt+/24px+, or 14pt/19px+ bold) has lower minimum contrast requirements than normal-sized text, since larger text is inherently easier to read at lower contrast.",
+      },
+    ],
+    relatedSlugs: ["hex-rgb-converter", "color-palette-generator"],
+  },
+  {
+    slug: "color-palette-generator",
+    category: "developer",
+    title: "Color Palette Generator",
+    shortDescription: "Generate complementary, triadic and analogous color harmonies.",
+    metaDescription: "Free online color palette generator to create complementary, triadic and analogous color schemes from a base color.",
+    h1: "Color Palette Generator",
+    intro: "Generate a color harmony palette from a base color using complementary, triadic or analogous color theory.",
+    icon: "🎨",
+    status: "live",
+    widgetType: "colorPalette",
+    explanation: [
+      {
+        heading: "Understanding color harmonies",
+        paragraphs: [
+          "Complementary colors sit directly opposite each other on the color wheel (180° apart), creating high contrast and visual impact. Triadic colors are evenly spaced (120° apart), offering vibrant but balanced palettes. Analogous colors sit close together (30° apart), producing harmonious, cohesive palettes.",
+        ],
+      },
+      {
+        heading: "How this generator works",
+        paragraphs: [
+          "This tool converts your base hex color to HSL (Hue, Saturation, Lightness), rotates the hue value according to your chosen harmony type, then converts each resulting hue back to hex, keeping saturation and lightness consistent across the palette.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Which harmony type should I use?",
+        answer: "Complementary works well for bold accent colors, triadic for vibrant, balanced designs, and analogous for subtle, cohesive color schemes, the right choice depends on the mood you're aiming for.",
+      },
+      {
+        question: "Can I use these colors directly in CSS?",
+        answer: "Yes, each generated color is shown as a standard hex code, ready to use directly in CSS, design tools, or anywhere hex colors are accepted.",
+      },
+    ],
+    relatedSlugs: ["hex-rgb-converter", "contrast-checker"],
+  },
+  {
+    slug: "hsl-converter",
+    category: "developer",
+    title: "HSL to Hex / RGB Converter",
+    shortDescription: "Convert HSL color values to hex and RGB.",
+    metaDescription: "Free online HSL to hex and RGB converter to convert HSL (hue, saturation, lightness) color values instantly.",
+    h1: "HSL to Hex / RGB Converter",
+    intro: "Convert HSL (hue, saturation, lightness) color values into hex and RGB format.",
+    icon: "🌈",
+    status: "live",
+    inputFields: [
+      { key: "h", label: "Hue (0-360)", type: "number", step: 1, placeholder: "e.g. 217" },
+      { key: "s", label: "Saturation (0-100)", type: "number", step: 1, placeholder: "e.g. 83" },
+      { key: "l", label: "Lightness (0-100)", type: "number", step: 1, placeholder: "e.g. 53" },
+    ],
+    resultFields: [
+      { key: "hex", label: "Hex Code", highlight: true },
+      { key: "rgb", label: "RGB Value", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const h = Number(inputs.h);
+      const s = Number(inputs.s);
+      const l = Number(inputs.l);
+      const output = hslToHexResult(h, s, l);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Understanding HSL color notation",
+        paragraphs: [
+          "HSL represents color using Hue (0-360°, the color's position on the color wheel), Saturation (0-100%, how vivid or gray the color is), and Lightness (0-100%, how light or dark the color is), an intuitive alternative to hex or RGB for adjusting colors by feel.",
+        ],
+      },
+      {
+        heading: "Why designers use HSL",
+        paragraphs: [
+          "HSL makes it easy to create color variations, keep the same hue and adjust lightness for a tints/shades palette, or adjust saturation to make a color more muted or vivid, without needing to recalculate hex or RGB values manually.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the difference between HSL and HSB/HSV?",
+        answer: "HSL and HSB (also called HSV) are similar but calculate lightness/brightness differently, they can produce slightly different results for the same hue and saturation values.",
+      },
+      {
+        question: "Can I use HSL directly in CSS?",
+        answer: "Yes, modern CSS supports HSL natively, for example hsl(217, 83%, 53%), as an alternative to hex or RGB notation.",
+      },
+    ],
+    relatedSlugs: ["hex-rgb-converter", "color-palette-generator"],
   },
   {
     slug: "pdf-to-jpg",
