@@ -74,7 +74,11 @@ export interface ToolConfig {
     | "scientificCalculator"
     | "debtPayoff"
     | "contrastChecker"
-    | "colorPalette";
+    | "colorPalette"
+    | "fontSignature"
+    | "handwrittenSignature"
+    | "emailSignature"
+    | "watermarkPdf";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;

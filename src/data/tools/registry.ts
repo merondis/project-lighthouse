@@ -1,3 +1,4 @@
+import { validateEmailFormat } from "@/utils/calculators/email-format-validator";
 import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
 import { calculateBreakeven } from "@/utils/calculators/breakeven-calculator";
@@ -120,6 +121,203 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "countdown-timer", "bmi-calculator"],
+  },
+  {
+    slug: "font-signature-generator",
+    category: "misc",
+    title: "Font Signature Generator",
+    shortDescription: "Create a signature image using stylish handwriting fonts.",
+    metaDescription: "Free online font signature generator to create a signature image using handwriting-style fonts, downloadable as a transparent PNG.",
+    h1: "Font Signature Generator",
+    intro: "Type your name and choose a handwriting-style font to generate a signature image you can download and use in documents or emails.",
+    icon: "✒️",
+    status: "live",
+    widgetType: "fontSignature",
+    explanation: [
+      {
+        heading: "How this signature generator works",
+        paragraphs: [
+          "This tool renders your name using a selected handwriting-style font onto a canvas, then exports it as a transparent PNG image you can paste into documents, PDFs, or email signatures.",
+        ],
+      },
+      {
+        heading: "When to use a font signature vs a drawn signature",
+        paragraphs: [
+          "A font-based signature is quick and consistent, useful for casual documents or a polished, repeatable look. For documents requiring a more personal, hand-drawn appearance, our Handwritten Signature Pad lets you draw your signature directly.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this signature legally binding?",
+        answer: "A font-based signature image is generally not considered a secure electronic signature for legal purposes. For legally binding signatures, use a dedicated e-signature service with proper authentication and audit trails.",
+      },
+      {
+        question: "Does the downloaded image have a transparent background?",
+        answer: "Yes, the downloaded PNG has a transparent background, making it easy to place on top of documents or letterheads.",
+      },
+    ],
+    relatedSlugs: ["handwritten-signature-pad", "email-signature-generator"],
+  },
+  {
+    slug: "handwritten-signature-pad",
+    category: "misc",
+    title: "Handwritten Signature Pad",
+    shortDescription: "Draw your signature with mouse or touch and download it.",
+    metaDescription: "Free online handwritten signature pad to draw your signature with your mouse or finger and download it as a transparent PNG.",
+    h1: "Handwritten Signature Pad",
+    intro: "Draw your signature using your mouse or touchscreen, then download it as a transparent PNG image.",
+    icon: "✍️",
+    status: "live",
+    widgetType: "handwrittenSignature",
+    explanation: [
+      {
+        heading: "How this signature pad works",
+        paragraphs: [
+          "This tool tracks your mouse or finger movement across a canvas as you draw, capturing your signature as a series of connected lines, then lets you export the result as a transparent PNG image.",
+        ],
+      },
+      {
+        heading: "Best used on a touchscreen",
+        paragraphs: [
+          "While this works with a mouse, drawing a natural-looking signature is usually easier on a touchscreen device like a phone or tablet, or with a stylus if your device supports one.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is my drawn signature saved anywhere?",
+        answer: "No, your signature exists only in your browser while you're on this page and is never uploaded or stored anywhere.",
+      },
+      {
+        question: "Can I redo my signature if I make a mistake?",
+        answer: "Yes, use the Clear button to erase the canvas and start over.",
+      },
+    ],
+    relatedSlugs: ["font-signature-generator", "email-signature-generator"],
+  },
+  {
+    slug: "email-signature-generator",
+    category: "misc",
+    title: "Email Signature Generator",
+    shortDescription: "Create a professional HTML email signature to paste into your email client.",
+    metaDescription: "Free online email signature generator to create a professional HTML email signature for Gmail, Outlook and other email clients.",
+    h1: "Email Signature Generator",
+    intro: "Fill in your details to generate a professional HTML email signature you can copy and paste into Gmail, Outlook or any email client.",
+    icon: "📧",
+    status: "live",
+    widgetType: "emailSignature",
+    explanation: [
+      {
+        heading: "How to add this signature to your email client",
+        paragraphs: [
+          "Fill in your details, then copy the generated HTML code and paste it into your email client's signature settings, most clients like Gmail and Outlook accept pasted formatted text directly into their signature editor, preserving the styling.",
+        ],
+      },
+      {
+        heading: "What makes a good email signature",
+        paragraphs: [
+          "A good email signature is simple, includes only essential contact details, and avoids large images or excessive links that can slow down loading or look cluttered on mobile devices.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will this work in Gmail and Outlook?",
+        answer: "Yes, the generated HTML uses a simple table-based layout for broad email client compatibility, paste it directly into your client's signature settings.",
+      },
+      {
+        question: "Is my information stored anywhere?",
+        answer: "No, everything is generated locally in your browser, your details are never sent to or stored on any server.",
+      },
+    ],
+    relatedSlugs: ["font-signature-generator", "handwritten-signature-pad"],
+  },
+  {
+    slug: "email-format-validator",
+    category: "security",
+    title: "Email Format Validator",
+    shortDescription: "Check if an email address is correctly formatted.",
+    metaDescription: "Free online email format validator to check if an email address is correctly formatted and catch common domain typos.",
+    h1: "Email Format Validator",
+    intro: "Check whether an email address is correctly formatted, and catch common typos in popular email domains.",
+    icon: "✅",
+    status: "live",
+    inputFields: [
+      { key: "email", label: "Email Address", type: "text", placeholder: "e.g. name@example.com" },
+    ],
+    resultFields: [
+      { key: "valid", label: "Format Check", highlight: true },
+      { key: "reason", label: "Details" },
+      { key: "suggestion", label: "Suggested Correction" },
+    ],
+    calculate: (inputs) => {
+      const email = String(inputs.email ?? "");
+      const output = validateEmailFormat(email);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What this tool checks",
+        paragraphs: [
+          "This validator checks that an email address follows correct formatting rules (a username, an @ symbol, and a domain with a valid structure), and flags common typos in popular email domains like gmail.com or yahoo.com.",
+        ],
+      },
+      {
+        heading: "What this tool doesn't check",
+        paragraphs: [
+          "This tool checks format only, it does not verify whether the mailbox actually exists or is currently active, since that would require server-side domain and mailbox verification beyond what a browser-based tool can safely or appropriately perform.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this confirm the email address is real and active?",
+        answer: "No, this tool only checks formatting and common typos. It cannot confirm whether a mailbox actually exists or is currently receiving mail.",
+      },
+      {
+        question: "Is my email address sent anywhere?",
+        answer: "No, all checking happens directly in your browser, the email address you enter is never transmitted or stored anywhere.",
+      },
+    ],
+    relatedSlugs: ["password-generator"],
+  },
+  {
+    slug: "watermark-pdf",
+    category: "pdf",
+    title: "Watermark PDF",
+    shortDescription: "Add a diagonal text watermark to every page of a PDF.",
+    metaDescription: "Free online tool to add a custom text watermark to every page of a PDF file, with adjustable opacity.",
+    h1: "Watermark PDF",
+    intro: "Add a diagonal text watermark, like CONFIDENTIAL or DRAFT, to every page of a PDF document.",
+    icon: "🏷️",
+    status: "live",
+    widgetType: "watermarkPdf",
+    explanation: [
+      {
+        heading: "How watermarking works",
+        paragraphs: [
+          "This tool draws your chosen text diagonally across the center of every page in your PDF, at an adjustable transparency level, so the underlying content remains visible while clearly marking the document.",
+        ],
+      },
+      {
+        heading: "Common uses for watermarks",
+        paragraphs: [
+          "Watermarks are commonly used to mark documents as DRAFT, CONFIDENTIAL, or SAMPLE, or to indicate ownership before sharing a document publicly, without permanently editing the original content underneath.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I remove the watermark later?",
+        answer: "This tool creates a new PDF with the watermark embedded as part of the page content, it isn't a removable overlay, so keep your original file if you need an unwatermarked version later.",
+      },
+      {
+        question: "Does this upload my file anywhere?",
+        answer: "No, the watermark is applied entirely in your browser, your PDF is never uploaded to any server.",
+      },
+    ],
+    relatedSlugs: ["merge-pdf", "rotate-pdf", "compress-pdf"],
   },
   {
     slug: "debt-payoff-calculator",

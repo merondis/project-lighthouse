@@ -19,6 +19,10 @@ import { ScientificCalculatorWidget } from "@/components/tool-page/ScientificCal
 import { DebtPayoffWidget } from "@/components/tool-page/DebtPayoffWidget";
 import { ContrastCheckerWidget } from "@/components/tool-page/ContrastCheckerWidget";
 import { ColorPaletteWidget } from "@/components/tool-page/ColorPaletteWidget";
+import { FontSignatureWidget } from "@/components/tool-page/FontSignatureWidget";
+import { HandwrittenSignatureWidget } from "@/components/tool-page/HandwrittenSignatureWidget";
+import { EmailSignatureWidget } from "@/components/tool-page/EmailSignatureWidget";
+import { WatermarkPdfWidget } from "@/components/tool-page/WatermarkPdfWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -52,5 +56,9 @@ export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "debtPayoff") return <DebtPayoffWidget />;
   if (tool.widgetType === "contrastChecker") return <ContrastCheckerWidget />;
   if (tool.widgetType === "colorPalette") return <ColorPaletteWidget />;
+  if (tool.widgetType === "fontSignature") return <FontSignatureWidget />;
+  if (tool.widgetType === "handwrittenSignature") return <HandwrittenSignatureWidget />;
+  if (tool.widgetType === "emailSignature") return <EmailSignatureWidget />;
+  if (tool.widgetType === "watermarkPdf") return <WatermarkPdfWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }

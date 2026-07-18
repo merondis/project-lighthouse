@@ -78,6 +78,11 @@ import {
   Contrast,
   Palette as PaletteIcon,
   Blend,
+  Feather,
+  PenTool,
+  IdCard,
+  MailCheck,
+  Stamp,
   type LucideIcon,
 } from "lucide-react";
 
@@ -154,6 +159,11 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "contrast-checker": Contrast,
   "color-palette-generator": PaletteIcon,
   "hsl-converter": Blend,
+  "font-signature-generator": Feather,
+  "handwritten-signature-pad": PenTool,
+  "email-signature-generator": IdCard,
+  "email-format-validator": MailCheck,
+  "watermark-pdf": Stamp,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
