@@ -32,6 +32,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Pacifico&family=Caveat:wght@700&display=swap"
           rel="stylesheet"
         />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body className={sora.variable + " min-h-screen bg-brand-bg text-white antialiased"}>
         <a href="#main-content" className="skip-link">
