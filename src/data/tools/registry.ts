@@ -1317,7 +1317,7 @@ explanation: [
     relatedSlugs: ["emi-calculator", "loan-calculator"],
   },
   {
-    slug: "volume-converter",
+slug: "volume-converter",
     category: "converters",
     title: "Volume Converter",
     shortDescription: "Convert between milliliters, liters, cups, gallons and more.",
@@ -1328,6 +1328,20 @@ explanation: [
     status: "live",
     widgetType: "unitConverter",
     converterCategory: "volume",
+    explanation: [
+      {
+        heading: "How this volume converter works",
+        paragraphs: [
+          "This tool converts between volume units using fixed conversion factors, for example, 1 liter equals 1,000 milliliters, 4.22675 US cups, or 0.264172 US gallons. Enter an amount in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "Metric vs US customary volume units",
+        paragraphs: [
+          "Metric units (milliliters, liters) scale by powers of ten and are used for cooking, science, and most countries outside the US. US customary units (cups, pints, quarts, gallons) are common in US recipes and packaging. Note that a US gallon (3.785 L) differs from a UK imperial gallon (4.546 L), this tool uses US customary definitions.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How many cups are in a liter?",
@@ -1341,7 +1355,7 @@ explanation: [
     relatedSlugs: ["weight-converter", "length-converter"],
   },
   {
-    slug: "speed-converter",
+slug: "speed-converter",
     category: "converters",
     title: "Speed Converter",
     shortDescription: "Convert between mph, km/h, m/s and knots.",
@@ -1352,6 +1366,20 @@ explanation: [
     status: "live",
     widgetType: "unitConverter",
     converterCategory: "speed",
+    explanation: [
+      {
+        heading: "How this speed converter works",
+        paragraphs: [
+          "This tool converts between speed units using fixed conversion factors, for example, 1 mph equals 1.60934 km/h, 0.44704 m/s, or 0.868976 knots. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each speed unit is used",
+        paragraphs: [
+          "Mph is standard for road speeds in the US and UK, while km/h is used for road speeds in most other countries. Meters per second is the SI unit used in physics and engineering. Knots (nautical miles per hour) are used in aviation and maritime navigation.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How do I convert mph to km/h?",
@@ -1365,7 +1393,7 @@ explanation: [
     relatedSlugs: ["length-converter"],
   },
   {
-    slug: "area-converter",
+slug: "area-converter",
     category: "converters",
     title: "Area Converter",
     shortDescription: "Convert between square meters, square feet, acres and hectares.",
@@ -1376,6 +1404,20 @@ explanation: [
     status: "live",
     widgetType: "unitConverter",
     converterCategory: "area",
+    explanation: [
+      {
+        heading: "How this area converter works",
+        paragraphs: [
+          "This tool converts between area units using fixed conversion factors, for example, 1 acre equals 43,560 square feet, 4,046.86 square meters, or 0.404686 hectares. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "Acres vs hectares for land measurement",
+        paragraphs: [
+          "Acres are the standard land unit in the US and UK for real estate and agriculture, while hectares (10,000 square meters) are used in most metric countries and in international agriculture and forestry statistics. One hectare is approximately 2.47 acres.",
+        ],
+      },
+    ],
     faqs: [
       {
         question: "How many square feet are in an acre?",
@@ -3264,12 +3306,12 @@ explanation: [
         answer:
           "A strong password is typically at least 12-16 characters long and combines uppercase letters, lowercase letters, numbers and symbols.",
       },
-      {
+{
         question: "Should I reuse passwords across sites?",
         answer: "No, it's recommended to use a unique password for each account, ideally managed with a password manager.",
       },
     ],
-    relatedSlugs: [],
+    relatedSlugs: ["uuid-generator", "random-number-generator"],
   },
   {
     slug: "discount-calculator",
