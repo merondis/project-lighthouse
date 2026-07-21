@@ -1,3 +1,17 @@
+import { convertTimezone, TIMEZONE_OPTIONS } from "@/utils/calculators/timezone-converter";
+
+const SOUTH_AMERICA_CITIES = ["Sao_Paulo", "Buenos_Aires", "Bogota", "Lima", "Santiago"];
+
+function formatTimezoneLabel(tz: string): string {
+  if (tz === "UTC") return "UTC";
+  const [region, city] = tz.split("/");
+  const cityLabel = city.replace(/_/g, " ");
+  const regionLabel =
+    region === "America" && SOUTH_AMERICA_CITIES.includes(city) ? "South America" : region;
+  return cityLabel + " (" + regionLabel + ")";
+}
+import { calculateWorkingDays } from "@/utils/calculators/working-days-calculator";
+import { calculateSavingsGoal } from "@/utils/calculators/savings-goal-calculator";
 import { validateEmailFormat } from "@/utils/calculators/email-format-validator";
 import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
@@ -121,6 +135,180 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "countdown-timer", "bmi-calculator"],
+  },
+  {
+    slug: "timezone-converter",
+    category: "date-time",
+    title: "Time Zone Converter",
+    shortDescription: "Convert a date and time between different time zones.",
+    metaDescription: "Free online time zone converter to convert a date and time between different time zones around the world.",
+    h1: "Time Zone Converter",
+    intro: "Convert a specific date and time from one time zone to another, useful for scheduling calls and meetings across regions.",
+    icon: "🕐",
+    status: "live",
+    inputFields: [
+    { key: "dateTimeLocal", label: "Date and Time", type: "datetime" },
+     {
+        key: "fromZone",
+        label: "From Time Zone",
+        type: "select",
+        options: TIMEZONE_OPTIONS.map((tz) => ({
+          label: formatTimezoneLabel(tz),
+          value: tz,
+        })),
+      },
+      {
+        key: "toZone",
+        label: "To Time Zone",
+        type: "select",
+        options: TIMEZONE_OPTIONS.map((tz) => ({
+          label: formatTimezoneLabel(tz),
+          value: tz,
+        })),
+      }, 
+    ],
+    resultFields: [
+      { key: "convertedTime", label: "Converted Time", highlight: true },
+      { key: "convertedDate", label: "Converted Date" },
+    ],
+    calculate: (inputs) => {
+      const dateTimeLocal = String(inputs.dateTimeLocal ?? "");
+      const fromZone = String(inputs.fromZone);
+      const toZone = String(inputs.toZone);
+      const output = convertTimezone(dateTimeLocal, fromZone, toZone);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How time zone conversion works",
+        paragraphs: [
+          "This tool interprets your entered date and time as local time in the 'From' time zone, then calculates the equivalent moment in the 'To' time zone, automatically accounting for each region's current UTC offset, including daylight saving time where applicable.",
+        ],
+      },
+      {
+        heading: "Why time zone conversion is tricky",
+        paragraphs: [
+          "Time zone offsets aren't fixed year-round in many regions due to daylight saving time, and some countries change DST rules on different dates than others, which is why a simple fixed-hour-difference calculation can be wrong depending on the time of year.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this account for daylight saving time?",
+        answer: "Yes, this tool uses your browser's built-in time zone data, which automatically accounts for daylight saving time rules for the specific date you enter.",
+      },
+      {
+        question: "What format should I use for the date and time?",
+        answer: "Enter the date and time in the format YYYY-MM-DDTHH:MM, for example 2026-07-20T14:30 for July 20, 2026 at 2:30 PM.",
+      },
+    ],
+    relatedSlugs: ["date-calculator", "countdown-timer"],
+  },
+  {
+    slug: "working-days-calculator",
+    category: "date-time",
+    title: "Working Days Calculator",
+    shortDescription: "Calculate the number of business days between two dates.",
+    metaDescription: "Free online working days calculator to calculate the number of business days (excluding weekends) between two dates.",
+    h1: "Working Days Calculator",
+    intro: "Calculate the number of working days (Monday through Friday) between two dates, excluding weekends.",
+    icon: "📅",
+    status: "live",
+    inputFields: [
+      { key: "startDate", label: "Start Date", type: "date" },
+      { key: "endDate", label: "End Date", type: "date" },
+    ],
+    resultFields: [
+      { key: "workingDays", label: "Working Days", highlight: true },
+      { key: "totalDays", label: "Total Days" },
+      { key: "weekendDays", label: "Weekend Days" },
+    ],
+    calculate: (inputs) => {
+      const startDate = String(inputs.startDate ?? "");
+      const endDate = String(inputs.endDate ?? "");
+      const output = calculateWorkingDays(startDate, endDate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How working days are counted",
+        paragraphs: [
+          "This tool counts every day between your two dates (inclusive), then separates them into working days (Monday through Friday) and weekend days (Saturday and Sunday), giving you the count of each.",
+        ],
+      },
+      {
+        heading: "What this doesn't account for",
+        paragraphs: [
+          "This calculator excludes weekends only, it doesn't account for public holidays, which vary by country and region. For project planning around specific holidays, subtract those dates manually from the working days total.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this account for public holidays?",
+        answer: "No, this tool only excludes Saturdays and Sundays. Public holidays vary significantly by country and aren't included in this calculation.",
+      },
+      {
+        question: "Are both the start and end date included in the count?",
+        answer: "Yes, both dates are included as part of the total day count, consistent with how most people count 'from X to Y' inclusively.",
+      },
+    ],
+    relatedSlugs: ["date-calculator", "age-calculator"],
+  },
+  {
+    slug: "savings-goal-calculator",
+    category: "finance",
+    title: "Savings Goal Calculator",
+    shortDescription: "Calculate the monthly savings needed to reach a financial goal.",
+    metaDescription: "Free online savings goal calculator to calculate how much you need to save monthly to reach a target amount.",
+    h1: "Savings Goal Calculator",
+    intro: "Calculate how much you need to save each month to reach a specific savings goal by a target date, accounting for interest earned along the way.",
+    icon: "🐷",
+    status: "live",
+    inputFields: [
+      { key: "targetAmount", label: "Savings Goal", type: "number", step: 0.01, placeholder: "e.g. 20000" },
+      { key: "currentSavings", label: "Current Savings", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "months", label: "Time Frame (Months)", type: "number", step: 1, placeholder: "e.g. 24" },
+      { key: "annualRate", label: "Expected Annual Interest Rate (%)", type: "number", step: 0.1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "monthlyContribution", label: "Monthly Contribution Needed", highlight: true },
+      { key: "totalContributions", label: "Total You'll Contribute" },
+      { key: "totalInterestEarned", label: "Interest Earned" },
+    ],
+    calculate: (inputs) => {
+      const targetAmount = Number(inputs.targetAmount);
+      const currentSavings = Number(inputs.currentSavings);
+      const months = Number(inputs.months);
+      const annualRate = Number(inputs.annualRate);
+      const output = calculateSavingsGoal(targetAmount, currentSavings, months, annualRate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the required monthly contribution is calculated",
+        paragraphs: [
+          "This calculator uses the future value of an annuity formula, working backward from your target amount to determine the fixed monthly contribution needed, accounting for both your existing savings growing with interest and your new monthly contributions also earning interest over time.",
+        ],
+      },
+      {
+        heading: "Why interest rate matters for your savings plan",
+        paragraphs: [
+          "Even a modest interest rate reduces how much you need to personally contribute each month, since your money grows on its own over time. Setting the interest rate to 0% shows the contribution needed with no growth, useful as a conservative baseline.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What interest rate should I use?",
+        answer: "Use the expected annual interest rate for wherever you're keeping the savings, such as a high-yield savings account or investment account. Enter 0 if you want a conservative estimate with no growth.",
+      },
+      {
+        question: "What if I already have enough saved?",
+        answer: "If your current savings already meet or exceed your goal, this calculator isn't needed, you've already reached your target.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "net-worth-calculator"],
   },
   {
     slug: "font-signature-generator",

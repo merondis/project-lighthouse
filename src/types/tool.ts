@@ -15,7 +15,7 @@ export type ToolStatus = "live" | "comingSoon";
 export interface InputFieldConfig {
   key: string;
   label: string;
-  type: "number" | "date" | "select" | "text" | "textarea" | "checkbox";
+  type: "number" | "date" | "datetime" | "select" | "text" | "textarea" | "checkbox";
   unit?: string;
   placeholder?: string;
   min?: number;

@@ -83,6 +83,9 @@ import {
   IdCard,
   MailCheck,
   Stamp,
+  Clock,
+  CalendarCheck,
+  PiggyBank as PiggyBankIcon,
   type LucideIcon,
 } from "lucide-react";
 
@@ -164,6 +167,9 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "email-signature-generator": IdCard,
   "email-format-validator": MailCheck,
   "watermark-pdf": Stamp,
+  "timezone-converter": Clock,
+  "working-days-calculator": CalendarCheck,
+  "savings-goal-calculator": PiggyBankIcon,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

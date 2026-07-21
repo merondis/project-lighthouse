@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { DatePicker } from "@/components/ui/DatePicker";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { ResultInsight } from "@/components/tool-page/ResultInsight";
+import { SearchableSelect } from "@/components/ui/SearchableSelect";
 
 export function CalculatorWidget({ slug }: { slug: string }) {
   const tool = getToolBySlug(slug);
@@ -95,6 +96,12 @@ export function CalculatorWidget({ slug }: { slug: string }) {
                   onChange={(v) => handleChange(field.key, v)}
                   placeholder={field.placeholder}
                 />
+              ) : field.type === "select" && (field.options?.length ?? 0) > 8 ? (
+                <SearchableSelect
+                  options={field.options ?? []}
+                  value={values[field.key] ?? ""}
+                  onChange={(v) => handleChange(field.key, v)}
+                />
               ) : field.type === "select" ? (
                 <select
                   value={values[field.key] ?? ""}
@@ -107,6 +114,13 @@ export function CalculatorWidget({ slug }: { slug: string }) {
                     </option>
                   ))}
                 </select>
+              ) : field.type === "datetime" ? (
+                <input
+                  type="datetime-local"
+                  value={values[field.key] ?? ""}
+                  onChange={(e) => handleChange(field.key, e.target.value)}
+                  className="rounded-lg border border-white/10 bg-brand-bg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none [color-scheme:dark]"
+                />
               ) : field.type === "textarea" ? (
                 <textarea
                   value={values[field.key] ?? ""}
