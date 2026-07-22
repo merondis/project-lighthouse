@@ -64,6 +64,10 @@ import { calculateRetirement } from "@/utils/calculators/retirement-calculator";
 import { calculateProteinNeeds, ProteinActivityLevel, ProteinGoal } from "@/utils/calculators/protein-calculator";
 import { calculateTdee, Gender as TdeeGender, ActivityLevel as TdeeActivityLevel } from "@/utils/calculators/tdee-calculator";
 import { calculateOvulation } from "@/utils/calculators/ovulation-calculator";
+import { addDays } from "@/utils/calculators/add-days-calculator";
+import { subtractDays } from "@/utils/calculators/subtract-days-calculator";
+import { calculateTimeDuration } from "@/utils/calculators/time-duration-calculator";
+import { calculateWeekNumber } from "@/utils/calculators/week-number-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -4513,6 +4517,207 @@ explanation: [
       },
     ],
     relatedSlugs: ["pregnancy-due-date-calculator", "age-calculator", "date-calculator"],
+  },
+  {
+    slug: "add-days-calculator",
+    category: "date-time",
+    title: "Add Days Calculator",
+    shortDescription: "Add a number of days to a date and find the resulting date.",
+    metaDescription: "Free online tool to add a number of days to any date and instantly find the resulting date and day of the week.",
+    h1: "Add Days Calculator",
+    intro: "Add a number of days to a starting date to find the resulting date and day of the week.",
+    icon: "➕",
+    status: "live",
+    inputFields: [
+      { key: "startDate", label: "Start Date", type: "date" },
+      { key: "days", label: "Days to Add", type: "number", step: 1, min: 0, placeholder: "e.g. 30" },
+    ],
+    resultFields: [
+      { key: "resultDate", label: "Resulting Date", highlight: true },
+      { key: "dayOfWeek", label: "Day of the Week", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const startDate = String(inputs.startDate ?? "");
+      const days = Number(inputs.days);
+      const output = addDays(startDate, days);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How adding days to a date works",
+        paragraphs: [
+          "This tool takes your starting date and moves forward by the exact number of days you specify, automatically handling month-end rollovers and leap years, then reports the resulting calendar date and its day of the week.",
+        ],
+      },
+      {
+        heading: "Common uses for adding days to a date",
+        paragraphs: [
+          "This is useful for calculating deadlines (e.g. 'net 30' payment terms), shipping or delivery estimates, warranty expiration dates, or any situation where you need to project a date a fixed number of days into the future.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I add more than 365 days?",
+        answer: "Yes, you can add any number of days, including spans of multiple years, the calculator handles leap years automatically.",
+      },
+      {
+        question: "What if I need to go backward instead?",
+        answer: "Use our Subtract Days Calculator to move a date backward by a number of days instead.",
+      },
+    ],
+    relatedSlugs: ["subtract-days-calculator", "date-calculator", "working-days-calculator"],
+  },
+  {
+    slug: "subtract-days-calculator",
+    category: "date-time",
+    title: "Subtract Days Calculator",
+    shortDescription: "Subtract a number of days from a date and find the resulting date.",
+    metaDescription: "Free online tool to subtract a number of days from any date and instantly find the resulting date and day of the week.",
+    h1: "Subtract Days Calculator",
+    intro: "Subtract a number of days from a starting date to find the resulting date and day of the week.",
+    icon: "➖",
+    status: "live",
+    inputFields: [
+      { key: "startDate", label: "Start Date", type: "date" },
+      { key: "days", label: "Days to Subtract", type: "number", step: 1, min: 0, placeholder: "e.g. 30" },
+    ],
+    resultFields: [
+      { key: "resultDate", label: "Resulting Date", highlight: true },
+      { key: "dayOfWeek", label: "Day of the Week", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const startDate = String(inputs.startDate ?? "");
+      const days = Number(inputs.days);
+      const output = subtractDays(startDate, days);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How subtracting days from a date works",
+        paragraphs: [
+          "This tool takes your starting date and moves backward by the exact number of days you specify, automatically handling month and year boundaries and leap years, then reports the resulting calendar date and its day of the week.",
+        ],
+      },
+      {
+        heading: "Common uses for subtracting days from a date",
+        paragraphs: [
+          "This is useful for finding a date a certain number of days before an event, calculating when to start a task to meet a deadline, or figuring out a past date, such as '90 days before my due date' or a project's required start date.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I subtract more than 365 days?",
+        answer: "Yes, you can subtract any number of days, including spans of multiple years, the calculator handles leap years automatically.",
+      },
+      {
+        question: "What if I need to go forward instead?",
+        answer: "Use our Add Days Calculator to move a date forward by a number of days instead.",
+      },
+    ],
+    relatedSlugs: ["add-days-calculator", "date-calculator", "working-days-calculator"],
+  },
+  {
+    slug: "time-duration-calculator",
+    category: "date-time",
+    title: "Time Duration Calculator",
+    shortDescription: "Calculate the exact duration between two dates and times.",
+    metaDescription: "Free online time duration calculator to find the exact duration between two dates and times in days, hours and minutes.",
+    h1: "Time Duration Calculator",
+    intro: "Calculate the exact duration between a start and end date and time, broken down into days, hours and minutes.",
+    icon: "⏱️",
+    status: "live",
+    inputFields: [
+      { key: "startDateTime", label: "Start Date and Time", type: "datetime" },
+      { key: "endDateTime", label: "End Date and Time", type: "datetime" },
+    ],
+    resultFields: [
+      { key: "days", label: "Days", highlight: true },
+      { key: "hours", label: "Hours", highlight: true },
+      { key: "minutes", label: "Minutes", highlight: true },
+      { key: "totalHours", label: "Total Hours" },
+      { key: "totalMinutes", label: "Total Minutes" },
+      { key: "totalSeconds", label: "Total Seconds" },
+    ],
+    calculate: (inputs) => {
+      const startDateTime = String(inputs.startDateTime ?? "");
+      const endDateTime = String(inputs.endDateTime ?? "");
+      const output = calculateTimeDuration(startDateTime, endDateTime);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How time duration is calculated",
+        paragraphs: [
+          "This tool calculates the exact number of milliseconds between your start and end date-time, then converts that into a days, hours and minutes breakdown, along with running totals in hours, minutes and seconds for the full duration.",
+        ],
+      },
+      {
+        heading: "Why use date and time together instead of just dates",
+        paragraphs: [
+          "Unlike a simple date difference calculator, this tool accounts for the specific time of day on both ends, making it accurate for tracking things like elapsed work hours, event durations, or the precise time between two timestamped events, even when they span midnight or multiple days.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does the order of start and end matter?",
+        answer: "No, the calculator automatically detects which date-time is earlier and calculates the duration correctly regardless of the order you enter them.",
+      },
+      {
+        question: "Can I calculate a duration that spans multiple days?",
+        answer: "Yes, the duration can span any length of time, from a few minutes to multiple days, months or years, and will be broken down into days, hours and minutes accordingly.",
+      },
+    ],
+    relatedSlugs: ["date-calculator", "countdown-timer", "working-days-calculator"],
+  },
+  {
+    slug: "week-number-calculator",
+    category: "date-time",
+    title: "Week Number Calculator",
+    shortDescription: "Find the ISO week number for any date.",
+    metaDescription: "Free online week number calculator to find the ISO 8601 week number and day of the year for any date.",
+    h1: "Week Number Calculator",
+    intro: "Find the ISO 8601 week number and day of the year for any date.",
+    icon: "🗓️",
+    status: "live",
+    inputFields: [{ key: "date", label: "Date", type: "date" }],
+    resultFields: [
+      { key: "weekNumber", label: "ISO Week Number", highlight: true },
+      { key: "isoYear", label: "ISO Week Year" },
+      { key: "dayOfYear", label: "Day of the Year" },
+    ],
+    calculate: (inputs) => {
+      const date = String(inputs.date ?? "");
+      const output = calculateWeekNumber(date);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How ISO week numbers are calculated",
+        paragraphs: [
+          "This calculator uses the ISO 8601 standard, where weeks start on Monday and week 1 of the year is defined as the week containing the year's first Thursday. This means the first few days of January can sometimes belong to the last week of the previous year, and the last few days of December can sometimes belong to week 1 of the following year.",
+        ],
+      },
+      {
+        heading: "Why ISO week numbers are useful",
+        paragraphs: [
+          "ISO week numbers are widely used in business, manufacturing and project planning for consistent weekly reporting, since every ISO week has exactly 7 days and starts on the same weekday (Monday), unlike calendar weeks which can be split unevenly across months.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does the ISO week year sometimes differ from the calendar year?",
+        answer: "Near the start or end of a calendar year, a date's ISO week can belong to the adjacent year's week numbering, for example, December 31 might fall in week 1 of the following year, or January 1 might fall in the last week of the previous year.",
+      },
+      {
+        question: "Does the week start on Sunday or Monday?",
+        answer: "This calculator follows the ISO 8601 standard, where weeks start on Monday. This differs from some calendars and regions that start the week on Sunday.",
+      },
+    ],
+    relatedSlugs: ["date-calculator", "working-days-calculator", "countdown-timer"],
   },
 ];
 

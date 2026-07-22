@@ -91,6 +91,10 @@ import {
   Drumstick,
   Zap,
   CalendarHeart,
+  CalendarPlus,
+  CalendarMinus,
+  Timer,
+  CalendarRange,
   type LucideIcon,
 } from "lucide-react";
 
@@ -180,6 +184,10 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "protein-calculator": Drumstick,
   "tdee-calculator": Zap,
   "ovulation-calculator": CalendarHeart,
+  "add-days-calculator": CalendarPlus,
+  "subtract-days-calculator": CalendarMinus,
+  "time-duration-calculator": Timer,
+  "week-number-calculator": CalendarRange,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
