@@ -89,6 +89,8 @@ import {
   LineChart as LineChartIcon,
   Umbrella,
   Drumstick,
+  Zap,
+  CalendarHeart,
   type LucideIcon,
 } from "lucide-react";
 
@@ -176,6 +178,8 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "sip-calculator": LineChartIcon,
   "retirement-calculator": Umbrella,
   "protein-calculator": Drumstick,
+  "tdee-calculator": Zap,
+  "ovulation-calculator": CalendarHeart,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

@@ -62,6 +62,8 @@ import { calculateAge } from "@/utils/calculators/age-calculator";
 import { calculateSip } from "@/utils/calculators/sip-calculator";
 import { calculateRetirement } from "@/utils/calculators/retirement-calculator";
 import { calculateProteinNeeds, ProteinActivityLevel, ProteinGoal } from "@/utils/calculators/protein-calculator";
+import { calculateTdee, Gender as TdeeGender, ActivityLevel as TdeeActivityLevel } from "@/utils/calculators/tdee-calculator";
+import { calculateOvulation } from "@/utils/calculators/ovulation-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -4351,6 +4353,166 @@ explanation: [
       },
     ],
     relatedSlugs: ["calorie-goal-calculator", "bmr-calculator", "ideal-weight-calculator"],
+  },
+  {
+    slug: "tdee-calculator",
+    category: "health",
+    title: "TDEE Calculator",
+    shortDescription: "Calculate your Total Daily Energy Expenditure and maintenance macros.",
+    metaDescription:
+      "Free online TDEE calculator to find your Total Daily Energy Expenditure, along with calorie targets for weight loss or gain and a maintenance macro breakdown.",
+    h1: "TDEE Calculator",
+    intro:
+      "Calculate your Total Daily Energy Expenditure (TDEE) based on your age, height, weight and activity level, along with calorie targets for weight loss or gain and a suggested macro split.",
+    icon: "⚡",
+    status: "live",
+    featured: true,
+    inputFields: [
+      {
+        key: "gender",
+        label: "Gender",
+        type: "select",
+        options: [
+          { label: "Male", value: "male" },
+          { label: "Female", value: "female" },
+        ],
+      },
+      { key: "age", label: "Age (years)", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+      {
+        key: "activityLevel",
+        label: "Activity Level",
+        type: "select",
+        options: [
+          { label: "Sedentary (little or no exercise)", value: "sedentary" },
+          { label: "Light (1-3 days/week)", value: "light" },
+          { label: "Moderate (3-5 days/week)", value: "moderate" },
+          { label: "Active (6-7 days/week)", value: "active" },
+          { label: "Very Active (hard exercise daily)", value: "veryActive" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "tdee", label: "Total Daily Energy Expenditure", unit: "kcal/day", highlight: true },
+      { key: "bmr", label: "BMR", unit: "kcal/day" },
+      { key: "mildWeightLoss", label: "Mild Weight Loss (-0.25 kg/week)", unit: "kcal/day" },
+      { key: "weightLoss", label: "Weight Loss (-0.5 kg/week)", unit: "kcal/day" },
+      { key: "weightGain", label: "Weight Gain (+0.5 kg/week)", unit: "kcal/day" },
+      { key: "proteinGrams", label: "Protein at Maintenance", unit: "g" },
+      { key: "carbsGrams", label: "Carbs at Maintenance", unit: "g" },
+      { key: "fatGrams", label: "Fat at Maintenance", unit: "g" },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as TdeeGender;
+      const age = Number(inputs.age);
+      const heightCm = Number(inputs.heightCm);
+      const weightKg = Number(inputs.weightKg);
+      const activityLevel = String(inputs.activityLevel) as TdeeActivityLevel;
+      const output = calculateTdee(gender, age, heightCm, weightKg, activityLevel);
+      return { ...output };
+    },
+    interpret: (result) => {
+      return [
+        "Your estimated maintenance calories (TDEE) are " + result.tdee + " kcal/day.",
+        "To lose roughly 0.5 kg per week, aim for about " + result.weightLoss + " kcal/day.",
+        "At maintenance, a balanced macro split is roughly " + result.proteinGrams + "g protein, " + result.carbsGrams + "g carbs and " + result.fatGrams + "g fat.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How TDEE is calculated",
+        paragraphs: [
+          "This calculator first estimates your Basal Metabolic Rate (BMR) using the Mifflin-St Jeor equation, then multiplies it by an activity multiplier (ranging from 1.2 for sedentary to 1.9 for very active) to estimate your Total Daily Energy Expenditure, the total calories you burn in a day including exercise and daily activity.",
+          "Calorie targets for weight loss or gain are then calculated by subtracting or adding a calorie deficit or surplus from your TDEE, using the common approximation that a 500 kcal/day deficit or surplus corresponds to roughly 0.5 kg of body weight change per week.",
+        ],
+      },
+      {
+        heading: "How the macro split is calculated",
+        paragraphs: [
+          "The suggested macro breakdown splits your maintenance TDEE into roughly 30% protein, 40% carbohydrates and 30% fat, a commonly used balanced starting point. Protein and carbohydrates provide about 4 kcal per gram, while fat provides about 9 kcal per gram, which is how the gram amounts are derived from the calorie split.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the difference between BMR and TDEE?",
+        answer:
+          "BMR is the calories your body burns at complete rest just to maintain basic functions. TDEE builds on BMR by adding in calories burned through daily activity and exercise, giving a more complete picture of your total daily calorie needs.",
+      },
+      {
+        question: "Is the 30/40/30 macro split right for everyone?",
+        answer:
+          "It's a reasonable general starting point, but individual needs vary based on goals, training style and personal preference. Athletes, for example, often benefit from a higher carbohydrate intake, while some people prefer higher fat, lower carb splits.",
+      },
+      {
+        question: "Should I eat exactly my TDEE every day?",
+        answer:
+          "Eating at your TDEE is intended to maintain your current weight. Use the weight loss or weight gain targets instead if your goal is to change your body weight, and adjust based on your actual results over a few weeks.",
+      },
+    ],
+    relatedSlugs: ["bmr-calculator", "calorie-goal-calculator", "protein-calculator"],
+  },
+  {
+    slug: "ovulation-calculator",
+    category: "health",
+    title: "Ovulation Calculator",
+    shortDescription: "Estimate your ovulation date and most fertile days.",
+    metaDescription:
+      "Free online ovulation calculator to estimate your ovulation date, fertile window and next expected period based on your cycle.",
+    h1: "Ovulation Calculator",
+    intro:
+      "Estimate your ovulation date, fertile window and next expected period based on the first day of your last period and your average cycle length.",
+    icon: "🌸",
+    status: "live",
+    inputFields: [
+      { key: "lastPeriodDate", label: "First Day of Last Period", type: "date" },
+      { key: "cycleLength", label: "Average Cycle Length (days)", type: "number", step: 1, defaultValue: 28, min: 21, max: 45 },
+    ],
+    resultFields: [
+      { key: "ovulationDate", label: "Estimated Ovulation Date", highlight: true },
+      { key: "fertileWindowStart", label: "Fertile Window Start", highlight: true },
+      { key: "fertileWindowEnd", label: "Fertile Window End", highlight: true },
+      { key: "nextPeriodDate", label: "Next Expected Period" },
+    ],
+    calculate: (inputs) => {
+      const lastPeriodDate = String(inputs.lastPeriodDate ?? "");
+      const cycleLength = Number(inputs.cycleLength);
+      const output = calculateOvulation(lastPeriodDate, cycleLength);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How ovulation date is estimated",
+        paragraphs: [
+          "This calculator estimates ovulation as occurring 14 days before your next expected period, which is calculated by adding your average cycle length to the first day of your last period. This is the standard method used since the second half of the menstrual cycle (the luteal phase) is typically a consistent 14 days, regardless of total cycle length.",
+        ],
+      },
+      {
+        heading: "Understanding the fertile window",
+        paragraphs: [
+          "The fertile window spans from about 5 days before ovulation through 1 day after, since sperm can survive in the reproductive tract for up to 5 days while an egg is typically viable for about 24 hours after release. Conception is most likely for intercourse occurring in the 1-2 days leading up to and including ovulation day itself.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is this estimate?",
+        answer:
+          "This calculator provides a general estimate based on average cycle patterns. Actual ovulation timing varies cycle to cycle and person to person, especially with irregular cycles. Ovulation predictor kits or tracking basal body temperature can provide more personalized data.",
+      },
+      {
+        question: "What if my cycle length varies from month to month?",
+        answer:
+          "Use your average cycle length for the best estimate, but be aware that the actual ovulation date may shift if a given cycle is shorter or longer than your average. Tracking several cycles can help identify your typical pattern.",
+      },
+      {
+        question: "Can this calculator be used for contraception?",
+        answer:
+          "No, this tool is intended for general planning and awareness only. It should not be relied on as a method of contraception, since ovulation timing can vary and this estimate isn't precise enough for that purpose.",
+      },
+    ],
+    relatedSlugs: ["pregnancy-due-date-calculator", "age-calculator", "date-calculator"],
   },
 ];
 
