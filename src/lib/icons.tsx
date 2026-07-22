@@ -95,6 +95,10 @@ import {
   CalendarMinus,
   Timer,
   CalendarRange,
+  Ratio,
+  Binary,
+  Hash,
+  ChartColumn,
   type LucideIcon,
 } from "lucide-react";
 
@@ -188,6 +192,10 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "subtract-days-calculator": CalendarMinus,
   "time-duration-calculator": Timer,
   "week-number-calculator": CalendarRange,
+  "ratio-calculator": Ratio,
+  "lcm-calculator": Binary,
+  "prime-number-calculator": Hash,
+  "mean-median-mode-calculator": ChartColumn,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -201,6 +209,7 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   "date-time": CalendarClock,
   security: ShieldCheck,
   misc: Wrench,
+  math: Calculator,
 };
 
 export function getToolIcon(slug: string): LucideIcon {

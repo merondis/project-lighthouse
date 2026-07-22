@@ -8,7 +8,8 @@ export type ToolCategorySlug =
   | "ai"
   | "date-time"
   | "security"
-  | "misc";
+  | "misc"
+  | "math";
 
 export type ToolStatus = "live" | "comingSoon";
 

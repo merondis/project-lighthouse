@@ -87,7 +87,15 @@ export const categories: Category[] = [
     icon: "🧰",
     description: "Other handy free tools.",
     intro:
-      "A collection of useful calculators that don't fit neatly into one category, starting with our Percentage Calculator for quick percentage-of, percentage-change and comparison calculations. More general-purpose tools will be added here over time.",
+      "A collection of useful calculators that don't fit neatly into one category, from generating a random number or splitting a bill to creating a digital signature. More general-purpose tools will be added here over time.",
+  },
+  {
+    slug: "math",
+    name: "Math",
+    icon: "🧮",
+    description: "Ratios, equations, statistics and other math calculators.",
+    intro:
+      "Our math tools cover the calculations that come up in school, work and everyday problem-solving, from simplifying a ratio and finding the least common multiple, to solving a quadratic equation or checking whether a number is prime. Alongside dedicated calculators like the Scientific Calculator and Standard Deviation Calculator, this category also covers descriptive statistics like mean, median and mode. Everything is calculated instantly in your browser, with no signup required.",
   },
 ];
 

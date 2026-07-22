@@ -68,6 +68,10 @@ import { addDays } from "@/utils/calculators/add-days-calculator";
 import { subtractDays } from "@/utils/calculators/subtract-days-calculator";
 import { calculateTimeDuration } from "@/utils/calculators/time-duration-calculator";
 import { calculateWeekNumber } from "@/utils/calculators/week-number-calculator";
+import { calculateRatio } from "@/utils/calculators/ratio-calculator";
+import { calculateLcm } from "@/utils/calculators/lcm-calculator";
+import { calculatePrime } from "@/utils/calculators/prime-number-calculator";
+import { calculateMeanMedianMode } from "@/utils/calculators/mean-median-mode-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -555,7 +559,7 @@ explanation: [
   },
   {
     slug: "quadratic-solver",
-    category: "misc",
+    category: "math",
     title: "Quadratic Equation Solver",
     shortDescription: "Solve quadratic equations of the form ax² + bx + c = 0.",
     metaDescription: "Free online quadratic equation solver to find the roots of ax² + bx + c = 0 using the quadratic formula.",
@@ -683,7 +687,7 @@ explanation: [
   },
   {
     slug: "scientific-calculator",
-    category: "misc",
+    category: "math",
     title: "Scientific Calculator",
     shortDescription: "A scientific calculator with trigonometric and logarithmic functions.",
     metaDescription: "Free online scientific calculator with support for trigonometric, logarithmic and exponential functions.",
@@ -900,7 +904,7 @@ explanation: [
   },
   {
     slug: "standard-deviation-calculator",
-    category: "misc",
+    category: "math",
     title: "Standard Deviation Calculator",
     shortDescription: "Calculate mean, variance and standard deviation from a data set.",
     metaDescription: "Free online standard deviation calculator to calculate mean, variance and standard deviation from a list of numbers.",
@@ -1320,7 +1324,7 @@ explanation: [
   },
   {
     slug: "fraction-calculator",
-    category: "misc",
+    category: "math",
     title: "Fraction Calculator",
     shortDescription: "Add, subtract, multiply or divide fractions.",
     metaDescription: "Free online fraction calculator to add, subtract, multiply or divide fractions and simplify the result.",
@@ -1870,7 +1874,7 @@ slug: "area-converter",
   },
   {
     slug: "percentage-calculator",
-    category: "misc",
+    category: "math",
     title: "Percentage Calculator",
     shortDescription: "Calculate percentages instantly.",
     metaDescription: "Free online percentage calculator to find percentages, percentage increase/decrease and more.",
@@ -4718,6 +4722,209 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "working-days-calculator", "countdown-timer"],
+  },
+  {
+    slug: "ratio-calculator",
+    category: "math",
+    title: "Ratio Calculator",
+    shortDescription: "Simplify a ratio to its lowest terms and see its decimal equivalent.",
+    metaDescription: "Free online ratio calculator to simplify a ratio to its lowest terms and convert it to a decimal or percentage.",
+    h1: "Ratio Calculator",
+    intro: "Simplify a ratio to its lowest whole-number terms, and see its equivalent decimal and percentage.",
+    icon: "⚖️",
+    status: "live",
+    inputFields: [
+      { key: "valueA", label: "First Value (A)", type: "number", step: 0.01, placeholder: "e.g. 8" },
+      { key: "valueB", label: "Second Value (B)", type: "number", step: 0.01, placeholder: "e.g. 12" },
+    ],
+    resultFields: [
+      { key: "simplifiedRatio", label: "Simplified Ratio", highlight: true },
+      { key: "decimalValue", label: "Decimal Equivalent (A ÷ B)" },
+      { key: "percentage", label: "Percentage (A as % of B)", unit: "%" },
+    ],
+    calculate: (inputs) => {
+      const valueA = Number(inputs.valueA);
+      const valueB = Number(inputs.valueB);
+      const output = calculateRatio(valueA, valueB);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How a ratio is simplified",
+        paragraphs: [
+          "To simplify a ratio, this calculator finds the greatest common divisor (GCD) of the two values and divides both by it, reducing the ratio to its lowest whole-number terms. For example, a ratio of 8:12 has a GCD of 4, simplifying to 2:3.",
+          "If either value includes decimals, both values are first scaled up to whole numbers (for example, 1.5:2 becomes 15:20) before finding the GCD, so the simplified ratio is still expressed in whole numbers.",
+        ],
+      },
+      {
+        heading: "Ratio vs decimal vs percentage",
+        paragraphs: [
+          "A ratio like 2:3 can also be expressed as a decimal (2 ÷ 3 ≈ 0.667) or a percentage (about 66.7%), showing what the first value represents relative to the second. These different formats are useful depending on context, ratios are common in recipes and mixing proportions, while decimals and percentages are often more useful for comparisons.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I enter decimal values?",
+        answer: "Yes, this calculator accepts decimal values for either number and will scale them to whole numbers before simplifying the ratio.",
+      },
+      {
+        question: "What does it mean if the ratio can't be simplified further?",
+        answer: "If the two values share no common factor other than 1 (they're coprime), the ratio is already in its simplest form, for example 5:7.",
+      },
+    ],
+    relatedSlugs: ["fraction-calculator", "percentage-calculator", "lcm-calculator"],
+  },
+  {
+    slug: "lcm-calculator",
+    category: "math",
+    title: "LCM Calculator",
+    shortDescription: "Find the least common multiple (and greatest common divisor) of a list of numbers.",
+    metaDescription: "Free online LCM calculator to find the least common multiple and greatest common divisor (GCD) of two or more numbers.",
+    h1: "LCM Calculator",
+    intro: "Find the least common multiple (LCM) and greatest common divisor (GCD) of two or more whole numbers.",
+    icon: "🔢",
+    status: "live",
+    inputFields: [
+      { key: "numbers", label: "Numbers (comma or space separated)", type: "text", placeholder: "e.g. 4, 6, 8" },
+    ],
+    resultFields: [
+      { key: "lcm", label: "Least Common Multiple (LCM)", highlight: true },
+      { key: "gcd", label: "Greatest Common Divisor (GCD)" },
+      { key: "count", label: "Numbers Entered" },
+    ],
+    calculate: (inputs) => {
+      const numbers = String(inputs.numbers ?? "");
+      const output = calculateLcm(numbers);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How LCM is calculated",
+        paragraphs: [
+          "The least common multiple of a set of numbers is the smallest positive number that all of them divide into evenly. This calculator finds it using the relationship LCM(a, b) = |a × b| ÷ GCD(a, b), applying this pairwise across all the numbers you enter.",
+          "For example, the LCM of 4, 6 and 8 is 24, the smallest number that 4, 6 and 8 all divide into without a remainder.",
+        ],
+      },
+      {
+        heading: "How GCD is calculated",
+        paragraphs: [
+          "The greatest common divisor (also called GCF, greatest common factor) is the largest number that divides evenly into all the numbers entered. This calculator finds it using the Euclidean algorithm, repeatedly dividing and taking remainders until the remainder is zero.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How many numbers can I enter?",
+        answer: "You can enter two or more whole numbers, separated by commas or spaces, the calculator finds the LCM and GCD across all of them at once.",
+      },
+      {
+        question: "What's the difference between LCM and GCD?",
+        answer: "LCM is the smallest number that all your numbers divide into evenly, useful for tasks like finding a common denominator. GCD is the largest number that divides evenly into all your numbers, useful for simplifying fractions or ratios.",
+      },
+    ],
+    relatedSlugs: ["fraction-calculator", "ratio-calculator", "prime-number-calculator"],
+  },
+  {
+    slug: "prime-number-calculator",
+    category: "math",
+    title: "Prime Number Calculator",
+    shortDescription: "Check if a number is prime and find its prime factorization.",
+    metaDescription: "Free online prime number calculator to check if a number is prime, find its prime factors, and see the nearest primes.",
+    h1: "Prime Number Calculator",
+    intro: "Check whether a number is prime, see its prime factorization, and find the nearest prime numbers before and after it.",
+    icon: "🔟",
+    status: "live",
+    inputFields: [
+      { key: "number", label: "Number", type: "number", step: 1, min: 1, placeholder: "e.g. 97" },
+    ],
+    resultFields: [
+      { key: "isPrime", label: "Is Prime?", highlight: true },
+      { key: "primeFactors", label: "Prime Factorization" },
+      { key: "nextPrime", label: "Next Prime Number" },
+      { key: "previousPrime", label: "Previous Prime Number" },
+    ],
+    calculate: (inputs) => {
+      const number = Number(inputs.number);
+      const output = calculatePrime(number);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this checks whether a number is prime",
+        paragraphs: [
+          "A prime number is a whole number greater than 1 with no divisors other than 1 and itself. This calculator checks primality by trial division, testing whether any number up to the square root of your input divides evenly into it. If none do, the number is prime.",
+        ],
+      },
+      {
+        heading: "How prime factorization works",
+        paragraphs: [
+          "Every whole number greater than 1 can be broken down into a unique product of prime numbers, called its prime factorization. This calculator repeatedly divides your number by the smallest possible prime factor until only 1 remains, listing each prime factor found along the way.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is 1 a prime number?",
+        answer: "No, by definition a prime number must have exactly two distinct positive divisors: 1 and itself. The number 1 has only one divisor, so it's neither prime nor composite.",
+      },
+      {
+        question: "What's the largest number this calculator can check?",
+        answer: "This calculator supports positive whole numbers up to 100,000,000. Very large numbers would take too long to check using this method in a browser.",
+      },
+    ],
+    relatedSlugs: ["lcm-calculator", "quadratic-solver", "fraction-calculator"],
+  },
+  {
+    slug: "mean-median-mode-calculator",
+    category: "math",
+    title: "Mean, Median & Mode Calculator",
+    shortDescription: "Calculate the mean, median, mode and range of a data set.",
+    metaDescription: "Free online mean, median and mode calculator to find the average, middle value, most frequent value and range of a data set.",
+    h1: "Mean, Median & Mode Calculator",
+    intro: "Calculate the mean, median, mode and range of a set of numbers by entering values separated by commas or spaces.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "numbers", label: "Numbers (comma or space separated)", type: "text", placeholder: "e.g. 4, 8, 6, 8, 15, 23" },
+    ],
+    resultFields: [
+      { key: "mean", label: "Mean (Average)", highlight: true },
+      { key: "median", label: "Median", highlight: true },
+      { key: "mode", label: "Mode", highlight: true },
+      { key: "range", label: "Range" },
+      { key: "count", label: "Count" },
+    ],
+    calculate: (inputs) => {
+      const numbers = String(inputs.numbers ?? "");
+      const output = calculateMeanMedianMode(numbers);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How mean, median and mode are calculated",
+        paragraphs: [
+          "The mean is the sum of all values divided by how many there are, the familiar arithmetic average. The median is the middle value when the numbers are sorted in order (or the average of the two middle values if there's an even count), which isn't skewed by extreme outliers the way the mean can be. The mode is the value or values that appear most frequently in the data set.",
+        ],
+      },
+      {
+        heading: "When to use mean vs median",
+        paragraphs: [
+          "The mean is useful for evenly distributed data, but a few extreme values can pull it away from what feels like a 'typical' value, for example, average household income is often much higher than the median due to a small number of very high earners. The median better represents a typical value in data sets with outliers or skewed distributions.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if there's more than one mode?",
+        answer: "If two or more values tie for the highest frequency, this calculator lists all of them. If every value appears exactly once, it reports that there's no mode.",
+      },
+      {
+        question: "How do I enter my numbers?",
+        answer: "Enter numbers separated by commas, spaces, or both, for example '4, 8, 6, 8, 15, 23' or '4 8 6 8 15 23' both work.",
+      },
+    ],
+    relatedSlugs: ["standard-deviation-calculator", "percentage-calculator"],
   },
 ];
 
