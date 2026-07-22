@@ -56,7 +56,6 @@ import { calculateGst, GstMode } from "@/utils/calculators/gst-calculator";
 import { calculateEmi } from "@/utils/calculators/emi-calculator";
 import { calculateLoan } from "@/utils/calculators/loan-calculator";
 import { calculatePercentage, PercentageMode } from "@/utils/calculators/percentage-calculator";
-import { calculateBmi } from "@/utils/calculators/bmi-calculator";
 import { ToolConfig } from "@/types/tool";
 import { calculateAge } from "@/utils/calculators/age-calculator";
 import { calculateSip } from "@/utils/calculators/sip-calculator";
@@ -2680,60 +2679,80 @@ widgetType: "compressPdf",
     slug: "bmi-calculator",
     category: "health",
     title: "BMI Calculator",
-    shortDescription: "Calculate your Body Mass Index instantly.",
-    metaDescription: "Free online BMI calculator to check your Body Mass Index based on height and weight.",
+    shortDescription: "Calculate your BMI, BMI Prime, healthy weight range and Ponderal Index.",
+    metaDescription:
+      "Free online BMI calculator for adults. Calculate your Body Mass Index, BMI Prime, healthy weight range and Ponderal Index using US, metric or custom units.",
     h1: "BMI Calculator",
-    intro: "Calculate your Body Mass Index (BMI) using your height and weight to understand your weight category.",
+    intro:
+      "Calculate your Body Mass Index (BMI), BMI Prime, healthy weight range and Ponderal Index for adults, using US, metric or custom units.",
     icon: "⚖️",
     status: "live",
     featured: true,
-    inputFields: [
-      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
-      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
-    ],
-    resultFields: [
-      { key: "bmi", label: "BMI", highlight: true },
-      { key: "category", label: "Category", highlight: true },
-    ],
-calculate: (inputs) => {
-      const heightCm = Number(inputs.heightCm);
-      const weightKg = Number(inputs.weightKg);
-      const output = calculateBmi(heightCm, weightKg);
-      return { ...output };
-    },
-    interpret: (result) => {
-      const category = String(result.category);
-      const bmi = Number(result.bmi);
-      const insights: string[] = [];
-
-      if (category === "Underweight") {
-        insights.push("A BMI of " + bmi + " falls in the underweight range (below 18.5).");
-        insights.push("Consider speaking with a healthcare provider about a nutrition plan suited to your goals.");
-      } else if (category === "Normal weight") {
-        insights.push("A BMI of " + bmi + " falls within the healthy weight range (18.5 to 24.9).");
-        insights.push("Maintaining your current weight through balanced habits is generally a good target.");
-      } else if (category === "Overweight") {
-        insights.push("A BMI of " + bmi + " falls in the overweight range (25 to 29.9).");
-        insights.push("Small, sustainable changes to diet and activity level can help move toward the normal range.");
-      } else {
-        insights.push("A BMI of " + bmi + " falls in the obese range (30 or above).");
-        insights.push("Consulting a healthcare provider is recommended for personalized guidance.");
-      }
-      insights.push("Remember, BMI doesn't account for muscle mass or body composition.");
-      return insights;
-    },
-      explanation: [
+    widgetType: "bmi",
+    explanation: [
       {
-        heading: "BMI formula: how to calculate Body Mass Index",
+        heading: "What is BMI?",
         paragraphs: [
-          "The BMI formula is: BMI = weight (kg) ÷ height (m)², weight in kilograms divided by height in meters, squared. This calculator converts your height from centimeters to meters automatically before applying the formula, so you can enter height in cm directly.",
-          "For example, a person weighing 70 kg with a height of 175 cm (1.75 m) has a BMI of 70 ÷ (1.75 × 1.75) = 70 ÷ 3.0625 ≈ 22.9, which falls in the normal weight range.",
+          "Body Mass Index (BMI) is a simple screening measure that estimates whether your weight is in a healthy range relative to your height. It's calculated as weight divided by height squared, and is widely used by healthcare providers, researchers and public health organizations as a quick, low-cost starting point for assessing weight status across large populations.",
+          "BMI doesn't measure body fat directly, and this calculator is intended for adults aged 18 and over, it doesn't use the separate age- and sex-specific percentile charts used for children and teenagers.",
         ],
       },
       {
-        heading: "BMI chart and weight categories",
+        heading: "BMI classification table for adults",
         paragraphs: [
-          "According to the standard BMI chart, a BMI below 18.5 is categorized as underweight, 18.5 to 24.9 as normal weight, 25 to 29.9 as overweight, and 30 or above as obese. These BMI ranges are widely used general screening thresholds, not a personalized health assessment.",
+          "A BMI below 16 is classified as Severe Thinness; 16 to 17 as Moderate Thinness; 17 to 18.5 as Mild Thinness; 18.5 to 25 as Normal weight; 25 to 30 as Overweight; 30 to 35 as Obese Class I; 35 to 40 as Obese Class II; and 40 or above as Obese Class III.",
+          "These thresholds are the standard adult BMI classification used internationally, extending the commonly cited 'underweight / normal / overweight / obese' categories into finer bands that better distinguish mild from severe cases at both ends of the scale.",
+        ],
+      },
+      {
+        heading: "Risks of being overweight",
+        paragraphs: [
+          "Carrying excess weight, particularly over a sustained period, is associated with an increased risk of several health conditions.",
+          "Increased risk of type 2 diabetes, as excess body fat contributes to insulin resistance.",
+          "Higher risk of high blood pressure and cardiovascular disease, including heart attack and stroke.",
+          "Greater strain on joints, particularly the knees and hips, which can contribute to osteoarthritis.",
+          "Increased risk of certain cancers, including breast, colon and endometrial cancer.",
+          "Higher likelihood of sleep apnea and other breathing difficulties during sleep.",
+        ],
+      },
+      {
+        heading: "Risks of being underweight",
+        paragraphs: [
+          "Having too little body weight relative to height carries its own set of health risks, distinct from those of excess weight.",
+          "Weakened immune function, making infections more difficult to fight off.",
+          "Nutrient deficiencies, since low body weight can reflect inadequate intake of essential vitamins and minerals.",
+          "Reduced bone density and higher fracture risk, particularly in older adults.",
+          "Fertility issues, as very low body fat can disrupt hormone levels involved in reproduction.",
+          "Increased risk of anemia and fatigue from insufficient caloric or nutritional intake.",
+        ],
+      },
+      {
+        heading: "Limitations of BMI",
+        paragraphs: [
+          "BMI is a screening tool, not a diagnostic one, it doesn't distinguish between fat mass and lean muscle mass. A muscular athlete can have a high BMI without carrying excess body fat, while someone with a 'normal' BMI could still have a high body fat percentage and low muscle mass, a pattern sometimes called 'normal weight obesity.'",
+          "BMI also doesn't account for where fat is distributed on the body, even though abdominal fat carries different health risks than fat carried elsewhere. It doesn't factor in bone density, overall body frame, or ethnicity-related differences in body composition that some research suggests affect the health risks associated with a given BMI.",
+          "For adults, this calculator applies a single set of thresholds. It does not include the CDC's separate growth-chart-based percentile method used to assess BMI in children and adolescents, since body composition changes substantially during growth and requires age- and sex-specific reference curves rather than fixed adult thresholds.",
+        ],
+      },
+      {
+        heading: "BMI formula (USC and SI units, with a worked example)",
+        paragraphs: [
+          "In SI (metric) units: BMI = weight (kg) ÷ height (m)². For example, someone weighing 70 kg at a height of 175 cm (1.75 m) has a BMI of 70 ÷ (1.75 × 1.75) = 70 ÷ 3.0625 ≈ 22.9, which falls in the Normal category.",
+          "In USC (imperial) units: BMI = 703 × weight (lb) ÷ height (in)². The constant 703 converts pounds and inches into the equivalent metric result without you needing to convert units yourself. For example, someone weighing 154 lb at a height of 68.9 in gets 703 × 154 ÷ (68.9 × 68.9) = 108,262 ÷ 4,747.2 ≈ 22.8, matching the metric result above (154 lb ≈ 70 kg, 68.9 in ≈ 175 cm) within normal rounding.",
+        ],
+      },
+      {
+        heading: "BMI Prime: what it is and how it's classified",
+        paragraphs: [
+          "BMI Prime is BMI divided by 25 (the upper bound of the Normal BMI range), giving a simple ratio to the upper healthy-weight threshold. A BMI Prime of exactly 1.0 means your BMI is exactly 25; values below 1.0 mean your BMI is below 25, and values above 1.0 mean it's above 25.",
+          "BMI Prime uses its own classification: below 0.64 is Severe Thinness, 0.64 to 0.68 is Moderate Thinness, 0.68 to 0.74 is Mild Thinness, 0.74 to 1.0 is Normal, 1.0 to 1.2 is Overweight, 1.2 to 1.4 is Obese Class I, 1.4 to 1.6 is Obese Class II, and above 1.6 is Obese Class III, mirroring the standard BMI bands rescaled around 25.",
+        ],
+      },
+      {
+        heading: "Ponderal Index: an alternative to BMI",
+        paragraphs: [
+          "The Ponderal Index is a related measure that divides weight by height cubed rather than height squared: PI = mass ÷ height³. In SI units, mass is in kilograms and height in meters, giving a result in kg/m³, typically in the range of about 11 to 15 for most adults.",
+          "Because it divides by height cubed instead of squared, Ponderal Index is considered less sensitive to a person's height than BMI is, some research suggests it's a more consistent measure across people of very different heights. The same underlying formula can be computed with weight in pounds and height in inches, using the appropriate unit conversion, and produces the same physical result once expressed in consistent units.",
         ],
       },
     ],
@@ -2741,19 +2760,45 @@ calculate: (inputs) => {
       {
         question: "What is a healthy BMI range?",
         answer:
-          "A BMI between 18.5 and 24.9 is generally considered a healthy weight range for most adults.",
+          "A BMI between 18.5 and 25 is generally classified as Normal weight for most adults. This calculator also breaks down BMI further into eight bands, from Severe Thinness to Obese Class III, for more detail than the four-category version.",
       },
       {
         question: "Is BMI accurate for everyone?",
         answer:
-          "BMI is a general screening tool and does not account for muscle mass, bone density, or body composition, so it may not be fully accurate for athletes or older adults.",
+          "BMI is a general screening tool and does not account for muscle mass, bone density, fat distribution, or body composition, so it may not be fully accurate for athletes, older adults, or people with an unusually muscular or lean build. It's a useful starting point, not a diagnosis.",
       },
       {
-        question: "How often should I check my BMI?",
-        answer: "Checking BMI periodically (e.g. monthly) can help track general weight trends over time.",
+        question: "What is BMI Prime?",
+        answer:
+          "BMI Prime is your BMI divided by 25, expressing how your BMI compares to the upper bound of the Normal range as a simple ratio. A BMI Prime under 1.0 means your BMI is below 25; over 1.0 means it's above 25.",
+      },
+      {
+        question: "What is the Ponderal Index and how is it different from BMI?",
+        answer:
+          "The Ponderal Index divides weight by height cubed instead of height squared (as BMI does). This makes it less sensitive to height differences between people, and it's sometimes used as an alternative or complement to BMI in research settings.",
+      },
+      {
+        question: "Does this calculator work for children or teenagers?",
+        answer:
+          "No, this calculator is designed for adults aged 18 and over. Children and adolescents require a different, age- and sex-specific percentile-based method (such as the CDC growth charts), which isn't included here.",
+      },
+      {
+        question: "Why does the calculator ask for my age and gender?",
+        answer:
+          "Age and gender don't change how BMI itself is calculated, they're used only to show general, non-diagnostic context notes, for example, that older adults and women tend to carry more body fat than younger adults or men at the same BMI.",
+      },
+      {
+        question: "How is the healthy weight range calculated?",
+        answer:
+          "The healthy weight range is the span of weights that would produce a BMI between 18.5 and 25 at your entered height, calculated by solving the BMI formula for weight at each of those two BMI values.",
+      },
+      {
+        question: "Can I enter my height and weight in units other than metric or US standard?",
+        answer:
+          "Yes, select 'Other' in the unit toggle to choose your height unit (centimeters, meters, inches or feet) and weight unit (kilograms, pounds or stone) independently.",
       },
     ],
-    relatedSlugs: ["age-calculator", "percentage-calculator"],
+    relatedSlugs: ["calorie-goal-calculator", "body-fat-calculator", "bmr-calculator", "ideal-weight-calculator"],
   },
   {
     slug: "compound-interest-calculator",

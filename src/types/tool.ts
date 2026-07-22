@@ -80,7 +80,8 @@ export interface ToolConfig {
     | "fontSignature"
     | "handwrittenSignature"
     | "emailSignature"
-    | "watermarkPdf";
+    | "watermarkPdf"
+    | "bmi";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;
