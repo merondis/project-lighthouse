@@ -9,7 +9,8 @@ export type ToolCategorySlug =
   | "date-time"
   | "security"
   | "misc"
-  | "math";
+  | "math"
+  | "construction";
 
 export type ToolStatus = "live" | "comingSoon";
 

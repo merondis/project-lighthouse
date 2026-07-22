@@ -99,6 +99,13 @@ import {
   Binary,
   Hash,
   ChartColumn,
+  HardHat,
+  Blocks,
+  Grid2x2,
+  PaintBucket,
+  LayoutGrid,
+  Triangle,
+  Mountain,
   type LucideIcon,
 } from "lucide-react";
 
@@ -196,6 +203,12 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "lcm-calculator": Binary,
   "prime-number-calculator": Hash,
   "mean-median-mode-calculator": ChartColumn,
+  "concrete-calculator": Blocks,
+  "tile-calculator": Grid2x2,
+  "paint-calculator": PaintBucket,
+  "flooring-calculator": LayoutGrid,
+  "roofing-calculator": Triangle,
+  "gravel-calculator": Mountain,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
@@ -210,6 +223,7 @@ const CATEGORY_ICONS: Record<string, LucideIcon> = {
   security: ShieldCheck,
   misc: Wrench,
   math: Calculator,
+  construction: HardHat,
 };
 
 export function getToolIcon(slug: string): LucideIcon {

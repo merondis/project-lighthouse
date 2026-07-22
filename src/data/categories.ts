@@ -97,6 +97,14 @@ export const categories: Category[] = [
     intro:
       "Our math tools cover the calculations that come up in school, work and everyday problem-solving, from simplifying a ratio and finding the least common multiple, to solving a quadratic equation or checking whether a number is prime. Alongside dedicated calculators like the Scientific Calculator and Standard Deviation Calculator, this category also covers descriptive statistics like mean, median and mode. Everything is calculated instantly in your browser, with no signup required.",
   },
+  {
+    slug: "construction",
+    name: "Construction",
+    icon: "🏗️",
+    description: "Concrete, tile, paint and other material estimators for home projects.",
+    intro:
+      "Planning a home improvement or building project usually means figuring out how much material to buy, whether that's bags of concrete, boxes of tile, or gallons of paint. Our construction calculators use standard industry formulas and coverage rates to estimate the materials you'll need, including a waste allowance where it matters, so you can shop with a realistic quantity instead of guessing. These are estimates for planning purposes; always check quantities with your supplier or contractor before a large purchase.",
+  },
 ];
 
 export function getCategory(slug: string) {

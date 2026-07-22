@@ -72,6 +72,12 @@ import { calculateRatio } from "@/utils/calculators/ratio-calculator";
 import { calculateLcm } from "@/utils/calculators/lcm-calculator";
 import { calculatePrime } from "@/utils/calculators/prime-number-calculator";
 import { calculateMeanMedianMode } from "@/utils/calculators/mean-median-mode-calculator";
+import { calculateConcrete, ConcreteBagSize } from "@/utils/calculators/concrete-calculator";
+import { calculateTiles } from "@/utils/calculators/tile-calculator";
+import { calculatePaint } from "@/utils/calculators/paint-calculator";
+import { calculateFlooring } from "@/utils/calculators/flooring-calculator";
+import { calculateRoofing } from "@/utils/calculators/roofing-calculator";
+import { calculateGravel } from "@/utils/calculators/gravel-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -4925,6 +4931,354 @@ explanation: [
       },
     ],
     relatedSlugs: ["standard-deviation-calculator", "percentage-calculator"],
+  },
+  {
+    slug: "concrete-calculator",
+    category: "construction",
+    title: "Concrete Calculator",
+    shortDescription: "Estimate the cubic yards and bags of concrete needed for a slab.",
+    metaDescription: "Free online concrete calculator to estimate cubic yards, cubic feet and the number of bags of concrete needed for a slab or footing.",
+    h1: "Concrete Calculator",
+    intro: "Estimate how much concrete you need for a slab, footing or pad based on its length, width and thickness.",
+    icon: "🧱",
+    status: "live",
+    featured: true,
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "thicknessIn", label: "Thickness (inches)", type: "number", step: 0.5, placeholder: "e.g. 4" },
+      {
+        key: "bagSize",
+        label: "Bag Size",
+        type: "select",
+        options: [
+          { label: "40 lb bag", value: "40" },
+          { label: "60 lb bag", value: "60" },
+          { label: "80 lb bag", value: "80" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "cubicYards", label: "Cubic Yards Needed", highlight: true },
+      { key: "bagsNeeded", label: "Bags Needed", highlight: true },
+      { key: "cubicFeet", label: "Cubic Feet" },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const thicknessIn = Number(inputs.thicknessIn);
+      const bagSize = String(inputs.bagSize) as ConcreteBagSize;
+      const output = calculateConcrete(lengthFt, widthFt, thicknessIn, bagSize);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How concrete volume is calculated",
+        paragraphs: [
+          "This calculator multiplies length × width × thickness to find the volume of concrete needed in cubic feet, then converts that to cubic yards (dividing by 27) since ready-mix concrete is typically ordered by the cubic yard for larger pours.",
+          "For bagged concrete, it uses the standard published yield for premixed bags: a 40 lb bag yields about 0.30 cubic feet, a 60 lb bag about 0.45 cubic feet, and an 80 lb bag about 0.60 cubic feet, then divides your total volume by the bag's yield and rounds up to a whole number of bags.",
+        ],
+      },
+      {
+        heading: "Should I order ready-mix or use bags?",
+        paragraphs: [
+          "For small projects like fence posts or a small pad, bagged concrete mixed on-site is usually more practical. For larger pours (roughly a cubic yard or more), ready-mix concrete delivered by truck is typically more cost-effective and easier to place in one continuous pour.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I add extra for waste?",
+        answer: "This calculator gives the exact theoretical volume. Many contractors add 5-10% extra to account for spillage, uneven subgrade, and over-excavation, consider rounding up your final order.",
+      },
+      {
+        question: "Does this account for rebar or wire mesh?",
+        answer: "No, this calculator estimates concrete volume only. Reinforcement like rebar or wire mesh doesn't meaningfully change the concrete volume needed and should be planned separately.",
+      },
+    ],
+    relatedSlugs: ["gravel-calculator", "flooring-calculator", "roofing-calculator"],
+  },
+  {
+    slug: "tile-calculator",
+    category: "construction",
+    title: "Tile Calculator",
+    shortDescription: "Calculate how many tiles you need for a floor or wall.",
+    metaDescription: "Free online tile calculator to estimate how many tiles you need for a room, including an allowance for cuts and waste.",
+    h1: "Tile Calculator",
+    intro: "Calculate how many tiles you need to cover a room, based on the room size, tile size and a waste allowance for cuts.",
+    icon: "🔲",
+    status: "live",
+    inputFields: [
+      { key: "roomLengthFt", label: "Room Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "roomWidthFt", label: "Room Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "tileLengthIn", label: "Tile Length (inches)", type: "number", step: 0.5, placeholder: "e.g. 12" },
+      { key: "tileWidthIn", label: "Tile Width (inches)", type: "number", step: 0.5, placeholder: "e.g. 12" },
+      { key: "wastePercent", label: "Waste Allowance (%)", type: "number", step: 1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "tilesNeeded", label: "Tiles Needed", highlight: true },
+      { key: "roomArea", label: "Room Area", unit: "sq ft" },
+      { key: "totalAreaWithWaste", label: "Area Including Waste", unit: "sq ft" },
+    ],
+    calculate: (inputs) => {
+      const roomLengthFt = Number(inputs.roomLengthFt);
+      const roomWidthFt = Number(inputs.roomWidthFt);
+      const tileLengthIn = Number(inputs.tileLengthIn);
+      const tileWidthIn = Number(inputs.tileWidthIn);
+      const wastePercent = Number(inputs.wastePercent);
+      const output = calculateTiles(roomLengthFt, roomWidthFt, tileLengthIn, tileWidthIn, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the number of tiles is calculated",
+        paragraphs: [
+          "This calculator divides your room's area by a single tile's area to find the number of tiles needed to cover it, then adds your chosen waste percentage on top to account for cuts, breakage and pattern matching, before rounding up to a whole number of tiles.",
+        ],
+      },
+      {
+        heading: "How much waste allowance should I use?",
+        paragraphs: [
+          "10% is a common default for straight tile layouts. Diagonal layouts, rooms with lots of corners or fixtures, or large-format tiles that are harder to cut efficiently often warrant a higher allowance, sometimes 15-20%.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this account for grout lines?",
+        answer: "No, this calculator uses the tile's stated size and doesn't separately account for grout line width, which has only a small effect on the total tile count for most standard grout widths.",
+      },
+      {
+        question: "Should I buy exactly the amount this calculator suggests?",
+        answer: "It's a good idea to round up to the nearest full box, and consider keeping a few extra tiles on hand for future repairs, since matching a discontinued tile later can be difficult.",
+      },
+    ],
+    relatedSlugs: ["flooring-calculator", "paint-calculator", "concrete-calculator"],
+  },
+  {
+    slug: "paint-calculator",
+    category: "construction",
+    title: "Paint Calculator",
+    shortDescription: "Estimate how many gallons of paint you need for a room.",
+    metaDescription: "Free online paint calculator to estimate how many gallons of paint you need for a room based on wall size, coats and coverage.",
+    h1: "Paint Calculator",
+    intro: "Estimate how many gallons of paint you need to cover a room's walls, based on room size, doors, windows and number of coats.",
+    icon: "🎨",
+    status: "live",
+    inputFields: [
+      { key: "roomLengthFt", label: "Room Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "roomWidthFt", label: "Room Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "wallHeightFt", label: "Wall Height (ft)", type: "number", step: 0.1, placeholder: "e.g. 8" },
+      { key: "numDoors", label: "Number of Doors", type: "number", step: 1, defaultValue: 1 },
+      { key: "numWindows", label: "Number of Windows", type: "number", step: 1, defaultValue: 1 },
+      { key: "coats", label: "Number of Coats", type: "number", step: 1, defaultValue: 2 },
+      { key: "coveragePerGallon", label: "Coverage per Gallon (sq ft)", type: "number", step: 10, defaultValue: 350 },
+    ],
+    resultFields: [
+      { key: "gallonsNeeded", label: "Gallons Needed", highlight: true },
+      { key: "netWallArea", label: "Wall Area (excl. doors/windows)", unit: "sq ft" },
+      { key: "totalPaintArea", label: "Total Area to Paint (all coats)", unit: "sq ft" },
+    ],
+    calculate: (inputs) => {
+      const roomLengthFt = Number(inputs.roomLengthFt);
+      const roomWidthFt = Number(inputs.roomWidthFt);
+      const wallHeightFt = Number(inputs.wallHeightFt);
+      const numDoors = Number(inputs.numDoors);
+      const numWindows = Number(inputs.numWindows);
+      const coats = Number(inputs.coats);
+      const coveragePerGallon = Number(inputs.coveragePerGallon);
+      const output = calculatePaint(roomLengthFt, roomWidthFt, wallHeightFt, numDoors, numWindows, coats, coveragePerGallon);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How paint quantity is calculated",
+        paragraphs: [
+          "This calculator finds the room's wall area by multiplying the perimeter (2 × (length + width)) by the wall height, then subtracts a standard estimated area for each door (about 21 sq ft) and window (about 15 sq ft) you specify. That net area is multiplied by your number of coats, then divided by your paint's coverage rate per gallon and rounded up to a whole gallon.",
+        ],
+      },
+      {
+        heading: "Why coverage per gallon varies",
+        paragraphs: [
+          "Most paint covers around 350-400 sq ft per gallon on a smooth, primed surface, but this varies by paint brand, sheen, and the porosity or texture of your walls. Check your specific paint can's label for its stated coverage rate for the most accurate estimate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I paint the ceiling too?",
+        answer: "No, this calculator estimates wall paint only. Ceilings are typically painted with a separate ceiling paint and would need to be calculated separately using the room's floor area.",
+      },
+      {
+        question: "How many coats do I need?",
+        answer: "Two coats is standard for most new paint jobs. A single coat may work for a minor touch-up in a similar color, while three coats might be needed for a light color covering a much darker existing wall.",
+      },
+    ],
+    relatedSlugs: ["tile-calculator", "flooring-calculator", "concrete-calculator"],
+  },
+  {
+    slug: "flooring-calculator",
+    category: "construction",
+    title: "Flooring Calculator",
+    shortDescription: "Calculate how many boxes of flooring you need for a room.",
+    metaDescription: "Free online flooring calculator to estimate how many boxes of laminate, vinyl or hardwood flooring you need for a room.",
+    h1: "Flooring Calculator",
+    intro: "Calculate how many boxes of flooring, such as laminate, vinyl plank or hardwood, you need to cover a room.",
+    icon: "🪵",
+    status: "live",
+    inputFields: [
+      { key: "roomLengthFt", label: "Room Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "roomWidthFt", label: "Room Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "coveragePerBoxSqFt", label: "Coverage per Box (sq ft)", type: "number", step: 0.1, defaultValue: 20 },
+      { key: "wastePercent", label: "Waste Allowance (%)", type: "number", step: 1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "boxesNeeded", label: "Boxes Needed", highlight: true },
+      { key: "roomArea", label: "Room Area", unit: "sq ft" },
+      { key: "totalAreaWithWaste", label: "Area Including Waste", unit: "sq ft" },
+    ],
+    calculate: (inputs) => {
+      const roomLengthFt = Number(inputs.roomLengthFt);
+      const roomWidthFt = Number(inputs.roomWidthFt);
+      const coveragePerBoxSqFt = Number(inputs.coveragePerBoxSqFt);
+      const wastePercent = Number(inputs.wastePercent);
+      const output = calculateFlooring(roomLengthFt, roomWidthFt, coveragePerBoxSqFt, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the number of boxes is calculated",
+        paragraphs: [
+          "This calculator multiplies your room's length and width to find its area, adds your chosen waste percentage to account for cuts and offcuts, then divides that total by how much area a single box of flooring covers, rounding up to a whole number of boxes.",
+        ],
+      },
+      {
+        heading: "How much waste allowance should I use?",
+        paragraphs: [
+          "10% is a typical default for straightforward rectangular rooms. Rooms with lots of corners, closets or angled walls, or flooring installed diagonally, generally need a higher allowance since more cutting is involved.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Where do I find the coverage per box?",
+        answer: "This is printed on the flooring product's packaging or listed on the retailer's product page, it varies by plank size and brand, so check your specific product for an accurate figure.",
+      },
+      {
+        question: "Should I buy exactly this many boxes?",
+        answer: "It's wise to round up to the nearest full box and keep any leftover material for future repairs, since matching a discontinued flooring style later can be difficult.",
+      },
+    ],
+    relatedSlugs: ["tile-calculator", "paint-calculator", "concrete-calculator"],
+  },
+  {
+    slug: "roofing-calculator",
+    category: "construction",
+    title: "Roofing Calculator",
+    shortDescription: "Estimate roofing squares and shingle bundles needed for a roof.",
+    metaDescription: "Free online roofing calculator to estimate the roof area, roofing squares and shingle bundles needed based on building size and roof pitch.",
+    h1: "Roofing Calculator",
+    intro: "Estimate your roof's surface area, roofing squares and shingle bundles needed based on your building's footprint and roof pitch.",
+    icon: "🏠",
+    status: "live",
+    inputFields: [
+      { key: "buildingLengthFt", label: "Building Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 40" },
+      { key: "buildingWidthFt", label: "Building Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 30" },
+      { key: "roofPitch", label: "Roof Pitch (rise per 12 in run)", type: "number", step: 0.5, defaultValue: 6, placeholder: "e.g. 6" },
+      { key: "wastePercent", label: "Waste Allowance (%)", type: "number", step: 1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "squaresNeeded", label: "Roofing Squares Needed", highlight: true },
+      { key: "bundlesNeeded", label: "Shingle Bundles Needed", highlight: true },
+      { key: "roofArea", label: "Roof Surface Area", unit: "sq ft" },
+    ],
+    calculate: (inputs) => {
+      const buildingLengthFt = Number(inputs.buildingLengthFt);
+      const buildingWidthFt = Number(inputs.buildingWidthFt);
+      const roofPitch = Number(inputs.roofPitch);
+      const wastePercent = Number(inputs.wastePercent);
+      const output = calculateRoofing(buildingLengthFt, buildingWidthFt, roofPitch, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How roof area and pitch are calculated",
+        paragraphs: [
+          "This calculator starts with your building's flat footprint area (length × width), then applies a pitch multiplier to account for the roof's slope, since a sloped roof has more actual surface area than its footprint. The multiplier is calculated as √(144 + pitch²) ÷ 12, where pitch is the rise in inches per 12 inches of horizontal run (for example, a '6/12' roof has a pitch of 6).",
+          "Roofing materials are measured in 'squares,' where 1 square covers 100 square feet. This calculator divides your total roof area (plus waste allowance) by 100 to find the number of squares, then multiplies by 3, since standard shingle bundles are packaged 3 per square.",
+        ],
+      },
+      {
+        heading: "Finding your roof's pitch",
+        paragraphs: [
+          "Roof pitch is usually expressed as 'X/12,' meaning the roof rises X inches for every 12 inches of horizontal run. A 4/12 roof is fairly shallow, while a 12/12 roof is a steep 45-degree slope. Check your building plans, or measure with a level and tape measure along a section of exposed rafter.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this account for hips, valleys or dormers?",
+        answer: "No, this calculator estimates a simple gabled or shed roof based on the building's footprint and pitch. Complex roof shapes with hips, valleys or dormers have additional surface area and cutting waste that this estimate doesn't capture, consult a roofing contractor for a precise measurement.",
+      },
+      {
+        question: "What waste allowance should I use?",
+        answer: "10% is a reasonable default for a simple roof shape. More complex roofs with lots of cuts, hips or valleys typically need 15% or more.",
+      },
+    ],
+    relatedSlugs: ["concrete-calculator", "gravel-calculator", "paint-calculator"],
+  },
+  {
+    slug: "gravel-calculator",
+    category: "construction",
+    title: "Gravel Calculator",
+    shortDescription: "Estimate the tons of gravel needed for a driveway or path.",
+    metaDescription: "Free online gravel calculator to estimate the cubic yards and tons of gravel needed for a driveway, path or base layer.",
+    h1: "Gravel Calculator",
+    intro: "Estimate how much gravel you need, in cubic yards and tons, for a driveway, path or base layer based on its length, width and depth.",
+    icon: "🪨",
+    status: "live",
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 20" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "depthIn", label: "Depth (inches)", type: "number", step: 0.5, placeholder: "e.g. 4" },
+    ],
+    resultFields: [
+      { key: "tonsNeeded", label: "Tons Needed", highlight: true },
+      { key: "cubicYards", label: "Cubic Yards" },
+      { key: "cubicFeet", label: "Cubic Feet" },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const depthIn = Number(inputs.depthIn);
+      const output = calculateGravel(lengthFt, widthFt, depthIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How gravel quantity is calculated",
+        paragraphs: [
+          "This calculator multiplies length × width × depth to find the volume of gravel needed in cubic feet, converts that to cubic yards (dividing by 27), then converts to tons using a typical density of 1.4 tons per cubic yard for compacted gravel or crushed stone, the unit most gravel suppliers sell by.",
+        ],
+      },
+      {
+        heading: "Why gravel density varies",
+        paragraphs: [
+          "Actual gravel density depends on the material type and how compacted it is, ranging roughly from 1.2 to 1.5 tons per cubic yard. For a large or expensive order, it's worth confirming the exact density figure with your specific supplier for a more precise quantity.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How deep should a gravel driveway be?",
+        answer: "A typical gravel driveway uses 4-6 inches of depth, sometimes with a deeper base layer of larger stone beneath a finer top layer. Depth needs vary by soil type and expected vehicle weight.",
+      },
+      {
+        question: "Should I order extra gravel?",
+        answer: "Many suppliers recommend ordering 5-10% extra to account for compaction and an uneven base, especially for larger or irregularly shaped areas.",
+      },
+    ],
+    relatedSlugs: ["concrete-calculator", "roofing-calculator", "flooring-calculator"],
   },
 ];
 
