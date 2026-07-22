@@ -59,6 +59,9 @@ import { calculatePercentage, PercentageMode } from "@/utils/calculators/percent
 import { calculateBmi } from "@/utils/calculators/bmi-calculator";
 import { ToolConfig } from "@/types/tool";
 import { calculateAge } from "@/utils/calculators/age-calculator";
+import { calculateSip } from "@/utils/calculators/sip-calculator";
+import { calculateRetirement } from "@/utils/calculators/retirement-calculator";
+import { calculateProteinNeeds, ProteinActivityLevel, ProteinGoal } from "@/utils/calculators/protein-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -4109,6 +4112,245 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "age-calculator"],
+  },
+  {
+    slug: "sip-calculator",
+    category: "finance",
+    title: "SIP Calculator",
+    shortDescription: "Calculate the maturity value of your monthly SIP investment.",
+    metaDescription:
+      "Free online SIP calculator to calculate the maturity amount, total investment and wealth gained from a monthly Systematic Investment Plan.",
+    h1: "SIP Calculator",
+    intro:
+      "Calculate the future value of your monthly SIP (Systematic Investment Plan) based on your monthly contribution, expected annual return and investment period.",
+    icon: "📈",
+    status: "live",
+    featured: true,
+    inputFields: [
+      { key: "monthlyInvestment", label: "Monthly Investment", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "annualRate", label: "Expected Annual Return (%)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "years", label: "Investment Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 15" },
+    ],
+    resultFields: [
+      { key: "maturityAmount", label: "Maturity Amount", highlight: true },
+      { key: "totalInvested", label: "Total Amount Invested" },
+      { key: "totalGains", label: "Wealth Gained", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const monthlyInvestment = Number(inputs.monthlyInvestment);
+      const annualRate = Number(inputs.annualRate);
+      const years = Number(inputs.years);
+      const output = calculateSip(monthlyInvestment, annualRate, years);
+      return { ...output };
+    },
+    interpret: (result) => {
+      const totalInvested = Number(result.totalInvested);
+      const maturityAmount = Number(result.maturityAmount);
+      const growthMultiple = totalInvested > 0 ? maturityAmount / totalInvested : 0;
+      return [
+        "Your total investment of " + result.totalInvested + " is projected to grow to " + result.maturityAmount + ".",
+        "That's roughly " + growthMultiple.toFixed(2) + "x your invested amount.",
+        "Estimated wealth gained from returns: " + result.totalGains + ".",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How SIP maturity value is calculated",
+        paragraphs: [
+          "A SIP invests a fixed amount every month, and each installment compounds for a different length of time depending on when it was invested. The maturity value is calculated using the future value of a growing annuity formula: M = P × [((1 + i)^n − 1) / i] × (1 + i), where P is the monthly investment, i is the monthly rate of return, and n is the total number of monthly installments.",
+          "For example, investing 5,000 per month for 15 years (n = 180) at an expected annual return of 12% (i = 1% monthly) grows to roughly 25.2 lakh, compared to a total invested amount of 9 lakh, meaning about 16.2 lakh comes purely from investment growth.",
+        ],
+      },
+      {
+        heading: "Why starting a SIP early matters",
+        paragraphs: [
+          "Because SIP returns compound monthly, earlier installments have far longer to grow than later ones. This is why extending the investment period, even by a few years, tends to have a much larger impact on the final maturity amount than increasing the monthly contribution by a similar percentage.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What return rate should I use for my SIP?",
+        answer:
+          "This depends on where you're investing. Equity mutual funds have historically returned around 10-15% annually over the long term, but returns aren't guaranteed and vary by fund and market conditions. Use a conservative estimate for planning purposes.",
+      },
+      {
+        question: "Does this account for expense ratios or exit loads?",
+        answer:
+          "No, this calculator estimates gross returns based on your expected annual rate. Actual returns from a mutual fund SIP will be reduced by fund expense ratios and any applicable exit loads.",
+      },
+      {
+        question: "Can I use this for a lump sum investment instead?",
+        answer:
+          "This calculator is designed for recurring monthly investments. For a one-time lump sum, use our Compound Interest Calculator instead.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "retirement-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "retirement-calculator",
+    category: "finance",
+    title: "Retirement Calculator",
+    shortDescription: "Estimate your retirement savings corpus and future monthly income.",
+    metaDescription:
+      "Free online retirement calculator to estimate your retirement corpus based on current savings, monthly contributions and expected returns.",
+    h1: "Retirement Calculator",
+    intro:
+      "Estimate how much your retirement savings could grow to by your target retirement age, based on your current savings, monthly contributions and expected annual return.",
+    icon: "🏖️",
+    status: "live",
+    featured: true,
+    inputFields: [
+      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "retirementAge", label: "Target Retirement Age", type: "number", step: 1, placeholder: "e.g. 60" },
+      { key: "currentSavings", label: "Current Retirement Savings", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "monthlyContribution", label: "Monthly Contribution", type: "number", step: 0.01, placeholder: "e.g. 15000" },
+      { key: "annualRate", label: "Expected Annual Return (%)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "retirementCorpus", label: "Projected Retirement Corpus", highlight: true },
+      { key: "estimatedMonthlyIncome", label: "Estimated Sustainable Monthly Income", highlight: true },
+      { key: "totalContributions", label: "Total Contributions" },
+      { key: "totalGrowth", label: "Total Growth from Returns" },
+      { key: "yearsToRetirement", label: "Years to Retirement" },
+    ],
+    calculate: (inputs) => {
+      const currentAge = Number(inputs.currentAge);
+      const retirementAge = Number(inputs.retirementAge);
+      const currentSavings = Number(inputs.currentSavings);
+      const monthlyContribution = Number(inputs.monthlyContribution);
+      const annualRate = Number(inputs.annualRate);
+      const output = calculateRetirement(currentAge, retirementAge, currentSavings, monthlyContribution, annualRate);
+      return { ...output };
+    },
+    interpret: (result) => {
+      return [
+        "At your target retirement age, your projected corpus is " + result.retirementCorpus + ".",
+        "Using the common 4% withdrawal rule, that could sustain roughly " + result.estimatedMonthlyIncome + " per month in retirement.",
+        "Of your total corpus, " + result.totalGrowth + " comes from investment growth rather than your own contributions.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How your retirement corpus is projected",
+        paragraphs: [
+          "This calculator compounds your current savings forward to your retirement age, and separately calculates the future value of your ongoing monthly contributions using the future value of an annuity formula, then adds the two together to get your projected total retirement corpus.",
+        ],
+      },
+      {
+        heading: "The 4% withdrawal rule",
+        paragraphs: [
+          "The estimated monthly income uses the widely referenced 4% rule, which suggests withdrawing about 4% of your retirement savings per year can be sustained over a long retirement without depleting the principal too quickly, though this is a general guideline, not a guarantee, and doesn't account for inflation, sequence-of-returns risk, or your specific spending needs.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this account for inflation?",
+        answer:
+          "No, this calculator projects nominal (non-inflation-adjusted) future values. Your actual purchasing power at retirement will be lower than the projected corpus suggests, since prices generally rise over time.",
+      },
+      {
+        question: "Is the 4% withdrawal rule guaranteed to work?",
+        answer:
+          "No, the 4% rule is a commonly cited planning guideline based on historical market data, not a guarantee. Actual sustainable withdrawal rates depend on market performance, your investment mix, and how long your retirement lasts.",
+      },
+      {
+        question: "What if I change jobs or stop contributing for a while?",
+        answer:
+          "This calculator assumes a constant, uninterrupted monthly contribution. Pauses or changes in your contribution amount will affect your actual results compared to this projection.",
+      },
+    ],
+    relatedSlugs: ["sip-calculator", "compound-interest-calculator", "net-worth-calculator"],
+  },
+  {
+    slug: "protein-calculator",
+    category: "health",
+    title: "Protein Calculator",
+    shortDescription: "Calculate your daily protein intake target based on weight and activity level.",
+    metaDescription:
+      "Free online protein calculator to estimate your daily protein intake target in grams based on your body weight, activity level and fitness goal.",
+    h1: "Protein Calculator",
+    intro:
+      "Calculate how much protein you should eat daily based on your body weight, activity level and whether your goal is to maintain, build muscle, or lose fat.",
+    icon: "🍗",
+    status: "live",
+    inputFields: [
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+      {
+        key: "activityLevel",
+        label: "Activity Level",
+        type: "select",
+        options: [
+          { label: "Sedentary", value: "sedentary" },
+          { label: "Light", value: "light" },
+          { label: "Moderate", value: "moderate" },
+          { label: "Active", value: "active" },
+          { label: "Very Active", value: "veryActive" },
+        ],
+      },
+      {
+        key: "goal",
+        label: "Goal",
+        type: "select",
+        options: [
+          { label: "Maintain", value: "maintain" },
+          { label: "Build Muscle", value: "muscleGain" },
+          { label: "Lose Fat", value: "fatLoss" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "dailyProteinGrams", label: "Daily Protein Target", unit: "g", highlight: true },
+      { key: "gramsPerKg", label: "Grams per kg Body Weight" },
+      { key: "proteinCalories", label: "Calories from Protein", unit: "kcal" },
+      { key: "perMealGrams", label: "Per Meal (4 meals/day)", unit: "g" },
+    ],
+    calculate: (inputs) => {
+      const weightKg = Number(inputs.weightKg);
+      const activityLevel = String(inputs.activityLevel) as ProteinActivityLevel;
+      const goal = String(inputs.goal) as ProteinGoal;
+      const output = calculateProteinNeeds(weightKg, activityLevel, goal);
+      return { ...output };
+    },
+    interpret: (result) => {
+      return [
+        "Aim for roughly " + result.dailyProteinGrams + "g of protein per day, or about " + result.perMealGrams + "g per meal across 4 meals.",
+        "That's about " + result.gramsPerKg + "g of protein per kg of body weight, providing roughly " + result.proteinCalories + " kcal from protein.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How your protein target is calculated",
+        paragraphs: [
+          "This calculator estimates a daily protein target as grams per kilogram of body weight, using a base amount determined by your activity level, then adding an adjustment if your goal is muscle gain or fat loss, since both benefit from higher protein intake to support muscle building or preserve lean mass during a calorie deficit.",
+        ],
+      },
+      {
+        heading: "Why protein needs vary by activity level and goal",
+        paragraphs: [
+          "Sedentary individuals need less protein than those who train regularly, since resistance training and higher activity levels increase muscle protein breakdown and the need for repair and growth. Someone aiming to build muscle or lose fat while preserving muscle generally needs more protein per kg than someone simply maintaining their current weight and activity.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is more protein always better?",
+        answer:
+          "Not necessarily. This calculator caps its recommendation at 2.2g per kg of body weight, a level generally considered sufficient even for intense training goals. Consuming far beyond this doesn't typically provide additional benefit for most people.",
+      },
+      {
+        question: "Should I use my current weight or my goal weight?",
+        answer:
+          "Generally, use your current body weight. If you have a significant amount of body fat to lose, some people use a lean body mass estimate instead, since protein needs are more closely tied to muscle mass than total body weight.",
+      },
+      {
+        question: "Is this medical advice?",
+        answer:
+          "No, this tool provides a general estimate based on common fitness guidelines. Consult a registered dietitian or healthcare provider for personalized nutrition advice, especially if you have kidney issues or other medical conditions affected by protein intake.",
+      },
+    ],
+    relatedSlugs: ["calorie-goal-calculator", "bmr-calculator", "ideal-weight-calculator"],
   },
 ];
 

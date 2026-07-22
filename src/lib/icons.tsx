@@ -86,6 +86,9 @@ import {
   Clock,
   CalendarCheck,
   PiggyBank as PiggyBankIcon,
+  LineChart as LineChartIcon,
+  Umbrella,
+  Drumstick,
   type LucideIcon,
 } from "lucide-react";
 
@@ -170,6 +173,9 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "timezone-converter": Clock,
   "working-days-calculator": CalendarCheck,
   "savings-goal-calculator": PiggyBankIcon,
+  "sip-calculator": LineChartIcon,
+  "retirement-calculator": Umbrella,
+  "protein-calculator": Drumstick,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {
