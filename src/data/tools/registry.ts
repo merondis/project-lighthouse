@@ -78,6 +78,9 @@ import { calculatePaint } from "@/utils/calculators/paint-calculator";
 import { calculateFlooring } from "@/utils/calculators/flooring-calculator";
 import { calculateRoofing } from "@/utils/calculators/roofing-calculator";
 import { calculateGravel } from "@/utils/calculators/gravel-calculator";
+import { calculateSubnet } from "@/utils/calculators/subnet-calculator";
+import { calculateCidrRange } from "@/utils/calculators/cidr-range-calculator";
+import { convertIpAddress, IpFormat } from "@/utils/calculators/ip-address-converter";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -5279,6 +5282,176 @@ explanation: [
       },
     ],
     relatedSlugs: ["concrete-calculator", "roofing-calculator", "flooring-calculator"],
+  },
+  {
+    slug: "subnet-calculator",
+    category: "security",
+    title: "Subnet Calculator",
+    shortDescription: "Calculate network address, broadcast address, usable host range and more from an IP and subnet mask.",
+    metaDescription: "Free online subnet calculator to find the network address, broadcast address, usable host range, wildcard mask and CIDR from an IPv4 address and subnet mask.",
+    h1: "Subnet Calculator",
+    intro: "Enter an IPv4 address and a subnet mask or CIDR prefix to calculate the network address, broadcast address, usable host range and more.",
+    icon: "🌐",
+    status: "live",
+    featured: true,
+    inputFields: [
+      { key: "ipAddress", label: "IP Address", type: "text", placeholder: "e.g. 192.168.1.10" },
+      { key: "subnetMask", label: "Subnet Mask or CIDR", type: "text", placeholder: "e.g. 255.255.255.0 or /24" },
+    ],
+    resultFields: [
+      { key: "networkAddress", label: "Network Address", highlight: true },
+      { key: "broadcastAddress", label: "Broadcast Address", highlight: true },
+      { key: "firstHost", label: "First Usable Host" },
+      { key: "lastHost", label: "Last Usable Host" },
+      { key: "usableHosts", label: "Usable Hosts" },
+      { key: "subnetMaskDotted", label: "Subnet Mask (Dotted Decimal)" },
+      { key: "cidr", label: "CIDR Notation" },
+      { key: "wildcardMask", label: "Wildcard Mask" },
+    ],
+    calculate: (inputs) => {
+      const ipAddress = String(inputs.ipAddress ?? "");
+      const subnetMask = String(inputs.subnetMask ?? "");
+      const output = calculateSubnet(ipAddress, subnetMask);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How subnet calculations work",
+        paragraphs: [
+          "This calculator converts your IP address and subnet mask (or CIDR prefix) into 32-bit binary numbers, then applies a bitwise AND between the IP and the mask to find the network address, the lowest address in the range. The broadcast address is found by setting all the 'host' bits (the bits not covered by the mask) to 1.",
+          "The usable host range excludes the network address and broadcast address from a subnet, since those are reserved, except for /31 subnets (used for point-to-point links, both addresses are usable) and /32 (a single host route with exactly one address).",
+        ],
+      },
+      {
+        heading: "CIDR notation vs dotted-decimal subnet mask",
+        paragraphs: [
+          "CIDR notation (like /24) expresses the subnet mask as a prefix length, the number of leading 1 bits in the mask. This is equivalent to a dotted-decimal mask like 255.255.255.0, this calculator accepts either format and shows both in the results, along with the wildcard mask, the inverse of the subnet mask used in access control lists on some network equipment.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I enter the subnet mask as either a CIDR prefix or dotted decimal?",
+        answer: "Yes, this calculator accepts either format in the subnet mask field, for example both '/24' (or just '24') and '255.255.255.0' work and produce the same result.",
+      },
+      {
+        question: "Why does a /31 subnet have 2 usable hosts instead of 0?",
+        answer: "Per RFC 3021, /31 subnets are a special case used for point-to-point links, both addresses in the subnet are usable as host addresses since there's no need for a separate broadcast address on a two-device link.",
+      },
+    ],
+    relatedSlugs: ["cidr-range-calculator", "ip-address-converter", "password-generator"],
+  },
+  {
+    slug: "cidr-range-calculator",
+    category: "security",
+    title: "CIDR to IP Range Calculator",
+    shortDescription: "Convert a CIDR block into its first and last IP address.",
+    metaDescription: "Free online CIDR to IP range calculator to convert a CIDR block (like 192.168.1.0/24) into its first address, last address and total address count.",
+    h1: "CIDR to IP Range Calculator",
+    intro: "Enter a CIDR block to find the first and last IP address in the range, the total number of addresses, and the equivalent subnet mask.",
+    icon: "📶",
+    status: "live",
+    inputFields: [
+      { key: "cidrBlock", label: "CIDR Block", type: "text", placeholder: "e.g. 192.168.1.0/24" },
+    ],
+    resultFields: [
+      { key: "firstAddress", label: "First Address", highlight: true },
+      { key: "lastAddress", label: "Last Address", highlight: true },
+      { key: "totalAddresses", label: "Total Addresses" },
+      { key: "subnetMaskDotted", label: "Equivalent Subnet Mask" },
+    ],
+    calculate: (inputs) => {
+      const cidrBlock = String(inputs.cidrBlock ?? "");
+      const output = calculateCidrRange(cidrBlock);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How a CIDR block maps to an IP range",
+        paragraphs: [
+          "A CIDR block like 192.168.1.0/24 combines an IP address with a prefix length (the /24) that defines how many leading bits are fixed for the network. This calculator masks the address down to its network boundary, then sets all the remaining bits to 1 to find the last address in the block, giving you the full inclusive range the CIDR block covers.",
+        ],
+      },
+      {
+        heading: "Common uses for CIDR range lookups",
+        paragraphs: [
+          "This is useful when reviewing firewall rules, cloud security groups, or access control lists that reference CIDR blocks, letting you quickly see exactly which IP addresses a given rule covers, or how many total addresses (including network and broadcast) a block contains.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does the address range include the network and broadcast address?",
+        answer: "Yes, the first and last address shown are the full inclusive range of the CIDR block, including the network address and broadcast address. Use the Subnet Calculator if you need the usable host range excluding those two addresses.",
+      },
+      {
+        question: "What format should I use?",
+        answer: "Enter the block as an IP address followed by a forward slash and the prefix length, for example 10.0.0.0/16 or 192.168.1.0/24.",
+      },
+    ],
+    relatedSlugs: ["subnet-calculator", "ip-address-converter", "password-generator"],
+  },
+  {
+    slug: "ip-address-converter",
+    category: "security",
+    title: "IP Address Converter",
+    shortDescription: "Convert an IPv4 address between decimal, binary and hexadecimal.",
+    metaDescription: "Free online IP address converter to convert an IPv4 address between dotted-decimal, binary and hexadecimal formats.",
+    h1: "IP Address Converter",
+    intro: "Convert an IPv4 address between dotted-decimal, binary and hexadecimal notation.",
+    icon: "🔁",
+    status: "live",
+    inputFields: [
+      {
+        key: "format",
+        label: "Input Format",
+        type: "select",
+        options: [
+          { label: "Decimal (e.g. 192.168.1.1)", value: "decimal" },
+          { label: "Binary (e.g. 11000000.10101000.00000001.00000001)", value: "binary" },
+          { label: "Hexadecimal (e.g. C0.A8.01.01)", value: "hex" },
+        ],
+      },
+      { key: "ipValue", label: "IP Address", type: "text", placeholder: "e.g. 192.168.1.1" },
+    ],
+    resultFields: [
+      { key: "decimalDotted", label: "Decimal (Dotted)", highlight: true },
+      { key: "binaryDotted", label: "Binary (Dotted)", highlight: true, wide: true },
+      { key: "hexDotted", label: "Hexadecimal (Dotted)", highlight: true },
+      { key: "hexCompact", label: "Hexadecimal (Compact)" },
+      { key: "decimalInteger", label: "32-bit Integer" },
+    ],
+    calculate: (inputs) => {
+      const ipValue = String(inputs.ipValue ?? "");
+      const format = String(inputs.format) as IpFormat;
+      const output = convertIpAddress(ipValue, format);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How IP address conversion works",
+        paragraphs: [
+          "An IPv4 address is really just a 32-bit number, dotted-decimal notation (like 192.168.1.1) is simply the most human-readable way to display it. This converter parses your input in whichever format you select, reconstructs the underlying 32-bit value, then formats that same value as decimal, binary and hexadecimal.",
+        ],
+      },
+      {
+        heading: "Why convert an IP address to binary or hex",
+        paragraphs: [
+          "Binary representation makes it easy to see exactly which bits are part of the network portion versus the host portion when working with subnetting, since subnet masks operate directly on these bits. Hexadecimal is commonly seen in low-level networking tools, packet captures and some router or firewall configuration formats.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I convert from binary or hex back to decimal?",
+        answer: "Yes, select the format you're starting from (decimal, binary or hex) in the Input Format field, and the calculator will show the equivalent value in all three formats.",
+      },
+      {
+        question: "What format should binary or hex input be in?",
+        answer: "Binary input should be 32 digits of 0s and 1s, optionally grouped with periods into four 8-bit octets. Hex input should be 8 hex digits, optionally grouped with periods into four 2-digit octets, or prefixed with '0x'.",
+      },
+    ],
+    relatedSlugs: ["subnet-calculator", "cidr-range-calculator", "hex-rgb-converter"],
   },
 ];
 

@@ -106,6 +106,9 @@ import {
   LayoutGrid,
   Triangle,
   Mountain,
+  Network,
+  Waypoints,
+  ArrowLeftRight,
   type LucideIcon,
 } from "lucide-react";
 
@@ -209,6 +212,9 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "flooring-calculator": LayoutGrid,
   "roofing-calculator": Triangle,
   "gravel-calculator": Mountain,
+  "subnet-calculator": Network,
+  "cidr-range-calculator": Waypoints,
+  "ip-address-converter": ArrowLeftRight,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

@@ -7,9 +7,7 @@ import { toolRegistry } from "@/data/tools/registry";
 import { Container } from "@/components/ui/Container";
 
 const MAX_DROPDOWN_RESULTS = 8;
-
-const LIVE_TOOL_COUNT = toolRegistry.filter((tool) => tool.status === "live").length;
-const DISPLAY_TOOL_COUNT = Math.floor(LIVE_TOOL_COUNT / 10) * 10;
+const SEARCH_PLACEHOLDER = "Search 100+ tools";
 
 export function StickySearchBar() {
   const [query, setQuery] = useState("");
@@ -68,7 +66,7 @@ export function StickySearchBar() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onFocus={() => setIsOpen(true)}
-                placeholder={`Search ${DISPLAY_TOOL_COUNT}+ tools...`}
+                placeholder={SEARCH_PLACEHOLDER}
                 aria-label="Search tools"
                 className="w-full rounded-lg border border-white/10 bg-brand-bg py-2 pl-9 pr-4 text-sm text-white placeholder:text-brand-secondary focus:border-brand-accent focus:outline-none"
               />
