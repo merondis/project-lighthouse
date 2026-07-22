@@ -109,6 +109,11 @@ import {
   Network,
   Waypoints,
   ArrowLeftRight,
+  ThermometerSun,
+  Apple,
+  Square,
+  Dice5,
+  ChartArea,
   type LucideIcon,
 } from "lucide-react";
 
@@ -215,6 +220,11 @@ const TOOL_ICONS: Record<string, LucideIcon> = {
   "subnet-calculator": Network,
   "cidr-range-calculator": Waypoints,
   "ip-address-converter": ArrowLeftRight,
+  "btu-calculator": ThermometerSun,
+  "macro-calculator": Apple,
+  "square-footage-calculator": Square,
+  "probability-calculator": Dice5,
+  "statistics-calculator": ChartArea,
 };
 
 const CATEGORY_ICONS: Record<string, LucideIcon> = {

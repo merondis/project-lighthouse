@@ -81,6 +81,17 @@ import { calculateGravel } from "@/utils/calculators/gravel-calculator";
 import { calculateSubnet } from "@/utils/calculators/subnet-calculator";
 import { calculateCidrRange } from "@/utils/calculators/cidr-range-calculator";
 import { convertIpAddress, IpFormat } from "@/utils/calculators/ip-address-converter";
+import { calculateBtu, SunExposure } from "@/utils/calculators/btu-calculator";
+import {
+  calculateMacros,
+  Gender as MacroGender,
+  ActivityLevel as MacroActivityLevel,
+  MacroGoal,
+  DietStyle,
+} from "@/utils/calculators/macro-calculator";
+import { calculateSquareFootage, ShapeType } from "@/utils/calculators/square-footage-calculator";
+import { calculateProbability } from "@/utils/calculators/probability-calculator";
+import { calculateStatistics } from "@/utils/calculators/statistics-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -5452,6 +5463,339 @@ explanation: [
       },
     ],
     relatedSlugs: ["subnet-calculator", "cidr-range-calculator", "hex-rgb-converter"],
+  },
+  {
+    slug: "btu-calculator",
+    category: "construction",
+    title: "BTU Calculator",
+    shortDescription: "Estimate the BTU rating needed to heat or cool a room.",
+    metaDescription: "Free online BTU calculator to estimate the air conditioner or heater size (in BTUs) needed for a room based on its size and conditions.",
+    h1: "BTU Calculator",
+    intro: "Estimate the BTU (British Thermal Unit) rating needed for an air conditioner or heater based on room size, sun exposure, occupancy and use.",
+    icon: "🌡️",
+    status: "live",
+    inputFields: [
+      { key: "areaSqFt", label: "Room Area (sq ft)", type: "number", step: 1, placeholder: "e.g. 300" },
+      {
+        key: "sunExposure",
+        label: "Sun Exposure",
+        type: "select",
+        options: [
+          { label: "Moderate", value: "moderate" },
+          { label: "Sunny / South-Facing", value: "sunny" },
+          { label: "Heavily Shaded", value: "shaded" },
+        ],
+      },
+      { key: "occupants", label: "Typical Occupants", type: "number", step: 1, defaultValue: 2 },
+      { key: "isKitchen", label: "This room is a kitchen", type: "checkbox", defaultValue: "false" },
+    ],
+    resultFields: [
+      { key: "recommendedBtu", label: "Recommended BTU", unit: "BTU/hr", highlight: true },
+      { key: "tonsEquivalent", label: "Equivalent Tonnage", unit: "tons" },
+      { key: "baseBtu", label: "Base BTU (before adjustments)", unit: "BTU/hr" },
+    ],
+    calculate: (inputs) => {
+      const areaSqFt = Number(inputs.areaSqFt);
+      const sunExposure = String(inputs.sunExposure) as SunExposure;
+      const occupants = Number(inputs.occupants);
+      const isKitchen = inputs.isKitchen === "true";
+      const output = calculateBtu(areaSqFt, sunExposure, occupants, isKitchen);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How BTU sizing is calculated",
+        paragraphs: [
+          "This calculator starts from the standard room-size-to-BTU sizing chart published by the U.S. Department of Energy, which maps room square footage to a baseline BTU rating (for example, 300-350 sq ft calls for about 8,000 BTU). It then adjusts that baseline: +10% for a sunny or south-facing room, -10% for a heavily shaded room, +600 BTU for each occupant beyond two, and +4,000 BTU if the room is a kitchen, since cooking appliances add significant heat.",
+        ],
+      },
+      {
+        heading: "Why correct BTU sizing matters",
+        paragraphs: [
+          "An undersized unit will run constantly and struggle to cool or heat the space, while an oversized unit cycles on and off too quickly, which wastes energy and can leave a room feeling clammy since it doesn't run long enough to properly dehumidify. Getting the BTU rating right balances comfort and efficiency.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does BTU mean?",
+        answer: "BTU stands for British Thermal Unit, a measure of heat energy. In HVAC sizing, a higher BTU rating means a unit can heat or cool a larger space, or a smaller space more quickly.",
+      },
+      {
+        question: "How does BTU relate to tonnage in central air conditioning?",
+        answer: "For central air conditioning systems, capacity is often described in tons rather than BTU, where 1 ton equals 12,000 BTU/hr. This calculator shows both figures.",
+      },
+      {
+        question: "Does this account for insulation quality or ceiling height?",
+        answer: "No, this calculator uses room square footage as the primary factor, along with sun exposure, occupancy and kitchen use. Poor insulation, very high ceilings, or extreme climates may require sizing beyond this general estimate, consult an HVAC professional for a precise load calculation.",
+      },
+    ],
+    relatedSlugs: ["square-footage-calculator", "concrete-calculator", "gravel-calculator"],
+  },
+  {
+    slug: "macro-calculator",
+    category: "health",
+    title: "Macro Calculator",
+    shortDescription: "Calculate your daily protein, carb and fat targets based on your diet style and goal.",
+    metaDescription: "Free online macro calculator to find your daily protein, carbohydrate and fat targets based on your body stats, goal and diet style (balanced, high-protein, low-carb or keto).",
+    h1: "Macro Calculator",
+    intro: "Calculate your daily calorie target and macro breakdown (protein, carbs and fat) based on your body stats, goal, and preferred diet style.",
+    icon: "🥑",
+    status: "live",
+    featured: true,
+    inputFields: [
+      { key: "gender", label: "Gender", type: "select", options: [
+        { label: "Male", value: "male" }, { label: "Female", value: "female" },
+      ] },
+      { key: "age", label: "Age (years)", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+      { key: "activityLevel", label: "Activity Level", type: "select", options: [
+        { label: "Sedentary", value: "sedentary" },
+        { label: "Light", value: "light" },
+        { label: "Moderate", value: "moderate" },
+        { label: "Active", value: "active" },
+        { label: "Very Active", value: "veryActive" },
+      ] },
+      { key: "goal", label: "Goal", type: "select", options: [
+        { label: "Lose Weight", value: "lose" },
+        { label: "Maintain Weight", value: "maintain" },
+        { label: "Gain Weight", value: "gain" },
+      ] },
+      { key: "dietStyle", label: "Diet Style", type: "select", options: [
+        { label: "Balanced (30/40/30)", value: "balanced" },
+        { label: "High Protein (40/30/30)", value: "highProtein" },
+        { label: "Low Carb (40/20/40)", value: "lowCarb" },
+        { label: "Keto (25/5/70)", value: "keto" },
+      ] },
+    ],
+    resultFields: [
+      { key: "targetCalories", label: "Daily Calorie Target", unit: "kcal", highlight: true },
+      { key: "proteinGrams", label: "Protein", unit: "g", highlight: true },
+      { key: "carbsGrams", label: "Carbs", unit: "g", highlight: true },
+      { key: "fatGrams", label: "Fat", unit: "g", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as MacroGender;
+      const age = Number(inputs.age);
+      const heightCm = Number(inputs.heightCm);
+      const weightKg = Number(inputs.weightKg);
+      const activityLevel = String(inputs.activityLevel) as MacroActivityLevel;
+      const goal = String(inputs.goal) as MacroGoal;
+      const dietStyle = String(inputs.dietStyle) as DietStyle;
+      const output = calculateMacros(gender, age, heightCm, weightKg, activityLevel, goal, dietStyle);
+      return { ...output };
+    },
+    interpret: (result) => {
+      return [
+        "Your daily target is " + result.targetCalories + " kcal, split into " + result.proteinGrams + "g protein, " + result.carbsGrams + "g carbs and " + result.fatGrams + "g fat.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How your macro targets are calculated",
+        paragraphs: [
+          "This calculator first estimates your Basal Metabolic Rate (BMR) using the Mifflin-St Jeor equation, multiplies it by an activity multiplier to get your Total Daily Energy Expenditure (TDEE), then adjusts by 500 kcal in the direction of your goal (a common approximation for roughly 0.5 kg of weekly weight change). Your chosen diet style then determines what percentage of those calories come from protein, carbs and fat, converted to grams using 4 kcal per gram for protein and carbs, and 9 kcal per gram for fat.",
+        ],
+      },
+      {
+        heading: "Choosing a diet style",
+        paragraphs: [
+          "Balanced (30% protein / 40% carbs / 30% fat) suits most general fitness goals. High Protein shifts more calories toward protein, often preferred for muscle building or preserving lean mass in a deficit. Low Carb reduces carbohydrate intake while keeping protein high. Keto is a very low-carb, high-fat split intended to shift metabolism toward ketosis, this is a more restrictive approach and isn't necessary or appropriate for everyone.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How is this different from the TDEE Calculator?",
+        answer: "The TDEE Calculator shows your maintenance calories with a single standard macro split. This Macro Calculator lets you choose a specific goal (lose, maintain, gain) and diet style (balanced, high protein, low carb or keto), giving you a tailored calorie and macro target rather than one fixed split.",
+      },
+      {
+        question: "Should I follow a keto or low-carb split without medical guidance?",
+        answer: "Significant diet changes, especially very low-carb approaches like keto, can affect people differently and may not be appropriate for everyone, particularly those with existing health conditions. Consult a healthcare provider or registered dietitian before making major changes.",
+      },
+    ],
+    relatedSlugs: ["tdee-calculator", "protein-calculator", "calorie-goal-calculator"],
+  },
+  {
+    slug: "square-footage-calculator",
+    category: "construction",
+    title: "Square Footage Calculator",
+    shortDescription: "Calculate the area of a rectangular, circular or triangular space.",
+    metaDescription: "Free online square footage calculator to calculate the area of a rectangular, circular or triangular space in square feet, square yards and square meters.",
+    h1: "Square Footage Calculator",
+    intro: "Calculate the area of a space in square feet, square yards and square meters, for rectangular, circular or triangular shapes.",
+    icon: "📐",
+    status: "live",
+    inputFields: [
+      {
+        key: "shape",
+        label: "Shape",
+        type: "select",
+        options: [
+          { label: "Rectangle", value: "rectangle" },
+          { label: "Circle", value: "circle" },
+          { label: "Triangle", value: "triangle" },
+        ],
+      },
+      { key: "dimensionA", label: "Length, Base, or Diameter (ft)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "dimensionB", label: "Width or Height (ft) — not needed for circle", type: "number", step: 0.1, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "areaSqFt", label: "Area (sq ft)", highlight: true },
+      { key: "areaSqYards", label: "Area (sq yards)" },
+      { key: "areaSqMeters", label: "Area (sq meters)" },
+    ],
+    calculate: (inputs) => {
+      const shape = String(inputs.shape) as ShapeType;
+      const dimensionA = Number(inputs.dimensionA);
+      const dimensionB = Number(inputs.dimensionB);
+      const output = calculateSquareFootage(shape, dimensionA, dimensionB);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How area is calculated for each shape",
+        paragraphs: [
+          "For a rectangle, area is length × width. For a triangle, area is ½ × base × height. For a circle, area is π × radius², using half of the diameter you enter as the radius. All three formulas use the values you enter for 'Length, Base, or Diameter' and 'Width or Height' depending on the shape selected, the second field is ignored for circles.",
+        ],
+      },
+      {
+        heading: "Square feet vs square yards vs square meters",
+        paragraphs: [
+          "Square feet is the standard unit for most home improvement projects in the US. Square yards is commonly used when buying carpet (9 square feet = 1 square yard). Square meters is the standard metric unit, useful when working with international suppliers or specifications.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I calculate an L-shaped or irregular room?",
+        answer: "Split the space into simpler rectangles or triangles, calculate each one separately using this tool, and add the results together for the total area.",
+      },
+      {
+        question: "What if I only know the radius, not the diameter, of a circle?",
+        answer: "Multiply the radius by 2 to get the diameter, then enter that value in the 'Length, Base, or Diameter' field.",
+      },
+    ],
+    relatedSlugs: ["tile-calculator", "flooring-calculator", "btu-calculator"],
+  },
+  {
+    slug: "probability-calculator",
+    category: "math",
+    title: "Probability Calculator",
+    shortDescription: "Calculate the probability of one or two independent events.",
+    metaDescription: "Free online probability calculator to calculate the probability of a single event, and the combined probability of two independent events (AND / OR).",
+    h1: "Probability Calculator",
+    intro: "Calculate the probability of an event from its favorable and total outcomes, and optionally combine it with a second independent event using AND / OR.",
+    icon: "🎲",
+    status: "live",
+    inputFields: [
+      { key: "favorableA", label: "Favorable Outcomes (Event A)", type: "number", step: 1, placeholder: "e.g. 1" },
+      { key: "totalA", label: "Total Possible Outcomes (Event A)", type: "number", step: 1, placeholder: "e.g. 6" },
+      { key: "favorableB", label: "Favorable Outcomes (Event B, optional)", type: "number", step: 1, defaultValue: 0 },
+      { key: "totalB", label: "Total Possible Outcomes (Event B, optional)", type: "number", step: 1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "probabilityA", label: "P(A)", highlight: true },
+      { key: "probabilityB", label: "P(B)" },
+      { key: "probabilityBothAnd", label: "P(A and B) — both occur", highlight: true },
+      { key: "probabilityEitherOr", label: "P(A or B) — either occurs" },
+    ],
+    calculate: (inputs) => {
+      const favorableA = Number(inputs.favorableA);
+      const totalA = Number(inputs.totalA);
+      const favorableB = Number(inputs.favorableB);
+      const totalB = Number(inputs.totalB);
+      const output = calculateProbability(favorableA, totalA, favorableB, totalB);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How probability is calculated",
+        paragraphs: [
+          "The probability of an event is its number of favorable outcomes divided by the total number of possible outcomes. For example, rolling a 4 on a standard six-sided die has 1 favorable outcome out of 6 total, a probability of 1/6, about 16.67%.",
+        ],
+      },
+      {
+        heading: "Combining two independent events",
+        paragraphs: [
+          "If you enter a second event, this calculator treats events A and B as independent (one doesn't affect the other's outcome). P(A and B), the probability both happen, is P(A) × P(B). P(A or B), the probability at least one happens, is P(A) + P(B) − P(A) × P(B), which avoids double-counting the overlap where both occur.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this work for dependent events?",
+        answer: "No, this calculator assumes events A and B are independent, meaning the outcome of one doesn't affect the other. Dependent events (like drawing cards without replacement) require conditional probability, which isn't covered by this calculator.",
+      },
+      {
+        question: "Is event B required?",
+        answer: "No, leave event B's fields at 0 to calculate the probability of event A alone.",
+      },
+    ],
+    relatedSlugs: ["statistics-calculator", "standard-deviation-calculator", "random-number-generator"],
+  },
+  {
+    slug: "statistics-calculator",
+    category: "math",
+    title: "Statistics Calculator",
+    shortDescription: "Calculate mean, median, mode, standard deviation, quartiles and more from a data set.",
+    metaDescription: "Free online statistics calculator to calculate mean, median, mode, range, variance, standard deviation and quartiles from a list of numbers.",
+    h1: "Statistics Calculator",
+    intro: "Calculate a full set of descriptive statistics, including mean, median, mode, standard deviation and quartiles, from a list of numbers.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "numbers", label: "Numbers (comma or space separated)", type: "text", placeholder: "e.g. 4, 8, 15, 16, 23, 42" },
+    ],
+    resultFields: [
+      { key: "mean", label: "Mean", highlight: true },
+      { key: "median", label: "Median", highlight: true },
+      { key: "mode", label: "Mode", highlight: true },
+      { key: "standardDeviation", label: "Standard Deviation (Population)" },
+      { key: "sampleStandardDeviation", label: "Standard Deviation (Sample)" },
+      { key: "variance", label: "Variance (Population)" },
+      { key: "sampleVariance", label: "Variance (Sample)" },
+      { key: "range", label: "Range" },
+      { key: "min", label: "Minimum" },
+      { key: "max", label: "Maximum" },
+      { key: "sum", label: "Sum" },
+      { key: "count", label: "Count" },
+      { key: "q1", label: "Q1 (25th Percentile)" },
+      { key: "q3", label: "Q3 (75th Percentile)" },
+      { key: "iqr", label: "Interquartile Range (IQR)" },
+    ],
+    calculate: (inputs) => {
+      const numbers = String(inputs.numbers ?? "");
+      const output = calculateStatistics(numbers);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What this calculator includes",
+        paragraphs: [
+          "This is a comprehensive descriptive statistics tool covering measures of central tendency (mean, median, mode), spread (range, variance, standard deviation, interquartile range), and both population and sample versions of variance and standard deviation, alongside basic figures like sum, count, minimum and maximum.",
+        ],
+      },
+      {
+        heading: "Population vs sample statistics, and understanding quartiles",
+        paragraphs: [
+          "Population statistics treat your data as the complete data set, dividing by the total count. Sample statistics treat your data as a sample drawn from a larger population, dividing by count minus one, which slightly increases the result to account for the extra uncertainty of estimating from a sample.",
+          "Quartiles split the sorted data into four equal parts: Q1 is the value below which 25% of the data falls, and Q3 is the value below which 75% falls. The interquartile range (IQR = Q3 − Q1) captures the spread of the middle 50% of the data and is less sensitive to outliers than the full range.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I use population or sample standard deviation?",
+        answer: "Use population statistics if your data represents the entire group you care about. Use sample statistics if your data is a subset used to estimate characteristics of a larger population, this is the more common case in research and surveys.",
+      },
+      {
+        question: "How is this different from the separate Mean/Median/Mode and Standard Deviation calculators?",
+        answer: "This calculator combines everything from both of those tools into one comprehensive result, and adds quartiles, IQR, sum, min and max, useful when you want a full statistical summary of a data set in a single place.",
+      },
+    ],
+    relatedSlugs: ["mean-median-mode-calculator", "standard-deviation-calculator", "probability-calculator"],
   },
 ];
 
