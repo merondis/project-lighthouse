@@ -3,6 +3,7 @@ import Script from "next/script";
 import { Sora } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
+import { StickySearchBar } from "@/components/layout/StickySearchBar";
 import { Footer } from "@/components/layout/Footer";
 
 const sora = Sora({
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         ) : null}
 
         <Navbar />
+        <StickySearchBar />
         <main id="main-content">{children}</main>
         <Footer />
       </body>

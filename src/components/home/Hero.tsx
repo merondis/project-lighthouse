@@ -1,4 +1,3 @@
-import { SearchBar } from "@/components/home/SearchBar";
 import { Rocket } from "lucide-react";
 
 export function Hero() {
@@ -11,10 +10,6 @@ export function Hero() {
       </div>
       <h1 className="text-4xl font-bold text-white sm:text-6xl">Merondis</h1>
       <p className="mt-4 text-lg text-brand-secondary sm:text-xl">Free Online Tools &amp; Calculators</p>
-
-      <div className="mx-auto mt-10 max-w-xl">
-        <SearchBar />
-      </div>
     </div>
   );
 }
