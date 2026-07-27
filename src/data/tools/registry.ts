@@ -99,6 +99,10 @@ import { calculatePresentValue, PvCompoundFrequency } from "@/utils/calculators/
 import { calculateCagr } from "@/utils/calculators/cagr-calculator";
 import { calculateInvestmentReturn } from "@/utils/calculators/investment-return-calculator";
 import { calculateApy, ApyCompoundFrequency } from "@/utils/calculators/apy-calculator";
+import { calculateRule72, Rule72Mode } from "@/utils/calculators/rule-of-72-calculator";
+import { calculateLease } from "@/utils/calculators/lease-calculator";
+import { calculateStudentLoan } from "@/utils/calculators/student-loan-calculator";
+import { calculate401k } from "@/utils/calculators/401k-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -6391,6 +6395,297 @@ explanation: [
       },
     ],
     relatedSlugs: ["compound-interest-calculator", "simple-interest-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "rule-of-72-calculator",
+    category: "finance",
+    title: "Rule of 72 Calculator",
+    shortDescription: "Estimate how long it takes an investment to double, or the rate needed to double it.",
+    metaDescription: "Free online Rule of 72 calculator to estimate how many years it takes to double your money, or the interest rate needed to double it in a given time.",
+    h1: "Rule of 72 Calculator",
+    intro: "Use the Rule of 72 to quickly estimate how long an investment takes to double at a given interest rate, or what rate you'd need to double it in a given number of years, alongside the exact answer for comparison.",
+    icon: "⏱️",
+    status: "live",
+    inputFields: [
+      {
+        key: "mode",
+        label: "What do you want to calculate?",
+        type: "select",
+        options: [
+          { label: "Years to Double (from a rate)", value: "yearsToDouble" },
+          { label: "Required Rate (from a number of years)", value: "requiredRate" },
+        ],
+      },
+      { key: "rate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 8" },
+      { key: "years", label: "Number of Years", type: "number", step: 0.5, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "ruleOf72Result", label: "Rule of 72 Estimate", highlight: true },
+      { key: "exactResult", label: "Exact Answer", highlight: true },
+      { key: "difference", label: "Difference (Rule of 72 − Exact)" },
+    ],
+    calculate: (inputs) => {
+      const mode = String(inputs.mode) as Rule72Mode;
+      const value = mode === "yearsToDouble" ? Number(inputs.rate) : Number(inputs.years);
+      const output = calculateRule72(mode, value);
+      return { ...output };
+    },
+    interpret: (result, inputs) => {
+      const mode = String(inputs.mode) as Rule72Mode;
+      return mode === "yearsToDouble"
+        ? ["The Rule of 72 estimates roughly " + result.ruleOf72Result + " years to double your money; the exact calculation gives " + result.exactResult + " years."]
+        : ["The Rule of 72 estimates you'd need roughly " + result.ruleOf72Result + "% annual return to double your money in that time; the exact calculation gives " + result.exactResult + "%."];
+    },
+    explanation: [
+      {
+        heading: "What the Rule of 72 is",
+        paragraphs: [
+          "The Rule of 72 is a quick mental-math shortcut for estimating compound growth: divide 72 by an annual interest rate to estimate how many years it takes to double an investment, or divide 72 by a number of years to estimate the annual rate needed to double it in that time.",
+          "For example, at 8% annual interest, 72 ÷ 8 = 9 years to roughly double your money, very close to the exact answer of about 9.01 years.",
+        ],
+      },
+      {
+        heading: "Why 72, and how accurate is it",
+        paragraphs: [
+          "72 is used because it has many small divisors (1, 2, 3, 4, 6, 8, 9, 12...), making the mental math easy, and it happens to closely approximate the exact formula ln(2) ÷ ln(1 + r) across the typical range of investment returns (roughly 6% to 10%). Outside that range, the approximation drifts further from the exact answer, which is why this calculator shows both side by side.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is the Rule of 72?",
+        answer: "It's most accurate for annual rates between roughly 6% and 10%, where the estimate is typically within a few hundredths of a year or a few tenths of a percentage point of the exact answer. Accuracy decreases at very low or very high rates.",
+      },
+      {
+        question: "Can I use the Rule of 72 for anything other than investments?",
+        answer: "Yes, it works for any quantity that grows at a steady compounding rate, including inflation (how long until prices double), population growth, or debt growing at a fixed interest rate.",
+      },
+      {
+        question: "What's the exact formula this calculator compares against?",
+        answer: "For years to double: ln(2) ÷ ln(1 + r), where r is the annual rate as a decimal. For required rate: (2^(1/years) − 1) × 100. These come directly from the compound growth formula rather than the Rule of 72 approximation.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "cagr-calculator", "future-value-calculator"],
+  },
+  {
+    slug: "lease-calculator",
+    category: "finance",
+    title: "Lease Calculator",
+    shortDescription: "Calculate monthly car lease payments from price, residual value, money factor and tax.",
+    metaDescription: "Free online lease calculator to estimate your monthly car lease payment, including depreciation, finance fee and sales tax.",
+    h1: "Lease Calculator",
+    intro: "Estimate your monthly car lease payment based on the vehicle price, down payment, residual value, lease term, APR and sales tax.",
+    icon: "🚙",
+    status: "live",
+    inputFields: [
+      { key: "vehiclePrice", label: "Vehicle Price (Negotiated)", type: "number", step: 0.01, placeholder: "e.g. 35000" },
+      { key: "downPayment", label: "Down Payment / Cap Cost Reduction", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "residualValue", label: "Residual Value at Lease End", type: "number", step: 0.01, placeholder: "e.g. 18000" },
+      { key: "termMonths", label: "Lease Term (Months)", type: "number", step: 1, placeholder: "e.g. 36" },
+      { key: "aprPercent", label: "APR (%)", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      { key: "salesTaxPercent", label: "Sales Tax Rate (%)", type: "number", step: 0.01, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "monthlyDepreciationFee", label: "Monthly Depreciation Fee" },
+      { key: "monthlyFinanceFee", label: "Monthly Finance Fee (Rent Charge)" },
+      { key: "basePayment", label: "Base Monthly Payment" },
+      { key: "monthlyTax", label: "Monthly Sales Tax" },
+      { key: "totalMonthlyPayment", label: "Total Monthly Payment", highlight: true },
+      { key: "totalLeaseCost", label: "Total Lease Cost", highlight: true },
+      { key: "moneyFactor", label: "Equivalent Money Factor" },
+    ],
+    calculate: (inputs) => {
+      const vehiclePrice = Number(inputs.vehiclePrice);
+      const downPayment = Number(inputs.downPayment ?? 0);
+      const residualValue = Number(inputs.residualValue);
+      const termMonths = Number(inputs.termMonths);
+      const aprPercent = Number(inputs.aprPercent);
+      const salesTaxPercent = Number(inputs.salesTaxPercent ?? 0);
+      const output = calculateLease(vehiclePrice, downPayment, residualValue, termMonths, aprPercent, salesTaxPercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How a lease payment is calculated",
+        paragraphs: [
+          "A lease payment has two core parts: a depreciation fee, which spreads the loss in value (adjusted capitalized cost minus residual value) evenly over the lease term, and a finance fee (sometimes called a rent charge), which is calculated using a money factor applied to the sum of the adjusted capitalized cost and residual value. Sales tax, where applicable, is then applied to the base payment.",
+          "This calculator converts the APR you enter into an equivalent money factor using the standard approximation: money factor = APR ÷ 2400, since money factors (small decimals like 0.00125) are less intuitive to reason about directly than a familiar interest rate.",
+        ],
+      },
+      {
+        heading: "What residual value means",
+        paragraphs: [
+          "Residual value is the vehicle's estimated worth at the end of the lease, set by the leasing company based on expected depreciation. A higher residual value means less depreciation to pay for over the lease, generally resulting in a lower monthly payment, though it also means a higher price if you choose to buy the vehicle at lease end.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What is a money factor?",
+        answer: "A money factor is the lease equivalent of an interest rate, expressed as a small decimal (like 0.00125) rather than a percentage. Multiplying a money factor by 2400 gives you the approximate equivalent APR, and this calculator does that conversion in reverse from the APR you enter.",
+      },
+      {
+        question: "Is sales tax always calculated on the monthly payment?",
+        answer: "It varies by location. Many US states tax each monthly lease payment as it's made, which is what this calculator assumes, while others tax the full vehicle price upfront. Check your local rules if you want a fully precise figure.",
+      },
+      {
+        question: "Why does a lower residual value increase my payment?",
+        answer: "A lower residual value means the vehicle is expected to depreciate more over the lease term, and that depreciation is what you're paying for through the monthly depreciation fee, so more depreciation means a higher payment.",
+      },
+    ],
+    relatedSlugs: ["auto-loan-calculator", "loan-calculator", "amortization-schedule-calculator"],
+  },
+  {
+    slug: "student-loan-calculator",
+    category: "finance",
+    title: "Student Loan Calculator",
+    shortDescription: "Calculate student loan payments, including grace period interest capitalization.",
+    metaDescription: "Free online student loan calculator to estimate your monthly payment and total interest, including interest that accrues and capitalizes during a grace period.",
+    h1: "Student Loan Calculator",
+    intro: "Calculate your monthly student loan payment and total interest cost, accounting for interest that may accrue and capitalize during a grace period before repayment begins.",
+    icon: "🎓",
+    status: "live",
+    inputFields: [
+      { key: "loanBalance", label: "Loan Balance", type: "number", step: 0.01, placeholder: "e.g. 30000" },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 5.5" },
+      { key: "termYears", label: "Repayment Term (Years)", type: "number", step: 0.5, placeholder: "e.g. 10" },
+      { key: "gracePeriodMonths", label: "Grace Period (Months, optional)", type: "number", step: 1, defaultValue: 0 },
+      {
+        key: "loanType",
+        label: "Loan Type",
+        type: "select",
+        options: [
+          { label: "Unsubsidized (interest accrues during grace period)", value: "unsubsidized" },
+          { label: "Subsidized (no interest during grace period)", value: "subsidized" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "capitalizedInterest", label: "Interest Accrued During Grace Period" },
+      { key: "balanceAtRepayment", label: "Balance When Repayment Begins" },
+      { key: "monthlyPayment", label: "Monthly Payment", highlight: true },
+      { key: "totalInterest", label: "Total Interest (Lifetime)", highlight: true },
+      { key: "totalRepayment", label: "Total Repayment" },
+    ],
+    calculate: (inputs) => {
+      const loanBalance = Number(inputs.loanBalance);
+      const annualRate = Number(inputs.annualRate);
+      const termYears = Number(inputs.termYears);
+      const gracePeriodMonths = Number(inputs.gracePeriodMonths ?? 0);
+      const interestAccruesDuringGrace = String(inputs.loanType) !== "subsidized";
+      const output = calculateStudentLoan(loanBalance, annualRate, termYears, gracePeriodMonths, interestAccruesDuringGrace);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How grace period interest capitalization works",
+        paragraphs: [
+          "Many student loans include a grace period, often 6 months after graduation, before regular repayment begins. On unsubsidized loans, interest keeps accruing during this period, and once repayment starts, that accrued interest is capitalized, meaning it's added to the principal balance, so you then pay interest on a larger amount going forward. Subsidized loans don't accrue interest during the grace period, so the balance is unchanged when repayment begins.",
+          "After capitalization, this calculator applies the standard amortized loan payment formula to the resulting balance over your chosen repayment term.",
+        ],
+      },
+      {
+        heading: "Why capitalized interest matters",
+        paragraphs: [
+          "Because capitalized interest becomes part of the principal, it increases the total interest you'll pay over the life of the loan, above and beyond what you'd pay if the loan started accruing interest only once repayment began. This is why unsubsidized loans generally cost more in total interest than subsidized loans of the same size and rate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the difference between subsidized and unsubsidized loans?",
+        answer: "Subsidized federal student loans don't accrue interest while you're in school or during the grace period, the government covers it. Unsubsidized loans accrue interest the entire time, including during the grace period, and that interest capitalizes into your balance once repayment begins.",
+      },
+      {
+        question: "What if I have no grace period?",
+        answer: "Leave the grace period at 0 months, and this calculator will simply run the standard amortized payment formula on your original loan balance with no capitalized interest added.",
+      },
+      {
+        question: "Does this account for income-driven repayment plans?",
+        answer: "No, this calculator assumes a standard fixed monthly payment over your chosen term. Income-driven repayment plans adjust your payment based on income and family size, which follows different math entirely.",
+      },
+    ],
+    relatedSlugs: ["loan-calculator", "amortization-schedule-calculator", "extra-payment-calculator"],
+  },
+  {
+    slug: "401k-calculator",
+    category: "finance",
+    title: "401(k) Calculator",
+    shortDescription: "Project your 401(k) balance at retirement, including employer match and salary growth.",
+    metaDescription: "Free online 401(k) calculator to project your retirement balance based on your salary, contribution percentage, employer match, and expected investment return.",
+    h1: "401(k) Calculator",
+    intro: "Project your 401(k) balance at retirement based on your current balance, salary, contribution percentage, employer match, expected annual return, and salary growth.",
+    icon: "🏦",
+    status: "live",
+    inputFields: [
+      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "retirementAge", label: "Retirement Age", type: "number", step: 1, placeholder: "e.g. 65" },
+      { key: "currentBalance", label: "Current 401(k) Balance", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "annualSalary", label: "Annual Salary", type: "number", step: 0.01, placeholder: "e.g. 70000" },
+      { key: "contributionPercent", label: "Your Contribution (% of Salary)", type: "number", step: 0.1, placeholder: "e.g. 6" },
+      { key: "employerMatchPercent", label: "Employer Match Rate (%)", type: "number", step: 1, placeholder: "e.g. 50" },
+      { key: "employerMatchLimitPercent", label: "Employer Match Limit (% of Salary)", type: "number", step: 0.1, placeholder: "e.g. 6" },
+      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
+      { key: "salaryGrowth", label: "Annual Salary Growth (%, optional)", type: "number", step: 0.1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "projectedBalance", label: "Projected Balance at Retirement", highlight: true },
+      { key: "totalEmployeeContributions", label: "Total Your Contributions" },
+      { key: "totalEmployerContributions", label: "Total Employer Match" },
+      { key: "totalGrowth", label: "Total Investment Growth", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const currentAge = Number(inputs.currentAge);
+      const retirementAge = Number(inputs.retirementAge);
+      const currentBalance = Number(inputs.currentBalance ?? 0);
+      const annualSalary = Number(inputs.annualSalary);
+      const contributionPercent = Number(inputs.contributionPercent);
+      const employerMatchPercent = Number(inputs.employerMatchPercent);
+      const employerMatchLimitPercent = Number(inputs.employerMatchLimitPercent);
+      const expectedReturn = Number(inputs.expectedReturn);
+      const salaryGrowth = Number(inputs.salaryGrowth ?? 0);
+      const output = calculate401k(
+        currentAge,
+        retirementAge,
+        currentBalance,
+        annualSalary,
+        contributionPercent,
+        employerMatchPercent,
+        employerMatchLimitPercent,
+        expectedReturn,
+        salaryGrowth
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the employer match is calculated",
+        paragraphs: [
+          "Most employer 401(k) matches work as a percentage of your contribution, up to a cap expressed as a percentage of your salary. For example, \"50% match up to 6% of pay\" means that if you contribute 6% of your salary, your employer adds another 3% (50% of 6%), and if you contribute more than 6%, the employer match still caps out at that same 3%. This calculator applies that exact logic every month, on your salary for that year.",
+        ],
+      },
+      {
+        heading: "Why this differs from a generic retirement calculator",
+        paragraphs: [
+          "A general retirement calculator typically assumes a fixed dollar contribution each month. This calculator instead models contributions as a percentage of salary, which rises each year if you enter salary growth, and adds an employer match on top, projecting month by month rather than using a single closed-form formula, since the match and salary both change over time.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my employer doesn't match contributions?",
+        answer: "Set the employer match rate or match limit to 0, and this calculator will project your balance from your own contributions and investment growth alone.",
+      },
+      {
+        question: "Does this account for annual contribution limits?",
+        answer: "No, this calculator doesn't cap your contributions at IRS annual limits. If your calculated contribution amount would exceed the current limit, your actual contributions may be capped in practice.",
+      },
+      {
+        question: "Why does salary growth matter for the projection?",
+        answer: "Since your contribution and your employer's match are both calculated as a percentage of salary, a rising salary means both grow in dollar terms over time, meaningfully increasing your projected balance compared to assuming a flat salary.",
+      },
+    ],
+    relatedSlugs: ["retirement-calculator", "compound-interest-calculator", "savings-goal-calculator"],
   },
 ];
 
