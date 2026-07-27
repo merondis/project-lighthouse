@@ -125,6 +125,18 @@ import { calculatePregnancyWeightGain } from "@/utils/calculators/pregnancy-weig
 import { calculatePregnancyWeek, PregnancyInputMode } from "@/utils/calculators/pregnancy-week-calculator";
 import { calculateDueDateReverse } from "@/utils/calculators/due-date-reverse-calculator";
 import { calculateFertilityWindow } from "@/utils/calculators/fertility-window-calculator";
+import { calculateGcf } from "@/utils/calculators/gcf-calculator";
+import { calculatePrimeFactorization } from "@/utils/calculators/prime-factorization-calculator";
+import { calculatePermutation } from "@/utils/calculators/permutation-calculator";
+import { calculateCombination } from "@/utils/calculators/combination-calculator";
+import { calculateBinomial } from "@/utils/calculators/binomial-calculator";
+import { calculateExponent } from "@/utils/calculators/exponent-calculator";
+import { calculateLogarithm } from "@/utils/calculators/logarithm-calculator";
+import { calculateScientificNotation, ScientificNotationMode } from "@/utils/calculators/scientific-notation-calculator";
+import { calculatePercentError } from "@/utils/calculators/percent-error-calculator";
+import { calculatePercentageDifference } from "@/utils/calculators/percentage-difference-calculator";
+import { calculateAverage } from "@/utils/calculators/average-calculator";
+import { calculateMedian } from "@/utils/calculators/median-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -8096,6 +8108,704 @@ explanation: [
       },
     ],
     relatedSlugs: ["ovulation-calculator", "pregnancy-due-date-calculator", "due-date-reverse-calculator"],
+  },
+  {
+    slug: "matrix-calculator",
+    category: "math",
+    title: "Matrix Calculator",
+    shortDescription: "Add, subtract, multiply, transpose or find the determinant of 2x2 and 3x3 matrices.",
+    metaDescription: "Free online matrix calculator to add, subtract, multiply, transpose, or find the determinant of 2x2 and 3x3 matrices.",
+    h1: "Matrix Calculator",
+    intro: "Perform matrix addition, subtraction, multiplication, transpose, or find the determinant, for 2x2 and 3x3 matrices.",
+    icon: "🔳",
+    status: "live",
+    widgetType: "matrix",
+    explanation: [
+      {
+        heading: "Matrix operations supported",
+        paragraphs: [
+          "Addition and subtraction combine two matrices of the same size by adding or subtracting corresponding entries. Multiplication combines two square matrices of the same size using the standard row-by-column dot product rule. The determinant is a single number computed from a square matrix that indicates, among other things, whether the matrix is invertible (a zero determinant means it isn't). Transpose flips a matrix over its diagonal, turning rows into columns.",
+        ],
+      },
+      {
+        heading: "Why matrix size is limited to 2x2 and 3x3",
+        paragraphs: [
+          "These are by far the most commonly needed sizes for coursework, introductory linear algebra, and quick manual checks. Larger matrices are typically handled with dedicated computational software rather than manual entry, since the number of cells to enter grows quickly with size.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I multiply matrices of different sizes?",
+        answer: "This calculator requires both matrices to be the same size (2x2 or 3x3) for all operations. General matrix multiplication does allow different sizes as long as the number of columns in the first matches the number of rows in the second, but that flexibility isn't supported here.",
+      },
+      {
+        question: "What does a determinant of zero mean?",
+        answer: "A zero determinant means the matrix is 'singular', it doesn't have an inverse, and represents a transformation that collapses space into a lower dimension (for example, flattening a 2D plane into a line).",
+      },
+      {
+        question: "Do I need Matrix B for every operation?",
+        answer: "No, only addition, subtraction and multiplication use Matrix B. Determinant and transpose only operate on Matrix A, so Matrix B's fields are hidden for those operations.",
+      },
+    ],
+    relatedSlugs: ["scientific-calculator", "quadratic-equation-solver", "statistics-calculator"],
+  },
+  {
+    slug: "gcf-calculator",
+    category: "math",
+    title: "GCF Calculator",
+    shortDescription: "Find the greatest common factor of two or more numbers.",
+    metaDescription: "Free online GCF calculator to find the greatest common factor (GCF), also known as greatest common divisor (GCD), of two or more numbers.",
+    h1: "GCF Calculator",
+    intro: "Find the Greatest Common Factor (GCF) of two or more whole numbers, the largest number that divides all of them with no remainder.",
+    icon: "🔢",
+    status: "live",
+    inputFields: [
+      { key: "numbers", label: "Numbers (comma or space separated)", type: "text", placeholder: "e.g. 24, 36, 60" },
+    ],
+    resultFields: [
+      { key: "gcf", label: "Greatest Common Factor (GCF)", highlight: true },
+      { key: "count", label: "Numbers Entered" },
+    ],
+    calculate: (inputs) => {
+      const numbers = String(inputs.numbers ?? "");
+      const output = calculateGcf(numbers);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the greatest common factor is found",
+        paragraphs: [
+          "The Greatest Common Factor (GCF), also called the Greatest Common Divisor (GCD), is the largest whole number that divides every number in your list with no remainder. This calculator uses the Euclidean algorithm, repeatedly applying the fact that the GCF of two numbers also divides their difference, an efficient method that avoids having to list out every factor by hand.",
+        ],
+      },
+      {
+        heading: "GCF vs LCM",
+        paragraphs: [
+          "GCF and LCM (Least Common Multiple) answer opposite kinds of questions: GCF finds the largest number that divides into your numbers, while LCM finds the smallest number that all your numbers divide into. Our LCM Calculator computes both figures together if you need them side by side.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is GCF the same as GCD?",
+        answer: "Yes, Greatest Common Factor (GCF) and Greatest Common Divisor (GCD) refer to exactly the same thing, GCF is the more common term in school-level math, while GCD is more common in number theory and computer science.",
+      },
+      {
+        question: "What if my numbers share no common factor besides 1?",
+        answer: "That's a valid result, it means the numbers are 'coprime', and this calculator will correctly show a GCF of 1.",
+      },
+      {
+        question: "Can I enter more than two numbers?",
+        answer: "Yes, enter as many numbers as you'd like, separated by commas or spaces, and this calculator will find the GCF across all of them at once.",
+      },
+    ],
+    relatedSlugs: ["lcm-calculator", "prime-factorization-calculator", "fraction-calculator"],
+  },
+  {
+    slug: "prime-factorization-calculator",
+    category: "math",
+    title: "Prime Factorization Calculator",
+    shortDescription: "Break a number down into its prime factors, shown in exponent form.",
+    metaDescription: "Free online prime factorization calculator to break a number down into its prime factors, shown both as a list and in compact exponent form.",
+    h1: "Prime Factorization Calculator",
+    intro: "Break a number down into the prime numbers that multiply together to produce it, shown as a plain list and in compact exponent form.",
+    icon: "✖️",
+    status: "live",
+    inputFields: [
+      { key: "number", label: "Number", type: "number", step: 1, placeholder: "e.g. 360" },
+    ],
+    resultFields: [
+      { key: "exponentForm", label: "Prime Factorization (Exponent Form)", highlight: true },
+      { key: "factorsList", label: "Prime Factors (List)" },
+      { key: "factorCount", label: "Total Prime Factors" },
+    ],
+    calculate: (inputs) => {
+      const number = Number(inputs.number);
+      const output = calculatePrimeFactorization(number);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How prime factorization works",
+        paragraphs: [
+          "Every whole number greater than 1 can be broken down into a unique product of prime numbers, this is known as the Fundamental Theorem of Arithmetic. This calculator finds that breakdown by repeatedly dividing by the smallest possible prime until only 1 remains, then shows the result both as a plain multiplication list (e.g. 2 × 2 × 2 × 3 × 3 × 5) and in the more compact exponent form (2^3 × 3^2 × 5) used when a prime factor repeats.",
+        ],
+      },
+      {
+        heading: "Why prime factorization is useful",
+        paragraphs: [
+          "Prime factorization is the basis for finding a number's GCF and LCM with other numbers, simplifying fractions, and various topics in number theory and cryptography. It's also a common way to check whether a number is 'nice' for a particular calculation, for example, a number with only small prime factors divides evenly by many things.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if I enter a prime number?",
+        answer: "The factorization of a prime number is just the number itself, since it has no smaller prime factors, this calculator will show it as a single factor.",
+      },
+      {
+        question: "How is this different from the Prime Number Calculator?",
+        answer: "The Prime Number Calculator checks whether a number is prime and also finds its nearest primes, with factorization as one of several outputs. This calculator is purpose-built around factorization specifically, presenting it both as a list and in the more standard exponent notation.",
+      },
+      {
+        question: "Is there a limit to how large a number I can enter?",
+        answer: "This calculator supports numbers up to 100,000,000. Beyond that, factorization by trial division becomes impractically slow.",
+      },
+    ],
+    relatedSlugs: ["prime-number-calculator", "gcf-calculator", "lcm-calculator"],
+  },
+  {
+    slug: "permutation-calculator",
+    category: "math",
+    title: "Permutation Calculator",
+    shortDescription: "Calculate the number of ways to arrange r items chosen from n, where order matters.",
+    metaDescription: "Free online permutation calculator (nPr) to calculate the number of ways to arrange r items chosen from a set of n, where order matters.",
+    h1: "Permutation Calculator",
+    intro: "Calculate the number of permutations (nPr), the number of ways to arrange r items chosen from a set of n distinct items, where order matters.",
+    icon: "🔀",
+    status: "live",
+    inputFields: [
+      { key: "n", label: "n (total items)", type: "number", step: 1, placeholder: "e.g. 10" },
+      { key: "r", label: "r (items chosen)", type: "number", step: 1, placeholder: "e.g. 3" },
+    ],
+    resultFields: [
+      { key: "result", label: "nPr (Permutations)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const n = Number(inputs.n);
+      const r = Number(inputs.r);
+      const output = calculatePermutation(n, r);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The permutation formula",
+        paragraphs: [
+          "nPr = n! ÷ (n − r)!, the number of ways to select and arrange r items from a set of n distinct items, where the order of selection matters. For example, arranging 3 runners in 1st, 2nd and 3rd place out of 10 competitors gives 10P3 = 10 × 9 × 8 = 720 possible orderings.",
+        ],
+      },
+      {
+        heading: "Permutations vs combinations",
+        paragraphs: [
+          "The key distinction is whether order matters: permutations count arrangements (1st-2nd-3rd place is different from 2nd-1st-3rd), while combinations count selections regardless of order (a committee of 3 people is the same group no matter what order they were chosen in). Our Combination Calculator handles the order-doesn't-matter case.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does it mean when order 'matters'?",
+        answer: "It means swapping the position of two selected items creates a genuinely different outcome, like assigning gold, silver and bronze medals, versus just picking any 3 people for a team where their order of selection is irrelevant.",
+      },
+      {
+        question: "What if r equals n?",
+        answer: "Then nPr simply equals n! (n factorial), the number of ways to arrange all n items in some order.",
+      },
+      {
+        question: "Can r be larger than n?",
+        answer: "No, you can't arrange more items than exist in the set, so r must be less than or equal to n.",
+      },
+    ],
+    relatedSlugs: ["combination-calculator", "binomial-calculator", "probability-calculator"],
+  },
+  {
+    slug: "combination-calculator",
+    category: "math",
+    title: "Combination Calculator",
+    shortDescription: "Calculate the number of ways to choose r items from n, where order doesn't matter.",
+    metaDescription: "Free online combination calculator (nCr) to calculate the number of ways to choose r items from a set of n, where order doesn't matter.",
+    h1: "Combination Calculator",
+    intro: "Calculate the number of combinations (nCr), the number of ways to choose r items from a set of n distinct items, where order doesn't matter.",
+    icon: "🧩",
+    status: "live",
+    inputFields: [
+      { key: "n", label: "n (total items)", type: "number", step: 1, placeholder: "e.g. 10" },
+      { key: "r", label: "r (items chosen)", type: "number", step: 1, placeholder: "e.g. 3" },
+    ],
+    resultFields: [
+      { key: "result", label: "nCr (Combinations)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const n = Number(inputs.n);
+      const r = Number(inputs.r);
+      const output = calculateCombination(n, r);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The combination formula",
+        paragraphs: [
+          "nCr = n! ÷ (r! × (n − r)!), the number of ways to choose r items from a set of n distinct items, where the order of selection doesn't matter. For example, choosing a 3-person committee from 10 people gives 10C3 = 120 possible committees, far fewer than the 720 permutations of the same items, since here each group of 3 people counts only once regardless of selection order.",
+        ],
+      },
+      {
+        heading: "Why nCr is always smaller than nPr",
+        paragraphs: [
+          "Since combinations don't distinguish between different orderings of the same group, nCr is always nPr divided by r! (the number of ways to reorder r items). This is exactly why choosing a committee (120 ways) produces a smaller count than arranging medal positions (720 ways) from the same 10 people and group size of 3.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "When should I use combinations instead of permutations?",
+        answer: "Use combinations whenever the order of selection doesn't create a meaningfully different outcome, like choosing lottery numbers, forming a team, or picking a subset of items, versus permutations for cases like rankings, seating arrangements, or passwords where order matters.",
+      },
+      {
+        question: "What is 'n choose r' notation?",
+        answer: "'n choose r', written nCr or sometimes with a binomial coefficient symbol, is the standard shorthand for this combination formula, and is also the coefficient used in binomial expansions and binomial probability.",
+      },
+      {
+        question: "What if r is 0?",
+        answer: "nCr with r=0 always equals 1, there's exactly one way to choose nothing from any set (the empty selection).",
+      },
+    ],
+    relatedSlugs: ["permutation-calculator", "binomial-calculator", "probability-calculator"],
+  },
+  {
+    slug: "binomial-calculator",
+    category: "math",
+    title: "Binomial Calculator",
+    shortDescription: "Calculate binomial probability for exactly k successes, or k or fewer, across n trials.",
+    metaDescription: "Free online binomial probability calculator to find the probability of exactly k successes, or cumulative k or fewer successes, across n independent trials.",
+    h1: "Binomial Calculator",
+    intro: "Calculate binomial probability, the probability of exactly k successes (and the cumulative probability of k or fewer) across n independent trials, each with the same probability of success.",
+    icon: "🎲",
+    status: "live",
+    inputFields: [
+      { key: "n", label: "Number of Trials (n)", type: "number", step: 1, placeholder: "e.g. 10" },
+      { key: "probability", label: "Probability of Success per Trial (%)", type: "number", step: 0.01, placeholder: "e.g. 50" },
+      { key: "k", label: "Number of Successes (k)", type: "number", step: 1, placeholder: "e.g. 6" },
+    ],
+    resultFields: [
+      { key: "exactProbabilityPercent", label: "P(X = k) Exact Probability", unit: "%", highlight: true },
+      { key: "cumulativeProbabilityPercent", label: "P(X ≤ k) Cumulative Probability", unit: "%", highlight: true },
+      { key: "meanSuccesses", label: "Expected (Mean) Successes" },
+      { key: "standardDeviation", label: "Standard Deviation" },
+    ],
+    calculate: (inputs) => {
+      const n = Number(inputs.n);
+      const probability = Number(inputs.probability);
+      const k = Number(inputs.k);
+      const output = calculateBinomial(n, probability, k);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The binomial probability formula",
+        paragraphs: [
+          "For n independent trials, each with the same probability p of success, the probability of exactly k successes is P(X=k) = C(n,k) × p^k × (1−p)^(n−k), where C(n,k) is the combination 'n choose k'. This calculator also sums P(X=i) for every i from 0 to k to give the cumulative probability P(X≤k), the chance of getting k or fewer successes.",
+        ],
+      },
+      {
+        heading: "When the binomial distribution applies",
+        paragraphs: [
+          "The binomial distribution applies when you have a fixed number of independent trials, each with only two possible outcomes (success or failure), and the same probability of success on every trial, classic examples include counting heads in a series of coin flips, or counting defective items in a batch where each item independently has the same defect probability.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the difference between exact and cumulative probability?",
+        answer: "Exact probability, P(X=k), is the chance of getting precisely k successes. Cumulative probability, P(X≤k), is the chance of getting k or fewer successes, the sum of the exact probabilities for every outcome from 0 up to k.",
+      },
+      {
+        question: "What do the mean and standard deviation tell me?",
+        answer: "The mean (n × p) is the expected number of successes on average across many repetitions. The standard deviation measures how much the actual number of successes typically varies from that average, a larger standard deviation means more variability from trial set to trial set.",
+      },
+      {
+        question: "Does this work if the probability of success changes between trials?",
+        answer: "No, the binomial distribution specifically assumes the same success probability on every trial. If probabilities vary trial to trial, a different (non-binomial) model is needed.",
+      },
+    ],
+    relatedSlugs: ["combination-calculator", "probability-calculator", "statistics-calculator"],
+  },
+  {
+    slug: "exponent-calculator",
+    category: "math",
+    title: "Exponent Calculator",
+    shortDescription: "Calculate a base raised to any exponent, including negative and fractional exponents.",
+    metaDescription: "Free online exponent calculator to calculate a base raised to any power, including negative exponents and fractional exponents (roots).",
+    h1: "Exponent Calculator",
+    intro: "Calculate a base raised to any exponent, including negative exponents (reciprocals) and fractional exponents (roots).",
+    icon: "🔺",
+    status: "live",
+    inputFields: [
+      { key: "base", label: "Base", type: "number", step: 0.01, placeholder: "e.g. 2" },
+      { key: "exponent", label: "Exponent", type: "number", step: 0.01, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "result", label: "Result", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const base = Number(inputs.base);
+      const exponent = Number(inputs.exponent);
+      const output = calculateExponent(base, exponent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How exponents work",
+        paragraphs: [
+          "A positive integer exponent means repeated multiplication: base^n means the base multiplied by itself n times, for example 2^5 = 2×2×2×2×2 = 32. A negative exponent means the reciprocal of the positive version: base^(−n) = 1 ÷ base^n. A fractional exponent represents a root: base^(1/2) is the square root of the base, base^(1/3) is the cube root, and so on.",
+        ],
+      },
+      {
+        heading: "A note on negative bases with fractional exponents",
+        paragraphs: [
+          "Raising a negative number to a fractional exponent doesn't always produce a real number result, for example, (−4)^0.5 would be the square root of a negative number, which isn't a real number. This calculator will let you know when a combination you've entered has no real number result.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does an exponent of 0 give?",
+        answer: "Any non-zero number raised to the power of 0 equals 1, by mathematical convention, this comes from consistently extending the pattern of dividing successive powers of the same base.",
+      },
+      {
+        question: "How do negative exponents work?",
+        answer: "A negative exponent flips the base into a fraction: base^(−n) equals 1 divided by base^n. For example, 2^(−3) = 1 ÷ 2^3 = 1/8 = 0.125.",
+      },
+      {
+        question: "What does a decimal exponent like 0.5 mean?",
+        answer: "A decimal exponent represents a root, base^0.5 is the same as the square root of the base, base^(1/3) (approximately 0.333) is the cube root, and so on, following the general rule base^(1/n) equals the nth root of the base.",
+      },
+    ],
+    relatedSlugs: ["logarithm-calculator", "scientific-notation-calculator", "scientific-calculator"],
+  },
+  {
+    slug: "logarithm-calculator",
+    category: "math",
+    title: "Logarithm Calculator",
+    shortDescription: "Calculate the logarithm of a number to any base, including common and natural log.",
+    metaDescription: "Free online logarithm calculator to calculate log base b of a value, including common logarithm (base 10) and natural logarithm (base e).",
+    h1: "Logarithm Calculator",
+    intro: "Calculate the logarithm of a value to any base, using the change-of-base formula, including common logarithm (base 10) and natural logarithm (base e ≈ 2.71828).",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "value", label: "Value", type: "number", step: 0.01, placeholder: "e.g. 100" },
+      { key: "base", label: "Base", type: "number", step: 0.01, placeholder: "e.g. 10 (use 2.71828 for natural log)" },
+    ],
+    resultFields: [
+      { key: "result", label: "Logarithm Result", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const value = Number(inputs.value);
+      const base = Number(inputs.base);
+      const output = calculateLogarithm(value, base);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What a logarithm represents",
+        paragraphs: [
+          "log_b(x) answers the question 'to what power must b be raised to get x?'. For example, log_10(100) = 2, since 10^2 = 100. This calculator uses the change-of-base formula, log_b(x) = ln(x) ÷ ln(b), which works for any valid base by expressing the result in terms of the natural logarithm.",
+        ],
+      },
+      {
+        heading: "Common log vs natural log",
+        paragraphs: [
+          "The common logarithm uses base 10 (written log(x) without a base, often used in fields like chemistry for pH, and acoustics for decibels). The natural logarithm uses base e (approximately 2.71828, written ln(x)), which arises naturally in calculus, continuous compound growth, and many scientific formulas. To calculate a natural log with this calculator, enter 2.71828 as the base, or simply use base 10 for a common log.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why can't the base be 1?",
+        answer: "Since 1 raised to any power always equals 1, log base 1 is undefined, there's no consistent power that produces any value other than 1.",
+      },
+      {
+        question: "Why can't I take the log of a negative number or zero?",
+        answer: "In the real number system, no real power of a positive base produces a negative result or zero, so logarithms of non-positive numbers are undefined (they do exist in the complex number system, but that's outside the scope of this calculator).",
+      },
+      {
+        question: "How is this related to exponents?",
+        answer: "Logarithms and exponents are inverse operations, if b^y = x, then log_b(x) = y. Our Exponent Calculator handles the forward direction (calculating a power); this calculator handles the reverse.",
+      },
+    ],
+    relatedSlugs: ["exponent-calculator", "scientific-notation-calculator", "scientific-calculator"],
+  },
+  {
+    slug: "scientific-notation-calculator",
+    category: "math",
+    title: "Scientific Notation Calculator",
+    shortDescription: "Convert between standard decimal notation and scientific notation.",
+    metaDescription: "Free online scientific notation calculator to convert a decimal number into scientific notation, or convert scientific notation back into a decimal number.",
+    h1: "Scientific Notation Calculator",
+    intro: "Convert a decimal number into scientific notation, or convert a coefficient and exponent in scientific notation back into a standard decimal number.",
+    icon: "🔬",
+    status: "live",
+    inputFields: [
+      {
+        key: "mode",
+        label: "Conversion Direction",
+        type: "select",
+        options: [
+          { label: "Decimal → Scientific Notation", value: "toScientific" },
+          { label: "Scientific Notation → Decimal", value: "toDecimal" },
+        ],
+      },
+      { key: "decimalInput", label: "Decimal Number", type: "number", step: 0.0001, placeholder: "e.g. 6020000000" },
+      { key: "coefficientInput", label: "Coefficient (a)", type: "number", step: 0.01, placeholder: "e.g. 6.02" },
+      { key: "exponentInput", label: "Exponent (b, as in x10^b)", type: "number", step: 1, placeholder: "e.g. 9" },
+    ],
+    resultFields: [
+      { key: "scientificNotationText", label: "Scientific Notation", highlight: true },
+      { key: "decimalValue", label: "Decimal Value", highlight: true },
+      { key: "coefficient", label: "Coefficient (a)" },
+      { key: "exponent", label: "Exponent (b)" },
+    ],
+    calculate: (inputs) => {
+      const mode = String(inputs.mode) as ScientificNotationMode;
+      const decimalInput = Number(inputs.decimalInput ?? 0);
+      const coefficientInput = Number(inputs.coefficientInput ?? 0);
+      const exponentInput = Number(inputs.exponentInput ?? 0);
+      const output = calculateScientificNotation(mode, decimalInput, coefficientInput, exponentInput);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What scientific notation is",
+        paragraphs: [
+          "Scientific notation expresses a number as a coefficient between 1 and 10 (or −10 and −1 for negatives) multiplied by a power of 10: a × 10^b. It's used throughout science and engineering to compactly represent very large or very small numbers, for example, Avogadro's number (about 602,000,000,000,000,000,000,000) is written far more manageably as 6.02 × 10^23.",
+        ],
+      },
+      {
+        heading: "Converting in either direction",
+        paragraphs: [
+          "To convert a decimal to scientific notation, this calculator finds how many places the decimal point needs to move to leave exactly one non-zero digit before it, that count becomes the exponent. To convert scientific notation back to a decimal, it simply multiplies the coefficient by 10 raised to the given exponent.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why must the coefficient be between 1 and 10?",
+        answer: "This is the standard convention for scientific notation, it ensures every number has one single, unambiguous representation, rather than multiple equally valid ways to write the same value.",
+      },
+      {
+        question: "What does a negative exponent mean in scientific notation?",
+        answer: "A negative exponent indicates a small number (less than 1), for example, 0.000045 is written as 4.5 × 10^(−5), since the decimal point moves 5 places to the right to reach the standard form.",
+      },
+      {
+        question: "Is this the same as engineering notation?",
+        answer: "No, engineering notation is a close cousin that restricts exponents to multiples of 3 (aligning with metric prefixes like kilo, mega, milli), while standard scientific notation used here allows any integer exponent.",
+      },
+    ],
+    relatedSlugs: ["exponent-calculator", "logarithm-calculator", "scientific-calculator"],
+  },
+  {
+    slug: "percent-error-calculator",
+    category: "math",
+    title: "Percent Error Calculator",
+    shortDescription: "Calculate percent error between a measured value and an accepted (true) value.",
+    metaDescription: "Free online percent error calculator to calculate the percent error between a measured (experimental) value and an accepted (true) value.",
+    h1: "Percent Error Calculator",
+    intro: "Calculate percent error, how far a measured or experimental value deviates from a known accepted value, expressed as a percentage.",
+    icon: "🧪",
+    status: "live",
+    inputFields: [
+      { key: "measuredValue", label: "Measured (Experimental) Value", type: "number", step: 0.0001, placeholder: "e.g. 9.8" },
+      { key: "acceptedValue", label: "Accepted (True) Value", type: "number", step: 0.0001, placeholder: "e.g. 9.81" },
+    ],
+    resultFields: [
+      { key: "percentError", label: "Percent Error", unit: "%", highlight: true },
+      { key: "absoluteError", label: "Absolute Error" },
+    ],
+    calculate: (inputs) => {
+      const measuredValue = Number(inputs.measuredValue);
+      const acceptedValue = Number(inputs.acceptedValue);
+      const output = calculatePercentError(measuredValue, acceptedValue);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The percent error formula",
+        paragraphs: [
+          "Percent Error = |Measured Value − Accepted Value| ÷ |Accepted Value| × 100. It's specifically used to express how far an experimental or measured result deviates from a known, accepted (true) value, always dividing by the accepted value, not the measured one. For example, measuring gravitational acceleration as 9.8 m/s² against the accepted 9.81 m/s² gives a percent error of about 0.10%.",
+        ],
+      },
+      {
+        heading: "Percent error vs percentage difference",
+        paragraphs: [
+          "Percent error assumes one of the two values (the accepted value) is authoritative, a known standard your measurement is being checked against. Our Percentage Difference Calculator instead compares two values symmetrically, with neither treated as more correct than the other, appropriate when you're simply comparing two measurements or estimates as peers.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is percent error always positive here?",
+        answer: "This calculator uses the absolute value of the difference, so percent error is reported as a magnitude of deviation, regardless of whether the measured value was above or below the accepted value. The 'absolute error' figure shown alongside it is the raw (also absolute) numeric difference before converting to a percentage.",
+      },
+      {
+        question: "What counts as a 'good' percent error?",
+        answer: "It depends entirely on the field and the precision of the measuring method, a percent error considered excellent in one context (say, a rough physical experiment) might be unacceptable in another (like precision manufacturing). There's no universal threshold.",
+      },
+      {
+        question: "What if I don't have a known 'accepted' value?",
+        answer: "If you're just comparing two values without either being an authoritative standard, use our Percentage Difference Calculator instead, which doesn't require designating one value as more correct than the other.",
+      },
+    ],
+    relatedSlugs: ["percentage-difference-calculator", "percentage-calculator", "standard-deviation-calculator"],
+  },
+  {
+    slug: "percentage-difference-calculator",
+    category: "math",
+    title: "Percentage Difference Calculator",
+    shortDescription: "Calculate the symmetric percentage difference between two values.",
+    metaDescription: "Free online percentage difference calculator to calculate the symmetric percentage difference between two values, using their average as the base.",
+    h1: "Percentage Difference Calculator",
+    intro: "Calculate the percentage difference between two values, a symmetric comparison that treats neither value as the reference or 'correct' one.",
+    icon: "⚖️",
+    status: "live",
+    inputFields: [
+      { key: "valueA", label: "First Value", type: "number", step: 0.0001, placeholder: "e.g. 40" },
+      { key: "valueB", label: "Second Value", type: "number", step: 0.0001, placeholder: "e.g. 50" },
+    ],
+    resultFields: [
+      { key: "percentageDifference", label: "Percentage Difference", unit: "%", highlight: true },
+      { key: "absoluteDifference", label: "Absolute Difference" },
+    ],
+    calculate: (inputs) => {
+      const valueA = Number(inputs.valueA);
+      const valueB = Number(inputs.valueB);
+      const output = calculatePercentageDifference(valueA, valueB);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The percentage difference formula",
+        paragraphs: [
+          "Percentage Difference = |A − B| ÷ ((A + B) ÷ 2) × 100, dividing the absolute difference by the average of the two values rather than by either one specifically. This symmetry means swapping A and B gives the exact same result, unlike percentage change, which is directional and depends on which value is treated as the starting point.",
+        ],
+      },
+      {
+        heading: "When to use this instead of percentage change or percent error",
+        paragraphs: [
+          "Use percentage difference when comparing two values as equal peers, neither is a 'before' state nor a known correct standard, for example, comparing two competitors' prices, or two lab samples measured under similar conditions. If one value is a starting point being changed into another (like a salary before and after a raise), our Percentage Calculator's percentage change mode is more appropriate. If one value is a known accepted standard being checked against a measurement, use our Percent Error Calculator instead.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why divide by the average instead of one of the values?",
+        answer: "Dividing by the average keeps the calculation symmetric, giving the same result regardless of which value you call 'first' or 'second', appropriate when neither value is inherently the reference point.",
+      },
+      {
+        question: "Can percentage difference be negative?",
+        answer: "No, this calculator uses the absolute difference in the numerator, so percentage difference is always reported as a non-negative magnitude of how far apart the two values are, not a directional change.",
+      },
+      {
+        question: "Does this work with negative values?",
+        answer: "This calculator expects non-negative values, since the standard percentage difference formula is best defined for positive quantities. For values that can be negative or represent a directional change, percentage change (available in our Percentage Calculator) is more appropriate.",
+      },
+    ],
+    relatedSlugs: ["percent-error-calculator", "percentage-calculator", "ratio-calculator"],
+  },
+  {
+    slug: "average-calculator",
+    category: "math",
+    title: "Average Calculator",
+    shortDescription: "Calculate the average (mean) of a list of numbers.",
+    metaDescription: "Free online average calculator to quickly find the average (arithmetic mean) of a list of numbers.",
+    h1: "Average Calculator",
+    intro: "Quickly calculate the average (arithmetic mean) of a list of numbers.",
+    icon: "➗",
+    status: "live",
+    inputFields: [
+      { key: "numbers", label: "Numbers (comma or space separated)", type: "text", placeholder: "e.g. 12, 18, 25, 30" },
+    ],
+    resultFields: [
+      { key: "average", label: "Average (Mean)", highlight: true },
+      { key: "sum", label: "Sum" },
+      { key: "count", label: "Count" },
+    ],
+    calculate: (inputs) => {
+      const numbers = String(inputs.numbers ?? "");
+      const output = calculateAverage(numbers);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How average is calculated",
+        paragraphs: [
+          "The average, or arithmetic mean, is the sum of all values divided by how many values there are: Average = Sum ÷ Count. It's the most common way to summarize a typical value in a data set, though it can be skewed by unusually large or small outliers.",
+        ],
+      },
+      {
+        heading: "A focused, single-purpose tool",
+        paragraphs: [
+          "This calculator is intentionally simple, just the average, sum and count, for whenever you need that figure quickly without a broader statistical breakdown. Our Mean, Median & Mode Calculator and Statistics Calculator both include this same average figure as part of a more comprehensive set of results, useful if you need median, mode, standard deviation or other measures at the same time.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is average the same as mean?",
+        answer: "In everyday usage, yes, 'average' almost always refers to the arithmetic mean, though technically median and mode are also types of 'averages' in a broader statistical sense.",
+      },
+      {
+        question: "Does one very large or small number affect the average a lot?",
+        answer: "Yes, the average is sensitive to outliers, a single unusually large or small value can pull the average noticeably in its direction. If you want a measure less affected by outliers, consider the median instead.",
+      },
+      {
+        question: "How is this different from the Statistics Calculator?",
+        answer: "This tool shows only the average (plus sum and count) for a quick, focused result. The Statistics Calculator computes a full set of descriptive statistics at once, including median, mode, standard deviation, variance and quartiles.",
+      },
+    ],
+    relatedSlugs: ["median-calculator", "mean-median-mode-calculator", "statistics-calculator"],
+  },
+  {
+    slug: "median-calculator",
+    category: "math",
+    title: "Median Calculator",
+    shortDescription: "Calculate the median (middle value) of a list of numbers.",
+    metaDescription: "Free online median calculator to quickly find the median (middle value) of a list of numbers.",
+    h1: "Median Calculator",
+    intro: "Quickly calculate the median, the middle value, of a list of numbers.",
+    icon: "🔟",
+    status: "live",
+    inputFields: [
+      { key: "numbers", label: "Numbers (comma or space separated)", type: "text", placeholder: "e.g. 12, 18, 25, 30, 45" },
+    ],
+    resultFields: [
+      { key: "median", label: "Median", highlight: true },
+      { key: "count", label: "Count" },
+      { key: "sortedList", label: "Sorted List", wide: true },
+    ],
+    calculate: (inputs) => {
+      const numbers = String(inputs.numbers ?? "");
+      const output = calculateMedian(numbers);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How median is calculated",
+        paragraphs: [
+          "The median is the middle value of a data set once it's sorted in order. For an odd number of values, it's the single middle value. For an even number of values, it's the average of the two middle values. This calculator sorts your list automatically and shows the sorted order alongside the result.",
+        ],
+      },
+      {
+        heading: "Why median is sometimes preferred over average",
+        paragraphs: [
+          "Unlike the average (mean), the median isn't pulled by extreme outliers, a single very large or very small value barely affects it, since only the middle position matters, not the actual magnitude of every value. This is why median is often used for figures like household income or home prices, where a few extreme values could otherwise skew the average significantly.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if I have an even number of values?",
+        answer: "The median is the average of the two middle values once the list is sorted, for example, the median of 4, 8, 15, 23 is (8 + 15) ÷ 2 = 11.5.",
+      },
+      {
+        question: "Why does median resist outliers better than average?",
+        answer: "Median only depends on which value occupies the middle position after sorting, not the magnitude of any individual value, so an extremely large or small outlier can shift the sort order slightly but generally doesn't change the median much, unlike the average, which directly incorporates every value's magnitude.",
+      },
+      {
+        question: "How is this different from the Statistics Calculator?",
+        answer: "This tool shows only the median (plus count and sorted list) for a quick, focused result. The Statistics Calculator computes a full set of descriptive statistics at once, including mean, mode, standard deviation, variance and quartiles.",
+      },
+    ],
+    relatedSlugs: ["average-calculator", "mean-median-mode-calculator", "statistics-calculator"],
   },
 ];
 

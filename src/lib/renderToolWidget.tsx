@@ -24,6 +24,7 @@ import { HandwrittenSignatureWidget } from "@/components/tool-page/HandwrittenSi
 import { EmailSignatureWidget } from "@/components/tool-page/EmailSignatureWidget";
 import { WatermarkPdfWidget } from "@/components/tool-page/WatermarkPdfWidget";
 import { BmiCalculatorWidget } from "@/components/tool-page/BmiCalculatorWidget";
+import { MatrixCalculatorWidget } from "@/components/tool-page/MatrixCalculatorWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -62,5 +63,6 @@ export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "emailSignature") return <EmailSignatureWidget />;
   if (tool.widgetType === "watermarkPdf") return <WatermarkPdfWidget />;
   if (tool.widgetType === "bmi") return <BmiCalculatorWidget />;
+  if (tool.widgetType === "matrix") return <MatrixCalculatorWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }
