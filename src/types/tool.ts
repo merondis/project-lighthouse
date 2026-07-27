@@ -88,7 +88,26 @@ export interface ToolConfig {
   aiSystemPrompt?: string;
   aiActionLabel?: string;
   aiPlaceholder?: string;
-converterCategory?: "length" | "weight" | "temperature" | "dataStorage" | "volume" | "speed" | "area";
+converterCategory?:
+    | "length"
+    | "weight"
+    | "temperature"
+    | "dataStorage"
+    | "volume"
+    | "speed"
+    | "area"
+    | "pressure"
+    | "energy"
+    | "power"
+    | "force"
+    | "density"
+    | "torque"
+    | "angle"
+    | "digitalTransferRate"
+    | "frequency"
+    | "radiation"
+    | "viscosity"
+    | "flowRate";
   inputFields?: InputFieldConfig[];
   resultFields?: ResultFieldConfig[];
 calculate?: (

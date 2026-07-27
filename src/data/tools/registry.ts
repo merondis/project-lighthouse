@@ -10585,6 +10585,462 @@ explanation: [
     ],
     relatedSlugs: ["auto-loan-calculator", "vehicle-depreciation-calculator", "dti-calculator"],
   },
+  {
+    slug: "pressure-converter",
+    category: "converters",
+    title: "Pressure Converter",
+    shortDescription: "Convert between pascals, bar, psi, atmospheres and torr.",
+    metaDescription: "Free online pressure converter to convert between pascals, kilopascals, bar, psi, atmospheres and torr.",
+    h1: "Pressure Converter",
+    intro: "Convert pressure measurements between pascals, kilopascals, bar, psi, atmospheres and torr.",
+    icon: "🌡️",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "pressure",
+    explanation: [
+      {
+        heading: "How this pressure converter works",
+        paragraphs: [
+          "This tool converts between pressure units using fixed conversion factors, for example, 1 atmosphere equals 101,325 pascals, 14.696 psi, or 1.01325 bar. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each pressure unit is used",
+        paragraphs: [
+          "Psi is common for tire pressure and hydraulics in the US. Bar and kilopascals are widely used in most other countries and in scientific contexts. Atmospheres are often used for general reference points, and torr (roughly equal to mmHg) is common in vacuum measurement and meteorology.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert psi to bar?",
+        answer: "Multiply psi by 0.0689476 to get bar, or use this converter for an instant result.",
+      },
+      {
+        question: "What's a typical car tire pressure in psi and bar?",
+        answer: "Most passenger car tires are inflated to around 30-35 psi, which is roughly 2.07-2.41 bar.",
+      },
+    ],
+    relatedSlugs: ["force-converter", "energy-converter", "density-converter"],
+  },
+  {
+    slug: "energy-converter",
+    category: "converters",
+    title: "Energy Converter",
+    shortDescription: "Convert between joules, calories, watt-hours and BTU.",
+    metaDescription: "Free online energy converter to convert between joules, kilojoules, calories, kilocalories, watt-hours, kilowatt-hours and BTU.",
+    h1: "Energy Converter",
+    intro: "Convert energy measurements between joules, calories, watt-hours, kilowatt-hours and BTU.",
+    icon: "⚡",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "energy",
+    explanation: [
+      {
+        heading: "How this energy converter works",
+        paragraphs: [
+          "This tool converts between energy units using fixed conversion factors, for example, 1 kilowatt-hour equals 3,600,000 joules, 3,412 BTU, or roughly 860 kilocalories. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each energy unit is used",
+        paragraphs: [
+          "Joules and kilojoules are the SI standard used in physics and on food labels in many countries. Calories and kilocalories (the 'Calories' on US food labels) measure food energy. Kilowatt-hours are used for electricity billing, and BTU is common for rating heating, cooling and appliance energy use in the US.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert kilowatt-hours to joules?",
+        answer: "Multiply kilowatt-hours by 3,600,000 to get joules, or use this converter for an instant result.",
+      },
+      {
+        question: "Is a food Calorie the same as a calorie?",
+        answer: "A food 'Calorie' (capital C) is actually a kilocalorie, equal to 1,000 small calories. This converter's 'calorie' and 'kilocalorie' units follow that same distinction.",
+      },
+    ],
+    relatedSlugs: ["power-converter", "pressure-converter", "ev-charging-cost-calculator"],
+  },
+  {
+    slug: "power-converter",
+    category: "converters",
+    title: "Power Converter",
+    shortDescription: "Convert between watts, kilowatts, horsepower and BTU/h.",
+    metaDescription: "Free online power converter to convert between watts, kilowatts, megawatts, horsepower and BTU per hour.",
+    h1: "Power Converter",
+    intro: "Convert power measurements between watts, kilowatts, megawatts, horsepower and BTU per hour.",
+    icon: "🔋",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "power",
+    explanation: [
+      {
+        heading: "How this power converter works",
+        paragraphs: [
+          "This tool converts between power units using fixed conversion factors, for example, 1 horsepower equals about 745.7 watts, or 0.7457 kilowatts. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each power unit is used",
+        paragraphs: [
+          "Watts and kilowatts are the SI standard used for electrical appliances and generators. Horsepower is traditionally used for rating vehicle and small engine output. BTU per hour is common for rating heating and air conditioning capacity in the US.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert horsepower to kilowatts?",
+        answer: "Multiply horsepower by 0.7457 to get kilowatts, or use this converter for an instant result.",
+      },
+      {
+        question: "Which horsepower definition does this use?",
+        answer: "This converter uses mechanical horsepower (745.7 watts), the most common definition. A small number of contexts use metric horsepower, which is very close but not identical (735.5 watts).",
+      },
+    ],
+    relatedSlugs: ["energy-converter", "torque-converter", "fuel-economy-calculator"],
+  },
+  {
+    slug: "force-converter",
+    category: "converters",
+    title: "Force Converter",
+    shortDescription: "Convert between newtons, pound-force, kilogram-force and dynes.",
+    metaDescription: "Free online force converter to convert between newtons, kilonewtons, dynes, pound-force and kilogram-force.",
+    h1: "Force Converter",
+    intro: "Convert force measurements between newtons, kilonewtons, dynes, pound-force and kilogram-force.",
+    icon: "💪",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "force",
+    explanation: [
+      {
+        heading: "How this force converter works",
+        paragraphs: [
+          "This tool converts between force units using fixed conversion factors, for example, 1 pound-force equals about 4.448 newtons, and 1 kilogram-force equals 9.80665 newtons (the force exerted by one kilogram under standard gravity). Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each force unit is used",
+        paragraphs: [
+          "The newton is the SI standard force unit, used throughout physics and engineering. Pound-force is common in US engineering contexts. Kilogram-force appears in some older or non-SI engineering references, and dynes are a smaller cgs unit occasionally used in physics.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert newtons to pound-force?",
+        answer: "Divide newtons by 4.4482216153 to get pound-force, or use this converter for an instant result.",
+      },
+      {
+        question: "What's the difference between kilogram-force and kilogram (mass)?",
+        answer: "A kilogram is a unit of mass, while kilogram-force is a unit of force, the weight of one kilogram of mass under standard Earth gravity (9.80665 m/s²). They're related but not interchangeable.",
+      },
+    ],
+    relatedSlugs: ["pressure-converter", "torque-converter", "beam-load-calculator"],
+  },
+  {
+    slug: "density-converter",
+    category: "converters",
+    title: "Density Converter",
+    shortDescription: "Convert between kg/m³, g/cm³, lb/ft³ and lb/gal.",
+    metaDescription: "Free online density converter to convert between kilograms per cubic meter, grams per cubic centimeter, kilograms per liter, pounds per cubic foot and pounds per gallon.",
+    h1: "Density Converter",
+    intro: "Convert density measurements between kg/m³, g/cm³, kg/L, lb/ft³ and lb/gal (US).",
+    icon: "🧊",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "density",
+    explanation: [
+      {
+        heading: "How this density converter works",
+        paragraphs: [
+          "This tool converts between density units using fixed conversion factors, for example, 1 gram per cubic centimeter equals 1,000 kilograms per cubic meter, and is also numerically equal to 1 kilogram per liter, both express the density of water at 4°C. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each density unit is used",
+        paragraphs: [
+          "Kilograms per cubic meter is the SI standard, common in engineering and materials specifications. Grams per cubic centimeter (equivalently, kilograms per liter) is common for liquids and lab work. Pounds per cubic foot and pounds per gallon are common in US construction, aggregate and fuel contexts.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert g/cm³ to kg/m³?",
+        answer: "Multiply grams per cubic centimeter by 1,000 to get kilograms per cubic meter, or use this converter for an instant result.",
+      },
+      {
+        question: "What is the density of water?",
+        answer: "Water's density is approximately 1,000 kg/m³, 1 g/cm³, or 1 kg/L at 4°C, one of the most commonly used reference densities.",
+      },
+    ],
+    relatedSlugs: ["viscosity-converter", "pressure-converter", "cement-calculator"],
+  },
+  {
+    slug: "torque-converter",
+    category: "converters",
+    title: "Torque Converter",
+    shortDescription: "Convert between newton-meters, pound-feet and pound-inches.",
+    metaDescription: "Free online torque converter to convert between newton-meters, newton-centimeters, pound-feet, pound-inches and kilogram-force meters.",
+    h1: "Torque Converter",
+    intro: "Convert torque measurements between newton-meters, pound-feet, pound-inches and kilogram-force meters.",
+    icon: "🔧",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "torque",
+    explanation: [
+      {
+        heading: "How this torque converter works",
+        paragraphs: [
+          "This tool converts between torque units using fixed conversion factors, for example, 1 pound-foot equals about 1.356 newton-meters, and 1 pound-inch equals about 0.113 newton-meters. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "Why torque units matter for wrenches and specifications",
+        paragraphs: [
+          "Torque specifications (like a lug nut or engine bolt spec) must be applied with the correct unit, mixing up newton-meters and pound-feet can lead to a fastener being significantly over- or under-tightened. Newton-meters are the SI standard, while pound-feet and pound-inches are common on US-made torque wrenches and specifications.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert pound-feet to newton-meters?",
+        answer: "Multiply pound-feet by 1.35582 to get newton-meters, or use this converter for an instant result.",
+      },
+      {
+        question: "When are pound-inches used instead of pound-feet?",
+        answer: "Pound-inches are typically used for smaller torque specifications, like small fasteners or electronics, where pound-feet would be an awkwardly small fraction.",
+      },
+    ],
+    relatedSlugs: ["force-converter", "power-converter", "beam-load-calculator"],
+  },
+  {
+    slug: "angle-converter",
+    category: "converters",
+    title: "Angle Converter",
+    shortDescription: "Convert between degrees, radians, gradians and arcminutes.",
+    metaDescription: "Free online angle converter to convert between degrees, radians, gradians, arcminutes, arcseconds and revolutions.",
+    h1: "Angle Converter",
+    intro: "Convert angle measurements between degrees, radians, gradians, arcminutes, arcseconds and revolutions.",
+    icon: "📐",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "angle",
+    explanation: [
+      {
+        heading: "How this angle converter works",
+        paragraphs: [
+          "This tool converts between angle units using fixed conversion factors, for example, 1 radian equals about 57.296 degrees, and 1 full revolution equals 360 degrees. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each angle unit is used",
+        paragraphs: [
+          "Degrees are the everyday standard for angles, navigation and geometry. Radians are the SI standard used throughout math and physics, especially in calculus and trigonometry. Gradians appear in some surveying contexts, and arcminutes/arcseconds are used for very precise small-angle measurements in astronomy and navigation.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert degrees to radians?",
+        answer: "Multiply degrees by π/180 (approximately 0.0174533) to get radians, or use this converter for an instant result.",
+      },
+      {
+        question: "How many arcminutes are in a degree?",
+        answer: "There are 60 arcminutes in one degree, and 60 arcseconds in one arcminute, similar to how minutes and seconds divide an hour.",
+      },
+    ],
+    relatedSlugs: ["length-converter", "frequency-converter", "tire-size-calculator"],
+  },
+  {
+    slug: "digital-transfer-rate-converter",
+    category: "converters",
+    title: "Digital Transfer Rate Converter",
+    shortDescription: "Convert between bps, Kbps, Mbps, Gbps and bytes per second.",
+    metaDescription: "Free online digital transfer rate converter to convert between bits per second, kilobits, megabits, gigabits per second and bytes per second.",
+    h1: "Digital Transfer Rate Converter",
+    intro: "Convert data transfer speeds between bits per second, Kbps, Mbps, Gbps, bytes per second and megabytes per second.",
+    icon: "📶",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "digitalTransferRate",
+    explanation: [
+      {
+        heading: "How this transfer rate converter works",
+        paragraphs: [
+          "This tool converts between data transfer rate units using fixed decimal conversion factors, following standard networking convention, for example, 1 megabit per second equals 1,000 kilobits per second, and 1 byte per second equals 8 bits per second. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "Why your download speed looks smaller than your internet plan",
+        paragraphs: [
+          "Internet plans are advertised in bits per second (like '500 Mbps'), but file download progress in a browser or app is typically shown in bytes per second (like 'MB/s'), and there are 8 bits in a byte. A 500 Mbps connection therefore tops out around 62.5 MB/s in a download manager, which can look surprisingly low compared to the advertised number even when everything is working correctly.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert Mbps to MB/s?",
+        answer: "Divide megabits per second by 8 to get megabytes per second, since there are 8 bits in a byte.",
+      },
+      {
+        question: "Does this use 1000 or 1024 for kilobit/megabit?",
+        answer: "This converter uses decimal (1000-based) prefixes, the standard convention for network transfer rates. Our Data Storage Converter, by contrast, uses binary (1024-based) prefixes, matching how file sizes are typically measured.",
+      },
+    ],
+    relatedSlugs: ["data-storage-converter", "frequency-converter", "length-converter"],
+  },
+  {
+    slug: "frequency-converter",
+    category: "converters",
+    title: "Frequency Converter",
+    shortDescription: "Convert between hertz, kilohertz, megahertz, gigahertz and RPM.",
+    metaDescription: "Free online frequency converter to convert between hertz, kilohertz, megahertz, gigahertz and revolutions per minute.",
+    h1: "Frequency Converter",
+    intro: "Convert frequency measurements between hertz, kilohertz, megahertz, gigahertz and revolutions per minute (RPM).",
+    icon: "📡",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "frequency",
+    explanation: [
+      {
+        heading: "How this frequency converter works",
+        paragraphs: [
+          "This tool converts between frequency units using fixed conversion factors, for example, 1 megahertz equals 1,000,000 hertz, and 1 hertz equals 60 revolutions per minute. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each frequency unit is used",
+        paragraphs: [
+          "Hertz and its multiples (kHz, MHz, GHz) measure cycles per second, used for everything from AC power and radio waves to computer processor clock speeds. RPM (revolutions per minute) is commonly used for rotational speed, such as engine, motor or hard drive spin rates, and converts directly to hertz since both describe repeating cycles.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert RPM to hertz?",
+        answer: "Divide RPM by 60 to get hertz, since hertz measures cycles per second and RPM measures cycles per minute.",
+      },
+      {
+        question: "What frequency is standard household electricity?",
+        answer: "Household AC power runs at 60 Hz in the US and much of the Americas, and 50 Hz in Europe, Asia, Africa and most of the rest of the world.",
+      },
+    ],
+    relatedSlugs: ["digital-transfer-rate-converter", "angle-converter", "power-converter"],
+  },
+  {
+    slug: "radiation-converter",
+    category: "converters",
+    title: "Radiation Converter",
+    shortDescription: "Convert between sieverts, millisieverts, rem and millirem.",
+    metaDescription: "Free online radiation dose converter to convert between sieverts, millisieverts, microsieverts, rem and millirem.",
+    h1: "Radiation Converter",
+    intro: "Convert radiation equivalent dose measurements between sieverts, millisieverts, microsieverts, rem and millirem.",
+    icon: "☢️",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "radiation",
+    explanation: [
+      {
+        heading: "How this radiation converter works",
+        paragraphs: [
+          "This tool converts between radiation equivalent dose units using fixed conversion factors, for example, 1 sievert equals 1,000 millisieverts, and 1 rem equals 10 millisieverts. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "Sievert vs rem",
+        paragraphs: [
+          "The sievert (and its smaller unit, the millisievert) is the SI unit for radiation equivalent dose, used internationally and in most modern scientific and medical contexts. Rem (and millirem) is an older unit still used in some US regulatory and occupational contexts. This converter covers equivalent dose only, used for assessing biological radiation exposure, not the separate concept of radioactivity (measured in becquerels or curies).",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert millisieverts to rem?",
+        answer: "Divide millisieverts by 10 to get rem, or use this converter for an instant result.",
+      },
+      {
+        question: "How much radiation is a typical chest X-ray?",
+        answer: "A chest X-ray is commonly cited as delivering around 0.1 millisieverts, a small fraction of the roughly 3 millisieverts most people receive annually from natural background radiation. This is general reference information, not medical advice.",
+      },
+    ],
+    relatedSlugs: ["energy-converter", "frequency-converter", "pressure-converter"],
+  },
+  {
+    slug: "viscosity-converter",
+    category: "converters",
+    title: "Viscosity Converter",
+    shortDescription: "Convert between pascal-seconds, poise and centipoise.",
+    metaDescription: "Free online viscosity converter to convert between pascal-seconds, millipascal-seconds, poise, centipoise and pound-second per square foot.",
+    h1: "Viscosity Converter",
+    intro: "Convert dynamic viscosity measurements between pascal-seconds, poise, centipoise and pound-second per square foot.",
+    icon: "🧴",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "viscosity",
+    explanation: [
+      {
+        heading: "How this viscosity converter works",
+        paragraphs: [
+          "This tool converts between dynamic viscosity units using fixed conversion factors, for example, 1 poise equals 0.1 pascal-seconds, and 1 centipoise is numerically equal to 1 millipascal-second. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each viscosity unit is used",
+        paragraphs: [
+          "Pascal-seconds (and millipascal-seconds) are the SI standard, common in engineering and scientific contexts. Poise and centipoise are cgs units still widely used in industry and material data sheets, water at room temperature has a viscosity of almost exactly 1 centipoise, making it a handy reference point.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert centipoise to pascal-seconds?",
+        answer: "Divide centipoise by 1,000 to get pascal-seconds, or use this converter for an instant result.",
+      },
+      {
+        question: "What is the viscosity of water?",
+        answer: "Water at about 20°C (68°F) has a viscosity of approximately 1 centipoise (1 millipascal-second), commonly used as a reference point when comparing other fluids.",
+      },
+    ],
+    relatedSlugs: ["density-converter", "flow-rate-converter", "pressure-converter"],
+  },
+  {
+    slug: "flow-rate-converter",
+    category: "converters",
+    title: "Flow Rate Converter",
+    shortDescription: "Convert between L/min, GPM, CFM and cubic meters per second.",
+    metaDescription: "Free online flow rate converter to convert between liters per second, liters per minute, gallons per minute, cubic feet per minute and cubic meters per second.",
+    h1: "Flow Rate Converter",
+    intro: "Convert flow rate measurements between cubic meters per second, liters per second/minute/hour, gallons per minute and cubic feet per minute.",
+    icon: "🚰",
+    status: "live",
+    widgetType: "unitConverter",
+    converterCategory: "flowRate",
+    explanation: [
+      {
+        heading: "How this flow rate converter works",
+        paragraphs: [
+          "This tool converts between flow rate units using fixed conversion factors, for example, 1 gallon per minute (US) equals about 3.785 liters per minute, and 1 cubic foot per minute equals about 28.317 liters per minute. Enter a value in any supported unit and it's converted to all others using these standard ratios.",
+        ],
+      },
+      {
+        heading: "When each flow rate unit is used",
+        paragraphs: [
+          "Liters per second and cubic meters per second are the SI standard, common in engineering and scientific contexts. Gallons per minute (GPM) is widely used in the US for pumps, faucets and irrigation, while cubic feet per minute (CFM) is standard for airflow ratings on fans, HVAC equipment and compressors.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I convert GPM to liters per minute?",
+        answer: "Multiply gallons per minute (US) by 3.78541 to get liters per minute, or use this converter for an instant result.",
+      },
+      {
+        question: "Is CFM used for liquids or air?",
+        answer: "CFM (cubic feet per minute) is almost always used for airflow, such as fan, blower or HVAC ratings, while GPM and liters per minute are more commonly used for liquid flow.",
+      },
+    ],
+    relatedSlugs: ["viscosity-converter", "volume-converter", "ev-charging-cost-calculator"],
+  },
 ];
 
 export function getToolBySlug(slug: string) {
