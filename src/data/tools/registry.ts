@@ -94,6 +94,11 @@ import {
 import { calculateSquareFootage, ShapeType } from "@/utils/calculators/square-footage-calculator";
 import { calculateProbability } from "@/utils/calculators/probability-calculator";
 import { calculateStatistics } from "@/utils/calculators/statistics-calculator";
+import { calculateFutureValue, FvCompoundFrequency } from "@/utils/calculators/future-value-calculator";
+import { calculatePresentValue, PvCompoundFrequency } from "@/utils/calculators/present-value-calculator";
+import { calculateCagr } from "@/utils/calculators/cagr-calculator";
+import { calculateInvestmentReturn } from "@/utils/calculators/investment-return-calculator";
+import { calculateApy, ApyCompoundFrequency } from "@/utils/calculators/apy-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -6057,6 +6062,335 @@ explanation: [
       },
     ],
     relatedSlugs: ["mean-median-mode-calculator", "standard-deviation-calculator", "probability-calculator"],
+  },
+  {
+    slug: "future-value-calculator",
+    category: "finance",
+    title: "Future Value Calculator",
+    shortDescription: "Calculate how much a present sum plus monthly contributions will be worth in the future.",
+    metaDescription: "Free online future value calculator to see how much your savings or investment will grow to, including optional monthly contributions.",
+    h1: "Future Value Calculator",
+    intro: "Calculate the future value of a lump sum, optional monthly contributions, or both, at a given annual interest rate and compounding frequency.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "presentValue", label: "Present Value", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "monthlyContribution", label: "Monthly Contribution (optional)", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
+      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 10" },
+      {
+        key: "frequency",
+        label: "Compounding Frequency",
+        type: "select",
+        options: [
+          { label: "Annually", value: "annually" },
+          { label: "Semi-Annually", value: "semiannually" },
+          { label: "Quarterly", value: "quarterly" },
+          { label: "Monthly", value: "monthly" },
+          { label: "Daily", value: "daily" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "futureValue", label: "Future Value", highlight: true },
+      { key: "totalContributions", label: "Total Contributions" },
+      { key: "totalInterest", label: "Total Interest Earned", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const presentValue = Number(inputs.presentValue);
+      const monthlyContribution = Number(inputs.monthlyContribution ?? 0);
+      const annualRate = Number(inputs.annualRate);
+      const years = Number(inputs.years);
+      const frequency = String(inputs.frequency) as FvCompoundFrequency;
+      const output = calculateFutureValue(presentValue, annualRate, years, frequency, monthlyContribution);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Future value formula: how it's calculated",
+        paragraphs: [
+          "Future value combines two pieces: your present value compounding on its own, FV = PV × (1 + r/n)^(n×t), plus, if you add a monthly contribution, the future value of that contribution stream, calculated using the future value of an annuity formula, compounded monthly alongside your deposits.",
+          "For example, 10,000 invested today at 7% annual interest compounded monthly, with no further contributions, grows to roughly 20,097 after 10 years. Add a 200 monthly contribution to that same scenario and the total future value climbs substantially higher, since each contribution also earns compound interest for the remainder of the period.",
+        ],
+      },
+      {
+        heading: "Future value vs compound interest",
+        paragraphs: [
+          "This calculator extends the standard compound interest formula by optionally adding recurring monthly contributions on top of your initial lump sum, useful for modeling a savings or investment account you're actively contributing to, rather than a single deposit left untouched.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What is future value?",
+        answer: "Future value (FV) is what a sum of money today, or a series of contributions, will be worth at a specific point in the future, after accounting for compound interest or investment growth.",
+      },
+      {
+        question: "Is the monthly contribution required?",
+        answer: "No, leave it at 0 to calculate the future value of a single lump sum with no ongoing contributions.",
+      },
+      {
+        question: "How does compounding frequency affect the result?",
+        answer: "More frequent compounding (like daily vs annually) results in a slightly higher future value for the same nominal interest rate, since interest is added to the balance more often and starts earning its own interest sooner.",
+      },
+    ],
+    relatedSlugs: ["present-value-calculator", "compound-interest-calculator", "sip-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "present-value-calculator",
+    category: "finance",
+    title: "Present Value Calculator",
+    shortDescription: "Calculate how much you'd need today to reach a future value goal.",
+    metaDescription: "Free online present value calculator to find out how much a future sum of money is worth today, given a discount rate and time period.",
+    h1: "Present Value Calculator",
+    intro: "Calculate the present value of a future sum of money, given a discount rate, compounding frequency, and time period.",
+    icon: "🔮",
+    status: "live",
+    inputFields: [
+      { key: "futureValue", label: "Future Value", type: "number", step: 0.01, placeholder: "e.g. 20000" },
+      { key: "annualRate", label: "Annual Discount Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
+      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 10" },
+      {
+        key: "frequency",
+        label: "Compounding Frequency",
+        type: "select",
+        options: [
+          { label: "Annually", value: "annually" },
+          { label: "Semi-Annually", value: "semiannually" },
+          { label: "Quarterly", value: "quarterly" },
+          { label: "Monthly", value: "monthly" },
+          { label: "Daily", value: "daily" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "presentValue", label: "Present Value", highlight: true },
+      { key: "totalDiscount", label: "Total Discount (Growth Removed)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const futureValue = Number(inputs.futureValue);
+      const annualRate = Number(inputs.annualRate);
+      const years = Number(inputs.years);
+      const frequency = String(inputs.frequency) as PvCompoundFrequency;
+      const output = calculatePresentValue(futureValue, annualRate, years, frequency);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Present value formula: how it's calculated",
+        paragraphs: [
+          "Present value answers the reverse question to future value: given a target amount you want to have at some point in the future, how much would you need to invest today? The formula is PV = FV ÷ (1 + r/n)^(n×t), where r is the annual discount rate, n is the compounding frequency, and t is the number of years.",
+          "For example, if you want 20,000 in 10 years and can earn 7% annual interest compounded monthly, you'd need to invest roughly 9,948 today, the present value of that future 20,000.",
+        ],
+      },
+      {
+        heading: "Why present value matters",
+        paragraphs: [
+          "Present value is the foundation of the time value of money: a dollar today is worth more than a dollar in the future, because today's dollar can be invested and earn a return in the meantime. This makes present value useful for comparing lump sums received at different points in time, or for figuring out how much to invest now to reach a specific future goal.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What is present value?",
+        answer: "Present value (PV) is the current worth of a future sum of money, discounted back to today at a given interest (or discount) rate, reflecting the time value of money.",
+      },
+      {
+        question: "What discount rate should I use?",
+        answer: "The discount rate typically reflects the return you could reasonably expect to earn elsewhere, such as an investment's expected annual return, or a required rate of return for a specific goal.",
+      },
+      {
+        question: "How is this different from the Future Value Calculator?",
+        answer: "Future Value projects a present amount forward in time; Present Value works backward from a future target to tell you what it's worth (or what you'd need to invest) today.",
+      },
+    ],
+    relatedSlugs: ["future-value-calculator", "compound-interest-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "cagr-calculator",
+    category: "finance",
+    title: "CAGR Calculator",
+    shortDescription: "Calculate the compound annual growth rate between a beginning and ending value.",
+    metaDescription: "Free online CAGR calculator to calculate the compound annual growth rate (CAGR) of an investment between a beginning and ending value.",
+    h1: "CAGR Calculator",
+    intro: "Calculate the Compound Annual Growth Rate (CAGR) of an investment, given its beginning value, ending value, and the number of years held.",
+    icon: "🧭",
+    status: "live",
+    inputFields: [
+      { key: "beginningValue", label: "Beginning Value", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "endingValue", label: "Ending Value", type: "number", step: 0.01, placeholder: "e.g. 25000" },
+      { key: "years", label: "Number of Years", type: "number", step: 0.5, placeholder: "e.g. 8" },
+    ],
+    resultFields: [
+      { key: "cagrPercent", label: "CAGR", unit: "%", highlight: true },
+      { key: "totalGrowthPercent", label: "Total Growth", unit: "%" },
+      { key: "endingValueMultiple", label: "Growth Multiple", unit: "x" },
+    ],
+    calculate: (inputs) => {
+      const beginningValue = Number(inputs.beginningValue);
+      const endingValue = Number(inputs.endingValue);
+      const years = Number(inputs.years);
+      const output = calculateCagr(beginningValue, endingValue, years);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "CAGR formula: how compound annual growth rate is calculated",
+        paragraphs: [
+          "CAGR = (Ending Value ÷ Beginning Value)^(1 ÷ Years) − 1. It represents the single, steady annual growth rate that would take your beginning value to your ending value over the given period, smoothing out any ups and downs that happened along the way.",
+          "For example, an investment that grows from 10,000 to 25,000 over 8 years has a CAGR of (25,000 ÷ 10,000)^(1/8) − 1, which works out to about 12.1% per year, even though the actual year-to-year returns may have varied considerably.",
+        ],
+      },
+      {
+        heading: "Why CAGR is useful for comparing investments",
+        paragraphs: [
+          "Because CAGR expresses growth as a single smoothed annual rate, it makes it easy to compare investments held over different time periods or with very different volatility, something a simple total return percentage can't do on its own. It's widely used to compare the historical performance of stocks, funds, and businesses.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is CAGR the same as the average annual return?",
+        answer: "Not exactly. CAGR is a geometric average that reflects compounding, while a simple average of yearly returns (an arithmetic mean) doesn't account for how returns compound over time and can overstate actual growth, especially when returns are volatile.",
+      },
+      {
+        question: "Can CAGR be negative?",
+        answer: "Yes, if the ending value is lower than the beginning value, CAGR will be negative, reflecting an overall decline over the period.",
+      },
+      {
+        question: "Does CAGR account for volatility or risk?",
+        answer: "No, CAGR only looks at the beginning and ending values. Two investments can have the same CAGR but very different levels of volatility along the way.",
+      },
+    ],
+    relatedSlugs: ["roi-calculator", "investment-return-calculator", "compound-interest-calculator"],
+  },
+  {
+    slug: "investment-return-calculator",
+    category: "finance",
+    title: "Investment Return Calculator",
+    shortDescription: "Solve for the annual rate of return needed to reach a target balance, including monthly contributions.",
+    metaDescription: "Free online investment return calculator to find the annualized rate of return on an investment, accounting for an initial amount and monthly contributions.",
+    h1: "Investment Return Calculator",
+    intro: "Calculate the annualized rate of return on an investment, accounting for both an initial lump sum and ongoing monthly contributions.",
+    icon: "🪙",
+    status: "live",
+    inputFields: [
+      { key: "initialInvestment", label: "Initial Investment", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "monthlyContribution", label: "Monthly Contribution (optional)", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 10" },
+      { key: "endingBalance", label: "Ending Balance", type: "number", step: 0.01, placeholder: "e.g. 30000" },
+    ],
+    resultFields: [
+      { key: "annualReturnPercent", label: "Annualized Return", unit: "%", highlight: true },
+      { key: "totalContributions", label: "Total Contributions" },
+      { key: "totalGain", label: "Total Gain", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const initialInvestment = Number(inputs.initialInvestment);
+      const monthlyContribution = Number(inputs.monthlyContribution ?? 0);
+      const years = Number(inputs.years);
+      const endingBalance = Number(inputs.endingBalance);
+      const output = calculateInvestmentReturn(initialInvestment, monthlyContribution, years, endingBalance);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the annualized rate of return is solved for",
+        paragraphs: [
+          "Unlike a simple return calculation, there's no direct algebraic formula for the rate of return once monthly contributions are involved, since each contribution compounds for a different length of time. This calculator instead searches for the annual rate (compounded monthly) that, when applied to your initial investment plus your monthly contributions over the given period, produces exactly your entered ending balance.",
+          "For example, starting with 10,000, contributing 200 a month, over 10 years, and ending with a balance of 60,000, this calculator works out roughly what steady annual rate of return would explain that growth.",
+        ],
+      },
+      {
+        heading: "How this differs from ROI and CAGR",
+        paragraphs: [
+          "The ROI Calculator and CAGR Calculator both assume a single lump sum with no additional contributions along the way. This calculator is built specifically for the common real-world case of an investment or savings account that also receives regular monthly deposits, which materially changes what rate of return actually explains the account's growth.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why isn't there a simple formula for this?",
+        answer: "Because each monthly contribution is invested for a different length of time, the total future value is a more complex function of the rate of return, one that generally can't be solved for algebraically. This calculator searches numerically for the rate that produces your ending balance instead.",
+      },
+      {
+        question: "What if I didn't make any monthly contributions?",
+        answer: "Leave the monthly contribution at 0 and this calculator will solve for the simple annualized return between your initial investment and ending balance, similar to CAGR.",
+      },
+      {
+        question: "What happens if my ending balance is unrealistic for the inputs given?",
+        answer: "The calculator searches within a wide but bounded range of annual returns (roughly -99% to +1000%). If your ending balance falls outside what's achievable in that range, it will let you know so you can double-check your inputs.",
+      },
+    ],
+    relatedSlugs: ["cagr-calculator", "roi-calculator", "sip-calculator", "compound-interest-calculator"],
+  },
+  {
+    slug: "apy-calculator",
+    category: "finance",
+    title: "APY Calculator",
+    shortDescription: "Calculate the effective Annual Percentage Yield from a nominal interest rate and compounding frequency.",
+    metaDescription: "Free online APY calculator to convert a nominal interest rate (APR) into its effective Annual Percentage Yield (APY), based on compounding frequency.",
+    h1: "Annual Percentage Yield (APY) Calculator",
+    intro: "Calculate the effective Annual Percentage Yield (APY) from a nominal interest rate and compounding frequency, and see the interest earned on a deposit over one year.",
+    icon: "🏦",
+    status: "live",
+    inputFields: [
+      { key: "nominalRate", label: "Nominal Interest Rate / APR (%)", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      {
+        key: "frequency",
+        label: "Compounding Frequency",
+        type: "select",
+        options: [
+          { label: "Annually", value: "annually" },
+          { label: "Semi-Annually", value: "semiannually" },
+          { label: "Quarterly", value: "quarterly" },
+          { label: "Monthly", value: "monthly" },
+          { label: "Daily", value: "daily" },
+        ],
+      },
+      { key: "depositAmount", label: "Deposit Amount (optional)", type: "number", step: 0.01, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "apyPercent", label: "APY", unit: "%", highlight: true },
+      { key: "firstYearInterest", label: "First-Year Interest Earned", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const nominalRate = Number(inputs.nominalRate);
+      const frequency = String(inputs.frequency) as ApyCompoundFrequency;
+      const depositAmount = Number(inputs.depositAmount ?? 0);
+      const output = calculateApy(nominalRate, frequency, depositAmount);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "APY formula: how it's calculated",
+        paragraphs: [
+          "APY = (1 + r/n)^n − 1, where r is the nominal annual interest rate (also called APR) as a decimal, and n is the number of times interest compounds per year. APY reflects the true effective annual return once compounding is factored in, and will always be equal to or greater than the nominal rate whenever compounding happens more than once a year.",
+          "For example, a nominal rate of 5% compounded monthly produces an APY of about 5.12%, slightly higher than 5% because interest earned each month starts earning its own interest for the rest of the year.",
+        ],
+      },
+      {
+        heading: "APY vs APR",
+        paragraphs: [
+          "APR (Annual Percentage Rate) is the nominal, stated interest rate before compounding is applied. APY (Annual Percentage Yield) is the effective rate you actually earn (on savings and deposit accounts) or pay (on some loans) once compounding is taken into account. Banks are generally required to advertise APY on savings products since it reflects the true return more accurately than APR alone.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is APY higher than the nominal rate?",
+        answer: "Because APY accounts for compounding, interest earned during the year starts earning its own interest before the year is over. The more frequently interest compounds, the bigger this effect, and the higher APY is relative to the nominal rate.",
+      },
+      {
+        question: "Is the deposit amount required?",
+        answer: "No, it's optional. Leave it at 0 if you only want the APY percentage; enter an amount to also see the actual interest earned on that deposit over one year.",
+      },
+      {
+        question: "Does annual compounding mean APY equals APR?",
+        answer: "Yes, when interest compounds only once a year, APY and the nominal rate (APR) are exactly the same, since there's no additional compounding within the year to create a difference.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "simple-interest-calculator", "savings-goal-calculator"],
   },
 ];
 
