@@ -1,3 +1,6 @@
+import { calculateMortgageRefinance } from "@/utils/calculators/mortgage-refinance-calculator";
+import { calculateCreditCardInterest } from "@/utils/calculators/credit-card-interest-calculator";
+import { calculateDti } from "@/utils/calculators/dti-calculator";
 import { convertTimezone, TIMEZONE_OPTIONS } from "@/utils/calculators/timezone-converter";
 
 const SOUTH_AMERICA_CITIES = ["Sao_Paulo", "Buenos_Aires", "Bogota", "Lima", "Santiago"];
@@ -235,6 +238,219 @@ explanation: [
       },
     ],
     relatedSlugs: ["date-calculator", "countdown-timer"],
+  },
+  {
+    slug: "amortization-schedule-calculator",
+    category: "finance",
+    title: "Amortization Schedule Calculator",
+    shortDescription: "Generate a full year-by-year or month-by-month loan amortization schedule.",
+    metaDescription: "Free online amortization schedule calculator to generate a full year-by-year or month-by-month loan payment breakdown for any loan type.",
+    h1: "Amortization Schedule Calculator",
+    intro: "Generate a complete amortization schedule for any loan, showing exactly how each payment splits between principal and interest over time.",
+    icon: "📋",
+    status: "live",
+    widgetType: "amortization",
+    amortizationTenureUnit: "months",
+    explanation: [
+      {
+        heading: "What an amortization schedule shows",
+        paragraphs: [
+          "An amortization schedule breaks down every single payment over the life of a loan into two parts, interest and principal, showing exactly how the balance decreases over time. Early payments are weighted more toward interest, while later payments shift increasingly toward principal, even though the total payment amount stays fixed.",
+        ],
+      },
+      {
+        heading: "How this differs from our loan-specific calculators",
+        paragraphs: [
+          "This tool works for any type of amortizing loan, personal loans, business loans, or any fixed-rate installment loan, not just mortgages or car loans specifically. If you're working with a home loan or auto loan specifically, our Mortgage Calculator and Auto Loan Calculator include the same schedule with terminology tailored to that loan type.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What information do I need to generate a schedule?",
+        answer: "You need the loan amount (principal), the annual interest rate, and the loan term in months, the same three inputs used for any standard amortizing loan calculation.",
+      },
+      {
+        question: "Can I see monthly detail for a long-term loan?",
+        answer: "Yes, toggle between the yearly summary view and the full monthly breakdown using the button above the schedule table.",
+      },
+    ],
+    relatedSlugs: ["emi-calculator", "mortgage-calculator", "loan-calculator"],
+  },
+  {
+    slug: "mortgage-refinance-calculator",
+    category: "finance",
+    title: "Mortgage Refinance Calculator",
+    shortDescription: "Compare your current mortgage against a refinance offer to see if it's worth it.",
+    metaDescription: "Free online mortgage refinance calculator to compare your current loan against a new offer, including break-even point and total savings.",
+    h1: "Mortgage Refinance Calculator",
+    intro: "Compare your current mortgage against a new refinance offer to see your monthly savings, break-even point, and total interest savings.",
+    icon: "🔁",
+    status: "live",
+    inputFields: [
+      { key: "remainingBalance", label: "Remaining Loan Balance", type: "number", step: 0.01, placeholder: "e.g. 250000" },
+      { key: "currentRate", label: "Current Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 7.5" },
+      { key: "remainingMonths", label: "Remaining Months on Current Loan", type: "number", step: 1, placeholder: "e.g. 300" },
+      { key: "newRate", label: "New Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 6.2" },
+      { key: "newTermMonths", label: "New Loan Term (Months)", type: "number", step: 1, placeholder: "e.g. 360" },
+      { key: "closingCosts", label: "Refinance Closing Costs", type: "number", step: 0.01, placeholder: "e.g. 4000" },
+    ],
+    resultFields: [
+      { key: "monthlySavings", label: "Monthly Savings", highlight: true },
+      { key: "breakEvenMonths", label: "Break-Even Point (Months)", highlight: true },
+      { key: "currentMonthlyPayment", label: "Current Monthly Payment" },
+      { key: "newMonthlyPayment", label: "New Monthly Payment" },
+      { key: "totalInterestSavings", label: "Total Savings (After Closing Costs)" },
+    ],
+    calculate: (inputs) => {
+      const remainingBalance = Number(inputs.remainingBalance);
+      const currentRate = Number(inputs.currentRate);
+      const remainingMonths = Number(inputs.remainingMonths);
+      const newRate = Number(inputs.newRate);
+      const newTermMonths = Number(inputs.newTermMonths);
+      const closingCosts = Number(inputs.closingCosts);
+      const output = calculateMortgageRefinance(
+        remainingBalance,
+        currentRate,
+        remainingMonths,
+        newRate,
+        newTermMonths,
+        closingCosts
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the break-even point is calculated",
+        paragraphs: [
+          "The break-even point is calculated as: Closing Costs ÷ Monthly Savings, giving the number of months it takes for your accumulated monthly savings to cover the cost of refinancing. If you plan to stay in the home shorter than this break-even period, refinancing may not be worthwhile despite a lower rate.",
+        ],
+      },
+      {
+        heading: "Why total savings compares more than just the interest rate",
+        paragraphs: [
+          "A lower interest rate doesn't automatically mean refinancing saves money overall, extending your loan term resets the amortization clock, potentially increasing total interest paid even at a lower rate. This calculator compares total remaining cost of your current loan against the new loan's total cost plus closing costs, giving a fuller picture than the rate alone.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my monthly savings are negative?",
+        answer: "A negative monthly savings means the new loan actually costs more per month than your current one, refinancing likely isn't beneficial in that scenario despite a lower rate, often due to a shorter new term.",
+      },
+      {
+        question: "Does this include appraisal or other refinance fees?",
+        answer: "Enter your total estimated closing costs, including any appraisal, origination, or other fees your lender quotes, as a single combined number in the closing costs field.",
+      },
+    ],
+    relatedSlugs: ["mortgage-calculator", "emi-calculator"],
+  },
+  {
+    slug: "credit-card-interest-calculator",
+    category: "finance",
+    title: "Credit Card Interest Calculator",
+    shortDescription: "Calculate how much interest a credit card charges in one billing cycle.",
+    metaDescription: "Free online credit card interest calculator to calculate the interest charged on a credit card balance for one billing cycle using the average daily balance method.",
+    h1: "Credit Card Interest Calculator",
+    intro: "Calculate the actual interest charge for one billing cycle based on your average daily balance and APR, the same method most credit card issuers use.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "averageDailyBalance", label: "Average Daily Balance", type: "number", step: 0.01, placeholder: "e.g. 2000" },
+      { key: "apr", label: "Annual Percentage Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 22" },
+      { key: "billingDays", label: "Days in Billing Cycle", type: "number", step: 1, defaultValue: 30 },
+    ],
+    resultFields: [
+      { key: "monthlyInterestCharge", label: "Interest Charged This Cycle", highlight: true },
+      { key: "dailyPeriodicRate", label: "Daily Periodic Rate" },
+      { key: "annualInterestIfUnpaid", label: "Projected Annual Interest" },
+    ],
+    calculate: (inputs) => {
+      const averageDailyBalance = Number(inputs.averageDailyBalance);
+      const apr = Number(inputs.apr);
+      const billingDays = Number(inputs.billingDays);
+      const output = calculateCreditCardInterest(averageDailyBalance, apr, billingDays);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How credit card interest is actually calculated",
+        paragraphs: [
+          "Most credit card issuers use the average daily balance method: they track your balance every day of the billing cycle, average it, then apply a daily periodic rate (your APR divided by 365) multiplied by the number of days in the cycle. This is different from a simple one-time monthly interest calculation.",
+        ],
+      },
+      {
+        heading: "This tool vs our Credit Card Payoff Calculator",
+        paragraphs: [
+          "This calculator answers 'how much interest does one billing cycle actually charge' using the average daily balance method. If you instead want to know how long it will take to pay off a balance completely and the total interest over that whole payoff period, use our Credit Card Payoff Calculator instead.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What is average daily balance?",
+        answer: "It's the average of your account balance calculated at the end of each day during the billing cycle, accounting for any payments or purchases made during that period. Your statement typically shows this figure directly.",
+      },
+      {
+        question: "Why is the projected annual interest different from 12 times the monthly charge?",
+        answer: "The projected annual figure assumes the same average daily balance stays constant for a full year, in reality, your balance and interest charges will vary from cycle to cycle based on payments and new purchases.",
+      },
+    ],
+    relatedSlugs: ["credit-card-payoff-calculator", "simple-interest-calculator"],
+  },
+  {
+    slug: "dti-calculator",
+    category: "finance",
+    title: "Debt-to-Income (DTI) Calculator",
+    shortDescription: "Calculate your debt-to-income ratio for loan and mortgage qualification.",
+    metaDescription: "Free online debt-to-income (DTI) calculator to calculate your DTI ratio, commonly used by lenders for loan and mortgage qualification.",
+    h1: "Debt-to-Income (DTI) Calculator",
+    intro: "Calculate your debt-to-income ratio, a key figure lenders use to assess loan and mortgage eligibility.",
+    icon: "⚖️",
+    status: "live",
+    inputFields: [
+      { key: "monthlyDebtPayments", label: "Total Monthly Debt Payments", type: "number", step: 0.01, placeholder: "e.g. 1500" },
+      { key: "grossMonthlyIncome", label: "Gross Monthly Income", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+    ],
+    resultFields: [
+      { key: "dtiRatio", label: "DTI Ratio", unit: "%", highlight: true },
+      { key: "category", label: "Category", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const monthlyDebtPayments = Number(inputs.monthlyDebtPayments);
+      const grossMonthlyIncome = Number(inputs.grossMonthlyIncome);
+      const output = calculateDti(monthlyDebtPayments, grossMonthlyIncome);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How DTI ratio is calculated",
+        paragraphs: [
+          "The DTI formula is: DTI % = (Total Monthly Debt Payments ÷ Gross Monthly Income) × 100. This includes recurring debt obligations like rent or mortgage, car loans, student loans, and minimum credit card payments, divided by your income before taxes and deductions.",
+        ],
+      },
+      {
+        heading: "Why lenders care about DTI ratio",
+        paragraphs: [
+          "Lenders use DTI as a key indicator of how much additional debt you can reasonably manage. Most conventional mortgage lenders look for a DTI at or below 43%, though requirements vary by lender and loan type, a lower DTI generally improves loan approval odds and terms.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What counts as a monthly debt payment?",
+        answer: "Include rent or mortgage payments, car loans, student loans, minimum credit card payments, and any other recurring debt obligations. Don't include expenses like groceries, utilities, or insurance.",
+      },
+      {
+        question: "Should I use gross or net income?",
+        answer: "Use gross income (before taxes and deductions), which is the standard measure lenders use for DTI calculations.",
+      },
+      {
+        question: "What's considered a good DTI ratio?",
+        answer: "Generally, 36% or below is considered good, with many mortgage lenders capping approval around 43%. Ratios above that may make loan qualification more difficult.",
+      },
+    ],
+    relatedSlugs: ["mortgage-calculator", "credit-card-payoff-calculator", "net-worth-calculator"],
   },
   {
     slug: "working-days-calculator",
