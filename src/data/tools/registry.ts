@@ -137,6 +137,18 @@ import { calculatePercentError } from "@/utils/calculators/percent-error-calcula
 import { calculatePercentageDifference } from "@/utils/calculators/percentage-difference-calculator";
 import { calculateAverage } from "@/utils/calculators/average-calculator";
 import { calculateMedian } from "@/utils/calculators/median-calculator";
+import { calculateMulch } from "@/utils/calculators/mulch-calculator";
+import { calculateAsphalt } from "@/utils/calculators/asphalt-calculator";
+import { calculateBrick } from "@/utils/calculators/brick-calculator";
+import { calculateConcreteBlock } from "@/utils/calculators/concrete-block-calculator";
+import { calculateDeck } from "@/utils/calculators/deck-calculator";
+import { calculateFence } from "@/utils/calculators/fence-calculator";
+import { calculateWallpaper } from "@/utils/calculators/wallpaper-calculator";
+import { calculatePaver } from "@/utils/calculators/paver-calculator";
+import { calculateDrywall } from "@/utils/calculators/drywall-calculator";
+import { calculateSoil, SoilBagSize } from "@/utils/calculators/soil-calculator";
+import { calculateTopsoil } from "@/utils/calculators/topsoil-calculator";
+import { calculateCubicVolume, DimensionUnit } from "@/utils/calculators/cubic-volume-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -8806,6 +8818,921 @@ explanation: [
       },
     ],
     relatedSlugs: ["average-calculator", "mean-median-mode-calculator", "statistics-calculator"],
+  },
+  {
+    slug: "mulch-calculator",
+    category: "construction",
+    title: "Mulch Calculator",
+    shortDescription: "Calculate how much mulch you need for a garden bed or landscaping area.",
+    metaDescription: "Free online mulch calculator to estimate cubic yards and bags of mulch needed for a garden bed, based on area and depth.",
+    h1: "Mulch Calculator",
+    intro: "Calculate how many cubic yards, and how many 2 cubic foot bags, of mulch you need based on the area and depth of your garden bed.",
+    icon: "🍂",
+    status: "live",
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 20" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "depthIn", label: "Depth (inches)", type: "number", step: 0.5, placeholder: "e.g. 3" },
+    ],
+    resultFields: [
+      { key: "cubicYards", label: "Cubic Yards Needed", highlight: true },
+      { key: "cubicFeet", label: "Cubic Feet" },
+      { key: "bagsNeeded", label: "2 Cu Ft Bags Needed", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const depthIn = Number(inputs.depthIn);
+      const output = calculateMulch(lengthFt, widthFt, depthIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How mulch quantity is calculated",
+        paragraphs: [
+          "Volume of mulch needed = Length × Width × Depth, with depth converted from inches to feet. This calculator shows the result in cubic yards (how bulk mulch is typically sold and delivered) and in standard 2 cubic foot bags (how bagged mulch is typically sold at garden centers).",
+        ],
+      },
+      {
+        heading: "How deep should mulch be?",
+        paragraphs: [
+          "A depth of 2 to 4 inches is commonly recommended for most garden beds, deep enough to suppress weeds and retain soil moisture, without piling mulch so high it smothers plant roots or traps excess moisture against stems and trunks.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I buy bagged or bulk mulch?",
+        answer: "For small areas, bagged mulch (typically 2 cubic feet per bag) is convenient. For larger areas, bulk mulch delivered by the cubic yard is usually significantly cheaper per unit of coverage, this calculator shows both figures so you can compare.",
+      },
+      {
+        question: "Does mulch type affect how much I need?",
+        answer: "The volume calculation is the same regardless of mulch type (wood chips, bark, rubber, etc.), since it's based on area and depth, not material density. However, different mulch types settle and decompose at different rates, affecting how often you'll need to replenish it.",
+      },
+      {
+        question: "Should I subtract the area taken up by plants?",
+        answer: "For a rough estimate, most people calculate mulch for the full bed area and accept a small amount of surplus, since precisely subtracting plant footprints is rarely worth the extra effort for typical garden beds.",
+      },
+    ],
+    relatedSlugs: ["soil-calculator", "gravel-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "asphalt-calculator",
+    category: "construction",
+    title: "Asphalt Calculator",
+    shortDescription: "Calculate tons of asphalt needed for a driveway or paving project.",
+    metaDescription: "Free online asphalt calculator to estimate tons of hot mix asphalt needed for a driveway or paving project, based on area and thickness.",
+    h1: "Asphalt Calculator",
+    intro: "Calculate how many tons of hot mix asphalt you need for a driveway or paving project, based on area and thickness.",
+    icon: "🛣️",
+    status: "live",
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 40" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "thicknessIn", label: "Thickness (inches)", type: "number", step: 0.25, placeholder: "e.g. 3" },
+    ],
+    resultFields: [
+      { key: "tonsNeeded", label: "Asphalt Needed (Tons)", highlight: true },
+      { key: "cubicYards", label: "Cubic Yards" },
+      { key: "cubicFeet", label: "Cubic Feet" },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const thicknessIn = Number(inputs.thicknessIn);
+      const output = calculateAsphalt(lengthFt, widthFt, thicknessIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How asphalt tonnage is calculated",
+        paragraphs: [
+          "This calculator finds the volume (Length × Width × Thickness) and converts it to weight using a typical compacted hot mix asphalt density of 145 lb per cubic foot, a commonly cited figure from paving suppliers: Tons = (Cubic Feet × 145) ÷ 2000.",
+        ],
+      },
+      {
+        heading: "Typical driveway thickness",
+        paragraphs: [
+          "Residential driveways are commonly paved 2 to 3 inches thick, while areas handling heavier vehicle loads (like a commercial lot) often use a thicker layer. Always check local specifications or with your paving contractor for the appropriate thickness for your specific use case and climate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does this use tons instead of a bag count like some other material calculators?",
+        answer: "Asphalt is delivered hot and installed immediately by paving equipment, it isn't sold in bags like concrete mix or mulch, so contractors and suppliers quote and deliver it by weight (tons).",
+      },
+      {
+        question: "Does asphalt density vary?",
+        answer: "Yes, actual compacted density can vary somewhat based on the specific asphalt mix design and compaction achieved. 145 lb per cubic foot is a reasonable planning estimate; your paving contractor can give you an exact figure for the mix they're using.",
+      },
+      {
+        question: "Does this include the base layer beneath the asphalt?",
+        answer: "No, this calculates the asphalt layer only. Most driveways also need a compacted gravel base beneath the asphalt, which would need to be estimated separately.",
+      },
+    ],
+    relatedSlugs: ["gravel-calculator", "concrete-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "brick-calculator",
+    category: "construction",
+    title: "Brick Calculator",
+    shortDescription: "Calculate how many bricks and mortar bags you need for a wall.",
+    metaDescription: "Free online brick calculator to estimate the number of bricks and mortar bags needed for a wall, based on wall and brick dimensions.",
+    h1: "Brick Calculator",
+    intro: "Calculate how many bricks and mortar bags you need for a wall, based on wall size, brick size and mortar joint thickness.",
+    icon: "🧱",
+    status: "live",
+    inputFields: [
+      { key: "wallLengthFt", label: "Wall Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 20" },
+      { key: "wallHeightFt", label: "Wall Height (ft)", type: "number", step: 0.1, placeholder: "e.g. 6" },
+      { key: "brickLengthIn", label: "Brick Length (in)", type: "number", step: 0.125, defaultValue: 8 },
+      { key: "brickHeightIn", label: "Brick Height (in)", type: "number", step: 0.125, defaultValue: 2.25 },
+      { key: "mortarJointIn", label: "Mortar Joint (in)", type: "number", step: 0.0625, defaultValue: 0.375 },
+      { key: "wastePercent", label: "Waste (%)", type: "number", step: 1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "wallArea", label: "Wall Area (sq ft)" },
+      { key: "bricksNeeded", label: "Bricks Needed", highlight: true },
+      { key: "mortarBagsNeeded", label: "Mortar Bags Needed (est.)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const wallLengthFt = Number(inputs.wallLengthFt);
+      const wallHeightFt = Number(inputs.wallHeightFt);
+      const brickLengthIn = Number(inputs.brickLengthIn ?? 8);
+      const brickHeightIn = Number(inputs.brickHeightIn ?? 2.25);
+      const mortarJointIn = Number(inputs.mortarJointIn ?? 0.375);
+      const wastePercent = Number(inputs.wastePercent ?? 10);
+      const output = calculateBrick(wallLengthFt, wallHeightFt, brickLengthIn, brickHeightIn, mortarJointIn, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How brick count is calculated",
+        paragraphs: [
+          "This calculator adds the mortar joint thickness to both the brick's length and height to get its effective 'footprint' on the wall face, then divides the total wall area (plus a waste allowance) by that footprint: Bricks Needed = (Wall Area × (1 + Waste%)) ÷ ((Brick Length + Joint) × (Brick Height + Joint)). The default 8 in × 2.25 in brick with a 3/8 in joint reflects a standard modular brick size.",
+        ],
+      },
+      {
+        heading: "Estimating mortar",
+        paragraphs: [
+          "Mortar bag needs are estimated using a commonly cited rule of thumb of roughly 3 standard 80 lb mortar mix bags per 100 bricks laid with standard joints. Actual mortar consumption varies with joint thickness and workmanship, so treat this as a planning estimate and buy a little extra.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's a standard brick size?",
+        answer: "A common US modular brick face measures about 8 in × 2.25 in (nominal, including a standard 3/8 in mortar joint), though brick sizes vary by region and manufacturer, always check your specific brick's dimensions.",
+      },
+      {
+        question: "Why does mortar joint thickness matter for brick count?",
+        answer: "Thicker mortar joints mean each brick effectively takes up more space on the wall face, so fewer bricks are needed to cover the same area, and thinner joints mean more bricks are needed.",
+      },
+      {
+        question: "How much waste allowance should I use?",
+        answer: "10% is a reasonable default for most projects, accounting for cutting, breakage and mistakes. Complex patterns or a lot of cutting around openings may call for a higher allowance.",
+      },
+    ],
+    relatedSlugs: ["concrete-block-calculator", "square-footage-calculator", "paint-calculator"],
+  },
+  {
+    slug: "concrete-block-calculator",
+    category: "construction",
+    title: "Concrete Block Calculator",
+    shortDescription: "Calculate how many concrete blocks (CMU) and mortar bags you need for a wall.",
+    metaDescription: "Free online concrete block calculator to estimate the number of CMU blocks and mortar bags needed for a wall, based on wall and block dimensions.",
+    h1: "Concrete Block Calculator",
+    intro: "Calculate how many concrete masonry units (CMU blocks) and mortar bags you need for a wall, based on wall size and standard block dimensions.",
+    icon: "🧱",
+    status: "live",
+    inputFields: [
+      { key: "wallLengthFt", label: "Wall Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 20" },
+      { key: "wallHeightFt", label: "Wall Height (ft)", type: "number", step: 0.1, placeholder: "e.g. 8" },
+      { key: "blockLengthIn", label: "Block Length (in, nominal)", type: "number", step: 1, defaultValue: 16 },
+      { key: "blockHeightIn", label: "Block Height (in, nominal)", type: "number", step: 1, defaultValue: 8 },
+      { key: "wastePercent", label: "Waste (%)", type: "number", step: 1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "wallArea", label: "Wall Area (sq ft)" },
+      { key: "blocksNeeded", label: "Blocks Needed", highlight: true },
+      { key: "mortarBagsNeeded", label: "Mortar Bags Needed (est.)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const wallLengthFt = Number(inputs.wallLengthFt);
+      const wallHeightFt = Number(inputs.wallHeightFt);
+      const blockLengthIn = Number(inputs.blockLengthIn ?? 16);
+      const blockHeightIn = Number(inputs.blockHeightIn ?? 8);
+      const wastePercent = Number(inputs.wastePercent ?? 10);
+      const output = calculateConcreteBlock(wallLengthFt, wallHeightFt, blockLengthIn, blockHeightIn, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How block count is calculated, and how this differs from our Concrete Calculator",
+        paragraphs: [
+          "This calculator divides the total wall area (plus a waste allowance) by the block's nominal face area: Blocks Needed = (Wall Area × (1 + Waste%)) ÷ (Block Length × Block Height ÷ 144), using nominal dimensions (which already build in a standard mortar joint, unlike raw brick dimensions). This is a completely different calculation from our Concrete Calculator, which estimates poured, mixed concrete by volume for slabs and footings, not discrete block units for a wall.",
+        ],
+      },
+      {
+        heading: "Standard CMU block size",
+        paragraphs: [
+          "The default 16 in × 8 in nominal size reflects the most common standard concrete block used in the US, though the actual block (before accounting for the mortar joint) measures closer to 15.625 in × 7.625 in. Always confirm the exact block size you're using, since other sizes (like 4 in or 12 in wide blocks) are also common depending on the application.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How is this different from the Brick Calculator?",
+        answer: "Both count discrete masonry units for a wall, but concrete blocks (CMU) are much larger than standard bricks and use nominal sizing that already accounts for the mortar joint, while the Brick Calculator asks for the brick's raw size and joint thickness separately.",
+      },
+      {
+        question: "Why 'nominal' dimensions?",
+        answer: "Nominal dimensions describe a block's size including its allowance for a standard mortar joint, which is why a 'nominal 16x8' block is actually manufactured slightly smaller (commonly 15.625 in × 7.625 in), so that once mortared in place, it occupies the full nominal footprint.",
+      },
+      {
+        question: "Does this account for corners or openings like doors?",
+        answer: "No, this calculates blocks for the total wall area you enter. Subtract the area of any door or window openings from your wall area before entering it for a more accurate count.",
+      },
+    ],
+    relatedSlugs: ["brick-calculator", "concrete-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "deck-calculator",
+    category: "construction",
+    title: "Deck Calculator",
+    shortDescription: "Calculate how many deck boards you need based on deck size and board spacing.",
+    metaDescription: "Free online deck calculator to estimate how many deck boards you need, based on deck area, board width, gap spacing and board length.",
+    h1: "Deck Calculator",
+    intro: "Calculate how many deck boards you need based on your deck's dimensions, board width, gap spacing between boards, and board length.",
+    icon: "🪵",
+    status: "live",
+    inputFields: [
+      { key: "deckLengthFt", label: "Deck Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 16" },
+      { key: "deckWidthFt", label: "Deck Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "boardWidthIn", label: "Board Width (in)", type: "number", step: 0.125, defaultValue: 5.5 },
+      { key: "gapIn", label: "Gap Between Boards (in)", type: "number", step: 0.0625, defaultValue: 0.25 },
+      { key: "boardLengthFt", label: "Board Length (ft)", type: "number", step: 1, defaultValue: 12 },
+      { key: "wastePercent", label: "Waste (%)", type: "number", step: 1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "deckArea", label: "Deck Area (sq ft)" },
+      { key: "totalLinearFeetNeeded", label: "Total Linear Feet Needed" },
+      { key: "boardsNeeded", label: "Boards Needed", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const deckLengthFt = Number(inputs.deckLengthFt);
+      const deckWidthFt = Number(inputs.deckWidthFt);
+      const boardWidthIn = Number(inputs.boardWidthIn ?? 5.5);
+      const gapIn = Number(inputs.gapIn ?? 0.25);
+      const boardLengthFt = Number(inputs.boardLengthFt ?? 12);
+      const wastePercent = Number(inputs.wastePercent ?? 10);
+      const output = calculateDeck(deckLengthFt, deckWidthFt, boardWidthIn, gapIn, boardLengthFt, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How deck board quantity is calculated",
+        paragraphs: [
+          "This calculator adds your gap spacing to the board width to get each board's effective coverage width, then divides the deck's total area by that effective width to find the total linear footage of decking needed, before dividing by your chosen board length to get a board count: Boards Needed = (Deck Area ÷ Effective Board Width × (1 + Waste%)) ÷ Board Length.",
+        ],
+      },
+      {
+        heading: "What this doesn't include",
+        paragraphs: [
+          "This calculator covers decking boards (the visible surface) only, it doesn't estimate the substructure beneath (joists, beams, footings) or fasteners, which depend heavily on your specific framing plan, span requirements and local building code, best worked out with a framing plan or contractor.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does the gap between boards matter?",
+        answer: "A small gap is standard between deck boards for drainage and to allow for material expansion, and it slightly increases the effective width each board covers, meaning slightly fewer boards are needed than if boards were laid perfectly edge to edge.",
+      },
+      {
+        question: "Should boards run the length or width of the deck?",
+        answer: "This calculator doesn't assume a specific board orientation, it calculates total linear footage needed based on area and effective coverage width, which works the same regardless of which direction boards run.",
+      },
+      {
+        question: "Does this include stairs or railings?",
+        answer: "No, this covers the main deck surface area only. Stairs, railings and any additional decking on landings would need to be estimated separately and added to this result.",
+      },
+    ],
+    relatedSlugs: ["fence-calculator", "square-footage-calculator", "flooring-calculator"],
+  },
+  {
+    slug: "fence-calculator",
+    category: "construction",
+    title: "Fence Calculator",
+    shortDescription: "Calculate how many posts, rails and pickets you need for a fence.",
+    metaDescription: "Free online fence calculator to estimate the number of posts, rails and pickets needed for a fence, based on fence length and post spacing.",
+    h1: "Fence Calculator",
+    intro: "Calculate how many posts, rails and pickets you need for a fence, based on total fence length, post spacing, and picket size.",
+    icon: "🚧",
+    status: "live",
+    inputFields: [
+      { key: "fenceLengthFt", label: "Total Fence Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 100" },
+      { key: "postSpacingFt", label: "Post Spacing (ft)", type: "number", step: 0.5, defaultValue: 8 },
+      { key: "railsPerSection", label: "Rails per Section", type: "number", step: 1, defaultValue: 2 },
+      { key: "picketWidthIn", label: "Picket Width (in)", type: "number", step: 0.125, defaultValue: 5.5 },
+      { key: "picketGapIn", label: "Gap Between Pickets (in)", type: "number", step: 0.125, defaultValue: 0.25 },
+    ],
+    resultFields: [
+      { key: "sections", label: "Fence Sections" },
+      { key: "postsNeeded", label: "Posts Needed", highlight: true },
+      { key: "railsNeeded", label: "Rails Needed", highlight: true },
+      { key: "picketsNeeded", label: "Pickets Needed", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const fenceLengthFt = Number(inputs.fenceLengthFt);
+      const postSpacingFt = Number(inputs.postSpacingFt ?? 8);
+      const railsPerSection = Number(inputs.railsPerSection ?? 2);
+      const picketWidthIn = Number(inputs.picketWidthIn ?? 5.5);
+      const picketGapIn = Number(inputs.picketGapIn ?? 0.25);
+      const output = calculateFence(fenceLengthFt, postSpacingFt, railsPerSection, picketWidthIn, picketGapIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How posts, rails and pickets are calculated",
+        paragraphs: [
+          "Fence sections are found by dividing total length by post spacing (rounded up), and posts needed is always one more than the number of sections, since each section is bounded by a post on both ends, with adjacent sections sharing a post. Rails needed is sections multiplied by how many rails run through each section (commonly 2 for a top and bottom rail, sometimes 3). Pickets needed divides the total fence length by each picket's width plus its gap.",
+        ],
+      },
+      {
+        heading: "Choosing post spacing",
+        paragraphs: [
+          "Post spacing of 6 to 8 feet is common for residential wood fences, balancing material cost against structural stability, closer spacing generally means a sturdier fence but more posts and post-hole digging. Taller fences or areas with high wind exposure often call for closer spacing.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is the post count one more than the number of sections?",
+        answer: "Picture a straight fence line divided into sections, each section needs a post at both its start and end, but adjacent sections share the post between them, so the total post count is always sections plus one, not sections times two.",
+      },
+      {
+        question: "How many rails do I need per section?",
+        answer: "2 rails (top and bottom) is standard for many picket and privacy fences, taller fences or those needing extra rigidity sometimes use 3 rails (adding a middle rail). Adjust the 'rails per section' field to match your design.",
+      },
+      {
+        question: "Does this account for gates?",
+        answer: "No, gates typically use different hardware and framing than standard fence sections, so budget for gate materials separately from this calculator's picket and rail estimates.",
+      },
+    ],
+    relatedSlugs: ["deck-calculator", "square-footage-calculator", "paint-calculator"],
+  },
+  {
+    slug: "wallpaper-calculator",
+    category: "construction",
+    title: "Wallpaper Calculator",
+    shortDescription: "Calculate how many rolls of wallpaper you need for a room.",
+    metaDescription: "Free online wallpaper calculator to estimate how many rolls of wallpaper you need for a room, accounting for pattern repeat and waste.",
+    h1: "Wallpaper Calculator",
+    intro: "Calculate how many rolls of wallpaper you need to cover your walls, accounting for roll coverage and a waste allowance for pattern matching and trimming.",
+    icon: "🖼️",
+    status: "live",
+    inputFields: [
+      { key: "wallLengthFt", label: "Total Wall Length / Perimeter (ft)", type: "number", step: 0.1, placeholder: "e.g. 40" },
+      { key: "wallHeightFt", label: "Wall Height (ft)", type: "number", step: 0.1, placeholder: "e.g. 8" },
+      { key: "rollCoverageSqFt", label: "Usable Coverage per Roll (sq ft)", type: "number", step: 1, defaultValue: 56 },
+      { key: "wastePercent", label: "Waste / Pattern Matching (%)", type: "number", step: 1, defaultValue: 15 },
+    ],
+    resultFields: [
+      { key: "wallArea", label: "Wall Area (sq ft)" },
+      { key: "areaWithWaste", label: "Area Including Waste (sq ft)" },
+      { key: "rollsNeeded", label: "Rolls Needed", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const wallLengthFt = Number(inputs.wallLengthFt);
+      const wallHeightFt = Number(inputs.wallHeightFt);
+      const rollCoverageSqFt = Number(inputs.rollCoverageSqFt ?? 56);
+      const wastePercent = Number(inputs.wastePercent ?? 15);
+      const output = calculateWallpaper(wallLengthFt, wallHeightFt, rollCoverageSqFt, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How wallpaper rolls needed is calculated",
+        paragraphs: [
+          "This calculator multiplies your total wall length (or room perimeter) by wall height to get total area, adds a waste allowance, then divides by the usable coverage of a single roll: Rolls Needed = (Wall Area × (1 + Waste%)) ÷ Roll Coverage. A standard single roll is commonly cited as offering about 56 square feet of usable coverage, though this varies by brand and roll width.",
+        ],
+      },
+      {
+        heading: "Why waste allowance matters more for wallpaper",
+        paragraphs: [
+          "Wallpaper typically needs a higher waste allowance than paint, commonly 15% or more, because patterns need to be matched at the seams between strips, which means cutting off and discarding a portion of each strip depending on the pattern's repeat length. Large, complex pattern repeats generally need an even higher waste allowance than simple or non-repeating patterns.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What counts as 'usable coverage' on a roll?",
+        answer: "It's the actual area you can apply to a wall, after accounting for the roll's total area, this is typically somewhat less than the roll's total square footage due to trimming and pattern matching, which is why this calculator lets you adjust the coverage figure directly if your specific wallpaper's packaging states a different usable coverage.",
+      },
+      {
+        question: "Should I buy extra rolls beyond this calculation?",
+        answer: "Many installers recommend buying one extra roll beyond the calculated amount, especially for large or bold pattern repeats, since dye lots can vary between production runs and it can be hard to get an exact match later if you run short.",
+      },
+      {
+        question: "Does this work for wallpaper borders?",
+        answer: "No, this calculator is designed for full-wall rolls. Borders are sold and measured differently, typically by linear footage rather than roll coverage.",
+      },
+    ],
+    relatedSlugs: ["paint-calculator", "square-footage-calculator", "drywall-calculator"],
+  },
+  {
+    slug: "paver-calculator",
+    category: "construction",
+    title: "Paver Calculator",
+    shortDescription: "Calculate pavers needed for a patio or walkway, plus sand and gravel base layers.",
+    metaDescription: "Free online paver calculator to estimate the number of pavers needed for a patio or walkway, plus the sand bedding and gravel base layers underneath.",
+    h1: "Paver Calculator",
+    intro: "Calculate how many pavers you need for a patio or walkway, plus the sand bedding layer and gravel base layer typically needed underneath.",
+    icon: "🪨",
+    status: "live",
+    inputFields: [
+      { key: "patioLengthFt", label: "Patio Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 15" },
+      { key: "patioWidthFt", label: "Patio Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "paverLengthIn", label: "Paver Length (in)", type: "number", step: 0.5, defaultValue: 12 },
+      { key: "paverWidthIn", label: "Paver Width (in)", type: "number", step: 0.5, defaultValue: 12 },
+      { key: "wastePercent", label: "Waste (%)", type: "number", step: 1, defaultValue: 10 },
+      { key: "sandDepthIn", label: "Sand Bedding Depth (in)", type: "number", step: 0.25, defaultValue: 1 },
+      { key: "gravelDepthIn", label: "Gravel Base Depth (in)", type: "number", step: 0.5, defaultValue: 4 },
+    ],
+    resultFields: [
+      { key: "patioArea", label: "Patio Area (sq ft)" },
+      { key: "paversNeeded", label: "Pavers Needed", highlight: true },
+      { key: "sandCubicFeet", label: "Sand Bedding Needed (cu ft)" },
+      { key: "gravelBaseCubicFeet", label: "Gravel Base Needed (cu ft)" },
+    ],
+    calculate: (inputs) => {
+      const patioLengthFt = Number(inputs.patioLengthFt);
+      const patioWidthFt = Number(inputs.patioWidthFt);
+      const paverLengthIn = Number(inputs.paverLengthIn ?? 12);
+      const paverWidthIn = Number(inputs.paverWidthIn ?? 12);
+      const wastePercent = Number(inputs.wastePercent ?? 10);
+      const sandDepthIn = Number(inputs.sandDepthIn ?? 1);
+      const gravelDepthIn = Number(inputs.gravelDepthIn ?? 4);
+      const output = calculatePaver(patioLengthFt, patioWidthFt, paverLengthIn, paverWidthIn, wastePercent, sandDepthIn, gravelDepthIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this differs from our Tile Calculator",
+        paragraphs: [
+          "The paver count itself uses the same basic math as our indoor Tile Calculator, area divided by unit size plus a waste allowance, but this calculator is purpose-built for outdoor hardscaping, additionally estimating the two prep layers a paver installation needs underneath: a compacted gravel base (commonly 4-6 inches, providing drainage and load support) and a leveling sand bedding layer (commonly 1 inch, providing a smooth, adjustable surface to set pavers into).",
+        ],
+      },
+      {
+        heading: "Why the base layers matter",
+        paragraphs: [
+          "Skipping or under-building the gravel base and sand bedding is one of the most common causes of pavers shifting, sinking or becoming uneven over time, especially in areas with freeze-thaw cycles or poor natural drainage. Getting these layers right upfront saves significant rework later.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does this calculator ask about sand and gravel too?",
+        answer: "A paver patio isn't just the visible pavers, it's a layered system: compacted gravel base, sand bedding, then the pavers themselves. Estimating all three layers upfront gives a complete materials picture for the project, not just the pavers.",
+      },
+      {
+        question: "How thick should my gravel base be?",
+        answer: "4 inches is a common minimum for pedestrian patios and walkways in stable soil; areas with vehicle traffic, poor drainage, or freeze-thaw climates often need a deeper base, 6 inches or more. Check local guidance for your specific soil and climate conditions.",
+      },
+      {
+        question: "Can I use this for a walkway instead of a patio?",
+        answer: "Yes, the same length x width area math applies to a walkway, just enter its length and width like any other rectangular area.",
+      },
+    ],
+    relatedSlugs: ["tile-calculator", "gravel-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "drywall-calculator",
+    category: "construction",
+    title: "Drywall Calculator",
+    shortDescription: "Calculate how many drywall sheets, plus joint compound and tape, you need.",
+    metaDescription: "Free online drywall calculator to estimate the number of drywall sheets, joint compound buckets and tape rolls needed for a room.",
+    h1: "Drywall Calculator",
+    intro: "Calculate how many drywall sheets you need for your walls and ceiling, plus a rough estimate of joint compound and tape.",
+    icon: "🪟",
+    status: "live",
+    inputFields: [
+      { key: "totalAreaSqFt", label: "Total Wall + Ceiling Area (sq ft)", type: "number", step: 1, placeholder: "e.g. 400" },
+      { key: "sheetWidthFt", label: "Sheet Width (ft)", type: "number", step: 0.5, defaultValue: 4 },
+      { key: "sheetLengthFt", label: "Sheet Length (ft)", type: "number", step: 1, defaultValue: 8 },
+      { key: "wastePercent", label: "Waste (%)", type: "number", step: 1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "sheetsNeeded", label: "Drywall Sheets Needed", highlight: true },
+      { key: "jointCompoundBuckets", label: "Joint Compound Buckets (est.)" },
+      { key: "tapeRolls", label: "Joint Tape Rolls (est.)" },
+    ],
+    calculate: (inputs) => {
+      const totalAreaSqFt = Number(inputs.totalAreaSqFt);
+      const sheetWidthFt = Number(inputs.sheetWidthFt ?? 4);
+      const sheetLengthFt = Number(inputs.sheetLengthFt ?? 8);
+      const wastePercent = Number(inputs.wastePercent ?? 10);
+      const output = calculateDrywall(totalAreaSqFt, sheetWidthFt, sheetLengthFt, wastePercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How sheet count and finishing supplies are estimated",
+        paragraphs: [
+          "Sheets needed is total area (plus waste) divided by sheet size: Sheets = (Total Area × (1 + Waste%)) ÷ (Sheet Width × Sheet Length), with standard 4 ft × 8 ft sheets as the default. Joint compound and tape are estimated using commonly cited coverage rules of thumb, roughly one 4.5 gallon pre-mixed bucket per 500 sq ft, and one standard tape roll per 350 sq ft, both rough planning figures rather than exact requirements.",
+        ],
+      },
+      {
+        heading: "Why waste allowance matters for drywall",
+        paragraphs: [
+          "Waste comes from cutting sheets around doors, windows, electrical boxes and corners, as well as occasional damaged sheets. 10% is a reasonable default for a fairly simple room; more complex layouts with many openings or angles typically need a higher allowance.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I measure walls and ceiling together or separately?",
+        answer: "Enter their combined total area, since this calculator just needs the total square footage to be covered, regardless of whether it's on walls or ceiling.",
+      },
+      {
+        question: "Are the joint compound and tape estimates exact?",
+        answer: "No, they're rough planning estimates based on commonly cited coverage rates. Actual usage varies with how many seams and corners your specific layout has, and how heavily compound is applied, so it's wise to buy a bit extra.",
+      },
+      {
+        question: "Does this account for different drywall thicknesses?",
+        answer: "No, sheet count is based purely on area and sheet dimensions, not thickness. Thickness (like 1/2 in vs 5/8 in) affects fire rating, soundproofing and cost per sheet, but not how many sheets are needed to cover a given area.",
+      },
+    ],
+    relatedSlugs: ["wallpaper-calculator", "paint-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "soil-calculator",
+    category: "construction",
+    title: "Soil Calculator",
+    shortDescription: "Calculate bags of garden soil needed for a bed or container, by volume.",
+    metaDescription: "Free online soil calculator to estimate how many bags of garden soil you need for a bed or container, based on area, depth and bag size.",
+    h1: "Soil Calculator",
+    intro: "Calculate how many bags of garden or potting soil you need for a bed or container, based on area, depth and bag size.",
+    icon: "🌱",
+    status: "live",
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 8" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 4" },
+      { key: "depthIn", label: "Depth (inches)", type: "number", step: 0.5, placeholder: "e.g. 8" },
+      {
+        key: "bagSize",
+        label: "Bag Size",
+        type: "select",
+        options: [
+          { label: "0.75 cu ft", value: "0.75" },
+          { label: "1.5 cu ft", value: "1.5" },
+          { label: "2 cu ft", value: "2" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "cubicFeet", label: "Cubic Feet Needed" },
+      { key: "cubicYards", label: "Cubic Yards" },
+      { key: "bagsNeeded", label: "Bags Needed", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const depthIn = Number(inputs.depthIn);
+      const bagSize = String(inputs.bagSize) as SoilBagSize;
+      const output = calculateSoil(lengthFt, widthFt, depthIn, bagSize);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How bagged soil quantity is calculated",
+        paragraphs: [
+          "Volume needed = Length × Width × Depth, converted to cubic feet, then divided by your chosen bag size to get a bag count. This calculator is focused on bagged garden or potting soil for beds and containers, common bag sizes are 0.75, 1.5 and 2 cubic feet.",
+        ],
+      },
+      {
+        heading: "Soil Calculator vs Topsoil Calculator",
+        paragraphs: [
+          "This calculator is built around bag counts for smaller projects like raised beds, garden borders or containers. For larger areas like a new lawn or major grading project, bulk topsoil delivered by the cubic yard is typically far more cost-effective than buying many bags, our Topsoil Calculator handles that bulk delivery case, working in cubic yards and delivered tons.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I use garden soil or potting soil?",
+        answer: "This calculator's volume math works the same regardless of soil type, garden soil is typically used for in-ground beds, while potting soil (usually lighter and better draining) is intended for containers. Check the bag size for your specific product.",
+      },
+      {
+        question: "When should I use bulk topsoil instead of bags?",
+        answer: "For larger areas, generally more than a few cubic yards, bulk delivery is usually significantly cheaper per unit of coverage than buying many individual bags. Our Topsoil Calculator is built for that bulk delivery scenario.",
+      },
+      {
+        question: "Should I fill a raised bed completely with new soil?",
+        answer: "Not necessarily, many gardeners fill the bottom portion of a deep raised bed with cheaper fill material and reserve quality garden soil for the top layer where roots are most active, adjust your depth input accordingly if you're doing this.",
+      },
+    ],
+    relatedSlugs: ["topsoil-calculator", "mulch-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "topsoil-calculator",
+    category: "construction",
+    title: "Topsoil Calculator",
+    shortDescription: "Calculate cubic yards and tons of bulk topsoil needed for a large area.",
+    metaDescription: "Free online topsoil calculator to estimate cubic yards and tons of bulk topsoil needed for a lawn or large landscaping project.",
+    h1: "Topsoil Calculator",
+    intro: "Calculate how many cubic yards, and how many tons, of bulk topsoil you need for a new lawn or large landscaping area.",
+    icon: "🟫",
+    status: "live",
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 50" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 30" },
+      { key: "depthIn", label: "Depth (inches)", type: "number", step: 0.5, placeholder: "e.g. 4" },
+    ],
+    resultFields: [
+      { key: "cubicYards", label: "Cubic Yards Needed", highlight: true },
+      { key: "tonsNeeded", label: "Approx. Weight (Tons)", highlight: true },
+      { key: "cubicFeet", label: "Cubic Feet" },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const depthIn = Number(inputs.depthIn);
+      const output = calculateTopsoil(lengthFt, widthFt, depthIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How bulk topsoil quantity is calculated",
+        paragraphs: [
+          "Volume needed = Length × Width × Depth, converted to cubic yards, since that's how bulk topsoil is typically quoted and delivered. Weight is estimated using a typical loose topsoil density of about 1.1 tons per cubic yard, a commonly cited planning figure from bulk landscaping suppliers, useful for estimating delivery truck loads.",
+        ],
+      },
+      {
+        heading: "Topsoil Calculator vs Soil Calculator",
+        paragraphs: [
+          "This calculator is built for bulk delivery scenarios, larger areas like a new lawn, regrading, or major landscaping, where topsoil is quoted and delivered by the cubic yard (or truckload). For smaller garden beds or containers where buying individual bags makes more sense, our Soil Calculator gives a bag count instead.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How much topsoil does a delivery truck typically carry?",
+        answer: "This varies by supplier and truck size, but small dump trucks commonly carry somewhere in the range of 5 to 10 cubic yards per load, ask your supplier what their trucks carry to figure out how many deliveries you'll need.",
+      },
+      {
+        question: "Does topsoil density really vary that much?",
+        answer: "Yes, moisture content and composition (sand, clay, organic matter content) can meaningfully affect topsoil's weight per cubic yard. 1.1 tons per cubic yard is a reasonable average planning estimate, but your supplier can give you a more precise figure for their specific product.",
+      },
+      {
+        question: "How deep should topsoil be for a new lawn?",
+        answer: "4 to 6 inches of quality topsoil is commonly recommended as a base for a new lawn, deep enough to support healthy root development for grass, though this can vary based on your existing soil quality and drainage.",
+      },
+    ],
+    relatedSlugs: ["soil-calculator", "mulch-calculator", "gravel-calculator"],
+  },
+  {
+    slug: "cubic-yard-calculator",
+    category: "construction",
+    title: "Cubic Yard Calculator",
+    shortDescription: "Calculate volume in cubic yards from length, width and height, in any units.",
+    metaDescription: "Free online cubic yard calculator to calculate volume in cubic yards (plus cubic feet and cubic meters) from length, width and height in any units.",
+    h1: "Cubic Yard Calculator",
+    intro: "Calculate the volume of a space in cubic yards, from length, width and height, entered in whichever units are most convenient for you.",
+    icon: "📦",
+    status: "live",
+    inputFields: [
+      { key: "length", label: "Length", type: "number", step: 0.01, placeholder: "e.g. 10" },
+      {
+        key: "lengthUnit", label: "Length Unit", type: "select",
+        options: [
+          { label: "Feet", value: "ft" }, { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" },
+        ],
+      },
+      { key: "width", label: "Width", type: "number", step: 0.01, placeholder: "e.g. 10" },
+      {
+        key: "widthUnit", label: "Width Unit", type: "select",
+        options: [
+          { label: "Feet", value: "ft" }, { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" },
+        ],
+      },
+      { key: "height", label: "Height / Depth", type: "number", step: 0.01, placeholder: "e.g. 1" },
+      {
+        key: "heightUnit", label: "Height Unit", type: "select",
+        options: [
+          { label: "Feet", value: "ft" }, { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "cubicYards", label: "Cubic Yards", highlight: true },
+      { key: "cubicFeet", label: "Cubic Feet" },
+      { key: "cubicMeters", label: "Cubic Meters" },
+    ],
+    calculate: (inputs) => {
+      const length = Number(inputs.length);
+      const lengthUnit = String(inputs.lengthUnit) as DimensionUnit;
+      const width = Number(inputs.width);
+      const widthUnit = String(inputs.widthUnit) as DimensionUnit;
+      const height = Number(inputs.height);
+      const heightUnit = String(inputs.heightUnit) as DimensionUnit;
+      const output = calculateCubicVolume(length, lengthUnit, width, widthUnit, height, heightUnit);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How volume in cubic yards is calculated",
+        paragraphs: [
+          "This calculator converts each of your length, width and height entries to feet (regardless of which unit you chose for each), multiplies them together for a volume in cubic feet, then divides by 27 (since a cubic yard is 3 ft × 3 ft × 3 ft = 27 cubic feet) to get cubic yards. Cubic feet and cubic meters are shown alongside for convenience.",
+        ],
+      },
+      {
+        heading: "Why cubic yards matter for material orders",
+        paragraphs: [
+          "Bulk materials like concrete, mulch, gravel, topsoil and sand are commonly quoted and delivered by the cubic yard in the US, this calculator is a quick, material-agnostic way to convert a space's dimensions into that unit before calling a supplier, without needing to work out any specific material's density.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I mix units, like feet for length and meters for width?",
+        answer: "Yes, each dimension has its own unit selector, so you can freely mix feet, inches, yards, meters or centimeters across length, width and height, this calculator converts each one internally before computing volume.",
+      },
+      {
+        question: "How is this different from the material-specific calculators like Mulch or Gravel Calculator?",
+        answer: "This is a generic volume calculator with no material assumptions, it just converts dimensions into cubic yards, feet and meters. Our material-specific calculators (Mulch, Gravel, Concrete, Topsoil, etc.) build on this same volume math but add material density to also estimate weight, bags, or bulk order quantities for that specific material.",
+      },
+      {
+        question: "Why does the result show cubic feet and cubic meters too?",
+        answer: "Since suppliers and contexts vary in which unit they quote, showing all three at once saves you from needing a separate conversion step if you end up needing a different unit than cubic yards.",
+      },
+    ],
+    relatedSlugs: ["cubic-feet-calculator", "cubic-meter-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "cubic-feet-calculator",
+    category: "construction",
+    title: "Cubic Feet Calculator",
+    shortDescription: "Calculate volume in cubic feet from length, width and height, in any units.",
+    metaDescription: "Free online cubic feet calculator to calculate volume in cubic feet (plus cubic yards and cubic meters) from length, width and height in any units.",
+    h1: "Cubic Feet Calculator",
+    intro: "Calculate the volume of a space in cubic feet, from length, width and height, entered in whichever units are most convenient for you.",
+    icon: "📦",
+    status: "live",
+    inputFields: [
+      { key: "length", label: "Length", type: "number", step: 0.01, placeholder: "e.g. 10" },
+      {
+        key: "lengthUnit", label: "Length Unit", type: "select",
+        options: [
+          { label: "Feet", value: "ft" }, { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" },
+        ],
+      },
+      { key: "width", label: "Width", type: "number", step: 0.01, placeholder: "e.g. 10" },
+      {
+        key: "widthUnit", label: "Width Unit", type: "select",
+        options: [
+          { label: "Feet", value: "ft" }, { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" },
+        ],
+      },
+      { key: "height", label: "Height / Depth", type: "number", step: 0.01, placeholder: "e.g. 1" },
+      {
+        key: "heightUnit", label: "Height Unit", type: "select",
+        options: [
+          { label: "Feet", value: "ft" }, { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "cubicFeet", label: "Cubic Feet", highlight: true },
+      { key: "cubicYards", label: "Cubic Yards" },
+      { key: "cubicMeters", label: "Cubic Meters" },
+    ],
+    calculate: (inputs) => {
+      const length = Number(inputs.length);
+      const lengthUnit = String(inputs.lengthUnit) as DimensionUnit;
+      const width = Number(inputs.width);
+      const widthUnit = String(inputs.widthUnit) as DimensionUnit;
+      const height = Number(inputs.height);
+      const heightUnit = String(inputs.heightUnit) as DimensionUnit;
+      const output = calculateCubicVolume(length, lengthUnit, width, widthUnit, height, heightUnit);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How volume in cubic feet is calculated",
+        paragraphs: [
+          "This calculator converts each of your length, width and height entries to feet (regardless of which unit you chose for each) and multiplies them together: Cubic Feet = Length (ft) × Width (ft) × Height (ft). Cubic yards and cubic meters are shown alongside for convenience.",
+        ],
+      },
+      {
+        heading: "When cubic feet is the unit you need",
+        paragraphs: [
+          "Cubic feet is commonly used for smaller volumes, like bagged materials (soil, mulch), appliance capacities (refrigerators, storage bins), aquarium or planter volume, or shipping and freight dimensions, generally where cubic yards would be an inconveniently large unit.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I mix units, like feet for length and inches for height?",
+        answer: "Yes, each dimension has its own unit selector, so you can freely mix feet, inches, yards, meters or centimeters across length, width and height, this calculator converts each one internally before computing volume.",
+      },
+      {
+        question: "How is this different from the Cubic Yard Calculator?",
+        answer: "Both use the exact same underlying volume calculation and show all three units (cubic feet, cubic yards, cubic meters) every time, this page simply highlights cubic feet as the primary result, useful if that's the unit you specifically need.",
+      },
+      {
+        question: "What if my result seems too large or small?",
+        answer: "Double check the unit selected for each dimension, since mixing up feet and inches, for example, is a common source of results that are off by a large factor.",
+      },
+    ],
+    relatedSlugs: ["cubic-yard-calculator", "cubic-meter-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "cubic-meter-calculator",
+    category: "construction",
+    title: "Cubic Meter Calculator",
+    shortDescription: "Calculate volume in cubic meters from length, width and height, in any units.",
+    metaDescription: "Free online cubic meter calculator to calculate volume in cubic meters (plus cubic feet and cubic yards) from length, width and height in any units.",
+    h1: "Cubic Meter Calculator",
+    intro: "Calculate the volume of a space in cubic meters, from length, width and height, entered in whichever units are most convenient for you.",
+    icon: "📦",
+    status: "live",
+    inputFields: [
+      { key: "length", label: "Length", type: "number", step: 0.01, placeholder: "e.g. 3" },
+      {
+        key: "lengthUnit", label: "Length Unit", type: "select",
+        options: [
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" }, { label: "Feet", value: "ft" },
+          { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+        ],
+      },
+      { key: "width", label: "Width", type: "number", step: 0.01, placeholder: "e.g. 3" },
+      {
+        key: "widthUnit", label: "Width Unit", type: "select",
+        options: [
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" }, { label: "Feet", value: "ft" },
+          { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+        ],
+      },
+      { key: "height", label: "Height / Depth", type: "number", step: 0.01, placeholder: "e.g. 0.3" },
+      {
+        key: "heightUnit", label: "Height Unit", type: "select",
+        options: [
+          { label: "Meters", value: "m" }, { label: "Centimeters", value: "cm" }, { label: "Feet", value: "ft" },
+          { label: "Inches", value: "in" }, { label: "Yards", value: "yd" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "cubicMeters", label: "Cubic Meters", highlight: true },
+      { key: "cubicFeet", label: "Cubic Feet" },
+      { key: "cubicYards", label: "Cubic Yards" },
+    ],
+    calculate: (inputs) => {
+      const length = Number(inputs.length);
+      const lengthUnit = String(inputs.lengthUnit) as DimensionUnit;
+      const width = Number(inputs.width);
+      const widthUnit = String(inputs.widthUnit) as DimensionUnit;
+      const height = Number(inputs.height);
+      const heightUnit = String(inputs.heightUnit) as DimensionUnit;
+      const output = calculateCubicVolume(length, lengthUnit, width, widthUnit, height, heightUnit);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How volume in cubic meters is calculated",
+        paragraphs: [
+          "This calculator converts each of your length, width and height entries to feet internally, multiplies them for a volume in cubic feet, then converts to cubic meters using the standard factor of 1 cubic foot = 0.0283168 cubic meters. Cubic feet and cubic yards are shown alongside for convenience.",
+        ],
+      },
+      {
+        heading: "When cubic meters is the unit you need",
+        paragraphs: [
+          "Cubic meters is the standard metric unit for volume used throughout most of the world outside the US, common for shipping container capacity, concrete and bulk material orders in metric countries, and general construction specifications where metric units are standard.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I enter dimensions in feet even though the result is in cubic meters?",
+        answer: "Yes, each dimension has its own unit selector independent of the others, so you can enter measurements in feet, inches or yards and still get an accurate cubic meter result, this calculator handles the conversion for you.",
+      },
+      {
+        question: "How is this different from the Cubic Feet or Cubic Yard Calculator?",
+        answer: "All three use the exact same underlying volume calculation and show all three units every time, this page simply highlights cubic meters as the primary result, useful if that's the unit you specifically need for a metric-based order or specification.",
+      },
+      {
+        question: "What's the exact conversion factor used?",
+        answer: "1 cubic foot equals exactly 0.0283168 cubic meters, the standard, internationally recognized conversion factor, applied after this calculator computes your volume in cubic feet from the dimensions you entered.",
+      },
+    ],
+    relatedSlugs: ["cubic-yard-calculator", "cubic-feet-calculator", "square-footage-calculator"],
   },
 ];
 
