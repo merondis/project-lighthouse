@@ -149,6 +149,13 @@ import { calculateDrywall } from "@/utils/calculators/drywall-calculator";
 import { calculateSoil, SoilBagSize } from "@/utils/calculators/soil-calculator";
 import { calculateTopsoil } from "@/utils/calculators/topsoil-calculator";
 import { calculateCubicVolume, DimensionUnit } from "@/utils/calculators/cubic-volume-calculator";
+import { calculateCement } from "@/utils/calculators/cement-calculator";
+import { calculateSand } from "@/utils/calculators/sand-calculator";
+import { calculateGravelVolume, GravelShape, GravelType } from "@/utils/calculators/gravel-volume-calculator";
+import { calculateRebar, RebarSize } from "@/utils/calculators/rebar-calculator";
+import { calculateBeamLoad, BeamLoadType } from "@/utils/calculators/beam-load-calculator";
+import { calculateSteelWeight, SteelShape } from "@/utils/calculators/steel-weight-calculator";
+import { calculateLumber } from "@/utils/calculators/lumber-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -9733,6 +9740,492 @@ explanation: [
       },
     ],
     relatedSlugs: ["cubic-yard-calculator", "cubic-feet-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "cement-calculator",
+    category: "construction",
+    title: "Cement Calculator",
+    shortDescription: "Calculate cement, sand and aggregate needed from a mix ratio.",
+    metaDescription: "Free online cement calculator to estimate bags of cement, plus sand and aggregate volume, needed for a concrete or mortar mix ratio like 1:2:4.",
+    h1: "Cement Calculator",
+    intro: "Calculate cement bags, sand and aggregate volume needed for a concrete or mortar mix, based on your target mix ratio (like 1:2:4) and the volume you need to fill.",
+    icon: "🏭",
+    status: "live",
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "thicknessIn", label: "Thickness (in)", type: "number", step: 0.25, placeholder: "e.g. 4" },
+      { key: "cementParts", label: "Mix Ratio - Cement Parts", type: "number", step: 0.5, defaultValue: 1 },
+      { key: "sandParts", label: "Mix Ratio - Sand Parts", type: "number", step: 0.5, defaultValue: 2 },
+      { key: "aggregateParts", label: "Mix Ratio - Aggregate Parts", type: "number", step: 0.5, defaultValue: 4 },
+    ],
+    resultFields: [
+      { key: "cementBags", label: "Cement Bags Needed (94 lb)", highlight: true },
+      { key: "sandCuFt", label: "Sand Needed (cu ft)", highlight: true },
+      { key: "aggregateCuFt", label: "Aggregate Needed (cu ft)", highlight: true },
+      { key: "wetVolumeCuFt", label: "Finished (Wet) Volume (cu ft)" },
+      { key: "dryVolumeCuFt", label: "Total Dry Material Volume (cu ft)" },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const thicknessIn = Number(inputs.thicknessIn);
+      const cementParts = Number(inputs.cementParts ?? 1);
+      const sandParts = Number(inputs.sandParts ?? 2);
+      const aggregateParts = Number(inputs.aggregateParts ?? 4);
+      const output = calculateCement(lengthFt, widthFt, thicknessIn, cementParts, sandParts, aggregateParts);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this differs from our Concrete Calculator",
+        paragraphs: [
+          "Our Concrete Calculator estimates bags of pre-mixed concrete (like standard 40/60/80 lb bags) by their weight yield, the simplest approach when buying pre-mixed bags. This calculator instead works from a raw mix ratio, cement to sand to aggregate, like the common 1:2:4 general-purpose ratio, the approach used when mixing concrete or mortar from separate raw materials rather than a single pre-mixed bag.",
+        ],
+      },
+      {
+        heading: "Why dry volume is larger than finished volume",
+        paragraphs: [
+          "Loose dry materials (cement, sand, aggregate) take up more space than they do once mixed with water and compacted, because dry particles have air gaps between them that close up during mixing. This calculator applies a standard bulking factor of 1.54 to convert your target finished (wet) volume into the total dry material volume you need to start with, then splits that dry volume across your mix ratio.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What mix ratio should I use?",
+        answer: "1:2:4 (cement:sand:aggregate) is a commonly used general-purpose ratio for many non-structural applications. Ratios like 1:1.5:3 are used for higher-strength applications, and 1:3:6 for lower-strength, less critical work. Check project specifications or a structural engineer's guidance for anything load-bearing.",
+      },
+      {
+        question: "Why does this use 94 lb cement bags?",
+        answer: "94 lb is the standard weight of a full bag of Portland cement in the US, yielding approximately 1 cubic foot of loose cement material, the figure this calculator uses to convert cement volume into a bag count.",
+      },
+      {
+        question: "Does this calculator account for water?",
+        answer: "No, water quantity depends on the desired water-cement ratio for your specific strength and workability needs, and isn't part of the dry volume bulking calculation, consult mix design guidance for the correct water quantity for your ratio.",
+      },
+    ],
+    relatedSlugs: ["concrete-calculator", "sand-calculator", "concrete-block-calculator"],
+  },
+  {
+    slug: "sand-calculator",
+    category: "construction",
+    title: "Sand Calculator",
+    shortDescription: "Calculate cubic yards and weight of sand needed for a project.",
+    metaDescription: "Free online sand calculator to estimate cubic yards and tons of sand needed for a project, based on area and depth.",
+    h1: "Sand Calculator",
+    intro: "Calculate how many cubic yards, and how many tons, of sand you need based on the area and depth you're filling.",
+    icon: "🏖️",
+    status: "live",
+    inputFields: [
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 12" },
+      { key: "widthFt", label: "Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 8" },
+      { key: "depthIn", label: "Depth (inches)", type: "number", step: 0.5, placeholder: "e.g. 2" },
+    ],
+    resultFields: [
+      { key: "cubicYards", label: "Cubic Yards Needed", highlight: true },
+      { key: "tonsNeeded", label: "Approx. Weight (Tons)", highlight: true },
+      { key: "cubicFeet", label: "Cubic Feet" },
+    ],
+    calculate: (inputs) => {
+      const lengthFt = Number(inputs.lengthFt);
+      const widthFt = Number(inputs.widthFt);
+      const depthIn = Number(inputs.depthIn);
+      const output = calculateSand(lengthFt, widthFt, depthIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How sand quantity is calculated",
+        paragraphs: [
+          "Volume needed = Length × Width × Depth, converted to cubic yards. Weight is estimated using a typical dry sand density of about 1.35 tons per cubic yard, a commonly cited planning figure, useful for play areas, paver bedding, garden paths, or as a base layer beneath other materials.",
+        ],
+      },
+      {
+        heading: "Different uses need different sand types and depths",
+        paragraphs: [
+          "Play sand for a sandbox, leveling sand for pavers, and bedding sand for a paver base are all different products with slightly different properties, though this calculator's volume and weight math applies the same regardless of type. Depth requirements vary by use, a play area might use several inches, while paver bedding sand is typically just 1 inch.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does sand density really vary much between types?",
+        answer: "Yes, somewhat, moisture content and grain size affect density. 1.35 tons per cubic yard is a reasonable average estimate for dry sand; wet sand can weigh noticeably more per cubic yard.",
+      },
+      {
+        question: "How is this different from the Paver Calculator's sand estimate?",
+        answer: "The Paver Calculator includes a sand bedding estimate as one part of a larger paver project calculation (alongside paver count and gravel base). This calculator is a standalone, general-purpose sand estimator for any use, not tied to a paver project specifically.",
+      },
+      {
+        question: "Should I buy bagged or bulk sand?",
+        answer: "For small quantities, bagged sand is convenient. For larger areas, generally more than a cubic yard or two, bulk delivery is usually significantly more cost-effective per unit of coverage.",
+      },
+    ],
+    relatedSlugs: ["gravel-volume-calculator", "cement-calculator", "paver-calculator"],
+  },
+  {
+    slug: "gravel-volume-calculator",
+    category: "construction",
+    title: "Gravel Volume Calculator",
+    shortDescription: "Calculate gravel volume and weight for rectangular, circular or triangular areas.",
+    metaDescription: "Free online gravel volume calculator supporting rectangular, circular and triangular areas, with a choice of gravel material type and density.",
+    h1: "Gravel Volume Calculator",
+    intro: "Calculate gravel volume and weight for rectangular, circular or triangular areas, with a choice of common gravel material types, each with its own typical density.",
+    icon: "⚪",
+    status: "live",
+    inputFields: [
+      {
+        key: "shape",
+        label: "Area Shape",
+        type: "select",
+        options: [
+          { label: "Rectangle", value: "rectangle" },
+          { label: "Circle", value: "circle" },
+          { label: "Triangle", value: "triangle" },
+        ],
+      },
+      { key: "dimensionA", label: "Length / Diameter / Base (ft)", type: "number", step: 0.1, placeholder: "e.g. 10" },
+      { key: "dimensionB", label: "Width / Height (ft, not used for circle)", type: "number", step: 0.1, defaultValue: 0 },
+      { key: "depthIn", label: "Depth (inches)", type: "number", step: 0.5, placeholder: "e.g. 3" },
+      {
+        key: "gravelType",
+        label: "Gravel Type",
+        type: "select",
+        options: [
+          { label: "Crushed Stone", value: "crushedStone" },
+          { label: "Pea Gravel", value: "peaGravel" },
+          { label: "River Rock", value: "riverRock" },
+          { label: "Decomposed Granite", value: "decomposedGranite" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "areaSqFt", label: "Area (sq ft)" },
+      { key: "cubicYards", label: "Cubic Yards Needed", highlight: true },
+      { key: "tonsNeeded", label: "Approx. Weight (Tons)", highlight: true },
+      { key: "cubicFeet", label: "Cubic Feet" },
+    ],
+    calculate: (inputs) => {
+      const shape = String(inputs.shape) as GravelShape;
+      const dimensionA = Number(inputs.dimensionA);
+      const dimensionB = Number(inputs.dimensionB ?? 0);
+      const depthIn = Number(inputs.depthIn);
+      const gravelType = String(inputs.gravelType) as GravelType;
+      const output = calculateGravelVolume(shape, dimensionA, dimensionB, depthIn, gravelType);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this differs from our original Gravel Calculator",
+        paragraphs: [
+          "Our original Gravel Calculator handles rectangular areas with a single fixed gravel density. This calculator adds support for circular areas (like a round fire pit surround) and triangular areas (like an odd-shaped corner bed), and lets you choose from several common gravel material types, crushed stone, pea gravel, river rock, or decomposed granite, each with its own typical density, so the weight estimate better matches the specific material you're buying.",
+        ],
+      },
+      {
+        heading: "How area is calculated for each shape",
+        paragraphs: [
+          "Rectangle area is length × width. Circle area uses π × radius², with the diameter you enter divided by 2 to get the radius. Triangle area is 0.5 × base × height. Once the area is found, it's multiplied by depth (converted from inches to feet) to get volume, then converted to cubic yards and weight using your chosen gravel type's density.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Which gravel type should I choose?",
+        answer: "Crushed stone (angular, interlocking) is common for driveways and drainage. Pea gravel (small, rounded) is popular for pathways and decorative beds. River rock (larger, rounded) is often used decoratively. Decomposed granite is popular for pathways with a more natural, compactable surface. Each has a slightly different typical density, reflected in this calculator's weight estimate.",
+      },
+      {
+        question: "What if my area is an irregular shape not listed here?",
+        answer: "Break the area down into multiple rectangles, circles or triangles, calculate each separately, and add the results together for a combined estimate.",
+      },
+      {
+        question: "Do I need to enter the second dimension for a circle?",
+        answer: "No, for a circle, enter only the diameter in the first field, the second dimension field is ignored for circular areas.",
+      },
+    ],
+    relatedSlugs: ["gravel-calculator", "sand-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "rebar-calculator",
+    category: "construction",
+    title: "Rebar Calculator",
+    shortDescription: "Calculate rebar count, length and weight for a two-way reinforcement grid.",
+    metaDescription: "Free online rebar calculator to estimate the number of bars, total length and weight needed for a two-way reinforcement grid in a concrete slab.",
+    h1: "Rebar Calculator",
+    intro: "Calculate the number of rebar pieces, total linear feet, and total weight needed for a two-way reinforcement grid across a rectangular concrete slab.",
+    icon: "🔩",
+    status: "live",
+    inputFields: [
+      { key: "slabLengthFt", label: "Slab Length (ft)", type: "number", step: 0.1, placeholder: "e.g. 20" },
+      { key: "slabWidthFt", label: "Slab Width (ft)", type: "number", step: 0.1, placeholder: "e.g. 15" },
+      { key: "spacingIn", label: "Grid Spacing (in)", type: "number", step: 1, defaultValue: 12 },
+      {
+        key: "barSize",
+        label: "Rebar Size",
+        type: "select",
+        options: [
+          { label: "#3 (3/8 in)", value: "3" },
+          { label: "#4 (1/2 in)", value: "4" },
+          { label: "#5 (5/8 in)", value: "5" },
+          { label: "#6 (3/4 in)", value: "6" },
+          { label: "#7 (7/8 in)", value: "7" },
+          { label: "#8 (1 in)", value: "8" },
+        ],
+      },
+      { key: "stockBarLengthFt", label: "Stock Bar Length (ft)", type: "number", step: 1, defaultValue: 20 },
+    ],
+    resultFields: [
+      { key: "barsLengthwise", label: "Bars Running Lengthwise" },
+      { key: "barsWidthwise", label: "Bars Running Widthwise" },
+      { key: "totalLinearFeet", label: "Total Linear Feet" },
+      { key: "barsNeeded", label: "Stock Bars Needed", highlight: true },
+      { key: "totalWeightLbs", label: "Total Weight (lbs)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const slabLengthFt = Number(inputs.slabLengthFt);
+      const slabWidthFt = Number(inputs.slabWidthFt);
+      const spacingIn = Number(inputs.spacingIn ?? 12);
+      const barSize = String(inputs.barSize) as RebarSize;
+      const stockBarLengthFt = Number(inputs.stockBarLengthFt ?? 20);
+      const output = calculateRebar(slabLengthFt, slabWidthFt, spacingIn, barSize, stockBarLengthFt);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the reinforcement grid is calculated",
+        paragraphs: [
+          "This calculator assumes a standard two-way grid, bars running in both directions, spaced evenly at your chosen interval. The number of bars running lengthwise depends on how many fit across the slab's width (and vice versa for widthwise bars), each spaced at your entered grid spacing. Total linear footage is then divided by your stock bar length (commonly 20 ft) to find how many individual bars to order.",
+        ],
+      },
+      {
+        heading: "Rebar size and weight",
+        paragraphs: [
+          "Rebar 'size' numbers (like #4 or #5) correspond to the bar's diameter in eighths of an inch, a #4 bar is 1/2 inch, a #5 is 5/8 inch, and so on. Larger bars weigh more per foot and are used for greater reinforcement strength, this calculator uses standard published weight-per-foot figures for each size to estimate total weight.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What grid spacing should I use?",
+        answer: "12 inches on-center is common for many residential slab applications, but required spacing depends on the slab's load requirements and local building code. Always confirm the correct spacing for your specific project with an engineer or your local code.",
+      },
+      {
+        question: "Does this calculator account for overlap/laps between bars?",
+        answer: "No, it estimates a simple butt-to-edge grid based on slab dimensions. Real installations typically overlap (lap) adjoining bars by a code-specified length, which would increase actual material needed slightly beyond this estimate.",
+      },
+      {
+        question: "Is this calculator sufficient for structural design purposes?",
+        answer: "No, this is a material quantity estimate only, not a structural design tool. Rebar size, spacing and grid pattern for any load-bearing application should be specified by a structural engineer according to your project's actual requirements and local building code.",
+      },
+    ],
+    relatedSlugs: ["concrete-calculator", "beam-load-calculator", "steel-weight-calculator"],
+  },
+  {
+    slug: "beam-load-calculator",
+    category: "construction",
+    title: "Beam Load Calculator",
+    shortDescription: "Estimate the allowable load on a simply supported rectangular beam.",
+    metaDescription: "Free online beam load calculator to estimate the allowable uniformly distributed or point load on a simply supported rectangular beam, based on bending stress.",
+    h1: "Beam Load Calculator",
+    intro: "Estimate the allowable load on a simply supported rectangular beam, based on a basic bending stress calculation. For educational and rough planning use only, see the important note below.",
+    icon: "📏",
+    status: "live",
+    inputFields: [
+      { key: "widthIn", label: "Beam Width (in)", type: "number", step: 0.25, placeholder: "e.g. 1.5" },
+      { key: "depthIn", label: "Beam Depth (in)", type: "number", step: 0.25, placeholder: "e.g. 9.25" },
+      { key: "spanFt", label: "Span Between Supports (ft)", type: "number", step: 0.5, placeholder: "e.g. 12" },
+      { key: "allowableStress", label: "Allowable Bending Stress (psi)", type: "number", step: 10, defaultValue: 1000 },
+      {
+        key: "loadType",
+        label: "Load Type",
+        type: "select",
+        options: [
+          { label: "Uniformly Distributed Load", value: "distributed" },
+          { label: "Point Load at Center", value: "point" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "sectionModulus", label: "Section Modulus (in³)" },
+      { key: "allowableMomentFtLbs", label: "Allowable Bending Moment (ft-lb)" },
+      { key: "maxUdlLbsPerFt", label: "Max Distributed Load (lb/ft)", highlight: true },
+      { key: "maxTotalUdlLbs", label: "Max Total Distributed Load (lb)", highlight: true },
+      { key: "maxPointLoadLbs", label: "Max Point Load at Center (lb)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const widthIn = Number(inputs.widthIn);
+      const depthIn = Number(inputs.depthIn);
+      const spanFt = Number(inputs.spanFt);
+      const allowableStress = Number(inputs.allowableStress ?? 1000);
+      const loadType = String(inputs.loadType) as BeamLoadType;
+      const output = calculateBeamLoad(widthIn, depthIn, spanFt, allowableStress, loadType);
+      return {
+        sectionModulus: output.sectionModulus,
+        allowableMomentFtLbs: output.allowableMomentFtLbs,
+        maxUdlLbsPerFt: output.maxUdlLbsPerFt === null ? "N/A (point load selected)" : output.maxUdlLbsPerFt,
+        maxTotalUdlLbs: output.maxTotalUdlLbs === null ? "N/A (point load selected)" : output.maxTotalUdlLbs,
+        maxPointLoadLbs: output.maxPointLoadLbs === null ? "N/A (distributed load selected)" : output.maxPointLoadLbs,
+      };
+    },
+    explanation: [
+      {
+        heading: "How this estimate is calculated",
+        paragraphs: [
+          "This calculator computes the beam's section modulus (S = width × depth² ÷ 6 for a rectangular cross-section), multiplies it by your allowable bending stress to get an allowable bending moment, then solves for the maximum load that would produce that moment: for a uniformly distributed load, max load = 8 × moment ÷ span²; for a center point load, max load = 4 × moment ÷ span, both standard formulas for a simply supported beam.",
+        ],
+      },
+      {
+        heading: "Important: this is a simplified bending-only estimate",
+        paragraphs: [
+          "This calculator checks bending stress only. It does not check deflection limits (a beam can meet bending strength but still sag more than acceptable), shear capacity, buckling, load duration factors, connection design, or any other requirement that matters for a safe, code-compliant structure. Actual beam sizing for any real construction project must be verified by a licensed structural engineer against your local building code, do not use this calculator as the sole basis for a real structural decision.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What allowable bending stress value should I use?",
+        answer: "This varies significantly by material and grade, common softwood construction lumber is often in the 700-1500 psi range, structural steel (A36) is often around 22,000 psi allowable. Use the published allowable stress for your specific material and grade, or consult an engineer, this calculator doesn't include built-in material presets since the correct value depends heavily on your specific material grade and application.",
+      },
+      {
+        question: "Why does the result differ for distributed vs point loads?",
+        answer: "A point load at the center of a span creates a higher peak bending moment than the same total weight spread evenly across the span, so a beam can typically support more total weight as a distributed load than as an equivalent single point load, which is why this calculator handles the two cases with different formulas.",
+      },
+      {
+        question: "Can I use this to size a beam for my deck or house?",
+        answer: "No, use this only to build intuition about how beam dimensions and span relate to load capacity. Any beam supporting a real structure, a deck, floor, or roof, must be sized by a qualified professional accounting for all relevant load types, code requirements and safety factors.",
+      },
+    ],
+    relatedSlugs: ["rebar-calculator", "steel-weight-calculator", "lumber-calculator"],
+  },
+  {
+    slug: "steel-weight-calculator",
+    category: "construction",
+    title: "Steel Weight Calculator",
+    shortDescription: "Calculate the weight of steel flat bar, round bar, square bar or pipe.",
+    metaDescription: "Free online steel weight calculator to calculate the weight of steel flat bar, round bar, square bar, or pipe/tube, from its dimensions.",
+    h1: "Steel Weight Calculator",
+    intro: "Calculate the weight of a piece of steel, flat bar, round bar, square bar, or pipe/tube, from its shape and dimensions.",
+    icon: "⚙️",
+    status: "live",
+    inputFields: [
+      {
+        key: "shape",
+        label: "Shape",
+        type: "select",
+        options: [
+          { label: "Flat Bar / Plate", value: "flatBar" },
+          { label: "Round Bar", value: "roundBar" },
+          { label: "Square Bar", value: "squareBar" },
+          { label: "Pipe / Tube", value: "pipe" },
+        ],
+      },
+      { key: "dimensionA", label: "Width / Diameter / Side / Outer Diameter (in)", type: "number", step: 0.01, placeholder: "e.g. 2" },
+      { key: "dimensionB", label: "Thickness / Wall Thickness (in, not used for round or square bar)", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "lengthIn", label: "Length (in)", type: "number", step: 0.1, placeholder: "e.g. 48" },
+    ],
+    resultFields: [
+      { key: "weightLbs", label: "Weight (lbs)", highlight: true },
+      { key: "weightKg", label: "Weight (kg)", highlight: true },
+      { key: "volumeCuIn", label: "Volume (cu in)" },
+    ],
+    calculate: (inputs) => {
+      const shape = String(inputs.shape) as SteelShape;
+      const dimensionA = Number(inputs.dimensionA);
+      const dimensionB = Number(inputs.dimensionB ?? 0);
+      const lengthIn = Number(inputs.lengthIn);
+      const output = calculateSteelWeight(shape, dimensionA, dimensionB, lengthIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How steel weight is calculated",
+        paragraphs: [
+          "This calculator first finds the piece's volume based on its shape (flat bar: width × thickness × length; round bar: π × radius² × length; square bar: side² × length; pipe: π × (outer radius² − inner radius²) × length), then multiplies by steel's standard density of 0.2836 lb per cubic inch (about 490 lb per cubic foot) to get weight.",
+        ],
+      },
+      {
+        heading: "Why exact density can vary slightly",
+        paragraphs: [
+          "0.2836 lb per cubic inch reflects standard carbon steel. Different steel alloys and stainless steel grades can have slightly different densities, so for precise material ordering, especially for a specialty alloy, check the specific material's published density rather than relying solely on this general estimate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do I need to enter the second dimension for round or square bar?",
+        answer: "No, for round bar, enter only the diameter; for square bar, enter only the side length. The second dimension field is only used for flat bar (thickness) and pipe (wall thickness).",
+      },
+      {
+        question: "What if I have dimensions in millimeters?",
+        answer: "Convert to inches first (1 inch = 25.4 mm), or use our Length Converter, since this calculator's density constant is calibrated to inch-based dimensions.",
+      },
+      {
+        question: "Does this work for stainless steel?",
+        answer: "Stainless steel has a slightly different density than standard carbon steel (typically a bit higher, around 0.29 lb per cubic inch), so results using this calculator's carbon-steel density will be a close but not exact estimate for stainless steel pieces.",
+      },
+    ],
+    relatedSlugs: ["rebar-calculator", "beam-load-calculator", "lumber-calculator"],
+  },
+  {
+    slug: "lumber-calculator",
+    category: "construction",
+    title: "Lumber Calculator",
+    shortDescription: "Calculate board feet and cost for a lumber order.",
+    metaDescription: "Free online lumber calculator to calculate board feet and estimated cost for a lumber order, from board dimensions, quantity and price per board foot.",
+    h1: "Lumber Calculator",
+    intro: "Calculate board feet and estimated cost for a lumber order, from board dimensions, quantity, and price per board foot.",
+    icon: "🪵",
+    status: "live",
+    inputFields: [
+      { key: "thicknessIn", label: "Thickness (in)", type: "number", step: 0.25, placeholder: "e.g. 2" },
+      { key: "widthIn", label: "Width (in)", type: "number", step: 0.25, placeholder: "e.g. 6" },
+      { key: "lengthFt", label: "Length (ft)", type: "number", step: 0.5, placeholder: "e.g. 8" },
+      { key: "quantity", label: "Quantity (number of boards)", type: "number", step: 1, defaultValue: 1 },
+      { key: "pricePerBoardFoot", label: "Price per Board Foot (optional)", type: "number", step: 0.01, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "boardFeetPerBoard", label: "Board Feet per Board" },
+      { key: "totalBoardFeet", label: "Total Board Feet", highlight: true },
+      { key: "totalLinearFeet", label: "Total Linear Feet" },
+      { key: "estimatedCost", label: "Estimated Cost", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const thicknessIn = Number(inputs.thicknessIn);
+      const widthIn = Number(inputs.widthIn);
+      const lengthFt = Number(inputs.lengthFt);
+      const quantity = Number(inputs.quantity ?? 1);
+      const pricePerBoardFoot = Number(inputs.pricePerBoardFoot ?? 0);
+      const output = calculateLumber(thicknessIn, widthIn, lengthFt, quantity, pricePerBoardFoot);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What board feet is and how it's calculated",
+        paragraphs: [
+          "Board feet is the standard unit lumber is priced and sold by in the US, one board foot is the volume of a board 1 inch thick, 12 inches wide, and 1 foot long. The formula is: Board Feet = (Thickness (in) × Width (in) × Length (ft)) ÷ 12. This differs from simply counting boards or linear feet, since it accounts for a board's full volume, letting you compare cost fairly across boards of different thickness and width.",
+        ],
+      },
+      {
+        heading: "How this differs from our Deck Calculator",
+        paragraphs: [
+          "Our Deck Calculator counts full-length decking boards needed to cover a specific deck surface area, factoring in board width and the gap between boards. This calculator is a general-purpose lumber estimator, useful for framing lumber, general carpentry, or any lumber order where you want a board-foot total and cost estimate rather than a coverage-area board count.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is lumber priced by board feet instead of just by the board?",
+        answer: "Board feet accounts for a board's full volume (thickness x width x length), so a thick, wide board and a thin, narrow board of the same length can be priced fairly relative to how much actual wood material each contains, rather than charging the same price regardless of size.",
+      },
+      {
+        question: "Is the price per board foot required?",
+        answer: "No, it's optional. Leave it at 0 if you only want the board footage; enter a price to also see an estimated total cost for your order.",
+      },
+      {
+        question: "Does nominal lumber size match actual dimensions?",
+        answer: "No, a common nominal '2x6' board actually measures about 1.5 in × 5.5 in after milling and drying. For an accurate board-foot calculation, use the actual (dressed) dimensions rather than the nominal size printed on the label, unless your supplier specifically prices by nominal size.",
+      },
+    ],
+    relatedSlugs: ["deck-calculator", "fence-calculator", "square-footage-calculator"],
   },
 ];
 
