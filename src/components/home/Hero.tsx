@@ -9,7 +9,12 @@ export function Hero() {
         </span>
       </div>
       <h1 className="text-4xl font-bold text-white sm:text-6xl">Merondis</h1>
-      <p className="mt-4 text-lg text-brand-secondary sm:text-xl">Free Online Tools &amp; Calculators</p>
+<p className="mt-4 text-lg text-brand-secondary sm:text-xl">
+        100+ Free Online Tools, Calculators, Converters and Utilities
+      </p>
+      <p className="mt-2 text-base text-brand-secondary sm:text-lg">
+        No sign-up required. Fast, accurate, and available on any device.
+      </p>
     </div>
   );
 }
