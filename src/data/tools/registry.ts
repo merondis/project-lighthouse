@@ -117,6 +117,14 @@ import { calculateWaistToHeightRatio } from "@/utils/calculators/waist-to-height
 import { calculateArmyBodyFat, ArmyBfGender } from "@/utils/calculators/army-body-fat-calculator";
 import { calculateCaloriesBurned, Activity } from "@/utils/calculators/calories-burned-calculator";
 import { calculateTargetHeartRate } from "@/utils/calculators/target-heart-rate-calculator";
+import { calculateOneRepMax } from "@/utils/calculators/one-rep-max-calculator";
+import { calculateRunningPace } from "@/utils/calculators/running-pace-calculator";
+import { calculateWalkingCalories } from "@/utils/calculators/walking-calories-calculator";
+import { calculateBac, BacGender } from "@/utils/calculators/bac-calculator";
+import { calculatePregnancyWeightGain } from "@/utils/calculators/pregnancy-weight-gain-calculator";
+import { calculatePregnancyWeek, PregnancyInputMode } from "@/utils/calculators/pregnancy-week-calculator";
+import { calculateDueDateReverse } from "@/utils/calculators/due-date-reverse-calculator";
+import { calculateFertilityWindow } from "@/utils/calculators/fertility-window-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -7606,6 +7614,488 @@ explanation: [
       },
     ],
     relatedSlugs: ["heart-rate-zone-calculator", "calories-burned-calculator", "bmr-calculator"],
+  },
+  {
+    slug: "one-rep-max-calculator",
+    category: "health",
+    title: "One Rep Max Calculator",
+    shortDescription: "Estimate your one-rep max from a weight and rep count you can already lift.",
+    metaDescription: "Free online one rep max (1RM) calculator using the Epley and Brzycki formulas, plus common training percentages of your estimated max.",
+    h1: "One Rep Max Calculator",
+    intro: "Estimate your one-rep max (1RM) from a weight and rep count you can currently lift, using the Epley and Brzycki formulas, plus common training percentages of your max.",
+    icon: "🏋️",
+    status: "live",
+    inputFields: [
+      { key: "weight", label: "Weight Lifted", type: "number", step: 0.5, placeholder: "e.g. 100" },
+      { key: "reps", label: "Reps Completed", type: "number", step: 1, placeholder: "e.g. 5" },
+    ],
+    resultFields: [
+      { key: "epley1RM", label: "Epley Formula 1RM" },
+      { key: "brzycki1RM", label: "Brzycki Formula 1RM" },
+      { key: "average1RM", label: "Average Estimated 1RM", highlight: true },
+      { key: "percent90", label: "90% of Max" },
+      { key: "percent80", label: "80% of Max" },
+      { key: "percent70", label: "70% of Max" },
+      { key: "percent60", label: "60% of Max" },
+    ],
+    calculate: (inputs) => {
+      const weight = Number(inputs.weight);
+      const reps = Number(inputs.reps);
+      const output = calculateOneRepMax(weight, reps);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How one-rep max is estimated",
+        paragraphs: [
+          "Since maxing out on every lift isn't practical or safe for most training, one-rep max (1RM) is commonly estimated from a lighter set taken close to failure. This calculator uses two widely cited formulas: Epley, 1RM = Weight × (1 + Reps ÷ 30), and Brzycki, 1RM = Weight × (36 ÷ (37 − Reps)). The two formulas tend to agree closely at low rep counts and diverge somewhat at higher reps, which is why both are shown alongside their average.",
+        ],
+      },
+      {
+        heading: "Using training percentages",
+        paragraphs: [
+          "Many strength programs prescribe working sets as a percentage of your 1RM (for example, '5 sets of 5 at 80% of max'). This calculator shows your estimated max at several common training percentages, so you can quickly translate a percentage-based program into actual weight on the bar.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is an estimated 1RM?",
+        answer: "It's a reasonably close estimate for most people when based on a set of 10 reps or fewer taken close to failure, but individual factors like muscle fiber type and training experience mean actual 1RM can differ from the estimate by a meaningful margin.",
+      },
+      {
+        question: "Why do the two formulas give slightly different results?",
+        answer: "Epley and Brzycki were derived from different data sets and use different mathematical relationships between reps and percentage of max, so they naturally diverge somewhat, especially at higher rep counts. Neither is universally 'more correct', which is why this calculator shows both.",
+      },
+      {
+        question: "Should I actually attempt a true 1RM to check this estimate?",
+        answer: "That's a personal training decision best made with appropriate experience, warm-up and, ideally, a spotter. Many lifters find estimated 1RM from submaximal sets is perfectly sufficient for programming purposes without needing to test a true max.",
+      },
+    ],
+    relatedSlugs: ["bmr-calculator", "lean-body-mass-calculator", "protein-calculator"],
+  },
+  {
+    slug: "running-pace-calculator",
+    category: "health",
+    title: "Running Pace Calculator",
+    shortDescription: "Calculate your running pace and speed from a distance and finish time.",
+    metaDescription: "Free online running pace calculator to calculate your pace per km and per mile, and your speed in km/h and mph, from a distance and finish time.",
+    h1: "Running Pace Calculator",
+    intro: "Calculate your running pace per kilometer and per mile, along with your speed, from a distance and finish time.",
+    icon: "🏃‍♂️",
+    status: "live",
+    inputFields: [
+      { key: "distanceKm", label: "Distance (km)", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      { key: "hours", label: "Hours", type: "number", step: 1, defaultValue: 0 },
+      { key: "minutes", label: "Minutes", type: "number", step: 1, placeholder: "e.g. 25" },
+      { key: "seconds", label: "Seconds", type: "number", step: 1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "paceMinPerKm", label: "Pace", unit: "min/km", highlight: true },
+      { key: "paceMinPerMile", label: "Pace", unit: "min/mile", highlight: true },
+      { key: "speedKmh", label: "Speed", unit: "km/h" },
+      { key: "speedMph", label: "Speed", unit: "mph" },
+    ],
+    calculate: (inputs) => {
+      const distanceKm = Number(inputs.distanceKm);
+      const hours = Number(inputs.hours ?? 0);
+      const minutes = Number(inputs.minutes);
+      const seconds = Number(inputs.seconds ?? 0);
+      const output = calculateRunningPace(distanceKm, hours, minutes, seconds);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How pace and speed are calculated",
+        paragraphs: [
+          "Pace is your total time divided by distance, expressed as minutes and seconds per kilometer or per mile. Speed is the inverse relationship, distance divided by time, expressed in kilometers or miles per hour. This calculator computes both directly from the distance and finish time you enter, converting between kilometers and miles using the standard factor of 1.60934 km per mile.",
+        ],
+      },
+      {
+        heading: "Why runners think in pace, not just speed",
+        paragraphs: [
+          "Pace (time per unit distance) is often more intuitive for runners than speed, since race splits, training plans and course markers are usually given in distance, so knowing 'how many minutes per kilometer' directly tells you what each split should look like, without needing to convert from a speed figure first.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I use this to plan a race split?",
+        answer: "Enter your target distance and desired finish time to get your required pace per km or mile, then use that pace to check your progress against course markers or splits during the race.",
+      },
+      {
+        question: "Why are both km and mile paces shown?",
+        answer: "Races and training plans use different units depending on region and personal preference, showing both avoids needing a separate conversion step.",
+      },
+      {
+        question: "Can I use this for walking or cycling too?",
+        answer: "Yes, the pace and speed math is the same regardless of activity, though for cycling, speed (km/h or mph) is typically the more commonly used figure rather than pace.",
+      },
+    ],
+    relatedSlugs: ["walking-calories-calculator", "calories-burned-calculator", "target-heart-rate-calculator"],
+  },
+  {
+    slug: "walking-calories-calculator",
+    category: "health",
+    title: "Walking Calories Calculator",
+    shortDescription: "Calculate calories burned walking, with a MET value that adjusts to your actual pace.",
+    metaDescription: "Free online walking calories calculator that estimates calories burned from distance and time, using a MET value that adjusts to your actual walking pace.",
+    h1: "Walking Calories Calculator",
+    intro: "Calculate calories burned from a walk, using your actual pace (derived from distance and time) to select a more accurate MET value than a generic flat estimate.",
+    icon: "🚶",
+    status: "live",
+    inputFields: [
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+      { key: "distanceKm", label: "Distance Walked (km)", type: "number", step: 0.1, placeholder: "e.g. 3" },
+      { key: "durationMinutes", label: "Duration (minutes)", type: "number", step: 1, placeholder: "e.g. 40" },
+    ],
+    resultFields: [
+      { key: "caloriesBurned", label: "Calories Burned", unit: "kcal", highlight: true },
+      { key: "averageSpeedKmh", label: "Average Speed", unit: "km/h" },
+      { key: "metUsed", label: "MET Value Used" },
+    ],
+    calculate: (inputs) => {
+      const weightKg = Number(inputs.weightKg);
+      const distanceKm = Number(inputs.distanceKm);
+      const durationMinutes = Number(inputs.durationMinutes);
+      const output = calculateWalkingCalories(weightKg, distanceKm, durationMinutes);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Why walking pace changes the calorie estimate",
+        paragraphs: [
+          "Walking's metabolic demand varies meaningfully with speed, a slow stroll and brisk power walking are quite different in energy cost, even over the same distance and duration category. This calculator first works out your average speed from the distance and time you provide, then selects a MET (Metabolic Equivalent of Task) value that matches that specific pace: roughly 2.0 for under 2 mph, 2.8 for 2-3 mph, 3.5 for 3-4 mph, 5.0 for 4-4.5 mph, and 7.0 for brisk power walking above 4.5 mph.",
+        ],
+      },
+      {
+        heading: "How this differs from our general Calories Burned Calculator",
+        paragraphs: [
+          "Our general Calories Burned Calculator applies one fixed MET value to 'walking' regardless of how fast you actually walked, since it's built for quickly comparing many different activity types. This calculator is purpose-built for walking specifically, deriving your actual pace from distance and time so the MET value, and therefore the calorie estimate, reflects your real effort rather than an average assumption.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why do I enter distance and time instead of just picking a pace?",
+        answer: "Deriving your speed from the distance you actually walked and the time it took gives a more precise result than picking from a rough pace category, and it's usually easier to know how far you walked and how long it took than to know your exact pace.",
+      },
+      {
+        question: "Does terrain or incline affect the estimate?",
+        answer: "No, this calculator assumes flat, level walking. Walking uphill, on sand, or on other challenging terrain burns more calories than the flat-ground MET values used here suggest.",
+      },
+      {
+        question: "Is this more accurate than the general Calories Burned Calculator for walking specifically?",
+        answer: "Yes, for walking specifically, since it adjusts the MET value to your actual measured pace rather than using one fixed value for all walking regardless of speed.",
+      },
+    ],
+    relatedSlugs: ["calories-burned-calculator", "running-pace-calculator", "bmr-calculator"],
+  },
+  {
+    slug: "bac-calculator",
+    category: "health",
+    title: "BAC Calculator",
+    shortDescription: "Estimate blood alcohol concentration using the Widmark formula.",
+    metaDescription: "Free online BAC (blood alcohol concentration) calculator using the Widmark formula, based on drinks consumed, body weight and time elapsed.",
+    h1: "BAC Calculator",
+    intro: "Estimate blood alcohol concentration (BAC) using the Widmark formula, based on drinks consumed, body weight, gender, and time elapsed since drinking began.",
+    icon: "🍷",
+    status: "live",
+    inputFields: [
+      {
+        key: "gender",
+        label: "Gender",
+        type: "select",
+        options: [
+          { label: "Male", value: "male" },
+          { label: "Female", value: "female" },
+        ],
+      },
+      { key: "weightKg", label: "Body Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 75" },
+      { key: "numberOfDrinks", label: "Number of Standard Drinks", type: "number", step: 0.5, placeholder: "e.g. 3" },
+      { key: "gramsPerDrink", label: "Grams of Alcohol per Drink", type: "number", step: 0.1, defaultValue: 14 },
+      { key: "hoursElapsed", label: "Hours Since First Drink", type: "number", step: 0.1, placeholder: "e.g. 2" },
+    ],
+    resultFields: [
+      { key: "bacPercent", label: "Estimated BAC", unit: "%", highlight: true },
+      { key: "impairmentLevel", label: "Estimated Impairment Level", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as BacGender;
+      const weightKg = Number(inputs.weightKg);
+      const numberOfDrinks = Number(inputs.numberOfDrinks);
+      const gramsPerDrink = Number(inputs.gramsPerDrink ?? 14);
+      const hoursElapsed = Number(inputs.hoursElapsed);
+      const output = calculateBac(gender, weightKg, numberOfDrinks, gramsPerDrink, hoursElapsed);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The Widmark formula",
+        paragraphs: [
+          "This calculator uses the Widmark formula, a standard method for estimating BAC: BAC = (total alcohol consumed in grams ÷ (body weight in grams × distribution ratio)) × 100, minus the alcohol eliminated over time at a typical average rate of about 0.015% per hour. The distribution ratio (0.68 for men, 0.55 for women, on average) reflects that alcohol distributes through body water, and body water proportion differs between sexes on average.",
+          "A standard drink is commonly defined as containing about 14 grams of pure alcohol (roughly a 12 oz beer, a 5 oz glass of wine, or a 1.5 oz shot of spirits in the US), adjustable if you're measuring differently.",
+        ],
+      },
+      {
+        heading: "Important safety note",
+        paragraphs: [
+          "This calculator provides a rough mathematical estimate only. Actual BAC is affected by many factors this formula cannot fully account for, including food intake, drinking rate, medications, individual metabolism, and body composition, and it is not a reliable way to determine whether it's safe for you or anyone else to drive or perform other tasks requiring sobriety. Never use this or any BAC estimate as the basis for deciding to drive; when in doubt, don't.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this calculator accurate enough to decide if I can drive?",
+        answer: "No. This is a rough estimate for educational purposes only, individual factors can cause your actual BAC to differ meaningfully from this estimate. Never use a BAC calculator, this one or any other, to decide whether it's safe to drive.",
+      },
+      {
+        question: "What counts as a 'standard drink'?",
+        answer: "In the US, a standard drink is generally defined as about 14 grams of pure alcohol, roughly a 12 oz regular beer, a 5 oz glass of wine, or a 1.5 oz shot of distilled spirits. This can be adjusted in the calculator if your drinks are stronger, weaker, or a different size.",
+      },
+      {
+        question: "Why does gender affect the estimate?",
+        answer: "The Widmark formula's distribution ratio reflects average differences in body water percentage between men and women, which affects how alcohol distributes through the body, though individual variation within each gender is significant.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "lean-body-mass-calculator", "bmr-calculator"],
+  },
+  {
+    slug: "pregnancy-weight-gain-calculator",
+    category: "health",
+    title: "Pregnancy Weight Gain Calculator",
+    shortDescription: "See the recommended pregnancy weight gain range based on your pre-pregnancy BMI.",
+    metaDescription: "Free online pregnancy weight gain calculator based on IOM guidelines, showing recommended total weight gain range from your pre-pregnancy BMI.",
+    h1: "Pregnancy Weight Gain Calculator",
+    intro: "See your recommended total pregnancy weight gain range based on your pre-pregnancy BMI, following Institute of Medicine (IOM) guidelines, plus a recommended gain-to-date if you enter your current week.",
+    icon: "🤰",
+    status: "live",
+    inputFields: [
+      { key: "prePregnancyHeightCm", label: "Pre-Pregnancy Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 165" },
+      { key: "prePregnancyWeightKg", label: "Pre-Pregnancy Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 62" },
+      { key: "currentWeek", label: "Current Week of Pregnancy (optional)", type: "number", step: 1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "prePregnancyBmi", label: "Pre-Pregnancy BMI" },
+      { key: "bmiCategory", label: "BMI Category" },
+      { key: "totalGainMinKg", label: "Recommended Total Gain (Min)", unit: "kg", highlight: true },
+      { key: "totalGainMaxKg", label: "Recommended Total Gain (Max)", unit: "kg", highlight: true },
+      { key: "recommendedToDateMinKg", label: "Recommended Gain to Date (Min)", unit: "kg" },
+      { key: "recommendedToDateMaxKg", label: "Recommended Gain to Date (Max)", unit: "kg" },
+    ],
+    calculate: (inputs) => {
+      const prePregnancyHeightCm = Number(inputs.prePregnancyHeightCm);
+      const prePregnancyWeightKg = Number(inputs.prePregnancyWeightKg);
+      const currentWeek = Number(inputs.currentWeek ?? 0);
+      const output = calculatePregnancyWeightGain(prePregnancyHeightCm, prePregnancyWeightKg, currentWeek);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "IOM recommended weight gain ranges",
+        paragraphs: [
+          "The Institute of Medicine (IOM) recommends total pregnancy weight gain ranges based on pre-pregnancy BMI category: 12.5-18 kg for underweight, 11.5-16 kg for normal weight, 7-11.5 kg for overweight, and 5-9 kg for obese. These ranges reflect that starting from a higher pre-pregnancy weight generally calls for less additional gain, since existing energy reserves are already greater.",
+        ],
+      },
+      {
+        heading: "How gain-to-date is estimated",
+        paragraphs: [
+          "If you enter your current week, this calculator estimates a recommended gain-to-date by applying a small, roughly consistent first-trimester gain (about 0.5-2 kg, regardless of BMI category, following common guidance) and then spreading the remainder of your recommended total gain evenly across the following weeks. This is a simplified linear approximation, actual recommended gain per week can vary somewhat by trimester and individual circumstances, so use it as a general guide rather than an exact target.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my actual weight gain is outside the recommended range?",
+        answer: "Individual circumstances vary significantly, and this calculator provides general population-level guidance, not personalized medical advice. Discuss your specific weight gain with your healthcare provider, who can account for your full medical history and any pregnancy-specific factors.",
+      },
+      {
+        question: "Why does pre-pregnancy BMI affect the recommended gain?",
+        answer: "Starting pre-pregnancy weight relates to existing energy reserves and metabolic factors, which is why IOM guidelines recommend less additional weight gain for those starting at a higher BMI, and more for those starting underweight, to support a healthy pregnancy outcome in each case.",
+      },
+      {
+        question: "Does this account for twins or multiple pregnancies?",
+        answer: "No, these ranges are based on IOM guidance for a single pregnancy. Recommended gain for twins or other multiples is generally higher and should be discussed directly with your healthcare provider.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "pregnancy-week-calculator", "pregnancy-due-date-calculator"],
+  },
+  {
+    slug: "pregnancy-week-calculator",
+    category: "health",
+    title: "Pregnancy Week Calculator",
+    shortDescription: "Find your current pregnancy week and trimester from either your LMP or your due date.",
+    metaDescription: "Free online pregnancy week calculator to find your current week, day and trimester of pregnancy, starting from either your last period or a known due date.",
+    h1: "Pregnancy Week Calculator",
+    intro: "Find out what week and day of pregnancy you're currently in, and which trimester, starting from either your last menstrual period or an already-known due date.",
+    icon: "📆",
+    status: "live",
+    inputFields: [
+      {
+        key: "mode",
+        label: "I know my...",
+        type: "select",
+        options: [
+          { label: "Last Menstrual Period (LMP) Date", value: "lmp" },
+          { label: "Due Date", value: "dueDate" },
+        ],
+      },
+      { key: "date", label: "Date", type: "date" },
+    ],
+    resultFields: [
+      { key: "currentWeek", label: "Current Week", highlight: true },
+      { key: "currentDay", label: "Current Day" },
+      { key: "trimester", label: "Trimester", highlight: true },
+      { key: "weeksRemaining", label: "Weeks Remaining (approx.)" },
+      { key: "dueDate", label: "Due Date" },
+    ],
+    calculate: (inputs) => {
+      const mode = String(inputs.mode) as PregnancyInputMode;
+      const date = String(inputs.date ?? "");
+      const output = calculatePregnancyWeek(mode, date);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Tracking your current week from either starting point",
+        paragraphs: [
+          "Pregnancy is conventionally tracked from the first day of your last menstrual period (LMP), even though conception happens roughly two weeks later, this is the standard medical convention. If you know your LMP date, this calculator adds 280 days (40 weeks) to estimate your due date. If instead you only know your due date, perhaps given by a doctor or from an ultrasound, this calculator works backward, subtracting 280 days to estimate your LMP, then calculates your current week, day and trimester the same way either way.",
+        ],
+      },
+      {
+        heading: "How this differs from our other pregnancy calculators",
+        paragraphs: [
+          "This calculator is focused on 'what week am I in right now', supporting either an LMP or due date starting point. Our Pregnancy Due Date Calculator only accepts an LMP date directly. Our Due Date Reverse Calculator, meanwhile, is a pure reference tool: given a due date, it reconstructs your estimated LMP, conception date and trimester start dates without referencing today's date at all, useful for looking up your full timeline rather than tracking current progress.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why would I enter a due date instead of my LMP?",
+        answer: "Not everyone tracks their exact LMP date precisely, or your due date may have been adjusted by an early ultrasound, which is often considered more accurate than LMP-based dating alone. Entering your known due date directly lets you skip needing an exact LMP date.",
+      },
+      {
+        question: "Are weeks remaining exact?",
+        answer: "It's an approximation based on a standard 40-week (280-day) full term. Actual delivery timing varies, most healthy pregnancies deliver somewhere between 37 and 42 weeks.",
+      },
+      {
+        question: "Which trimester am I in?",
+        answer: "This calculator uses the common convention of weeks 1-13 as the first trimester, 14-26 as the second, and 27 onward as the third, though exact boundaries are sometimes defined slightly differently between sources.",
+      },
+    ],
+    relatedSlugs: ["pregnancy-due-date-calculator", "due-date-reverse-calculator", "pregnancy-weight-gain-calculator"],
+  },
+  {
+    slug: "due-date-reverse-calculator",
+    category: "health",
+    title: "Due Date Reverse Calculator",
+    shortDescription: "Work backward from a due date to estimate your LMP, conception date and trimester start dates.",
+    metaDescription: "Free online due date reverse calculator to estimate your last menstrual period, conception date, and second and third trimester start dates from a known due date.",
+    h1: "Due Date Reverse Calculator",
+    intro: "Work backward from a known due date to estimate your last menstrual period date, conception date, and when your second and third trimesters started or will start.",
+    icon: "🔙",
+    status: "live",
+    inputFields: [
+      { key: "dueDate", label: "Due Date", type: "date" },
+    ],
+    resultFields: [
+      { key: "estimatedLmpDate", label: "Estimated Last Menstrual Period", highlight: true },
+      { key: "estimatedConceptionDate", label: "Estimated Conception Date", highlight: true },
+      { key: "trimester2StartDate", label: "2nd Trimester Start (approx.)" },
+      { key: "trimester3StartDate", label: "3rd Trimester Start (approx.)" },
+    ],
+    calculate: (inputs) => {
+      const dueDate = String(inputs.dueDate ?? "");
+      const output = calculateDueDateReverse(dueDate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Working backward from a due date",
+        paragraphs: [
+          "Due dates are conventionally calculated as 280 days (40 weeks) after the last menstrual period (LMP), so this calculator reverses that: subtracting 280 days from your due date to estimate your LMP. From there, it adds roughly 14 typical days to estimate a conception date, and adds 13 and 27 weeks respectively to estimate when the second and third trimesters began or will begin.",
+        ],
+      },
+      {
+        heading: "A reference tool, not a week-by-week tracker",
+        paragraphs: [
+          "Unlike our Pregnancy Week Calculator, this tool doesn't reference today's date at all, it's purely a reconstruction of your estimated pregnancy timeline from a single known due date. This is useful right after receiving a due date from a doctor or ultrasound and wanting to see the full estimated timeline at once, rather than tracking ongoing weekly progress.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why would I need to work backward from a due date?",
+        answer: "If your due date came from an ultrasound rather than your own LMP tracking (common, and often considered more accurate, especially with irregular cycles), you may not have an exact LMP date on hand, this calculator reconstructs an estimate from the due date instead.",
+      },
+      {
+        question: "How accurate is the estimated conception date?",
+        answer: "It's a typical estimate assuming conception occurred about 14 days after LMP, which is standard for an average cycle, but actual ovulation timing varies by individual and cycle, so treat this as an approximation.",
+      },
+      {
+        question: "Is this the same as the Pregnancy Week Calculator's due date mode?",
+        answer: "They share the same underlying 280-day math, but this calculator focuses on reconstructing your full estimated timeline (LMP, conception, trimester start dates) as a reference, while the Pregnancy Week Calculator focuses on your current week, day and trimester relative to today.",
+      },
+    ],
+    relatedSlugs: ["pregnancy-week-calculator", "pregnancy-due-date-calculator", "fertility-window-calculator"],
+  },
+  {
+    slug: "fertility-window-calculator",
+    category: "health",
+    title: "Fertility Window Calculator",
+    shortDescription: "Estimate your fertile window using the calendar method, accounting for cycle-length variability.",
+    metaDescription: "Free online fertility window calculator using the calendar (rhythm) method, based on your shortest and longest recent cycle length rather than a single average.",
+    h1: "Fertility Window Calculator",
+    intro: "Estimate your fertile window using the calendar (rhythm) method, which accounts for cycle-length variability by using your shortest and longest cycle over recent months.",
+    icon: "🌸",
+    status: "live",
+    inputFields: [
+      { key: "lastPeriodDate", label: "Start Date of Last Period", type: "date" },
+      { key: "shortestCycle", label: "Shortest Cycle Length (last 6-12 months, days)", type: "number", step: 1, placeholder: "e.g. 26" },
+      { key: "longestCycle", label: "Longest Cycle Length (last 6-12 months, days)", type: "number", step: 1, placeholder: "e.g. 31" },
+    ],
+    resultFields: [
+      { key: "fertileWindowStart", label: "Fertile Window Start", highlight: true },
+      { key: "fertileWindowEnd", label: "Fertile Window End", highlight: true },
+      { key: "earliestOvulationEstimate", label: "Earliest Estimated Ovulation" },
+      { key: "latestOvulationEstimate", label: "Latest Estimated Ovulation" },
+    ],
+    calculate: (inputs) => {
+      const lastPeriodDate = String(inputs.lastPeriodDate ?? "");
+      const shortestCycle = Number(inputs.shortestCycle);
+      const longestCycle = Number(inputs.longestCycle);
+      const output = calculateFertilityWindow(lastPeriodDate, shortestCycle, longestCycle);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The calendar (rhythm) method",
+        paragraphs: [
+          "This calculator uses the calendar method, a well-established approach for estimating a fertile window when cycles vary in length: fertile window start = last period start date + (shortest recent cycle − 18 days), and fertile window end = last period start date + (longest recent cycle − 11 days). Using your shortest and longest cycle from the past 6-12 months, rather than a single average cycle length, widens the estimated window to account for month-to-month variability.",
+        ],
+      },
+      {
+        heading: "How this differs from our Ovulation Calculator",
+        paragraphs: [
+          "Our Ovulation Calculator projects a fertile window from a single average cycle length, which works well for people with fairly regular cycles. This calculator instead uses your shortest and longest cycle over recent months, generally considered a more robust approach for people whose cycle length varies noticeably, since it produces a wider, more conservative estimated window rather than assuming every cycle behaves like the average one.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why do I need both a shortest and longest cycle length?",
+        answer: "Using a range instead of a single average cycle length accounts for natural month-to-month variability in your cycle, giving a wider but more reliable fertile window estimate, particularly useful if your cycles aren't highly consistent in length.",
+      },
+      {
+        question: "How many months of cycle data should I use?",
+        answer: "Typically the calendar method recommends looking at your 6 to 12 most recent cycles to identify your genuine shortest and longest, using fewer cycles risks missing your actual range of variability.",
+      },
+      {
+        question: "Is the calendar method as accurate as ovulation predictor kits?",
+        answer: "Generally no, ovulation predictor kits (which detect a hormone surge directly) or basal body temperature tracking tend to be more precise for a given cycle. The calendar method is a useful planning estimate based on your historical pattern, not a direct real-time measurement.",
+      },
+    ],
+    relatedSlugs: ["ovulation-calculator", "pregnancy-due-date-calculator", "due-date-reverse-calculator"],
   },
 ];
 
