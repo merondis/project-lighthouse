@@ -103,6 +103,13 @@ import { calculateRule72, Rule72Mode } from "@/utils/calculators/rule-of-72-calc
 import { calculateLease } from "@/utils/calculators/lease-calculator";
 import { calculateStudentLoan } from "@/utils/calculators/student-loan-calculator";
 import { calculate401k } from "@/utils/calculators/401k-calculator";
+import { calculateRothIra } from "@/utils/calculators/roth-ira-calculator";
+import { calculateFire } from "@/utils/calculators/fire-calculator";
+import { calculateInflationAdjustedSalary } from "@/utils/calculators/inflation-adjusted-salary-calculator";
+import { calculateSavingsInterest } from "@/utils/calculators/savings-interest-calculator";
+import { calculateAnnualIncome, PayFrequency } from "@/utils/calculators/annual-income-calculator";
+import { calculateHourlyWage } from "@/utils/calculators/hourly-wage-calculator";
+import { calculateCommission } from "@/utils/calculators/commission-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -6686,6 +6693,466 @@ explanation: [
       },
     ],
     relatedSlugs: ["retirement-calculator", "compound-interest-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "roth-ira-calculator",
+    category: "finance",
+    title: "Roth IRA Calculator",
+    shortDescription: "Project your tax-free Roth IRA balance and see its advantage over a taxable account.",
+    metaDescription: "Free online Roth IRA calculator to project your tax-free retirement balance, and compare it against an equivalent taxable investment account.",
+    h1: "Roth IRA Calculator",
+    intro: "Project your Roth IRA balance at retirement based on your current balance, annual contribution, and expected return, and see how much tax-free growth is worth compared to a taxable account.",
+    icon: "🌱",
+    status: "live",
+    inputFields: [
+      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "retirementAge", label: "Retirement Age", type: "number", step: 1, placeholder: "e.g. 65" },
+      { key: "currentBalance", label: "Current Roth IRA Balance", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "annualContribution", label: "Annual Contribution", type: "number", step: 0.01, placeholder: "e.g. 7000" },
+      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
+      { key: "comparisonTaxRate", label: "Comparison Tax Rate (%, for taxable account)", type: "number", step: 0.1, defaultValue: 15 },
+    ],
+    resultFields: [
+      { key: "rothBalance", label: "Roth IRA Balance (Tax-Free)", highlight: true },
+      { key: "totalContributions", label: "Total Contributions" },
+      { key: "totalGrowth", label: "Total Growth" },
+      { key: "taxableAccountBalance", label: "Equivalent Taxable Account Balance" },
+      { key: "taxFreeAdvantage", label: "Tax-Free Advantage", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const currentAge = Number(inputs.currentAge);
+      const retirementAge = Number(inputs.retirementAge);
+      const currentBalance = Number(inputs.currentBalance ?? 0);
+      const annualContribution = Number(inputs.annualContribution);
+      const expectedReturn = Number(inputs.expectedReturn);
+      const comparisonTaxRate = Number(inputs.comparisonTaxRate ?? 0);
+      const output = calculateRothIra(currentAge, retirementAge, currentBalance, annualContribution, expectedReturn, comparisonTaxRate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Why a Roth IRA grows differently than a taxable account",
+        paragraphs: [
+          "Roth IRA contributions are made with money you've already paid tax on, but in exchange, all future growth and qualified withdrawals in retirement are completely tax-free. A regular taxable investment or savings account, by contrast, typically owes tax on investment gains along the way, which quietly reduces the amount left to keep compounding.",
+          "This calculator projects your Roth IRA balance month by month, and runs a side-by-side simulation of an equivalent taxable account making identical contributions and earning the identical return, but paying tax annually on its gains at the rate you enter. The difference between the two, the 'tax-free advantage', shows concretely what that tax-free treatment is worth in dollar terms by the time you retire.",
+        ],
+      },
+      {
+        heading: "A few simplifying assumptions",
+        paragraphs: [
+          "This calculator doesn't enforce the IRS annual Roth IRA contribution limit, which changes periodically and depends on your income and filing status, so make sure your entered annual contribution reflects your actual allowed limit. It also assumes the taxable comparison account is taxed annually on gains realized that year, a simplification of how many taxable accounts (like a brokerage account you don't actively sell in) actually work in practice.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the real advantage of a Roth IRA over a taxable account?",
+        answer: "Both accounts can hold similar investments, but a Roth IRA's growth and qualified withdrawals are entirely tax-free, while a taxable account generally owes tax on dividends, interest and realized gains along the way, which reduces the amount available to keep compounding over time.",
+      },
+      {
+        question: "Does this account for the Roth IRA income limits?",
+        answer: "No, Roth IRA eligibility phases out above certain income levels, which vary by filing status and change periodically. Check current IRS rules to confirm you're eligible to contribute the amount you enter.",
+      },
+      {
+        question: "What tax rate should I use for the comparison account?",
+        answer: "Use your expected effective tax rate on investment gains and income, which depends on your tax bracket and the mix of dividends, interest and capital gains the comparison account would generate. The default of 15% approximates a common long-term capital gains rate, but adjust it to fit your situation.",
+      },
+    ],
+    relatedSlugs: ["401k-calculator", "compound-interest-calculator", "savings-interest-calculator"],
+  },
+  {
+    slug: "fire-calculator",
+    category: "finance",
+    title: "FIRE Calculator",
+    shortDescription: "Calculate your FIRE number and how many years until you can retire early.",
+    metaDescription: "Free online FIRE calculator (Financial Independence, Retire Early) to calculate your FIRE number and how many years it will take to reach it.",
+    h1: "FIRE Calculator",
+    intro: "Calculate your FIRE (Financial Independence, Retire Early) number based on your annual expenses and withdrawal rate, and see how many years it will take to reach it given your current savings and contributions.",
+    icon: "🔥",
+    status: "live",
+    inputFields: [
+      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 28" },
+      { key: "currentSavings", label: "Current Investable Savings", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "monthlyContribution", label: "Monthly Contribution", type: "number", step: 0.01, placeholder: "e.g. 2000" },
+      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
+      { key: "annualExpenses", label: "Desired Annual Expenses in Retirement", type: "number", step: 0.01, placeholder: "e.g. 40000" },
+      { key: "withdrawalRate", label: "Safe Withdrawal Rate (%)", type: "number", step: 0.1, defaultValue: 4 },
+    ],
+    resultFields: [
+      { key: "fireNumber", label: "Your FIRE Number", highlight: true },
+      { key: "yearsToFire", label: "Years to FIRE", highlight: true },
+      { key: "ageAtFire", label: "Age at FIRE" },
+      { key: "projectedBalanceAtFire", label: "Projected Balance at FIRE" },
+      { key: "totalContributions", label: "Total Contributions Along the Way" },
+      { key: "totalGrowth", label: "Total Investment Growth" },
+    ],
+    calculate: (inputs) => {
+      const currentAge = Number(inputs.currentAge);
+      const currentSavings = Number(inputs.currentSavings ?? 0);
+      const monthlyContribution = Number(inputs.monthlyContribution);
+      const expectedReturn = Number(inputs.expectedReturn);
+      const annualExpenses = Number(inputs.annualExpenses);
+      const withdrawalRate = Number(inputs.withdrawalRate ?? 4);
+      const output = calculateFire(currentAge, currentSavings, monthlyContribution, expectedReturn, annualExpenses, withdrawalRate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What a FIRE number is and how it's calculated",
+        paragraphs: [
+          "Your FIRE number is the portfolio size that can sustainably fund your desired annual expenses using a fixed withdrawal rate, commonly 4%, sometimes called the '25x rule' since dividing by 4% is the same as multiplying by 25. The formula is: FIRE Number = Annual Expenses ÷ (Withdrawal Rate ÷ 100).",
+          "For example, if you want 40,000 a year in retirement and plan to withdraw 4% annually, your FIRE number is 40,000 ÷ 0.04 = 1,000,000. This calculator then simulates your current savings and monthly contributions growing at your expected return, month by month, until that target is reached.",
+        ],
+      },
+      {
+        heading: "Why this differs from a standard retirement calculator",
+        paragraphs: [
+          "A standard retirement calculator typically asks for a fixed retirement age and tells you the corpus you'd have by then. A FIRE calculator flips the question: it starts from a target amount (based on your actual desired spending) and solves for how long it takes to get there, which may be well before a traditional retirement age, the entire premise behind 'retire early'.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why 4% as a default withdrawal rate?",
+        answer: "The 4% rule comes from historical research (the Trinity Study) suggesting a 4% initial withdrawal, adjusted for inflation each year, had a high historical success rate over a 30-year retirement. Some in the FIRE community use a more conservative 3% to 3.5% for longer retirement horizons, since retiring early means the money needs to last longer.",
+      },
+      {
+        question: "What if my FIRE number isn't reachable within 100 years?",
+        answer: "This calculator will let you know if that happens, which usually means your savings rate or expected return is too low relative to your target expenses. Try increasing your monthly contribution, lowering your desired annual expenses, or revisiting your expected return assumption.",
+      },
+      {
+        question: "Does this account for taxes or investment fees?",
+        answer: "No, this calculator uses your entered expected annual return as a net figure. If your actual returns will be reduced by fees or taxes on gains, use a lower expected return to get a more realistic estimate.",
+      },
+    ],
+    relatedSlugs: ["retirement-calculator", "401k-calculator", "savings-goal-calculator"],
+  },
+  {
+    slug: "inflation-adjusted-salary-calculator",
+    category: "finance",
+    title: "Inflation Adjusted Salary Calculator",
+    shortDescription: "See what an old salary is worth today, and whether a raise actually outpaced inflation.",
+    metaDescription: "Free online inflation adjusted salary calculator to see what a past salary is worth in today's dollars, and whether a raise kept pace with inflation.",
+    h1: "Inflation Adjusted Salary Calculator",
+    intro: "Find out what an old salary is worth in today's dollars after inflation, and, if you enter a new salary, see whether your raise actually increased your purchasing power or just kept pace with rising prices.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "oldSalary", label: "Old Salary", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+      { key: "newSalary", label: "New Salary (optional, to compare)", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "years", label: "Years Elapsed", type: "number", step: 0.5, placeholder: "e.g. 5" },
+      { key: "inflationRate", label: "Average Annual Inflation Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 3.5" },
+    ],
+    resultFields: [
+      { key: "inflationAdjustedOldSalary", label: "Old Salary in Today's Dollars", highlight: true },
+      { key: "purchasingPowerChangePercent", label: "Purchasing Power Change Needed", unit: "%" },
+      { key: "nominalChangePercent", label: "Nominal Raise (Not Inflation-Adjusted)" },
+      { key: "realChangePercent", label: "Real Raise (Inflation-Adjusted)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const oldSalary = Number(inputs.oldSalary);
+      const newSalary = Number(inputs.newSalary ?? 0);
+      const years = Number(inputs.years);
+      const inflationRate = Number(inputs.inflationRate);
+      const output = calculateInflationAdjustedSalary(oldSalary, newSalary, years, inflationRate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Old salary in today's dollars",
+        paragraphs: [
+          "To find out what a past salary is worth today, this calculator inflates it forward: Inflation-Adjusted Salary = Old Salary × (1 + Inflation Rate ÷ 100)^Years. This tells you the salary you'd need today to have the same purchasing power the old salary had back then.",
+        ],
+      },
+      {
+        heading: "Real raise vs nominal raise",
+        paragraphs: [
+          "If you also enter a new (current) salary, this calculator splits your raise into two figures. The nominal change is the plain percentage difference between your old and new salary, the number that shows up on paper. The real change compares your new salary against the inflation-adjusted old salary instead, telling you whether your raise actually increased what you can afford to buy, or merely kept up with (or fell behind) rising prices.",
+          "For example, a 20% nominal raise sounds solid, but if inflation over the same period was also close to 20%, your real, purchasing-power-adjusted raise could be close to zero.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is my real raise smaller than my nominal raise?",
+        answer: "Because inflation raises the cost of everything you buy over the same period. Your nominal raise is the plain percentage increase in your paycheck, while your real raise accounts for the fact that money from your old salary now buys less than it used to, giving a more accurate picture of whether you're actually better off.",
+      },
+      {
+        question: "What inflation rate should I use?",
+        answer: "A common approach is to use the average annual inflation rate (such as CPI) for your country over the relevant period, available from your national statistics agency. For a rough estimate, historical long-run averages are often in the 2% to 4% range for many developed economies, though this varies significantly by country and time period.",
+      },
+      {
+        question: "Do I need to enter a new salary?",
+        answer: "No, it's optional. Leave it blank or at 0 to simply see what your old salary is worth in today's dollars, without comparing it to a specific new salary.",
+      },
+    ],
+    relatedSlugs: ["inflation-calculator", "salary-calculator", "cagr-calculator"],
+  },
+  {
+    slug: "savings-interest-calculator",
+    category: "finance",
+    title: "Savings Interest Calculator",
+    shortDescription: "Project your savings account balance including monthly deposits and tax on interest earned.",
+    metaDescription: "Free online savings interest calculator to project your savings account balance over time, including monthly deposits and tax owed on interest earned.",
+    h1: "Savings Interest Calculator",
+    intro: "Project how your savings account balance grows over time with monthly deposits and compound interest, including an optional tax rate applied to interest earned each year.",
+    icon: "💵",
+    status: "live",
+    inputFields: [
+      { key: "initialDeposit", label: "Initial Deposit", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "monthlyDeposit", label: "Monthly Deposit (optional)", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 4.5" },
+      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 5" },
+      { key: "taxRate", label: "Tax Rate on Interest (%, optional)", type: "number", step: 0.1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "endingBalance", label: "Ending Balance", highlight: true },
+      { key: "totalContributions", label: "Total Contributions" },
+      { key: "totalInterestEarned", label: "Total Interest Earned (Before Tax)" },
+      { key: "totalTaxPaid", label: "Total Tax Paid on Interest" },
+      { key: "netInterestAfterTax", label: "Net Interest (After Tax)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const initialDeposit = Number(inputs.initialDeposit);
+      const monthlyDeposit = Number(inputs.monthlyDeposit ?? 0);
+      const annualRate = Number(inputs.annualRate);
+      const years = Number(inputs.years);
+      const taxRate = Number(inputs.taxRate ?? 0);
+      const output = calculateSavingsInterest(initialDeposit, monthlyDeposit, annualRate, years, taxRate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this models a real savings account",
+        paragraphs: [
+          "This calculator compounds interest monthly on your initial deposit plus any ongoing monthly deposits, similar to a typical high-yield savings account or CD. What sets it apart from a plain compound interest projection is the optional tax rate: interest earned in a regular taxable savings account is generally taxed as ordinary income in the year it's earned, unlike growth inside a tax-advantaged retirement account, so this calculator applies your tax rate to the interest earned each year and reduces the balance accordingly before it continues compounding.",
+        ],
+      },
+      {
+        heading: "Why after-tax interest matters",
+        paragraphs: [
+          "The 'net interest after tax' figure is the more realistic number for comparing a taxable savings account to tax-advantaged alternatives, since the advertised interest rate on a savings account is always pre-tax. If you're deciding between a taxable savings account and something like a Roth IRA for money you don't need immediate access to, comparing after-tax outcomes gives a fairer picture.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do I need to enter a tax rate?",
+        answer: "No, it's optional. Leave it at 0 to see a straightforward pre-tax compound interest projection. Enter your marginal tax rate on interest income if you want to see the more realistic after-tax outcome.",
+      },
+      {
+        question: "How is the tax actually applied?",
+        answer: "Once a year, this calculator checks how much interest was earned since the last tax calculation, applies your tax rate to that amount, and deducts the tax owed from the balance, a simplified assumption that tax is paid directly out of the account rather than from other funds.",
+      },
+      {
+        question: "How is this different from the Compound Interest Calculator?",
+        answer: "The Compound Interest Calculator projects growth on a single lump sum with no ongoing deposits and no tax. This calculator adds both: optional monthly deposits and an optional annual tax on interest earned, better reflecting an actual savings account you contribute to over time.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "apy-calculator", "roth-ira-calculator"],
+  },
+  {
+    slug: "annual-income-calculator",
+    category: "finance",
+    title: "Annual Income Calculator",
+    shortDescription: "Convert a pay rate at any frequency into its hourly, weekly, monthly and annual equivalents.",
+    metaDescription: "Free online annual income calculator to convert an hourly, daily, weekly, biweekly, monthly or annual pay rate into all other pay frequency equivalents.",
+    h1: "Annual Income Calculator",
+    intro: "Convert a pay rate at any frequency, hourly, daily, weekly, biweekly, semi-monthly, monthly or annual, into its equivalent at every other frequency.",
+    icon: "📅",
+    status: "live",
+    inputFields: [
+      { key: "payRate", label: "Pay Rate", type: "number", step: 0.01, placeholder: "e.g. 25" },
+      {
+        key: "frequency",
+        label: "Pay Frequency",
+        type: "select",
+        options: [
+          { label: "Hourly", value: "hourly" },
+          { label: "Daily", value: "daily" },
+          { label: "Weekly", value: "weekly" },
+          { label: "Biweekly", value: "biweekly" },
+          { label: "Semi-Monthly", value: "semimonthly" },
+          { label: "Monthly", value: "monthly" },
+          { label: "Annually", value: "annually" },
+        ],
+      },
+      { key: "hoursPerWeek", label: "Hours per Week", type: "number", step: 1, defaultValue: 40 },
+      { key: "daysPerWeek", label: "Days per Week", type: "number", step: 1, defaultValue: 5 },
+    ],
+    resultFields: [
+      { key: "hourly", label: "Hourly" },
+      { key: "daily", label: "Daily" },
+      { key: "weekly", label: "Weekly" },
+      { key: "biweekly", label: "Biweekly" },
+      { key: "semiMonthly", label: "Semi-Monthly" },
+      { key: "monthly", label: "Monthly" },
+      { key: "annual", label: "Annual", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const payRate = Number(inputs.payRate);
+      const frequency = String(inputs.frequency) as PayFrequency;
+      const hoursPerWeek = Number(inputs.hoursPerWeek ?? 40);
+      const daysPerWeek = Number(inputs.daysPerWeek ?? 5);
+      const output = calculateAnnualIncome(payRate, frequency, hoursPerWeek, daysPerWeek);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How pay frequency conversion works",
+        paragraphs: [
+          "This calculator first converts whatever pay rate and frequency you enter into a weekly figure, since a week converts cleanly to a year (exactly 52 weeks), then expands that weekly figure back out to every other frequency. Converting to hourly or daily uses your entered hours per week or days per week, since those aren't fixed the way weeks-per-year is.",
+          "Semi-monthly (paid twice a month, 24 pay periods a year) is calculated from the annual figure directly (annual ÷ 24) rather than from weekly, since semi-monthly periods don't line up evenly with weeks, an important distinction from biweekly (paid every two weeks, 26 pay periods a year), which is often confused with semi-monthly but is a different schedule entirely.",
+        ],
+      },
+      {
+        heading: "Biweekly vs semi-monthly: a common mix-up",
+        paragraphs: [
+          "Biweekly means every 2 weeks, 26 paychecks a year, and occasionally 27 in a year with an extra pay period. Semi-monthly means twice a month, always 24 paychecks a year, typically on fixed dates like the 15th and the last day of the month. Because 26 and 24 are different numbers, the same annual salary produces a different per-paycheck amount under each schedule, which is why this calculator treats them as distinct frequencies rather than treating semi-monthly as 'half of biweekly'.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why do I need to enter hours per week and days per week?",
+        answer: "Converting to or from an hourly or daily rate depends on how many hours or days you actually work in a week, which varies by job, so this calculator asks for those instead of assuming a fixed number.",
+      },
+      {
+        question: "Is this the same as the Hourly Wage Calculator?",
+        answer: "No, this calculator converts a known pay rate across frequencies assuming a standard schedule with no overtime. The Hourly Wage Calculator instead builds up a paycheck from an hourly rate and actual hours worked, including overtime pay at a higher rate.",
+      },
+      {
+        question: "Does this account for unpaid time off or holidays?",
+        answer: "No, it assumes you're paid for 52 weeks a year at the schedule you enter. If you have unpaid leave, adjust your inputs accordingly for a more accurate annual figure.",
+      },
+    ],
+    relatedSlugs: ["hourly-wage-calculator", "salary-calculator", "commission-calculator"],
+  },
+  {
+    slug: "hourly-wage-calculator",
+    category: "finance",
+    title: "Hourly Wage Calculator",
+    shortDescription: "Calculate gross pay from an hourly rate, including regular and overtime hours.",
+    metaDescription: "Free online hourly wage calculator to calculate weekly and annual gross pay from an hourly rate, including overtime hours at a higher pay rate.",
+    h1: "Hourly Wage Calculator",
+    intro: "Calculate your gross weekly and annual pay from an hourly rate, including overtime hours paid at a higher rate.",
+    icon: "⏰",
+    status: "live",
+    inputFields: [
+      { key: "hourlyRate", label: "Hourly Rate", type: "number", step: 0.01, placeholder: "e.g. 22" },
+      { key: "regularHours", label: "Regular Hours per Week", type: "number", step: 0.5, defaultValue: 40 },
+      { key: "overtimeHours", label: "Overtime Hours per Week (optional)", type: "number", step: 0.5, defaultValue: 0 },
+      { key: "overtimeMultiplier", label: "Overtime Multiplier", type: "number", step: 0.1, defaultValue: 1.5 },
+      { key: "weeksPerYear", label: "Paid Weeks per Year", type: "number", step: 1, defaultValue: 52 },
+    ],
+    resultFields: [
+      { key: "regularWeeklyPay", label: "Regular Weekly Pay" },
+      { key: "overtimeWeeklyPay", label: "Overtime Weekly Pay" },
+      { key: "totalWeeklyPay", label: "Total Weekly Pay", highlight: true },
+      { key: "annualPay", label: "Annual Pay", highlight: true },
+      { key: "effectiveHourlyRate", label: "Effective Hourly Rate (Blended)" },
+    ],
+    calculate: (inputs) => {
+      const hourlyRate = Number(inputs.hourlyRate);
+      const regularHours = Number(inputs.regularHours ?? 40);
+      const overtimeHours = Number(inputs.overtimeHours ?? 0);
+      const overtimeMultiplier = Number(inputs.overtimeMultiplier ?? 1.5);
+      const weeksPerYear = Number(inputs.weeksPerYear ?? 52);
+      const output = calculateHourlyWage(hourlyRate, regularHours, overtimeHours, overtimeMultiplier, weeksPerYear);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How overtime pay is calculated",
+        paragraphs: [
+          "Overtime pay is calculated by applying a multiplier, commonly 1.5x ('time and a half'), sometimes 2x ('double time'), to your regular hourly rate for hours worked beyond your standard schedule. This calculator adds regular pay (hourly rate × regular hours) and overtime pay (hourly rate × multiplier × overtime hours) to get your total weekly pay, then multiplies by your paid weeks per year for an annual figure.",
+        ],
+      },
+      {
+        heading: "What the effective hourly rate shows",
+        paragraphs: [
+          "The effective hourly rate blends your regular and overtime pay across all hours worked that week, giving you a single average rate. This number is naturally higher than your base hourly rate whenever you work any overtime, and it's a useful figure for comparing total compensation against a job with a different hourly rate but no overtime.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What overtime multiplier should I use?",
+        answer: "1.5x ('time and a half') is the most common overtime rate in many countries for hours beyond a standard threshold (often 40 hours a week). Some situations, like certain holidays or hours beyond a higher threshold, may use 2x ('double time'). Check your local labor law or employment contract for the rate that applies to you.",
+      },
+      {
+        question: "What if I don't work any overtime?",
+        answer: "Leave overtime hours at 0, and this calculator will simply show your regular pay projected weekly and annually, with the effective hourly rate equal to your base hourly rate.",
+      },
+      {
+        question: "Why is paid weeks per year adjustable?",
+        answer: "Not everyone is paid for a full 52 weeks, unpaid leave, seasonal work, or specific contract terms can mean fewer paid weeks. Adjust this figure to get an annual estimate that matches your actual work schedule.",
+      },
+    ],
+    relatedSlugs: ["annual-income-calculator", "salary-calculator", "commission-calculator"],
+  },
+  {
+    slug: "commission-calculator",
+    category: "finance",
+    title: "Commission Calculator",
+    shortDescription: "Calculate sales commission, including an optional bonus rate above a quota threshold.",
+    metaDescription: "Free online commission calculator to calculate total sales commission and earnings, including a base salary and an optional accelerator bonus rate above a quota.",
+    h1: "Commission Calculator",
+    intro: "Calculate your total commission and earnings from sales, including an optional base salary and an accelerator bonus rate that applies to sales above a quota threshold.",
+    icon: "🤝",
+    status: "live",
+    inputFields: [
+      { key: "salesAmount", label: "Total Sales Amount", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+      { key: "commissionRate", label: "Commission Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      { key: "baseSalary", label: "Base Salary (optional)", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "bonusThreshold", label: "Bonus Quota Threshold (optional)", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "bonusRate", label: "Bonus Rate Above Threshold (%, optional)", type: "number", step: 0.01, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "baseCommission", label: "Base Commission" },
+      { key: "bonusCommission", label: "Bonus Commission" },
+      { key: "totalCommission", label: "Total Commission", highlight: true },
+      { key: "totalEarnings", label: "Total Earnings (Salary + Commission)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const salesAmount = Number(inputs.salesAmount);
+      const commissionRate = Number(inputs.commissionRate);
+      const baseSalary = Number(inputs.baseSalary ?? 0);
+      const bonusThreshold = Number(inputs.bonusThreshold ?? 0);
+      const bonusRate = Number(inputs.bonusRate ?? 0);
+      const output = calculateCommission(salesAmount, commissionRate, baseSalary, bonusThreshold, bonusRate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How tiered commission with a bonus threshold works",
+        paragraphs: [
+          "The base commission is simply your total sales multiplied by your commission rate. If you set a bonus quota threshold and a bonus rate, this calculator also applies that higher bonus rate, but only to the portion of your sales that exceeds the threshold, not to your entire sales total. This mirrors common 'accelerator' commission structures, where exceeding a quota is rewarded at a richer rate on just the excess.",
+          "For example, with 5% commission on 50,000 in sales, plus a 10% bonus rate on anything above a 40,000 threshold: base commission is 2,500 (5% of 50,000), and bonus commission is 1,000 (10% of the 10,000 above the threshold), for a total commission of 3,500.",
+        ],
+      },
+      {
+        heading: "Base salary plus commission",
+        paragraphs: [
+          "Many sales roles combine a base salary with commission rather than commission alone. This calculator adds your optional base salary to your total commission to show total earnings for the period, useful for comparing a base-plus-commission offer against a straight commission or salary-only role.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do I need to set a bonus threshold?",
+        answer: "No, it's optional. Leave the bonus threshold and bonus rate at 0 to calculate a simple flat-rate commission with no accelerator tier.",
+      },
+      {
+        question: "Does the bonus rate apply to all sales or just the amount above the threshold?",
+        answer: "Only to the amount above the threshold. Sales up to the threshold earn the base commission rate; only the portion exceeding the threshold earns the additional bonus rate.",
+      },
+      {
+        question: "Can I model multiple tiers with this calculator?",
+        answer: "This calculator supports one threshold and one bonus rate. For commission structures with three or more tiers, you'd need to calculate each tier's contribution separately and add them together.",
+      },
+    ],
+    relatedSlugs: ["hourly-wage-calculator", "annual-income-calculator", "salary-calculator"],
   },
 ];
 
