@@ -105,6 +105,14 @@ export const categories: Category[] = [
     intro:
       "Planning a home improvement or building project usually means figuring out how much material to buy, whether that's bags of concrete, boxes of tile, or gallons of paint. Our construction calculators use standard industry formulas and coverage rates to estimate the materials you'll need, including a waste allowance where it matters, so you can shop with a realistic quantity instead of guessing. These are estimates for planning purposes; always check quantities with your supplier or contractor before a large purchase.",
   },
+  {
+    slug: "automotive",
+    name: "Automotive",
+    icon: "🚗",
+    description: "Fuel economy, EV charging, tire size and car ownership cost calculators.",
+    intro:
+      "Owning and running a vehicle comes with plenty of numbers worth checking, from how far a tank of gas or a full charge will actually take you, to what a car loan really costs each month. Our automotive calculators use standard fuel economy, depreciation and loan formulas to give you a quick, practical answer, whether you're comparing a gas car to an EV, sizing a replacement tire, or figuring out what you can actually afford.",
+  },
 ];
 
 export function getCategory(slug: string) {

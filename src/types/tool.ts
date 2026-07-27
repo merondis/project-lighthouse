@@ -10,7 +10,8 @@ export type ToolCategorySlug =
   | "security"
   | "misc"
   | "math"
-  | "construction";
+  | "construction"
+  | "automotive";
 
 export type ToolStatus = "live" | "comingSoon";
 

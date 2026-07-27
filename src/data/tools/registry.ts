@@ -156,6 +156,11 @@ import { calculateRebar, RebarSize } from "@/utils/calculators/rebar-calculator"
 import { calculateBeamLoad, BeamLoadType } from "@/utils/calculators/beam-load-calculator";
 import { calculateSteelWeight, SteelShape } from "@/utils/calculators/steel-weight-calculator";
 import { calculateLumber } from "@/utils/calculators/lumber-calculator";
+import { calculateFuelEconomy, FuelEconomyDistanceUnit, FuelEconomyVolumeUnit } from "@/utils/calculators/fuel-economy-calculator";
+import { calculateEvChargingCost } from "@/utils/calculators/ev-charging-cost-calculator";
+import { calculateTireSize } from "@/utils/calculators/tire-size-calculator";
+import { calculateVehicleDepreciation } from "@/utils/calculators/vehicle-depreciation-calculator";
+import { calculateCarLoanAffordability } from "@/utils/calculators/car-loan-affordability-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -10226,6 +10231,359 @@ explanation: [
       },
     ],
     relatedSlugs: ["deck-calculator", "fence-calculator", "square-footage-calculator"],
+  },
+  {
+    slug: "fuel-economy-calculator",
+    category: "automotive",
+    title: "Fuel Economy Calculator",
+    shortDescription: "Calculate fuel economy in MPG (US/UK), L/100km and km/L.",
+    metaDescription: "Free online fuel economy calculator to find your vehicle's efficiency in MPG (US), MPG (UK), liters per 100km, and km per liter from distance and fuel used.",
+    h1: "Fuel Economy Calculator",
+    intro: "Calculate your vehicle's fuel economy in four common formats, US MPG, UK/Imperial MPG, liters per 100km, and km per liter, from the distance you drove and the fuel you used.",
+    icon: "⛽",
+    status: "live",
+    inputFields: [
+      { key: "distance", label: "Distance Driven", type: "number", step: 0.1, placeholder: "e.g. 300" },
+      {
+        key: "distanceUnit",
+        label: "Distance Unit",
+        type: "select",
+        options: [
+          { label: "Miles", value: "miles" },
+          { label: "Kilometers", value: "km" },
+        ],
+      },
+      { key: "fuelUsed", label: "Fuel Used", type: "number", step: 0.01, placeholder: "e.g. 12" },
+      {
+        key: "fuelUnit",
+        label: "Fuel Unit",
+        type: "select",
+        options: [
+          { label: "Gallons (US)", value: "gallonsUS" },
+          { label: "Gallons (UK/Imperial)", value: "gallonsUK" },
+          { label: "Liters", value: "liters" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "mpgUS", label: "MPG (US)", highlight: true },
+      { key: "mpgUK", label: "MPG (UK/Imperial)", highlight: true },
+      { key: "litersPer100km", label: "L/100km", highlight: true },
+      { key: "kmPerLiter", label: "km/L" },
+    ],
+    calculate: (inputs) => {
+      const distance = Number(inputs.distance);
+      const distanceUnit = String(inputs.distanceUnit) as FuelEconomyDistanceUnit;
+      const fuelUsed = Number(inputs.fuelUsed);
+      const fuelUnit = String(inputs.fuelUnit) as FuelEconomyVolumeUnit;
+      const output = calculateFuelEconomy(distance, distanceUnit, fuelUsed, fuelUnit);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Why fuel economy is reported differently around the world",
+        paragraphs: [
+          "The US and UK both use miles per gallon, but a US gallon (3.785 liters) is smaller than a UK/Imperial gallon (4.546 liters), so the same vehicle shows a higher MPG figure in the UK than in the US. Most of the rest of the world uses liters per 100km instead, where a lower number means better efficiency, the opposite direction from MPG. This calculator converts your trip data into all four formats at once so you can compare figures regardless of which system a source uses.",
+        ],
+      },
+      {
+        heading: "How this differs from our Fuel Cost Calculator",
+        paragraphs: [
+          "Our Fuel Cost Calculator estimates how much a trip will cost given a fuel efficiency rating and fuel price you already know. This calculator does the opposite, it derives your actual fuel economy from a real trip's distance and fuel used, and expresses it across every common unit system, useful for verifying your vehicle's real-world efficiency or comparing it against another vehicle's rating listed in a different unit.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why do my results differ from my car's official rated MPG?",
+        answer: "Official ratings come from standardized lab tests. Real-world fuel economy varies with driving style, terrain, weather, tire pressure and load, so calculating from an actual fill-up, as this tool does, usually gives a more accurate picture of your everyday efficiency.",
+      },
+      {
+        question: "Is a lower or higher number better?",
+        answer: "For MPG (US or UK) and km/L, higher is better, more distance per unit of fuel. For L/100km, lower is better, less fuel needed to cover 100km.",
+      },
+      {
+        question: "How do I measure fuel used for one tank?",
+        answer: "Fill your tank completely, reset your trip odometer, drive normally, then fill up completely again and note the distance driven and the amount of fuel needed to refill, that's your fuel used for the trip.",
+      },
+    ],
+    relatedSlugs: ["fuel-cost-calculator", "ev-charging-cost-calculator", "length-converter"],
+  },
+  {
+    slug: "ev-charging-cost-calculator",
+    category: "automotive",
+    title: "EV Charging Cost Calculator",
+    shortDescription: "Calculate the cost to charge your electric vehicle.",
+    metaDescription: "Free online EV charging cost calculator to estimate how much it costs to charge your electric vehicle, accounting for charging losses and electricity rate.",
+    h1: "EV Charging Cost Calculator",
+    intro: "Calculate the cost to charge your EV from a current charge level to a target level, accounting for charging losses, plus an optional cost-per-mile estimate.",
+    icon: "🔌",
+    status: "live",
+    inputFields: [
+      { key: "batteryCapacityKwh", label: "Battery Capacity (kWh)", type: "number", step: 0.1, placeholder: "e.g. 75" },
+      { key: "currentChargePercent", label: "Current Charge (%)", type: "number", step: 1, defaultValue: 20 },
+      { key: "targetChargePercent", label: "Target Charge (%)", type: "number", step: 1, defaultValue: 100 },
+      { key: "electricityRatePerKwh", label: "Electricity Rate (per kWh)", type: "number", step: 0.001, placeholder: "e.g. 0.15" },
+      { key: "chargerEfficiencyPercent", label: "Charger Efficiency (%)", type: "number", step: 1, defaultValue: 90 },
+      { key: "efficiencyMilesPerKwh", label: "Vehicle Efficiency (miles/kWh, optional)", type: "number", step: 0.1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "totalCost", label: "Total Charging Cost", highlight: true },
+      { key: "energyAddedKwh", label: "Energy Added to Battery (kWh)" },
+      { key: "energyDrawnFromGridKwh", label: "Energy Drawn from Grid (kWh)" },
+      { key: "milesAdded", label: "Estimated Miles Added" },
+      { key: "costPerMile", label: "Cost per Mile" },
+    ],
+    calculate: (inputs) => {
+      const batteryCapacityKwh = Number(inputs.batteryCapacityKwh);
+      const currentChargePercent = Number(inputs.currentChargePercent ?? 20);
+      const targetChargePercent = Number(inputs.targetChargePercent ?? 100);
+      const electricityRatePerKwh = Number(inputs.electricityRatePerKwh);
+      const chargerEfficiencyPercent = Number(inputs.chargerEfficiencyPercent ?? 90);
+      const efficiencyMilesPerKwh = Number(inputs.efficiencyMilesPerKwh ?? 0);
+      const output = calculateEvChargingCost(
+        batteryCapacityKwh,
+        currentChargePercent,
+        targetChargePercent,
+        electricityRatePerKwh,
+        chargerEfficiencyPercent,
+        efficiencyMilesPerKwh
+      );
+      return {
+        energyAddedKwh: output.energyAddedKwh,
+        energyDrawnFromGridKwh: output.energyDrawnFromGridKwh,
+        totalCost: output.totalCost,
+        milesAdded: output.milesAdded === null ? "N/A (enter vehicle efficiency)" : output.milesAdded,
+        costPerMile: output.costPerMile === null ? "N/A (enter vehicle efficiency)" : output.costPerMile,
+      };
+    },
+    explanation: [
+      {
+        heading: "Why the grid energy used is more than the energy added",
+        paragraphs: [
+          "Charging an EV isn't perfectly efficient, some energy is lost as heat in the charging cable, onboard charger and battery management system. This calculator applies a charger efficiency percentage (commonly around 85-90% for AC home charging) to the energy actually added to your battery, to estimate the larger amount of energy actually drawn from, and billed by, the grid.",
+        ],
+      },
+      {
+        heading: "Getting a cost-per-mile estimate",
+        paragraphs: [
+          "If you enter your vehicle's rated efficiency in miles per kWh (found in your owner's manual or EPA rating), this calculator estimates the miles that charging session added and the resulting cost per mile, letting you compare running costs directly against a gas vehicle's cost-per-mile from our Fuel Cost Calculator.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What charger efficiency should I use?",
+        answer: "Level 1/2 AC home charging is commonly estimated around 85-90% efficient. DC fast charging efficiency varies by station and vehicle but is often similar or slightly lower. Check your utility or vehicle manufacturer's guidance for a more precise figure.",
+      },
+      {
+        question: "Does this include demand charges or time-of-use rates?",
+        answer: "No, this calculator uses a single flat electricity rate you provide. If your utility charges different rates by time of day, use the rate that applies during your actual charging window for the most accurate estimate.",
+      },
+      {
+        question: "Is public fast charging usually more expensive than home charging?",
+        answer: "Yes, generally. Public DC fast charging networks typically charge a premium per kWh compared to residential electricity rates, so home charging is usually the cheaper option when available.",
+      },
+    ],
+    relatedSlugs: ["fuel-economy-calculator", "fuel-cost-calculator", "vehicle-depreciation-calculator"],
+  },
+  {
+    slug: "tire-size-calculator",
+    category: "automotive",
+    title: "Tire Size Calculator",
+    shortDescription: "Compare tire sizes and calculate speedometer difference.",
+    metaDescription: "Free online tire size calculator to compare a current and replacement tire size, showing the change in overall diameter and speedometer accuracy.",
+    h1: "Tire Size Calculator",
+    intro: "Compare your current tire size against a replacement size to see the change in overall diameter, revolutions per mile, and speedometer accuracy.",
+    icon: "🛞",
+    status: "live",
+    inputFields: [
+      { key: "currentWidthMm", label: "Current: Section Width (mm)", type: "number", step: 1, placeholder: "e.g. 225" },
+      { key: "currentAspectRatio", label: "Current: Aspect Ratio (%)", type: "number", step: 1, placeholder: "e.g. 45" },
+      { key: "currentRimIn", label: "Current: Rim Diameter (in)", type: "number", step: 0.5, placeholder: "e.g. 17" },
+      { key: "newWidthMm", label: "New: Section Width (mm)", type: "number", step: 1, placeholder: "e.g. 235" },
+      { key: "newAspectRatio", label: "New: Aspect Ratio (%)", type: "number", step: 1, placeholder: "e.g. 40" },
+      { key: "newRimIn", label: "New: Rim Diameter (in)", type: "number", step: 0.5, placeholder: "e.g. 18" },
+    ],
+    resultFields: [
+      { key: "currentDiameterIn", label: "Current Overall Diameter (in)" },
+      { key: "newDiameterIn", label: "New Overall Diameter (in)" },
+      { key: "diameterDifferencePercent", label: "Diameter Difference (%)", highlight: true },
+      { key: "speedometerDifferencePercent", label: "Speedometer Difference (%)", highlight: true },
+      { key: "currentRevsPerMile", label: "Current Revolutions per Mile" },
+      { key: "newRevsPerMile", label: "New Revolutions per Mile" },
+    ],
+    calculate: (inputs) => {
+      const currentWidthMm = Number(inputs.currentWidthMm);
+      const currentAspectRatio = Number(inputs.currentAspectRatio);
+      const currentRimIn = Number(inputs.currentRimIn);
+      const newWidthMm = Number(inputs.newWidthMm);
+      const newAspectRatio = Number(inputs.newAspectRatio);
+      const newRimIn = Number(inputs.newRimIn);
+      const output = calculateTireSize(currentWidthMm, currentAspectRatio, currentRimIn, newWidthMm, newAspectRatio, newRimIn);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How tire size notation works",
+        paragraphs: [
+          "A tire size like 225/45R17 breaks down as: 225 = section width in millimeters, 45 = aspect ratio (sidewall height as a percentage of section width), and 17 = rim diameter in inches. This calculator uses those three numbers for both your current and replacement tire to compute each tire's overall diameter: Rim Diameter (converted to mm) + 2 × Sidewall Height, then converts back to inches.",
+        ],
+      },
+      {
+        heading: "Why tire size affects your speedometer",
+        paragraphs: [
+          "Your speedometer and odometer are calibrated based on how far your original tires travel per wheel revolution. A replacement tire with a larger overall diameter travels farther per revolution, causing your speedometer to under-read your actual speed (and your odometer to under-count actual distance), while a smaller replacement tire causes the opposite, an over-read.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How much of a size difference is considered safe?",
+        answer: "A common rule of thumb is keeping the overall diameter change within about 3%, to avoid meaningfully affecting speedometer accuracy, clearance, and the accuracy of safety systems like ABS that rely on wheel speed sensors. Always check your vehicle manufacturer's guidance before changing tire sizes.",
+      },
+      {
+        question: "Does this account for load rating or speed rating?",
+        answer: "No, this calculator compares physical dimensions only. Load rating, speed rating and vehicle clearance are separate considerations that should also be checked before fitting a different tire size.",
+      },
+      {
+        question: "What if my speedometer difference shows a negative number?",
+        answer: "A negative percentage means your new tire is smaller in diameter than your current tire, causing your speedometer to over-read, showing a higher speed than you're actually traveling.",
+      },
+    ],
+    relatedSlugs: ["fuel-economy-calculator", "vehicle-depreciation-calculator", "length-converter"],
+  },
+  {
+    slug: "vehicle-depreciation-calculator",
+    category: "automotive",
+    title: "Vehicle Depreciation Calculator",
+    shortDescription: "Estimate how much your car's value will decline over time.",
+    metaDescription: "Free online vehicle depreciation calculator to estimate your car's value after 1, 5, or any number of years, using a first-year and annual depreciation rate.",
+    h1: "Vehicle Depreciation Calculator",
+    intro: "Estimate how much your vehicle's value will decline over time, based on a typical first-year depreciation rate followed by a steady annual rate.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "purchasePrice", label: "Purchase Price", type: "number", step: 0.01, placeholder: "e.g. 35000" },
+      { key: "firstYearDepreciationPercent", label: "First-Year Depreciation (%)", type: "number", step: 1, defaultValue: 20 },
+      { key: "annualDepreciationPercent", label: "Annual Depreciation After Year 1 (%)", type: "number", step: 1, defaultValue: 15 },
+      { key: "yearsToProject", label: "Years to Project", type: "number", step: 1, defaultValue: 5 },
+    ],
+    resultFields: [
+      { key: "valueAtProjectedYears", label: "Estimated Value at Projected Years", highlight: true },
+      { key: "totalDepreciationAmount", label: "Total Depreciation Amount", highlight: true },
+      { key: "totalDepreciationPercent", label: "Total Depreciation (%)" },
+      { key: "valueAfter1Year", label: "Value After 1 Year" },
+      { key: "valueAfter5Years", label: "Value After 5 Years" },
+    ],
+    calculate: (inputs) => {
+      const purchasePrice = Number(inputs.purchasePrice);
+      const firstYearDepreciationPercent = Number(inputs.firstYearDepreciationPercent ?? 20);
+      const annualDepreciationPercent = Number(inputs.annualDepreciationPercent ?? 15);
+      const yearsToProject = Number(inputs.yearsToProject ?? 5);
+      const output = calculateVehicleDepreciation(purchasePrice, firstYearDepreciationPercent, annualDepreciationPercent, yearsToProject);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this two-stage depreciation model works",
+        paragraphs: [
+          "New vehicles are commonly cited as losing a larger share of their value in the first year, often around 20%, than in subsequent years, where depreciation typically slows to somewhere around 10-15% annually. This calculator applies your first-year rate once, then compounds your annual rate for every year after, giving a more realistic curve than assuming a single flat rate for the vehicle's entire life.",
+        ],
+      },
+      {
+        heading: "What affects real-world depreciation",
+        paragraphs: [
+          "Actual depreciation varies significantly by make, model, mileage, condition and market demand. Some vehicles, especially certain trucks and popular used models, hold value notably better than the general averages used here. Treat this calculator's output as a planning estimate, not a guaranteed resale value.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is first-year depreciation usually higher?",
+        answer: "A new car loses its 'brand new' premium the moment it's driven off the lot and is then classified as used, plus new model year releases and manufacturer incentives on the next year's models can further pressure resale value, all contributing to a steeper first-year drop than later years.",
+      },
+      {
+        question: "Does this account for mileage driven?",
+        answer: "Not directly, this model projects value by elapsed time using typical rate assumptions. Higher-than-average mileage generally accelerates depreciation beyond what a time-only model would predict.",
+      },
+      {
+        question: "Can I use this for a used car I'm about to buy?",
+        answer: "Yes, enter the price you're paying as the purchase price to project its value forward from today, though a used car may already be past its steepest first-year drop, so a single flat annual rate for both fields may be more realistic in that case.",
+      },
+    ],
+    relatedSlugs: ["auto-loan-calculator", "car-loan-affordability-calculator", "net-worth-calculator"],
+  },
+  {
+    slug: "car-loan-affordability-calculator",
+    category: "automotive",
+    title: "Car Loan Affordability Calculator",
+    shortDescription: "Calculate the maximum car price you can afford based on income.",
+    metaDescription: "Free online car loan affordability calculator to estimate the maximum monthly payment, loan amount, and car price you can afford based on your income.",
+    h1: "Car Loan Affordability Calculator",
+    intro: "Calculate the maximum monthly payment, loan amount, and total car price you can afford, based on your gross monthly income, down payment and loan terms.",
+    icon: "💵",
+    status: "live",
+    inputFields: [
+      { key: "grossMonthlyIncome", label: "Gross Monthly Income", type: "number", step: 0.01, placeholder: "e.g. 6000" },
+      { key: "maxPercentOfIncome", label: "Max % of Income for Car Payment", type: "number", step: 1, defaultValue: 15 },
+      { key: "downPayment", label: "Down Payment", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "tradeInValue", label: "Trade-In Value", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "annualInterestRatePercent", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 6.5" },
+      { key: "loanTermMonths", label: "Loan Term (months)", type: "number", step: 1, defaultValue: 60 },
+    ],
+    resultFields: [
+      { key: "maxAffordableCarPrice", label: "Max Affordable Car Price", highlight: true },
+      { key: "maxMonthlyPayment", label: "Max Monthly Payment", highlight: true },
+      { key: "maxLoanAmount", label: "Max Loan Amount" },
+      { key: "totalInterestPaid", label: "Total Interest Paid" },
+    ],
+    calculate: (inputs) => {
+      const grossMonthlyIncome = Number(inputs.grossMonthlyIncome);
+      const maxPercentOfIncome = Number(inputs.maxPercentOfIncome ?? 15);
+      const downPayment = Number(inputs.downPayment ?? 0);
+      const tradeInValue = Number(inputs.tradeInValue ?? 0);
+      const annualInterestRatePercent = Number(inputs.annualInterestRatePercent);
+      const loanTermMonths = Number(inputs.loanTermMonths ?? 60);
+      const output = calculateCarLoanAffordability(
+        grossMonthlyIncome,
+        maxPercentOfIncome,
+        downPayment,
+        tradeInValue,
+        annualInterestRatePercent,
+        loanTermMonths
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this differs from our Auto Loan Calculator",
+        paragraphs: [
+          "Our Auto Loan Calculator starts from a known loan amount and calculates your monthly payment. This calculator works in the opposite direction, starting from what you can afford to pay each month (based on a target share of your income), and solving the loan payment formula backwards to find the maximum loan amount, and therefore maximum car price, that payment supports.",
+        ],
+      },
+      {
+        heading: "Choosing a target percent of income",
+        paragraphs: [
+          "A commonly cited guideline is keeping your total vehicle costs, payment, insurance and fuel, to around 15-20% of gross monthly income, with the loan payment itself often targeted lower within that. This calculator lets you set your own target percentage to match your personal budget and other financial obligations.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I use gross or net income?",
+        answer: "This calculator uses gross (pre-tax) monthly income, following the common lending industry convention, similar to how mortgage affordability is typically calculated. Keep in mind your actual take-home pay after taxes and other deductions will be lower.",
+      },
+      {
+        question: "Does the max affordable car price include tax and fees?",
+        answer: "No, this estimates the price the loan portion of your purchase can support, plus your down payment and trade-in value. Sales tax, registration and dealer fees would need to be covered separately or factored into your down payment.",
+      },
+      {
+        question: "Why does a lower interest rate increase what I can afford?",
+        answer: "With a fixed monthly payment budget, a lower interest rate means less of each payment goes toward interest, so more of it goes toward principal, letting that same monthly payment support a larger loan amount.",
+      },
+    ],
+    relatedSlugs: ["auto-loan-calculator", "vehicle-depreciation-calculator", "dti-calculator"],
   },
 ];
 
