@@ -40,7 +40,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
         ]}
       />
 
-      <SectionHeading icon={category.icon} title={`${category.name} Tools`} subtitle={category.description} />
+      <SectionHeading icon={category.icon} title={`${category.name} Tools (${tools.filter((t) => t.status === "live").length})`} subtitle={category.description} />
 
       <p className="mb-8 max-w-3xl text-brand-secondary">{category.intro}</p>
 

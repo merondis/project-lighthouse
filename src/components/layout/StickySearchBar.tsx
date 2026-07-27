@@ -7,7 +7,7 @@ import { toolRegistry } from "@/data/tools/registry";
 import { Container } from "@/components/ui/Container";
 
 const MAX_DROPDOWN_RESULTS = 8;
-const SEARCH_PLACEHOLDER = "Search 100+ tools";
+const SEARCH_PLACEHOLDER = "Search 150+ tools";
 
 export function StickySearchBar() {
   const [query, setQuery] = useState("");
