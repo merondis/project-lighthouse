@@ -185,6 +185,44 @@ relatedToolSlugs: ["compress-pdf", "merge-pdf", "split-pdf"],
     ],
     relatedToolSlugs: ["fuel-cost-calculator", "length-converter", "currency-converter"],
   },
+  {
+    slug: "cagr-vs-average-annual-return",
+    title: "CAGR vs Average Annual Return: Why They're Not the Same Number",
+    metaDescription:
+      "CAGR and average annual return often get used interchangeably, but they can tell very different stories about the same investment. Here's the math behind the gap.",
+    excerpt:
+      "Two investments with an identical 'average' return can have very different actual outcomes. Here's why compounding, not rounding, explains the gap.",
+    publishedDate: "2026-08-10",
+    content: [
+      "It's easy to assume that an investment's \"average annual return\" and its CAGR (Compound Annual Growth Rate) are just two names for the same thing. They're not, and the difference isn't a rounding quirk, it comes from a real mathematical distinction between two kinds of averages: arithmetic and geometric.",
+      "The average annual return most people compute is an arithmetic mean, add up each year's percentage return and divide by the number of years. CAGR is a geometric mean, it looks only at the starting and ending value and asks what single, constant annual rate would turn one into the other. Those two calculations agree only when returns are perfectly steady year after year, which real investments almost never are.",
+      "Here's a stark version of why this matters: imagine an investment that gains 50% in year one and then loses 50% in year two. The arithmetic average of those two returns is a tidy 0%, (50 + (−50)) ÷ 2. But walk through the actual dollars: 100 grows to 150, then drops by half to 75. You're down 25%, not flat. The CAGR over those two years works out to roughly −13.4%, a very different, and far more honest, picture than the arithmetic average suggests.",
+      "This gap is sometimes called volatility drag, the more an investment's returns swing up and down, the more its arithmetic average return overstates what you actually ended up with, even when the swings technically \"average out\" on paper. Two investments can post the exact same average annual return over a period while producing meaningfully different ending balances, purely because one was steadier than the other.",
+      "The practical rule of thumb: arithmetic average return is fine for describing a single year in isolation, but whenever you're evaluating growth over multiple years, especially anything with real volatility like stocks, CAGR is the number that reflects what actually happened to your money. It's also the right number to use when comparing two investments held over different or overlapping time periods, since it smooths both into a single comparable annual rate.",
+      "Our CAGR Calculator takes just a beginning value, ending value and number of years, and gives you the true compound annual growth rate directly, no need to average anything by hand. If you're instead trying to work out what rate of return would explain a series of contributions plus a final balance, our Investment Return Calculator handles that more complex case, and our ROI Calculator remains the right tool for a simple, single-period return with no time dimension at all.",
+    ],
+    relatedToolSlugs: ["cagr-calculator", "investment-return-calculator", "roi-calculator"],
+    relatedPostSlugs: ["apy-vs-apr-difference"],
+  },
+  {
+    slug: "apy-vs-apr-difference",
+    title: "APY vs APR: Why Your Savings Account and Your Loan Advertise Different Numbers",
+    metaDescription:
+      "APY and APR both describe an interest rate, but they measure it differently, and banks pick whichever one makes their product look better. Here's the actual math.",
+    excerpt:
+      "A 5% APR and a 5% APY aren't the same amount of interest. Here's the compounding math behind the gap, and why banks advertise whichever number flatters them.",
+    publishedDate: "2026-08-17",
+    content: [
+      "Open a savings account and you'll see APY advertised. Take out a loan and you'll see APR instead. That's not a coincidence, and it's not just different terminology for the same thing, APY and APR genuinely measure different quantities, and the one each product advertises tends to be whichever looks more favorable.",
+      "APR (Annual Percentage Rate) is the nominal interest rate, the stated rate before compounding is factored in. APY (Annual Percentage Yield) is the effective rate, what you actually earn or pay once compounding within the year is taken into account. The formula that connects them is APY = (1 + r/n)^n − 1, where r is the APR as a decimal and n is how many times per year interest compounds.",
+      "Run the numbers and the gap becomes concrete: a 5% APR compounded monthly produces an APY of about 5.12%, since each month's interest starts earning its own interest for the rest of the year. Compound daily instead of monthly and the APY nudges up further, to roughly 5.13%, approaching but never quite reaching the mathematical limit of continuous compounding. The more frequently interest compounds, the wider the gap between the stated APR and the real APY becomes.",
+      "This is exactly why savings accounts and CDs advertise APY, it's the larger, more flattering number, and regulators generally require it to be disclosed for deposit products specifically so customers can compare accounts on a like-for-like effective basis. Loans, on the other hand, advertise APR, since for a borrower the nominal rate looks smaller than the effective rate you'd actually be charged once compounding (and often fees) are folded in.",
+      "None of this makes either number \"wrong\", they're both accurate descriptions of the same underlying interest rate, just measuring it before versus after compounding is applied. The important habit is checking which one you're looking at before comparing two products, comparing an APY on one savings account to an APR on another isn't a fair comparison, since the APY figure already has an inherent advantage baked in.",
+      "Our APY Calculator converts a nominal rate and compounding frequency straight into its effective APY, plus shows the actual first-year interest on a deposit amount if you enter one. If you want to project growth over several years rather than a single year's effective rate, our Compound Interest Calculator and Simple Interest Calculator handle the longer time horizon.",
+    ],
+    relatedToolSlugs: ["apy-calculator", "compound-interest-calculator", "simple-interest-calculator"],
+    relatedPostSlugs: ["cagr-vs-average-annual-return"],
+  },
 ];
 
 export function getBlogPostBySlug(slug: string) {
