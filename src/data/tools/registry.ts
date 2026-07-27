@@ -110,6 +110,13 @@ import { calculateSavingsInterest } from "@/utils/calculators/savings-interest-c
 import { calculateAnnualIncome, PayFrequency } from "@/utils/calculators/annual-income-calculator";
 import { calculateHourlyWage } from "@/utils/calculators/hourly-wage-calculator";
 import { calculateCommission } from "@/utils/calculators/commission-calculator";
+import { calculateLeanBodyMass, LbmGender } from "@/utils/calculators/lean-body-mass-calculator";
+import { calculateBodySurfaceArea } from "@/utils/calculators/body-surface-area-calculator";
+import { calculateWaistToHipRatio, WhrGender } from "@/utils/calculators/waist-to-hip-ratio-calculator";
+import { calculateWaistToHeightRatio } from "@/utils/calculators/waist-to-height-ratio-calculator";
+import { calculateArmyBodyFat, ArmyBfGender } from "@/utils/calculators/army-body-fat-calculator";
+import { calculateCaloriesBurned, Activity } from "@/utils/calculators/calories-burned-calculator";
+import { calculateTargetHeartRate } from "@/utils/calculators/target-heart-rate-calculator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -7153,6 +7160,452 @@ explanation: [
       },
     ],
     relatedSlugs: ["hourly-wage-calculator", "annual-income-calculator", "salary-calculator"],
+  },
+  {
+    slug: "lean-body-mass-calculator",
+    category: "health",
+    title: "Lean Body Mass Calculator",
+    shortDescription: "Estimate your lean body mass and fat mass from height and weight.",
+    metaDescription: "Free online lean body mass calculator using the Boer formula to estimate your fat-free body mass from height and weight.",
+    h1: "Lean Body Mass Calculator",
+    intro: "Estimate your lean body mass, the weight of everything in your body except fat, using the widely used Boer formula.",
+    icon: "💪",
+    status: "live",
+    inputFields: [
+      {
+        key: "gender",
+        label: "Gender",
+        type: "select",
+        options: [
+          { label: "Male", value: "male" },
+          { label: "Female", value: "female" },
+        ],
+      },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+    ],
+    resultFields: [
+      { key: "leanBodyMass", label: "Lean Body Mass", unit: "kg", highlight: true },
+      { key: "fatMass", label: "Estimated Fat Mass", unit: "kg" },
+      { key: "leanMassPercent", label: "Lean Mass", unit: "%" },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as LbmGender;
+      const heightCm = Number(inputs.heightCm);
+      const weightKg = Number(inputs.weightKg);
+      const output = calculateLeanBodyMass(gender, heightCm, weightKg);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What lean body mass is and how it's calculated",
+        paragraphs: [
+          "Lean body mass (LBM) is your total body weight minus fat mass, everything else, muscle, bone, organs, connective tissue and water. This calculator uses the Boer formula, one of the most widely cited equations for estimating LBM from just height and weight, without needing a direct body fat measurement: for men, LBM = 0.407 × weight (kg) + 0.267 × height (cm) − 19.2, and for women, LBM = 0.252 × weight (kg) + 0.473 × height (cm) − 48.3.",
+        ],
+      },
+      {
+        heading: "Why lean body mass matters",
+        paragraphs: [
+          "Lean body mass is often used as a more accurate basis than total body weight for things like protein intake recommendations, medication dosing, and tracking body composition changes during training, since two people at the same weight can have very different amounts of muscle versus fat, and it's often the lean mass that's more relevant to these calculations.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is a formula-based lean body mass estimate?",
+        answer: "Formula-based estimates like the Boer formula are reasonably accurate for most people but are still estimates, not direct measurements. Methods like DEXA scans or hydrostatic weighing give more precise results if you need clinical-grade accuracy.",
+      },
+      {
+        question: "Why does this calculator ask for gender?",
+        answer: "Men and women have different average proportions of muscle, bone density and body water, so the Boer formula uses different coefficients for each to produce more accurate estimates.",
+      },
+      {
+        question: "How is this different from the Body Fat Calculator?",
+        answer: "The Body Fat Calculator estimates your body fat percentage directly from circumference measurements (neck, waist, hip). This calculator estimates lean mass from height and weight alone, using a different formula that doesn't require any circumference measurements.",
+      },
+    ],
+    relatedSlugs: ["body-fat-calculator", "bmi-calculator", "protein-calculator"],
+  },
+  {
+    slug: "body-surface-area-calculator",
+    category: "health",
+    title: "Body Surface Area Calculator",
+    shortDescription: "Calculate body surface area (BSA) using the Mosteller and DuBois formulas.",
+    metaDescription: "Free online body surface area (BSA) calculator using the Mosteller and DuBois formulas, commonly used for medication dosing and clinical calculations.",
+    h1: "Body Surface Area Calculator",
+    intro: "Calculate your body surface area (BSA) using both the Mosteller and DuBois formulas, commonly used in clinical settings for medication dosing.",
+    icon: "🧍",
+    status: "live",
+    inputFields: [
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+    ],
+    resultFields: [
+      { key: "bsaMosteller", label: "BSA (Mosteller Formula)", unit: "m²", highlight: true },
+      { key: "bsaDuBois", label: "BSA (DuBois Formula)", unit: "m²" },
+    ],
+    calculate: (inputs) => {
+      const heightCm = Number(inputs.heightCm);
+      const weightKg = Number(inputs.weightKg);
+      const output = calculateBodySurfaceArea(heightCm, weightKg);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Why body surface area is calculated",
+        paragraphs: [
+          "Body Surface Area (BSA) estimates the total surface area of a person's body and is used mainly in clinical settings, most notably for dosing certain medications, especially chemotherapy drugs, proportionally to body size rather than weight alone, since BSA correlates well with metabolic processes like drug clearance.",
+        ],
+      },
+      {
+        heading: "Mosteller vs DuBois formula",
+        paragraphs: [
+          "The Mosteller formula, BSA = √((height (cm) × weight (kg)) ÷ 3600), is simpler to compute and is commonly the default in modern clinical calculators. The DuBois & DuBois formula, BSA = 0.007184 × height (cm)^0.725 × weight (kg)^0.425, dates back to 1916 and remains widely referenced. The two formulas typically produce very similar results, within a few percent of each other.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Which formula should I use, Mosteller or DuBois?",
+        answer: "Both are widely accepted and produce similar results. Mosteller is simpler and commonly used as a default in clinical software, while DuBois is the older, historically referenced formula. For any actual medical dosing decision, follow what your healthcare provider or institution specifies.",
+      },
+      {
+        question: "Is BSA the same as skin surface area measured directly?",
+        answer: "No, both formulas are mathematical estimates derived from height and weight, not direct measurements of skin surface area, which would require far more complex methods to measure precisely.",
+      },
+      {
+        question: "Is this calculator a substitute for medical dosing calculations?",
+        answer: "No, this tool is for general informational purposes only. Any medication dosing based on BSA should always be calculated and verified by a qualified healthcare professional.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "lean-body-mass-calculator", "ideal-weight-calculator"],
+  },
+  {
+    slug: "waist-to-hip-ratio-calculator",
+    category: "health",
+    title: "Waist-to-Hip Ratio Calculator",
+    shortDescription: "Calculate your waist-to-hip ratio and WHO-based health risk category.",
+    metaDescription: "Free online waist-to-hip ratio calculator to assess body fat distribution and health risk category based on WHO guidelines.",
+    h1: "Waist-to-Hip Ratio Calculator",
+    intro: "Calculate your waist-to-hip ratio (WHR) and see your health risk category based on World Health Organization guidelines.",
+    icon: "📏",
+    status: "live",
+    inputFields: [
+      {
+        key: "gender",
+        label: "Gender",
+        type: "select",
+        options: [
+          { label: "Male", value: "male" },
+          { label: "Female", value: "female" },
+        ],
+      },
+      { key: "waistCm", label: "Waist Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 85" },
+      { key: "hipCm", label: "Hip Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 100" },
+    ],
+    resultFields: [
+      { key: "ratio", label: "Waist-to-Hip Ratio", highlight: true },
+      { key: "riskCategory", label: "Health Risk Category", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as WhrGender;
+      const waistCm = Number(inputs.waistCm);
+      const hipCm = Number(inputs.hipCm);
+      const output = calculateWaistToHipRatio(gender, waistCm, hipCm);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How waist-to-hip ratio is calculated",
+        paragraphs: [
+          "Waist-to-hip ratio (WHR) is simply your waist circumference divided by your hip circumference, both measured in the same units. It's a screening measure recognized by the World Health Organization for assessing health risk associated with fat distribution, since abdominal ('apple-shaped') fat is more strongly linked to cardiovascular and metabolic risk than fat carried on the hips and thighs ('pear-shaped').",
+          "This calculator uses commonly cited WHO risk thresholds: for men, below 0.90 is low risk, 0.90 to 0.99 is moderate risk, and 1.00 or above is high risk. For women, below 0.80 is low risk, 0.80 to 0.84 is moderate risk, and 0.85 or above is high risk.",
+        ],
+      },
+      {
+        heading: "Why WHR is used alongside, not instead of, BMI",
+        paragraphs: [
+          "BMI doesn't capture where fat is distributed on the body, two people with identical BMI can have very different WHR, and therefore very different associated health risk. WHR is best used as a complementary measure alongside BMI, not a replacement for it, since each captures something the other misses.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does fat distribution matter, not just total body fat?",
+        answer: "Abdominal fat surrounds internal organs and is more metabolically active in ways linked to insulin resistance, inflammation and cardiovascular risk, compared to fat stored on the hips and thighs. This is why two people with the same total body fat can have different health risk profiles depending on where that fat is carried.",
+      },
+      {
+        question: "How should I measure my waist and hips accurately?",
+        answer: "Measure your waist at the narrowest point, usually just above the belly button, and your hips at the widest point around your buttocks, with a tape measure snug but not compressing the skin, ideally without clothing bulk affecting the measurement.",
+      },
+      {
+        question: "Is this different from the Waist-to-Height Ratio Calculator?",
+        answer: "Yes, waist-to-hip ratio compares your waist to your hip circumference, while waist-to-height ratio compares your waist to your height. Both are fat-distribution screening measures, but they use different reference points and different risk thresholds.",
+      },
+    ],
+    relatedSlugs: ["waist-to-height-ratio-calculator", "bmi-calculator", "body-fat-calculator"],
+  },
+  {
+    slug: "waist-to-height-ratio-calculator",
+    category: "health",
+    title: "Waist-to-Height Ratio Calculator",
+    shortDescription: "Calculate your waist-to-height ratio, a simple screening measure for health risk.",
+    metaDescription: "Free online waist-to-height ratio calculator, a simple health risk screening measure based on the idea of keeping your waist to less than half your height.",
+    h1: "Waist-to-Height Ratio Calculator",
+    intro: "Calculate your waist-to-height ratio (WHtR), a simple screening measure often summarized as 'keep your waist to less than half your height'.",
+    icon: "📐",
+    status: "live",
+    inputFields: [
+      { key: "waistCm", label: "Waist Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 85" },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+    ],
+    resultFields: [
+      { key: "ratio", label: "Waist-to-Height Ratio", highlight: true },
+      { key: "category", label: "Category", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const waistCm = Number(inputs.waistCm);
+      const heightCm = Number(inputs.heightCm);
+      const output = calculateWaistToHeightRatio(waistCm, heightCm);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How waist-to-height ratio is calculated",
+        paragraphs: [
+          "Waist-to-height ratio (WHtR) is your waist circumference divided by your height, in the same units. It's often summarized with the simple rule of thumb 'keep your waist circumference to less than half your height', equivalent to a ratio below 0.5. This calculator uses commonly cited bands: below 0.40 suggests possible underweight, 0.40 to 0.49 is generally considered healthy, 0.50 to 0.59 indicates increased risk, and 0.60 or above indicates high risk.",
+        ],
+      },
+      {
+        heading: "Why some research favors WHtR over BMI",
+        paragraphs: [
+          "Because WHtR directly reflects abdominal fat relative to body size, some studies suggest it may be a better predictor of cardiovascular and metabolic risk than BMI, and it applies a single simple threshold (0.5) reasonably consistently across different heights, unlike BMI, which uses more complex category boundaries.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is a ratio of exactly 0.5 the target to aim for?",
+        answer: "The commonly cited guidance is to stay below 0.5 (waist less than half your height) as a general target for reduced health risk, though this is a population-level guideline, not a precise medical threshold for any one individual.",
+      },
+      {
+        question: "How is this different from waist-to-hip ratio?",
+        answer: "Waist-to-height ratio compares your waist to your height, while waist-to-hip ratio compares your waist to your hip circumference. Both screen for abdominal-fat-related health risk, but use different reference measurements and different risk bands.",
+      },
+      {
+        question: "Does this replace a doctor's assessment?",
+        answer: "No, this is a general screening tool. Speak with a healthcare professional for a full assessment of your individual health risk, especially if you have other risk factors or existing health conditions.",
+      },
+    ],
+    relatedSlugs: ["waist-to-hip-ratio-calculator", "bmi-calculator", "body-fat-calculator"],
+  },
+  {
+    slug: "army-body-fat-calculator",
+    category: "health",
+    title: "Army Body Fat Calculator",
+    shortDescription: "Estimate body fat percentage using the military tape-test formula and check it against Army standards.",
+    metaDescription: "Free online Army body fat calculator using the official U.S. military circumference-based tape test formula, checked against age-based Army body fat standards.",
+    h1: "Army Body Fat Calculator",
+    intro: "Estimate your body fat percentage using the U.S. military's circumference-based tape test formula, and check it against age-based Army body fat standards.",
+    icon: "🎖️",
+    status: "live",
+    inputFields: [
+      {
+        key: "gender",
+        label: "Gender",
+        type: "select",
+        options: [
+          { label: "Male", value: "male" },
+          { label: "Female", value: "female" },
+        ],
+      },
+      { key: "age", label: "Age (years)", type: "number", step: 1, placeholder: "e.g. 25" },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 178" },
+      { key: "neckCm", label: "Neck Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 38" },
+      { key: "waistCm", label: "Waist Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 85" },
+      { key: "hipCm", label: "Hip Circumference (cm, women only)", type: "number", step: 0.1, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "bodyFatPercent", label: "Estimated Body Fat", unit: "%", highlight: true },
+      { key: "maxAllowedPercent", label: "Max Allowed (Your Age Group)", unit: "%" },
+      { key: "meetsStandard", label: "Meets Army Standard" },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as ArmyBfGender;
+      const age = Number(inputs.age);
+      const heightCm = Number(inputs.heightCm);
+      const neckCm = Number(inputs.neckCm);
+      const waistCm = Number(inputs.waistCm);
+      const hipCm = Number(inputs.hipCm ?? 0);
+      const output = calculateArmyBodyFat(gender, age, heightCm, neckCm, waistCm, hipCm);
+      return {
+        bodyFatPercent: output.bodyFatPercent,
+        maxAllowedPercent: output.maxAllowedPercent,
+        meetsStandard: output.meetsStandard ? "Yes" : "No",
+      };
+    },
+    explanation: [
+      {
+        heading: "The military tape test formula",
+        paragraphs: [
+          "This calculator uses the Hodgdon-Beckett circumference formula developed for the U.S. military's tape test, which estimates body fat percentage from neck, waist (and hip, for women) measurements in inches. This formula is mathematically distinct from the Navy/Siri-based formula used in our general Body Fat Calculator, it's a direct linear combination of log10 circumference terms rather than a reciprocal formula, and it's the specific method referenced by military body composition standards.",
+        ],
+      },
+      {
+        heading: "Checking against Army body fat standards",
+        paragraphs: [
+          "The U.S. Army (under AR 600-9) sets maximum allowable body fat percentages that vary by age group and gender, tightening slightly less as age increases. This calculator checks your estimated body fat percentage against your age group's maximum, giving a pass/fail-style result. These figures are commonly cited standards, always confirm against the current official regulation for any official purpose.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How is this different from the regular Body Fat Calculator?",
+        answer: "Both use circumference measurements, but they use mathematically different formulas, the Navy/Siri formula (general Body Fat Calculator) versus the Hodgdon-Beckett formula (this calculator), and this one additionally compares your result against official age-based Army maximum allowable body fat standards, which the general calculator doesn't do.",
+      },
+      {
+        question: "Is this an official Army body fat assessment?",
+        answer: "No, this is an estimate for informational purposes based on published formulas and commonly cited standards. Official Army body composition assessments must be performed by trained personnel following exact current regulation procedures.",
+      },
+      {
+        question: "Why do the age brackets matter?",
+        answer: "Body fat naturally tends to increase somewhat with age even at a stable fitness level, so the Army's standards allow a slightly higher maximum body fat percentage for older age brackets rather than applying one flat standard to everyone.",
+      },
+    ],
+    relatedSlugs: ["body-fat-calculator", "lean-body-mass-calculator", "bmi-calculator"],
+  },
+  {
+    slug: "calories-burned-calculator",
+    category: "health",
+    title: "Calories Burned Calculator",
+    shortDescription: "Estimate calories burned during exercise based on activity, weight and duration.",
+    metaDescription: "Free online calories burned calculator using MET values to estimate calories burned during walking, running, cycling, swimming and other activities.",
+    h1: "Calories Burned Calculator",
+    intro: "Estimate how many calories you burn during a specific activity based on your body weight and how long you exercised.",
+    icon: "🏃",
+    status: "live",
+    inputFields: [
+      {
+        key: "activity",
+        label: "Activity",
+        type: "select",
+        options: [
+          { label: "Walking", value: "walking" },
+          { label: "Running", value: "running" },
+          { label: "Cycling", value: "cycling" },
+          { label: "Swimming", value: "swimming" },
+          { label: "Weightlifting", value: "weightlifting" },
+          { label: "Yoga", value: "yoga" },
+          { label: "Hiking", value: "hiking" },
+          { label: "Dancing", value: "dancing" },
+          { label: "Jumping Rope", value: "jumpingRope" },
+          { label: "Basketball", value: "basketball" },
+        ],
+      },
+      { key: "weightKg", label: "Weight (kg)", type: "number", step: 0.1, placeholder: "e.g. 70" },
+      { key: "durationMinutes", label: "Duration (minutes)", type: "number", step: 1, placeholder: "e.g. 30" },
+    ],
+    resultFields: [
+      { key: "caloriesBurned", label: "Calories Burned", unit: "kcal", highlight: true },
+      { key: "caloriesPerHour", label: "Calories per Hour (this activity)", unit: "kcal" },
+    ],
+    calculate: (inputs) => {
+      const activity = String(inputs.activity) as Activity;
+      const weightKg = Number(inputs.weightKg);
+      const durationMinutes = Number(inputs.durationMinutes);
+      const output = calculateCaloriesBurned(activity, weightKg, durationMinutes);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How calories burned is calculated",
+        paragraphs: [
+          "This calculator uses MET (Metabolic Equivalent of Task) values from the widely referenced Compendium of Physical Activities, a standardized measure of how many times more energy an activity uses compared to resting. The formula is: Calories Burned = MET × Weight (kg) × Duration (hours). A MET value of 8, for example, means the activity burns roughly 8 times as much energy as sitting still.",
+        ],
+      },
+      {
+        heading: "Why body weight affects the result so much",
+        paragraphs: [
+          "Heavier bodies require more energy to move, so for the same activity and duration, a heavier person burns more calories than a lighter person, this is built directly into the MET formula through the weight term. This is also why calorie burn estimates from generic charts (that don't account for your specific weight) are less accurate than a formula-based calculation like this one.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate are MET-based calorie estimates?",
+        answer: "MET values are averages derived from research on typical intensities for each activity, so actual calorie burn varies based on your fitness level, exact pace or intensity, terrain, and other individual factors. Treat the result as a reasonable estimate rather than an exact figure.",
+      },
+      {
+        question: "Why do different activities have such different MET values?",
+        answer: "MET values reflect how metabolically demanding an activity typically is. High-intensity, full-body activities like running or jumping rope have high MET values, while lower-intensity activities like yoga have lower ones, reflecting the real difference in energy demand.",
+      },
+      {
+        question: "Does this account for afterburn (calories burned after exercise ends)?",
+        answer: "No, this calculator estimates calories burned during the activity itself. Intense exercise can elevate metabolism for a period afterward (sometimes called EPOC), which isn't included in this estimate.",
+      },
+    ],
+    relatedSlugs: ["bmr-calculator", "tdee-calculator", "target-heart-rate-calculator"],
+  },
+  {
+    slug: "target-heart-rate-calculator",
+    category: "health",
+    title: "Target Heart Rate Calculator",
+    shortDescription: "Calculate your personalized target heart rate range using the Karvonen method.",
+    metaDescription: "Free online target heart rate calculator using the Karvonen (heart rate reserve) method, based on age, resting heart rate and desired exercise intensity.",
+    h1: "Target Heart Rate Calculator",
+    intro: "Calculate your personalized target heart rate range for exercise using the Karvonen method, which factors in your resting heart rate for a more individualized result.",
+    icon: "❤️",
+    status: "live",
+    inputFields: [
+      { key: "age", label: "Age (years)", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "restingHeartRate", label: "Resting Heart Rate (bpm)", type: "number", step: 1, placeholder: "e.g. 65" },
+      { key: "intensityLow", label: "Intensity Range Low (%)", type: "number", step: 1, defaultValue: 50 },
+      { key: "intensityHigh", label: "Intensity Range High (%)", type: "number", step: 1, defaultValue: 85 },
+    ],
+    resultFields: [
+      { key: "maxHeartRate", label: "Estimated Max Heart Rate", unit: "bpm" },
+      { key: "heartRateReserve", label: "Heart Rate Reserve", unit: "bpm" },
+      { key: "targetHeartRateLow", label: "Target Heart Rate (Low End)", unit: "bpm", highlight: true },
+      { key: "targetHeartRateHigh", label: "Target Heart Rate (High End)", unit: "bpm", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const age = Number(inputs.age);
+      const restingHeartRate = Number(inputs.restingHeartRate);
+      const intensityLow = Number(inputs.intensityLow ?? 50);
+      const intensityHigh = Number(inputs.intensityHigh ?? 85);
+      const output = calculateTargetHeartRate(age, restingHeartRate, intensityLow, intensityHigh);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The Karvonen method: how it's calculated",
+        paragraphs: [
+          "The Karvonen method calculates target heart rate using your heart rate reserve (the gap between your maximum and resting heart rate), rather than a flat percentage of max heart rate alone: Target HR = ((Max HR − Resting HR) × Intensity %) + Resting HR. Max heart rate is estimated as 220 minus your age.",
+          "This matters because two people of the same age share the same estimated max heart rate, but if one has a resting heart rate of 55 (very fit) and the other 75 (less fit), their heart rate reserves, and therefore their target ranges for the same relative effort, are meaningfully different.",
+        ],
+      },
+      {
+        heading: "How this differs from our Heart Rate Zone Calculator",
+        paragraphs: [
+          "Our Heart Rate Zone Calculator uses the simpler method of taking a flat percentage of estimated max heart rate directly, based only on age. This calculator uses the Karvonen (heart rate reserve) method instead, which additionally factors in your resting heart rate, generally considered a more personalized and accurate approach, particularly for people whose fitness level differs notably from average.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What resting heart rate should I use?",
+        answer: "Measure your pulse first thing in the morning, before getting out of bed, over a full minute, for several days and use the average, this gives the most accurate resting heart rate rather than a single reading taken during the day.",
+      },
+      {
+        question: "What intensity range should I target?",
+        answer: "50-70% is generally considered light to moderate intensity (good for beginners or recovery), 70-85% is moderate to vigorous (common for general fitness and cardiovascular training), and above 85% is high intensity, typically used for shorter, more advanced interval training.",
+      },
+      {
+        question: "Why use the Karvonen method instead of a flat percentage of max heart rate?",
+        answer: "The Karvonen method accounts for your individual resting heart rate, giving a more personalized target range. Two people with the same max heart rate but different fitness levels (and therefore different resting heart rates) will get different, more individually appropriate target ranges under Karvonen than under a flat max-heart-rate-percentage method.",
+      },
+    ],
+    relatedSlugs: ["heart-rate-zone-calculator", "calories-burned-calculator", "bmr-calculator"],
   },
 ];
 
