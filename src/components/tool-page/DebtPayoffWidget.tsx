@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { calculateDebtPayoff, DebtPayoffResult, PayoffStrategy } from "@/utils/calculators/debt-payoff-calculator";
+import { BalanceOverTimeChart } from "@/components/tool-page/charts/BalanceOverTimeChart";
 
 export function DebtPayoffWidget() {
   const [debts, setDebts] = useState([
@@ -59,6 +60,13 @@ export function DebtPayoffWidget() {
       <div className="mt-4 rounded-lg bg-brand-bg p-4">
         <p className="text-xs uppercase tracking-wide text-brand-secondary">Payoff Order</p>
         <p className="mt-1 text-sm text-white">{result.payoffOrder.join(" → ")}</p>
+      </div>
+      <div className="mt-6">
+        <h3 className="mb-4 text-lg font-semibold text-white">Total Balance Over Time</h3>
+        <BalanceOverTimeChart
+          data={result.balanceHistory.map((point) => ({ label: `Mo. ${point.period}`, balance: point.totalBalance }))}
+          label="Total Balance"
+        />
       </div>
     </div>
   ) : null;

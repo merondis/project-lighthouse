@@ -6,6 +6,8 @@ import {
   generateAmortizationSchedule,
   AmortizationScheduleResult,
 } from "@/utils/calculators/amortization-schedule";
+import { CompositionDonutChart } from "@/components/tool-page/charts/CompositionDonutChart";
+import { YearlyStackedBarChart } from "@/components/tool-page/charts/YearlyStackedBarChart";
 
 interface AmortizationWidgetProps {
   tenureUnit: "months" | "years";
@@ -96,6 +98,28 @@ export function AmortizationWidget({ tenureUnit }: AmortizationWidgetProps) {
             <div className="rounded-lg bg-brand-bg p-4 text-center">
               <p className="text-xs uppercase tracking-wide text-brand-secondary">Total Payment</p>
               <p className="mt-1 text-2xl font-bold text-white">{result.totalPayment}</p>
+            </div>
+          </div>
+
+          <div className="mt-8 grid grid-cols-1 gap-6 border-t border-white/5 pt-6 lg:grid-cols-2">
+            <div>
+              <h3 className="mb-4 text-lg font-semibold text-white">Payment Breakdown</h3>
+              <CompositionDonutChart
+                data={[
+                  { name: "Principal", value: Math.max(0, result.totalPayment - result.totalInterest), color: "#2563eb" },
+                  { name: "Interest", value: result.totalInterest, color: "#f59e0b" },
+                ]}
+              />
+            </div>
+            <div>
+              <h3 className="mb-4 text-lg font-semibold text-white">Balance by Year</h3>
+              <YearlyStackedBarChart
+                data={result.yearly.map((row) => ({
+                  label: row.year,
+                  principal: row.principalPaid,
+                  interest: row.interestPaid,
+                }))}
+              />
             </div>
           </div>
 

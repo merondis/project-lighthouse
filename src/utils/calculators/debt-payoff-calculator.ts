@@ -11,6 +11,7 @@ export interface DebtPayoffResult {
   monthsToPayoff: number;
   totalInterest: number;
   payoffOrder: string[];
+  balanceHistory: { period: number; totalBalance: number }[];
 }
 
 interface WorkingDebt extends DebtInput {
@@ -42,6 +43,8 @@ export function calculateDebtPayoff(
   let totalInterest = 0;
   const maxMonths = 1200;
   const payoffOrder: string[] = [];
+  const startingBalance = sorted.reduce((sum, d) => sum + d.remaining, 0);
+  const balanceHistory: { period: number; totalBalance: number }[] = [{ period: 0, totalBalance: roundTo2(startingBalance) }];
 
   while (sorted.some((d) => d.remaining > 0) && months < maxMonths) {
     let extraAvailable = extraMonthlyPayment;
@@ -71,11 +74,22 @@ export function calculateDebtPayoff(
     }
 
     months += 1;
+
+    const totalBalance = sorted.reduce((sum, d) => sum + d.remaining, 0);
+    const isPaidOff = totalBalance <= 0.01;
+    if (months % 12 === 0 || isPaidOff) {
+      balanceHistory.push({ period: months, totalBalance: roundTo2(Math.max(totalBalance, 0)) });
+    }
   }
 
   return {
     monthsToPayoff: months,
     totalInterest: Math.round(totalInterest * 100) / 100,
     payoffOrder,
+    balanceHistory,
   };
+}
+
+function roundTo2(value: number): number {
+  return Math.round(value * 100) / 100;
 }
