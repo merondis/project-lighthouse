@@ -1,6 +1,6 @@
 "use client";
 
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine, ResponsiveContainer } from "recharts";
 
 export interface BalancePoint {
   label: string | number;
@@ -13,7 +13,14 @@ function formatCompact(value: number): string {
   return String(value);
 }
 
-export function BalanceOverTimeChart({ data, label }: { data: BalancePoint[]; label?: string }) {
+interface BalanceOverTimeChartProps {
+  data: BalancePoint[];
+  label?: string;
+  referenceValue?: number;
+  referenceLabel?: string;
+}
+
+export function BalanceOverTimeChart({ data, label, referenceValue, referenceLabel }: BalanceOverTimeChartProps) {
   if (data.length === 0) return null;
 
   return (
@@ -39,6 +46,14 @@ export function BalanceOverTimeChart({ data, label }: { data: BalancePoint[]; la
             itemStyle={{ color: "#cbd5e1" }}
             formatter={(value) => Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 })}
           />
+          {referenceValue !== undefined && (
+            <ReferenceLine
+              y={referenceValue}
+              stroke="#f59e0b"
+              strokeDasharray="4 4"
+              label={{ value: referenceLabel ?? "Target", position: "insideTopRight", fill: "#f59e0b", fontSize: 11 }}
+            />
+          )}
           <Area type="monotone" dataKey="balance" name={label ?? "Balance"} stroke="#2563eb" strokeWidth={2} fill="url(#balanceFill)" />
         </AreaChart>
       </ResponsiveContainer>

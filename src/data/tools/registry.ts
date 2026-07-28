@@ -14,7 +14,6 @@ function formatTimezoneLabel(tz: string): string {
   return cityLabel + " (" + regionLabel + ")";
 }
 import { calculateWorkingDays } from "@/utils/calculators/working-days-calculator";
-import { calculateSavingsGoal } from "@/utils/calculators/savings-goal-calculator";
 import { validateEmailFormat } from "@/utils/calculators/email-format-validator";
 import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
@@ -45,7 +44,6 @@ import { calculateSalesTax } from "@/utils/calculators/sales-tax-calculator";
 import { calculateFuelCost } from "@/utils/calculators/fuel-cost-calculator";
 import { calculateSimpleInterest } from "@/utils/calculators/simple-interest-calculator";
 import { generateRandomNumbers } from "@/utils/calculators/random-number-generator";
-import { calculateCompoundInterest, CompoundFrequency } from "@/utils/calculators/compound-interest-calculator";
 import { calculateTip } from "@/utils/calculators/tip-calculator";
 import { formatJson, JsonAction } from "@/utils/calculators/json-formatter";
 import { processBase64, Base64Action } from "@/utils/calculators/base64-tool";
@@ -80,21 +78,14 @@ import { calculateRentalProperty } from "@/utils/calculators/rental-property-cal
 import { calculateApr } from "@/utils/calculators/apr-calculator";
 import { calculateHomeEquityLoan } from "@/utils/calculators/home-equity-loan-calculator";
 import { calculateDownPayment } from "@/utils/calculators/down-payment-calculator";
-import { calculateCd, CdCompoundingFrequency } from "@/utils/calculators/cd-calculator";
 import { calculatePaybackPeriod } from "@/utils/calculators/payback-period-calculator";
-import { calculateTraditionalIra } from "@/utils/calculators/traditional-ira-calculator";
 import { calculateRmd } from "@/utils/calculators/rmd-calculator";
 import { calculateDebtConsolidation, DebtEntry } from "@/utils/calculators/debt-consolidation-calculator";
-import { calculateCollegeCost } from "@/utils/calculators/college-cost-calculator";
 import { calculateVat, VatMode } from "@/utils/calculators/vat-calculator";
 import { calculateDepreciation, DepreciationMethod } from "@/utils/calculators/depreciation-calculator";
 import { calculateTradingMargin } from "@/utils/calculators/trading-margin-calculator";
 import { calculateBudget } from "@/utils/calculators/budget-calculator";
-import { calculateAnnuity, AnnuityTiming } from "@/utils/calculators/annuity-calculator";
-import { calculateAnnuityPayout } from "@/utils/calculators/annuity-payout-calculator";
 import { calculateAge } from "@/utils/calculators/age-calculator";
-import { calculateSip } from "@/utils/calculators/sip-calculator";
-import { calculateRetirement } from "@/utils/calculators/retirement-calculator";
 import { calculateProteinNeeds, ProteinActivityLevel, ProteinGoal } from "@/utils/calculators/protein-calculator";
 import { calculateTdee, Gender as TdeeGender, ActivityLevel as TdeeActivityLevel } from "@/utils/calculators/tdee-calculator";
 import { calculateOvulation } from "@/utils/calculators/ovulation-calculator";
@@ -129,14 +120,10 @@ import { calculateStatistics } from "@/utils/calculators/statistics-calculator";
 import { calculateFutureValue, FvCompoundFrequency } from "@/utils/calculators/future-value-calculator";
 import { calculatePresentValue, PvCompoundFrequency } from "@/utils/calculators/present-value-calculator";
 import { calculateCagr } from "@/utils/calculators/cagr-calculator";
-import { calculateInvestmentReturn } from "@/utils/calculators/investment-return-calculator";
 import { calculateApy, ApyCompoundFrequency } from "@/utils/calculators/apy-calculator";
 import { calculateRule72, Rule72Mode } from "@/utils/calculators/rule-of-72-calculator";
 import { calculateLease } from "@/utils/calculators/lease-calculator";
 import { calculateStudentLoan } from "@/utils/calculators/student-loan-calculator";
-import { calculate401k } from "@/utils/calculators/401k-calculator";
-import { calculateRothIra } from "@/utils/calculators/roth-ira-calculator";
-import { calculateFire } from "@/utils/calculators/fire-calculator";
 import { calculateInflationAdjustedSalary } from "@/utils/calculators/inflation-adjusted-salary-calculator";
 import { calculateSavingsInterest } from "@/utils/calculators/savings-interest-calculator";
 import { calculateAnnualIncome, PayFrequency } from "@/utils/calculators/annual-income-calculator";
@@ -647,25 +634,7 @@ explanation: [
     intro: "Calculate how much you need to save each month to reach a specific savings goal by a target date, accounting for interest earned along the way.",
     icon: "🐷",
     status: "live",
-    inputFields: [
-      { key: "targetAmount", label: "Savings Goal", type: "number", step: 0.01, placeholder: "e.g. 20000" },
-      { key: "currentSavings", label: "Current Savings", type: "number", step: 0.01, defaultValue: 0 },
-      { key: "months", label: "Time Frame (Months)", type: "number", step: 1, placeholder: "e.g. 24" },
-      { key: "annualRate", label: "Expected Annual Interest Rate (%)", type: "number", step: 0.1, defaultValue: 0 },
-    ],
-    resultFields: [
-      { key: "monthlyContribution", label: "Monthly Contribution Needed", highlight: true },
-      { key: "totalContributions", label: "Total You'll Contribute" },
-      { key: "totalInterestEarned", label: "Interest Earned" },
-    ],
-    calculate: (inputs) => {
-      const targetAmount = Number(inputs.targetAmount);
-      const currentSavings = Number(inputs.currentSavings);
-      const months = Number(inputs.months);
-      const annualRate = Number(inputs.annualRate);
-      const output = calculateSavingsGoal(targetAmount, currentSavings, months, annualRate);
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How the required monthly contribution is calculated",
@@ -3160,44 +3129,7 @@ widgetType: "compressPdf",
     intro: "Calculate how an investment grows over time with compound interest, choosing how often interest compounds.",
     icon: "📈",
     status: "live",
-    inputFields: [
-      { key: "principal", label: "Initial Amount", type: "number", step: 0.01, placeholder: "e.g. 10000" },
-      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
-      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 10" },
-      {
-        key: "frequency",
-        label: "Compounding Frequency",
-        type: "select",
-        options: [
-          { label: "Annually", value: "annually" },
-          { label: "Semi-Annually", value: "semiannually" },
-          { label: "Quarterly", value: "quarterly" },
-          { label: "Monthly", value: "monthly" },
-          { label: "Daily", value: "daily" },
-        ],
-      },
-    ],
-    resultFields: [
-      { key: "finalAmount", label: "Final Amount", highlight: true },
-      { key: "totalInterest", label: "Total Interest Earned", highlight: true },
-    ],
-calculate: (inputs) => {
-      const principal = Number(inputs.principal);
-      const annualRate = Number(inputs.annualRate);
-      const years = Number(inputs.years);
-      const frequency = String(inputs.frequency) as CompoundFrequency;
-      const output = calculateCompoundInterest(principal, annualRate, years, frequency);
-      return { ...output };
-    },
-    interpret: (result, inputs) => {
-      const principal = Number(inputs.principal);
-      const finalAmount = Number(result.finalAmount);
-      const growthMultiple = principal > 0 ? finalAmount / principal : 0;
-      return [
-        "Your initial investment grows to roughly " + growthMultiple.toFixed(2) + "x its original value.",
-        "Total interest earned (" + result.totalInterest + ") is " + Math.round((Number(result.totalInterest) / principal) * 100) + "% of your original principal.",
-      ];
-    },
+    widgetType: "growthChart",
       explanation: [
       {
         heading: "Compound interest formula: how compound interest is calculated",
@@ -4559,33 +4491,7 @@ explanation: [
     icon: "📈",
     status: "live",
     featured: true,
-    inputFields: [
-      { key: "monthlyInvestment", label: "Monthly Investment", type: "number", step: 0.01, placeholder: "e.g. 5000" },
-      { key: "annualRate", label: "Expected Annual Return (%)", type: "number", step: 0.1, placeholder: "e.g. 12" },
-      { key: "years", label: "Investment Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 15" },
-    ],
-    resultFields: [
-      { key: "maturityAmount", label: "Maturity Amount", highlight: true },
-      { key: "totalInvested", label: "Total Amount Invested" },
-      { key: "totalGains", label: "Wealth Gained", highlight: true },
-    ],
-    calculate: (inputs) => {
-      const monthlyInvestment = Number(inputs.monthlyInvestment);
-      const annualRate = Number(inputs.annualRate);
-      const years = Number(inputs.years);
-      const output = calculateSip(monthlyInvestment, annualRate, years);
-      return { ...output };
-    },
-    interpret: (result) => {
-      const totalInvested = Number(result.totalInvested);
-      const maturityAmount = Number(result.maturityAmount);
-      const growthMultiple = totalInvested > 0 ? maturityAmount / totalInvested : 0;
-      return [
-        "Your total investment of " + result.totalInvested + " is projected to grow to " + result.maturityAmount + ".",
-        "That's roughly " + growthMultiple.toFixed(2) + "x your invested amount.",
-        "Estimated wealth gained from returns: " + result.totalGains + ".",
-      ];
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How SIP maturity value is calculated",
@@ -4633,36 +4539,7 @@ explanation: [
     icon: "🏖️",
     status: "live",
     featured: true,
-    inputFields: [
-      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
-      { key: "retirementAge", label: "Target Retirement Age", type: "number", step: 1, placeholder: "e.g. 60" },
-      { key: "currentSavings", label: "Current Retirement Savings", type: "number", step: 0.01, defaultValue: 0 },
-      { key: "monthlyContribution", label: "Monthly Contribution", type: "number", step: 0.01, placeholder: "e.g. 15000" },
-      { key: "annualRate", label: "Expected Annual Return (%)", type: "number", step: 0.1, placeholder: "e.g. 10" },
-    ],
-    resultFields: [
-      { key: "retirementCorpus", label: "Projected Retirement Corpus", highlight: true },
-      { key: "estimatedMonthlyIncome", label: "Estimated Sustainable Monthly Income", highlight: true },
-      { key: "totalContributions", label: "Total Contributions" },
-      { key: "totalGrowth", label: "Total Growth from Returns" },
-      { key: "yearsToRetirement", label: "Years to Retirement" },
-    ],
-    calculate: (inputs) => {
-      const currentAge = Number(inputs.currentAge);
-      const retirementAge = Number(inputs.retirementAge);
-      const currentSavings = Number(inputs.currentSavings);
-      const monthlyContribution = Number(inputs.monthlyContribution);
-      const annualRate = Number(inputs.annualRate);
-      const output = calculateRetirement(currentAge, retirementAge, currentSavings, monthlyContribution, annualRate);
-      return { ...output };
-    },
-    interpret: (result) => {
-      return [
-        "At your target retirement age, your projected corpus is " + result.retirementCorpus + ".",
-        "Using the common 4% withdrawal rule, that could sustain roughly " + result.estimatedMonthlyIncome + " per month in retirement.",
-        "Of your total corpus, " + result.totalGrowth + " comes from investment growth rather than your own contributions.",
-      ];
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How your retirement corpus is projected",
@@ -6411,25 +6288,7 @@ explanation: [
     intro: "Calculate the annualized rate of return on an investment, accounting for both an initial lump sum and ongoing monthly contributions.",
     icon: "🪙",
     status: "live",
-    inputFields: [
-      { key: "initialInvestment", label: "Initial Investment", type: "number", step: 0.01, placeholder: "e.g. 10000" },
-      { key: "monthlyContribution", label: "Monthly Contribution (optional)", type: "number", step: 0.01, defaultValue: 0 },
-      { key: "years", label: "Time Period (Years)", type: "number", step: 0.5, placeholder: "e.g. 10" },
-      { key: "endingBalance", label: "Ending Balance", type: "number", step: 0.01, placeholder: "e.g. 30000" },
-    ],
-    resultFields: [
-      { key: "annualReturnPercent", label: "Annualized Return", unit: "%", highlight: true },
-      { key: "totalContributions", label: "Total Contributions" },
-      { key: "totalGain", label: "Total Gain", highlight: true },
-    ],
-    calculate: (inputs) => {
-      const initialInvestment = Number(inputs.initialInvestment);
-      const monthlyContribution = Number(inputs.monthlyContribution ?? 0);
-      const years = Number(inputs.years);
-      const endingBalance = Number(inputs.endingBalance);
-      const output = calculateInvestmentReturn(initialInvestment, monthlyContribution, years, endingBalance);
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How the annualized rate of return is solved for",
@@ -6750,46 +6609,7 @@ explanation: [
     intro: "Project your 401(k) balance at retirement based on your current balance, salary, contribution percentage, employer match, expected annual return, and salary growth.",
     icon: "🏦",
     status: "live",
-    inputFields: [
-      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
-      { key: "retirementAge", label: "Retirement Age", type: "number", step: 1, placeholder: "e.g. 65" },
-      { key: "currentBalance", label: "Current 401(k) Balance", type: "number", step: 0.01, defaultValue: 0 },
-      { key: "annualSalary", label: "Annual Salary", type: "number", step: 0.01, placeholder: "e.g. 70000" },
-      { key: "contributionPercent", label: "Your Contribution (% of Salary)", type: "number", step: 0.1, placeholder: "e.g. 6" },
-      { key: "employerMatchPercent", label: "Employer Match Rate (%)", type: "number", step: 1, placeholder: "e.g. 50" },
-      { key: "employerMatchLimitPercent", label: "Employer Match Limit (% of Salary)", type: "number", step: 0.1, placeholder: "e.g. 6" },
-      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
-      { key: "salaryGrowth", label: "Annual Salary Growth (%, optional)", type: "number", step: 0.1, defaultValue: 0 },
-    ],
-    resultFields: [
-      { key: "projectedBalance", label: "Projected Balance at Retirement", highlight: true },
-      { key: "totalEmployeeContributions", label: "Total Your Contributions" },
-      { key: "totalEmployerContributions", label: "Total Employer Match" },
-      { key: "totalGrowth", label: "Total Investment Growth", highlight: true },
-    ],
-    calculate: (inputs) => {
-      const currentAge = Number(inputs.currentAge);
-      const retirementAge = Number(inputs.retirementAge);
-      const currentBalance = Number(inputs.currentBalance ?? 0);
-      const annualSalary = Number(inputs.annualSalary);
-      const contributionPercent = Number(inputs.contributionPercent);
-      const employerMatchPercent = Number(inputs.employerMatchPercent);
-      const employerMatchLimitPercent = Number(inputs.employerMatchLimitPercent);
-      const expectedReturn = Number(inputs.expectedReturn);
-      const salaryGrowth = Number(inputs.salaryGrowth ?? 0);
-      const output = calculate401k(
-        currentAge,
-        retirementAge,
-        currentBalance,
-        annualSalary,
-        contributionPercent,
-        employerMatchPercent,
-        employerMatchLimitPercent,
-        expectedReturn,
-        salaryGrowth
-      );
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How the employer match is calculated",
@@ -6830,31 +6650,7 @@ explanation: [
     intro: "Project your Roth IRA balance at retirement based on your current balance, annual contribution, and expected return, and see how much tax-free growth is worth compared to a taxable account.",
     icon: "🌱",
     status: "live",
-    inputFields: [
-      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
-      { key: "retirementAge", label: "Retirement Age", type: "number", step: 1, placeholder: "e.g. 65" },
-      { key: "currentBalance", label: "Current Roth IRA Balance", type: "number", step: 0.01, defaultValue: 0 },
-      { key: "annualContribution", label: "Annual Contribution", type: "number", step: 0.01, placeholder: "e.g. 7000" },
-      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
-      { key: "comparisonTaxRate", label: "Comparison Tax Rate (%, for taxable account)", type: "number", step: 0.1, defaultValue: 15 },
-    ],
-    resultFields: [
-      { key: "rothBalance", label: "Roth IRA Balance (Tax-Free)", highlight: true },
-      { key: "totalContributions", label: "Total Contributions" },
-      { key: "totalGrowth", label: "Total Growth" },
-      { key: "taxableAccountBalance", label: "Equivalent Taxable Account Balance" },
-      { key: "taxFreeAdvantage", label: "Tax-Free Advantage", highlight: true },
-    ],
-    calculate: (inputs) => {
-      const currentAge = Number(inputs.currentAge);
-      const retirementAge = Number(inputs.retirementAge);
-      const currentBalance = Number(inputs.currentBalance ?? 0);
-      const annualContribution = Number(inputs.annualContribution);
-      const expectedReturn = Number(inputs.expectedReturn);
-      const comparisonTaxRate = Number(inputs.comparisonTaxRate ?? 0);
-      const output = calculateRothIra(currentAge, retirementAge, currentBalance, annualContribution, expectedReturn, comparisonTaxRate);
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "Why a Roth IRA grows differently than a taxable account",
@@ -6900,32 +6696,7 @@ explanation: [
     intro: "Calculate your FIRE (Financial Independence, Retire Early) number based on your annual expenses and withdrawal rate, and see how many years it will take to reach it given your current savings and contributions.",
     icon: "🔥",
     status: "live",
-    inputFields: [
-      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 28" },
-      { key: "currentSavings", label: "Current Investable Savings", type: "number", step: 0.01, defaultValue: 0 },
-      { key: "monthlyContribution", label: "Monthly Contribution", type: "number", step: 0.01, placeholder: "e.g. 2000" },
-      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
-      { key: "annualExpenses", label: "Desired Annual Expenses in Retirement", type: "number", step: 0.01, placeholder: "e.g. 40000" },
-      { key: "withdrawalRate", label: "Safe Withdrawal Rate (%)", type: "number", step: 0.1, defaultValue: 4 },
-    ],
-    resultFields: [
-      { key: "fireNumber", label: "Your FIRE Number", highlight: true },
-      { key: "yearsToFire", label: "Years to FIRE", highlight: true },
-      { key: "ageAtFire", label: "Age at FIRE" },
-      { key: "projectedBalanceAtFire", label: "Projected Balance at FIRE" },
-      { key: "totalContributions", label: "Total Contributions Along the Way" },
-      { key: "totalGrowth", label: "Total Investment Growth" },
-    ],
-    calculate: (inputs) => {
-      const currentAge = Number(inputs.currentAge);
-      const currentSavings = Number(inputs.currentSavings ?? 0);
-      const monthlyContribution = Number(inputs.monthlyContribution);
-      const expectedReturn = Number(inputs.expectedReturn);
-      const annualExpenses = Number(inputs.annualExpenses);
-      const withdrawalRate = Number(inputs.withdrawalRate ?? 4);
-      const output = calculateFire(currentAge, currentSavings, monthlyContribution, expectedReturn, annualExpenses, withdrawalRate);
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "What a FIRE number is and how it's calculated",
@@ -14516,37 +14287,7 @@ explanation: [
     intro: "Calculate the maturity value and total interest earned on a Certificate of Deposit (CD) based on principal, rate, term and compounding frequency.",
     icon: "🏦",
     status: "live",
-    inputFields: [
-      { key: "principal", label: "Deposit Amount", type: "number", step: 0.01, placeholder: "e.g. 10000" },
-      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 4" },
-      { key: "termMonths", label: "Term (Months)", type: "number", step: 1, placeholder: "e.g. 12" },
-      {
-        key: "frequency",
-        label: "Compounding Frequency",
-        type: "select",
-        defaultValue: "monthly",
-        options: [
-          { label: "Annually", value: "annually" },
-          { label: "Semiannually", value: "semiannually" },
-          { label: "Quarterly", value: "quarterly" },
-          { label: "Monthly", value: "monthly" },
-          { label: "Daily", value: "daily" },
-        ],
-      },
-    ],
-    resultFields: [
-      { key: "maturityValue", label: "Maturity Value", highlight: true },
-      { key: "totalInterest", label: "Total Interest Earned", highlight: true },
-    ],
-    calculate: (inputs) => {
-      const output = calculateCd(
-        Number(inputs.principal),
-        Number(inputs.annualRate),
-        Number(inputs.termMonths),
-        String(inputs.frequency) as CdCompoundingFrequency
-      );
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How CD maturity value is calculated",
@@ -14636,34 +14377,7 @@ explanation: [
     intro: "Project your Traditional IRA balance at retirement, this year's tax deduction, and the after-tax value once withdrawals are taxed.",
     icon: "🏛️",
     status: "live",
-    inputFields: [
-      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
-      { key: "retirementAge", label: "Retirement Age", type: "number", step: 1, placeholder: "e.g. 65" },
-      { key: "currentBalance", label: "Current Traditional IRA Balance", type: "number", step: 0.01, defaultValue: 0 },
-      { key: "annualContribution", label: "Annual Contribution", type: "number", step: 0.01, placeholder: "e.g. 7000" },
-      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
-      { key: "currentTaxRate", label: "Current Marginal Tax Rate (%)", type: "number", step: 0.1, placeholder: "e.g. 22" },
-      { key: "retirementTaxRate", label: "Expected Tax Rate in Retirement (%)", type: "number", step: 0.1, placeholder: "e.g. 15" },
-    ],
-    resultFields: [
-      { key: "balanceAtRetirement", label: "Balance at Retirement (Pre-Tax)", highlight: true },
-      { key: "afterTaxWithdrawalValue", label: "After-Tax Value at Withdrawal", highlight: true },
-      { key: "totalContributions", label: "Total Contributions" },
-      { key: "totalGrowth", label: "Total Growth" },
-      { key: "currentYearTaxSavings", label: "This Year's Tax Deduction Value" },
-    ],
-    calculate: (inputs) => {
-      const output = calculateTraditionalIra(
-        Number(inputs.currentAge),
-        Number(inputs.retirementAge),
-        Number(inputs.currentBalance) || 0,
-        Number(inputs.annualContribution),
-        Number(inputs.expectedReturn),
-        Number(inputs.currentTaxRate),
-        Number(inputs.retirementTaxRate)
-      );
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How a Traditional IRA differs from a Roth IRA",
@@ -14817,25 +14531,7 @@ explanation: [
     intro: "Project the future cost of college based on today's annual cost, years until enrollment, expected tuition inflation, and years in college.",
     icon: "🎓",
     status: "live",
-    inputFields: [
-      { key: "currentAnnualCost", label: "Current Annual Cost (Tuition + Room & Board)", type: "number", step: 0.01, placeholder: "e.g. 25000" },
-      { key: "yearsUntilEnrollment", label: "Years Until Enrollment", type: "number", step: 1, placeholder: "e.g. 10" },
-      { key: "inflationRate", label: "Expected College Cost Inflation (%)", type: "number", step: 0.1, defaultValue: 5 },
-      { key: "yearsInCollege", label: "Years in College", type: "number", step: 1, defaultValue: 4 },
-    ],
-    resultFields: [
-      { key: "projectedFirstYearCost", label: "Projected First-Year Cost", highlight: true },
-      { key: "totalProjectedCost", label: "Total Projected Cost (All Years)", highlight: true },
-    ],
-    calculate: (inputs) => {
-      const output = calculateCollegeCost(
-        Number(inputs.currentAnnualCost),
-        Number(inputs.yearsUntilEnrollment),
-        Number(inputs.inflationRate),
-        Number(inputs.yearsInCollege)
-      );
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How projected college cost is calculated",
@@ -15104,37 +14800,7 @@ explanation: [
     intro: "Calculate the future value of an annuity, the total accumulated from a series of regular payments plus growth, at a given rate over time.",
     icon: "💹",
     status: "live",
-    inputFields: [
-      { key: "periodicPayment", label: "Payment Amount", type: "number", step: 0.01, placeholder: "e.g. 500" },
-      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 6" },
-      { key: "years", label: "Number of Years", type: "number", step: 1, placeholder: "e.g. 10" },
-      { key: "paymentsPerYear", label: "Payments per Year", type: "number", step: 1, defaultValue: 12 },
-      {
-        key: "timing",
-        label: "Payment Timing",
-        type: "select",
-        defaultValue: "ordinary",
-        options: [
-          { label: "Ordinary Annuity (end of period)", value: "ordinary" },
-          { label: "Annuity Due (start of period)", value: "due" },
-        ],
-      },
-    ],
-    resultFields: [
-      { key: "futureValue", label: "Future Value", highlight: true },
-      { key: "totalContributions", label: "Total Contributions" },
-      { key: "totalGrowth", label: "Total Growth" },
-    ],
-    calculate: (inputs) => {
-      const output = calculateAnnuity(
-        Number(inputs.periodicPayment),
-        Number(inputs.annualRate),
-        Number(inputs.years),
-        Number(inputs.paymentsPerYear) || 12,
-        String(inputs.timing) as AnnuityTiming
-      );
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How future value of an annuity is calculated",
@@ -15172,26 +14838,7 @@ explanation: [
     intro: "Calculate the regular periodic payout a lump sum can provide over a chosen number of years, fully depleting the balance by the end.",
     icon: "💸",
     status: "live",
-    inputFields: [
-      { key: "lumpSum", label: "Lump Sum Amount", type: "number", step: 0.01, placeholder: "e.g. 200000" },
-      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 5" },
-      { key: "payoutYears", label: "Payout Period (Years)", type: "number", step: 1, placeholder: "e.g. 20" },
-      { key: "paymentsPerYear", label: "Payments per Year", type: "number", step: 1, defaultValue: 12 },
-    ],
-    resultFields: [
-      { key: "periodicPayout", label: "Payout per Period", highlight: true },
-      { key: "totalPayout", label: "Total Payout Over Period" },
-      { key: "totalInterestEarned", label: "Total Interest Earned" },
-    ],
-    calculate: (inputs) => {
-      const output = calculateAnnuityPayout(
-        Number(inputs.lumpSum),
-        Number(inputs.annualRate),
-        Number(inputs.payoutYears),
-        Number(inputs.paymentsPerYear) || 12
-      );
-      return { ...output };
-    },
+    widgetType: "growthChart",
     explanation: [
       {
         heading: "How the payout amount is calculated",

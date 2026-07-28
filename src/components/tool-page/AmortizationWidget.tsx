@@ -116,9 +116,11 @@ export function AmortizationWidget({ tenureUnit }: AmortizationWidgetProps) {
               <YearlyStackedBarChart
                 data={result.yearly.map((row) => ({
                   label: row.year,
-                  principal: row.principalPaid,
-                  interest: row.interestPaid,
+                  a: row.principalPaid,
+                  b: row.interestPaid,
                 }))}
+                aLabel="Principal"
+                bLabel="Interest"
               />
             </div>
           </div>

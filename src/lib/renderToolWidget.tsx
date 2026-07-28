@@ -28,6 +28,7 @@ import { MatrixCalculatorWidget } from "@/components/tool-page/MatrixCalculatorW
 import { SerpPreviewWidget } from "@/components/tool-page/SerpPreviewWidget";
 import { ImageProcessorWidget } from "@/components/tool-page/ImageProcessorWidget";
 import { ExifViewerWidget } from "@/components/tool-page/ExifViewerWidget";
+import { GrowthCalculatorWidget } from "@/components/tool-page/GrowthCalculatorWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -74,5 +75,6 @@ export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "imageToJpg") return <ImageProcessorWidget mode="toJpg" />;
   if (tool.widgetType === "imageStripMetadata") return <ImageProcessorWidget mode="stripMetadata" />;
   if (tool.widgetType === "exifViewer") return <ExifViewerWidget />;
+  if (tool.widgetType === "growthChart") return <GrowthCalculatorWidget growthKey={tool.growthKey ?? tool.slug} />;
   return <CalculatorWidget slug={tool.slug} />;
 }

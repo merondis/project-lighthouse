@@ -93,8 +93,10 @@ export interface ToolConfig {
     | "imageToWebp"
     | "imageToJpg"
     | "imageStripMetadata"
-    | "exifViewer";
+    | "exifViewer"
+    | "growthChart";
   amortizationTenureUnit?: "months" | "years";
+  growthKey?: string;
   aiSystemPrompt?: string;
   aiActionLabel?: string;
   aiPlaceholder?: string;

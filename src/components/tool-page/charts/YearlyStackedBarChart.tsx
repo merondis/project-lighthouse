@@ -4,8 +4,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 
 export interface YearlyBarDatum {
   label: string | number;
-  principal: number;
-  interest: number;
+  a: number;
+  b: number;
 }
 
 function formatCompact(value: number): string {
@@ -14,7 +14,21 @@ function formatCompact(value: number): string {
   return String(value);
 }
 
-export function YearlyStackedBarChart({ data }: { data: YearlyBarDatum[] }) {
+interface YearlyStackedBarChartProps {
+  data: YearlyBarDatum[];
+  aLabel?: string;
+  bLabel?: string;
+  aColor?: string;
+  bColor?: string;
+}
+
+export function YearlyStackedBarChart({
+  data,
+  aLabel = "Principal",
+  bLabel = "Interest",
+  aColor = "#2563eb",
+  bColor = "#f59e0b",
+}: YearlyStackedBarChartProps) {
   if (data.length === 0) return null;
 
   return (
@@ -35,8 +49,8 @@ export function YearlyStackedBarChart({ data }: { data: YearlyBarDatum[] }) {
             formatter={(value) => Number(value).toLocaleString(undefined, { maximumFractionDigits: 2 })}
           />
           <Legend formatter={(value: string) => <span style={{ color: "#cbd5e1", fontSize: 12 }}>{value}</span>} />
-          <Bar dataKey="principal" name="Principal" stackId="a" fill="#2563eb" radius={[0, 0, 0, 0]} />
-          <Bar dataKey="interest" name="Interest" stackId="a" fill="#f59e0b" radius={[4, 4, 0, 0]} />
+          <Bar dataKey="a" name={aLabel} stackId="a" fill={aColor} radius={[0, 0, 0, 0]} />
+          <Bar dataKey="b" name={bLabel} stackId="a" fill={bColor} radius={[4, 4, 0, 0]} />
         </BarChart>
       </ResponsiveContainer>
     </div>
