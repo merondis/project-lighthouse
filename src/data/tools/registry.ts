@@ -60,6 +60,15 @@ import { calculateEmi } from "@/utils/calculators/emi-calculator";
 import { calculateLoan } from "@/utils/calculators/loan-calculator";
 import { calculatePercentage, PercentageMode } from "@/utils/calculators/percentage-calculator";
 import { ToolConfig } from "@/types/tool";
+import { calculateProfitMargin } from "@/utils/calculators/profit-margin-calculator";
+import { calculateGrossMargin } from "@/utils/calculators/gross-margin-calculator";
+import { calculateEbitda } from "@/utils/calculators/ebitda-calculator";
+import { calculateInventoryTurnover } from "@/utils/calculators/inventory-turnover-calculator";
+import { calculateInventoryDays } from "@/utils/calculators/inventory-days-calculator";
+import { calculateWorkingCapital } from "@/utils/calculators/working-capital-calculator";
+import { calculateCashFlow } from "@/utils/calculators/cash-flow-calculator";
+import { calculateInvoiceDueDate } from "@/utils/calculators/invoice-due-date-calculator";
+import { calculateBusinessValuation } from "@/utils/calculators/business-valuation-calculator";
 import { calculateAge } from "@/utils/calculators/age-calculator";
 import { calculateSip } from "@/utils/calculators/sip-calculator";
 import { calculateRetirement } from "@/utils/calculators/retirement-calculator";
@@ -13376,6 +13385,477 @@ explanation: [
       },
     ],
     relatedSlugs: ["image-metadata-remover", "image-resizer"],
+  },
+  {
+    slug: "profit-margin-calculator",
+    category: "finance",
+    title: "Profit Margin Calculator",
+    shortDescription: "Calculate net profit and profit margin from revenue and expenses.",
+    metaDescription: "Free online profit margin calculator to find your net profit and net profit margin percentage from total revenue and total expenses.",
+    h1: "Profit Margin Calculator",
+    intro: "Calculate your net profit and net profit margin from total revenue and total expenses.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "revenue", label: "Total Revenue", type: "number", step: 0.01, placeholder: "e.g. 100000" },
+      { key: "expenses", label: "Total Expenses", type: "number", step: 0.01, placeholder: "e.g. 80000" },
+    ],
+    resultFields: [
+      { key: "netProfit", label: "Net Profit", highlight: true },
+      { key: "profitMarginPercent", label: "Net Profit Margin", unit: "%", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const revenue = Number(inputs.revenue);
+      const expenses = Number(inputs.expenses);
+      const output = calculateProfitMargin(revenue, expenses);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How net profit margin is calculated",
+        paragraphs: [
+          "Net profit is Total Revenue minus Total Expenses (including cost of goods sold, operating costs, interest, and taxes). Net profit margin expresses that profit as a percentage of revenue: Net Profit ÷ Revenue × 100.",
+          "For example, 100,000 in revenue with 80,000 in total expenses leaves 20,000 in net profit, a 20% net profit margin.",
+        ],
+      },
+      {
+        heading: "Net margin vs gross margin",
+        paragraphs: [
+          "Net profit margin accounts for every expense the business has, while gross margin only subtracts the direct cost of goods sold. Net margin is always lower than (or equal to) gross margin, since it reflects the business's full cost structure.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What counts as a 'total expense' here?",
+        answer: "Include everything: cost of goods sold, operating expenses, interest, and taxes. This calculator produces net profit margin, the bottom-line figure, not gross margin.",
+      },
+      {
+        question: "What's a good profit margin?",
+        answer: "It varies widely by industry. Retail and grocery often run on thin margins of a few percent, while software and services businesses often see margins of 20% or more. Compare against your specific industry rather than a universal benchmark.",
+      },
+    ],
+    relatedSlugs: ["gross-margin-calculator", "roi-calculator", "breakeven-calculator"],
+  },
+  {
+    slug: "gross-margin-calculator",
+    category: "finance",
+    title: "Gross Margin Calculator",
+    shortDescription: "Calculate gross profit and gross margin from revenue and cost of goods sold.",
+    metaDescription: "Free online gross margin calculator to find your gross profit and gross margin percentage from revenue and cost of goods sold (COGS).",
+    h1: "Gross Margin Calculator",
+    intro: "Calculate your gross profit and gross margin percentage from total revenue and cost of goods sold.",
+    icon: "🧮",
+    status: "live",
+    inputFields: [
+      { key: "revenue", label: "Total Revenue", type: "number", step: 0.01, placeholder: "e.g. 100000" },
+      { key: "cogs", label: "Cost of Goods Sold (COGS)", type: "number", step: 0.01, placeholder: "e.g. 60000" },
+    ],
+    resultFields: [
+      { key: "grossProfit", label: "Gross Profit", highlight: true },
+      { key: "grossMarginPercent", label: "Gross Margin", unit: "%", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const revenue = Number(inputs.revenue);
+      const cogs = Number(inputs.cogs);
+      const output = calculateGrossMargin(revenue, cogs);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How gross margin is calculated",
+        paragraphs: [
+          "Gross profit is Revenue minus Cost of Goods Sold (COGS), meaning the direct costs of producing what you sold: materials, direct labor, and manufacturing overhead. Gross margin expresses that as a percentage: Gross Profit ÷ Revenue × 100.",
+          "For example, 100,000 in revenue with 60,000 in COGS leaves 40,000 in gross profit, a 40% gross margin.",
+        ],
+      },
+      {
+        heading: "What's excluded from COGS",
+        paragraphs: [
+          "COGS covers only the direct cost of producing goods or delivering services sold. It excludes indirect costs like marketing, rent, administrative salaries, and interest, those are subtracted later to arrive at net profit margin.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How is this different from net profit margin?",
+        answer: "Gross margin only subtracts the direct cost of goods sold, while net profit margin subtracts every business expense, including operating costs, interest, and taxes. Gross margin is always higher than or equal to net margin.",
+      },
+      {
+        question: "What's a healthy gross margin?",
+        answer: "It depends heavily on industry. Software businesses often see gross margins above 70%, while retailers and manufacturers often run between 20% and 50%. Compare against similar businesses in your sector.",
+      },
+    ],
+    relatedSlugs: ["profit-margin-calculator", "markup-calculator", "breakeven-calculator"],
+  },
+  {
+    slug: "ebitda-calculator",
+    category: "finance",
+    title: "EBITDA Calculator",
+    shortDescription: "Calculate EBITDA from net income, interest, taxes, depreciation and amortization.",
+    metaDescription: "Free online EBITDA calculator to find earnings before interest, taxes, depreciation and amortization, plus EBITDA margin.",
+    h1: "EBITDA Calculator",
+    intro: "Calculate EBITDA (Earnings Before Interest, Taxes, Depreciation and Amortization) from your income statement figures.",
+    icon: "💼",
+    status: "live",
+    inputFields: [
+      { key: "netIncome", label: "Net Income", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+      { key: "interestExpense", label: "Interest Expense", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "taxExpense", label: "Tax Expense", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "depreciation", label: "Depreciation", type: "number", step: 0.01, placeholder: "e.g. 8000" },
+      { key: "amortization", label: "Amortization", type: "number", step: 0.01, placeholder: "e.g. 2000" },
+      { key: "revenue", label: "Total Revenue (optional, for margin)", type: "number", step: 0.01, placeholder: "e.g. 200000" },
+    ],
+    resultFields: [
+      { key: "ebitda", label: "EBITDA", highlight: true },
+      { key: "ebitdaMarginPercent", label: "EBITDA Margin", unit: "%" },
+    ],
+    calculate: (inputs) => {
+      const netIncome = Number(inputs.netIncome);
+      const interestExpense = Number(inputs.interestExpense);
+      const taxExpense = Number(inputs.taxExpense);
+      const depreciation = Number(inputs.depreciation);
+      const amortization = Number(inputs.amortization);
+      const revenue = Number(inputs.revenue) || 0;
+      const output = calculateEbitda(netIncome, interestExpense, taxExpense, depreciation, amortization, revenue);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How EBITDA is calculated",
+        paragraphs: [
+          "EBITDA = Net Income + Interest + Taxes + Depreciation + Amortization. Adding these non-operating and non-cash items back to net income gives a picture of a company's core operating profitability, independent of financing structure, tax jurisdiction, and capital investment decisions.",
+          "For example, 50,000 in net income plus 5,000 interest, 10,000 taxes, 8,000 depreciation, and 2,000 amortization gives an EBITDA of 75,000.",
+        ],
+      },
+      {
+        heading: "Why EBITDA is used",
+        paragraphs: [
+          "EBITDA is commonly used to compare profitability across companies with different debt levels, tax situations, or asset bases, and is a common input into valuation multiples (like the earnings-multiple method used for small business valuation).",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is EBITDA the same as cash flow?",
+        answer: "No. EBITDA excludes some real cash costs, like changes in working capital and capital expenditures, so it's a proxy for operating profitability, not a direct measure of cash generated.",
+      },
+      {
+        question: "Do I need to enter revenue?",
+        answer: "Revenue is optional and only used to calculate EBITDA margin (EBITDA as a percentage of revenue). Leave it blank if you only need the EBITDA figure itself.",
+      },
+    ],
+    relatedSlugs: ["business-valuation-calculator", "profit-margin-calculator"],
+  },
+  {
+    slug: "inventory-turnover-calculator",
+    category: "finance",
+    title: "Inventory Turnover Calculator",
+    shortDescription: "Calculate how many times inventory is sold and replaced over a period.",
+    metaDescription: "Free online inventory turnover calculator to find your inventory turnover ratio from cost of goods sold and average inventory.",
+    h1: "Inventory Turnover Calculator",
+    intro: "Calculate your inventory turnover ratio, how many times you sell and replace your inventory over a period, from cost of goods sold and inventory levels.",
+    icon: "🔄",
+    status: "live",
+    inputFields: [
+      { key: "cogs", label: "Cost of Goods Sold (annual)", type: "number", step: 0.01, placeholder: "e.g. 500000" },
+      { key: "beginningInventory", label: "Beginning Inventory", type: "number", step: 0.01, placeholder: "e.g. 40000" },
+      { key: "endingInventory", label: "Ending Inventory", type: "number", step: 0.01, placeholder: "e.g. 60000" },
+    ],
+    resultFields: [
+      { key: "turnoverRatio", label: "Inventory Turnover Ratio", highlight: true },
+      { key: "averageInventory", label: "Average Inventory" },
+      { key: "daysToSellInventory", label: "Days to Sell Inventory", unit: "days" },
+    ],
+    calculate: (inputs) => {
+      const cogs = Number(inputs.cogs);
+      const beginningInventory = Number(inputs.beginningInventory);
+      const endingInventory = Number(inputs.endingInventory);
+      const output = calculateInventoryTurnover(cogs, beginningInventory, endingInventory);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How inventory turnover is calculated",
+        paragraphs: [
+          "Inventory Turnover Ratio = Cost of Goods Sold ÷ Average Inventory, where Average Inventory is (Beginning Inventory + Ending Inventory) ÷ 2. It measures how many times you sold and replaced your entire inventory over the period.",
+          "For example, 500,000 in COGS with an average inventory of 50,000 gives a turnover ratio of 10, meaning inventory was fully sold and replaced 10 times over the period.",
+        ],
+      },
+      {
+        heading: "Higher vs lower turnover",
+        paragraphs: [
+          "A higher turnover ratio generally indicates strong sales or efficient inventory management, while a low ratio can signal overstocking, weak sales, or obsolete inventory. What counts as 'good' varies significantly by industry, grocery retailers turn inventory far faster than furniture retailers, for example.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What period should I use for COGS?",
+        answer: "Use COGS for the same period as your beginning and ending inventory figures, typically a full year for an annual turnover ratio, or a quarter if you're tracking more frequently.",
+      },
+      {
+        question: "How does this relate to days to sell inventory?",
+        answer: "Days to sell inventory is 365 divided by the turnover ratio. A turnover ratio of 10 means inventory sits for roughly 36.5 days on average before being sold.",
+      },
+    ],
+    relatedSlugs: ["inventory-days-calculator", "working-capital-calculator"],
+  },
+  {
+    slug: "inventory-days-calculator",
+    category: "finance",
+    title: "Inventory Days Calculator",
+    shortDescription: "Calculate days inventory outstanding (DIO), how long inventory sits before it sells.",
+    metaDescription: "Free online inventory days calculator to find days inventory outstanding (DIO), the average number of days inventory sits before being sold.",
+    h1: "Inventory Days Calculator",
+    intro: "Calculate Days Inventory Outstanding (DIO), the average number of days your inventory sits in stock before it's sold.",
+    icon: "📆",
+    status: "live",
+    inputFields: [
+      { key: "cogs", label: "Cost of Goods Sold (annual)", type: "number", step: 0.01, placeholder: "e.g. 500000" },
+      { key: "beginningInventory", label: "Beginning Inventory", type: "number", step: 0.01, placeholder: "e.g. 40000" },
+      { key: "endingInventory", label: "Ending Inventory", type: "number", step: 0.01, placeholder: "e.g. 60000" },
+    ],
+    resultFields: [
+      { key: "daysInventoryOutstanding", label: "Days Inventory Outstanding", unit: "days", highlight: true },
+      { key: "averageInventory", label: "Average Inventory" },
+      { key: "turnoverRatio", label: "Inventory Turnover Ratio" },
+    ],
+    calculate: (inputs) => {
+      const cogs = Number(inputs.cogs);
+      const beginningInventory = Number(inputs.beginningInventory);
+      const endingInventory = Number(inputs.endingInventory);
+      const output = calculateInventoryDays(cogs, beginningInventory, endingInventory);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How days inventory outstanding is calculated",
+        paragraphs: [
+          "Days Inventory Outstanding = (Average Inventory ÷ Cost of Goods Sold) × 365, where Average Inventory is (Beginning Inventory + Ending Inventory) ÷ 2. It tells you, on average, how many days of stock you're carrying before it sells.",
+          "For example, an average inventory of 50,000 against 500,000 in annual COGS gives a DIO of 36.5 days.",
+        ],
+      },
+      {
+        heading: "Why DIO matters",
+        paragraphs: [
+          "Fewer days inventory outstanding generally means cash is tied up in stock for less time, freeing it up for other uses. A rising DIO over time can be an early signal of slowing sales or overstocking, worth investigating alongside turnover ratio and working capital.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this the same as inventory turnover?",
+        answer: "They're reciprocals of each other, scaled by 365. Turnover tells you how many times inventory cycles per year, while DIO tells you how many days that cycle takes. Both come from the same underlying figures.",
+      },
+      {
+        question: "What's a good DIO?",
+        answer: "It depends heavily on the industry. Perishable-goods retailers often aim for single-digit DIO, while manufacturers of durable goods commonly run 60-90 days or more. Compare against similar businesses rather than a fixed target.",
+      },
+    ],
+    relatedSlugs: ["inventory-turnover-calculator", "working-capital-calculator"],
+  },
+  {
+    slug: "working-capital-calculator",
+    category: "finance",
+    title: "Working Capital Calculator",
+    shortDescription: "Calculate working capital and current ratio from current assets and liabilities.",
+    metaDescription: "Free online working capital calculator to find your working capital and current ratio from current assets and current liabilities.",
+    h1: "Working Capital Calculator",
+    intro: "Calculate your working capital and current ratio, key measures of short-term financial health, from current assets and current liabilities.",
+    icon: "🏦",
+    status: "live",
+    inputFields: [
+      { key: "currentAssets", label: "Current Assets", type: "number", step: 0.01, placeholder: "e.g. 150000" },
+      { key: "currentLiabilities", label: "Current Liabilities", type: "number", step: 0.01, placeholder: "e.g. 100000" },
+    ],
+    resultFields: [
+      { key: "workingCapital", label: "Working Capital", highlight: true },
+      { key: "currentRatio", label: "Current Ratio", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const currentAssets = Number(inputs.currentAssets);
+      const currentLiabilities = Number(inputs.currentLiabilities);
+      const output = calculateWorkingCapital(currentAssets, currentLiabilities);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How working capital is calculated",
+        paragraphs: [
+          "Working Capital = Current Assets − Current Liabilities. Current Ratio = Current Assets ÷ Current Liabilities. Both measure a company's ability to cover short-term obligations with short-term assets.",
+          "For example, 150,000 in current assets against 100,000 in current liabilities gives 50,000 in working capital and a current ratio of 1.5.",
+        ],
+      },
+      {
+        heading: "Interpreting the numbers",
+        paragraphs: [
+          "Positive working capital (and a current ratio above 1) generally means a business can cover its near-term obligations. Negative working capital can signal liquidity trouble, though some business models (like subscription businesses collecting cash upfront) operate normally with low or negative working capital.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What counts as a current asset or current liability?",
+        answer: "Current assets are those expected to convert to cash within a year (cash, receivables, inventory). Current liabilities are obligations due within a year (accounts payable, short-term debt, accrued expenses).",
+      },
+      {
+        question: "What's a healthy current ratio?",
+        answer: "A current ratio between 1.5 and 3 is often considered healthy, though this varies by industry. A ratio below 1 can indicate difficulty covering short-term obligations, while a very high ratio may suggest assets aren't being used efficiently.",
+      },
+    ],
+    relatedSlugs: ["cash-flow-calculator", "inventory-turnover-calculator"],
+  },
+  {
+    slug: "cash-flow-calculator",
+    category: "finance",
+    title: "Cash Flow Calculator",
+    shortDescription: "Calculate net cash flow from operating, investing and financing activities.",
+    metaDescription: "Free online cash flow calculator to find your net cash flow from operating, investing and financing activities.",
+    h1: "Cash Flow Calculator",
+    intro: "Calculate your net cash flow by combining cash from operating, investing, and financing activities.",
+    icon: "💵",
+    status: "live",
+    inputFields: [
+      { key: "operatingCashFlow", label: "Operating Cash Flow", type: "number", step: 0.01, placeholder: "e.g. 30000" },
+      { key: "investingCashFlow", label: "Investing Cash Flow", type: "number", step: 0.01, placeholder: "e.g. -20000" },
+      { key: "financingCashFlow", label: "Financing Cash Flow", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+    ],
+    resultFields: [{ key: "netCashFlow", label: "Net Cash Flow", highlight: true }],
+    calculate: (inputs) => {
+      const operatingCashFlow = Number(inputs.operatingCashFlow);
+      const investingCashFlow = Number(inputs.investingCashFlow);
+      const financingCashFlow = Number(inputs.financingCashFlow);
+      const output = calculateCashFlow(operatingCashFlow, investingCashFlow, financingCashFlow);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How net cash flow is calculated",
+        paragraphs: [
+          "Net Cash Flow = Operating Cash Flow + Investing Cash Flow + Financing Cash Flow, the three sections of a standard cash flow statement. Enter outflows (like equipment purchases or debt repayments) as negative numbers.",
+          "For example, 30,000 from operations, -20,000 from investing (e.g. buying equipment), and 5,000 from financing (e.g. a loan draw) nets to 15,000 in overall cash flow.",
+        ],
+      },
+      {
+        heading: "The three types of cash flow",
+        paragraphs: [
+          "Operating cash flow comes from core business activities. Investing cash flow reflects buying or selling long-term assets. Financing cash flow reflects debt, equity, and dividend activity. Looking at all three separately, not just the net total, shows where cash is actually coming from and going.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should outflows be negative?",
+        answer: "Yes. Enter cash going out (equipment purchases, debt repayments, dividends paid) as negative numbers, and cash coming in as positive numbers, matching how these figures appear on a standard cash flow statement.",
+      },
+      {
+        question: "Is positive net cash flow always good?",
+        answer: "Not necessarily. A company could show positive net cash flow simply by taking on debt (financing activity) while its core operations lose cash. It's worth checking each of the three components, not just the total.",
+      },
+    ],
+    relatedSlugs: ["working-capital-calculator", "net-worth-calculator"],
+  },
+  {
+    slug: "invoice-due-date-calculator",
+    category: "finance",
+    title: "Invoice Due Date Calculator",
+    shortDescription: "Calculate an invoice's due date from the invoice date and payment terms.",
+    metaDescription: "Free online invoice due date calculator to find when an invoice is due based on the invoice date and payment terms like Net 30 or Net 60.",
+    h1: "Invoice Due Date Calculator",
+    intro: "Calculate an invoice's due date from its issue date and payment terms, like Net 15, Net 30, or Net 60.",
+    icon: "🧾",
+    status: "live",
+    inputFields: [
+      { key: "invoiceDate", label: "Invoice Date", type: "date" },
+      { key: "termDays", label: "Payment Terms (days)", type: "number", step: 1, placeholder: "e.g. 30" },
+    ],
+    resultFields: [
+      { key: "dueDate", label: "Due Date", highlight: true },
+      { key: "daysFromToday", label: "Days From Today", unit: "days" },
+    ],
+    calculate: (inputs) => {
+      const invoiceDate = String(inputs.invoiceDate);
+      const termDays = Number(inputs.termDays);
+      const output = calculateInvoiceDueDate(invoiceDate, termDays);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the due date is calculated",
+        paragraphs: [
+          "The due date is simply the invoice date plus the number of days in your payment terms. Net 30 terms mean payment is due 30 days after the invoice date, Net 60 means 60 days, and so on.",
+          "For example, an invoice dated July 28, 2026 with Net 30 terms is due August 27, 2026.",
+        ],
+      },
+      {
+        heading: "Common payment terms",
+        paragraphs: [
+          "Net 15, Net 30, Net 45, and Net 60 are the most common terms, with Net 30 being the default in most B2B invoicing. Some businesses also offer early-payment discounts, like '2/10 Net 30' meaning a 2% discount if paid within 10 days, otherwise the full amount is due in 30.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my terms aren't a round number like Net 30?",
+        answer: "Enter the exact number of days from your payment terms, for example 45 for Net 45 or 7 for weekly terms. The calculator adds that many calendar days to the invoice date.",
+      },
+      {
+        question: "Does this account for weekends or holidays?",
+        answer: "No, it adds calendar days, not business days, which matches how most standard payment terms (Net 30, Net 60, etc.) are defined.",
+      },
+    ],
+    relatedSlugs: ["date-calculator", "working-days-calculator"],
+  },
+  {
+    slug: "business-valuation-calculator",
+    category: "finance",
+    title: "Business Valuation Calculator",
+    shortDescription: "Estimate a business's value using the earnings-multiple method.",
+    metaDescription: "Free online business valuation calculator to estimate a business's value using the earnings-multiple method (annual earnings × industry multiple).",
+    h1: "Business Valuation Calculator",
+    intro: "Estimate a small business's value using the earnings-multiple method, a common approach for privately held business sales.",
+    icon: "🏷️",
+    status: "live",
+    inputFields: [
+      { key: "annualEarnings", label: "Annual Earnings (SDE or EBITDA)", type: "number", step: 0.01, placeholder: "e.g. 100000" },
+      { key: "multiple", label: "Industry Multiple", type: "number", step: 0.1, placeholder: "e.g. 3" },
+      { key: "addBackAssets", label: "Add-Back Assets (e.g. excess cash)", type: "number", step: 0.01, defaultValue: 0, placeholder: "e.g. 20000" },
+    ],
+    resultFields: [{ key: "estimatedValue", label: "Estimated Business Value", highlight: true }],
+    calculate: (inputs) => {
+      const annualEarnings = Number(inputs.annualEarnings);
+      const multiple = Number(inputs.multiple);
+      const addBackAssets = Number(inputs.addBackAssets) || 0;
+      const output = calculateBusinessValuation(annualEarnings, multiple, addBackAssets);
+      return { estimatedValue: output.estimatedValue };
+    },
+    explanation: [
+      {
+        heading: "How this estimate is calculated",
+        paragraphs: [
+          "Estimated Value = (Annual Earnings × Industry Multiple) + Add-Back Assets. Annual earnings is typically Seller's Discretionary Earnings (SDE) for small businesses or EBITDA for larger ones. The multiple reflects what similar businesses in your industry typically sell for, as a multiple of that earnings figure.",
+          "For example, 100,000 in annual earnings with a 3x multiple and 20,000 in add-back assets (like excess cash not needed to run the business) gives an estimated value of 320,000.",
+        ],
+      },
+      {
+        heading: "Why multiples vary so much",
+        paragraphs: [
+          "Industry multiples for small businesses commonly range from about 2x to 4x SDE, though they can be higher for businesses with recurring revenue, strong growth, or low owner dependency, and lower for businesses with concentrated customer risk or heavy owner involvement. Research recent sales of comparable businesses in your industry for a realistic multiple.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this a substitute for a professional valuation?",
+        answer: "No. This gives a quick, simplified estimate using one common method. A formal valuation from a business appraiser or broker considers many additional factors, market conditions, deal structure, and due diligence findings, and should be used for actual transactions.",
+      },
+      {
+        question: "What's the difference between SDE and EBITDA?",
+        answer: "SDE (Seller's Discretionary Earnings) adds back the owner's salary and personal benefits on top of EBITDA, and is typically used for smaller, owner-operated businesses. EBITDA is more common for larger businesses with professional management already in place.",
+      },
+    ],
+    relatedSlugs: ["ebitda-calculator", "roi-calculator"],
   },
 ];
 
