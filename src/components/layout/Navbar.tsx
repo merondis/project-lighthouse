@@ -19,14 +19,14 @@ export function Navbar() {
     <header className="print:hidden border-b border-white/5 bg-brand-bg">
       <Container>
         <nav className="flex h-[72px] items-center justify-between">
-          <Link href="/" className="text-2xl font-bold text-white">
+          <Link href="/" className="text-3xl font-bold text-white">
             Merondis
           </Link>
 
           <ul className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
-                <Link href={link.href} className="text-sm font-medium text-white hover:text-brand-accent">
+                <Link href={link.href} className="text-base font-medium text-white hover:text-brand-accent">
                   {link.label}
                 </Link>
               </li>
@@ -50,7 +50,7 @@ export function Navbar() {
                 <Link
                   href={link.href}
                   onClick={() => setOpen(false)}
-                  className="block text-sm font-medium text-white hover:text-brand-accent"
+                  className="block text-base font-medium text-white hover:text-brand-accent"
                 >
                   {link.label}
                 </Link>
