@@ -18,7 +18,7 @@ export function Navbar() {
   return (
     <header className="print:hidden border-b border-white/5 bg-brand-bg">
       <Container>
-        <nav className="flex h-20 items-center justify-between">
+        <nav className="flex h-[72px] items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-white">
             Merondis
           </Link>
