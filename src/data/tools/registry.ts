@@ -195,6 +195,7 @@ import { generateHreflangTags } from "@/utils/calculators/hreflang-generator";
 import { calculateKeywordDensity, PhraseLength } from "@/utils/calculators/keyword-density-checker";
 import { buildUtmUrl } from "@/utils/calculators/utm-url-builder";
 import { generateRedirectSnippets } from "@/utils/calculators/url-redirect-generator";
+import { optimizeSvg } from "@/utils/calculators/svg-optimizer";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -13101,6 +13102,280 @@ explanation: [
       },
     ],
     relatedSlugs: ["utm-url-builder", "canonical-tag-generator"],
+  },
+  {
+    slug: "image-resizer",
+    category: "image",
+    title: "Image Resizer",
+    shortDescription: "Resize an image to exact pixel dimensions.",
+    metaDescription: "Free online image resizer to resize a JPG, PNG or WebP image to exact pixel dimensions, entirely in your browser.",
+    h1: "Image Resizer",
+    intro: "Resize an image to exact width and height in pixels, with an optional locked aspect ratio, processed entirely in your browser.",
+    icon: "📐",
+    status: "live",
+    widgetType: "imageResize",
+    explanation: [
+      {
+        heading: "How this resizer works",
+        paragraphs: [
+          "This tool draws your uploaded image onto an HTML canvas at your target width and height, then re-exports it, using the canvas rendering built into every modern browser. Your image is never uploaded to a server, everything happens locally on your device.",
+        ],
+      },
+      {
+        heading: "Why lock the aspect ratio",
+        paragraphs: [
+          "Resizing without keeping the original width-to-height ratio stretches or squashes the image. With 'lock aspect ratio' enabled, changing the width automatically recalculates a proportional height (and vice versa), so the image keeps its natural proportions.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does resizing reduce file size too?",
+        answer: "Usually yes, smaller pixel dimensions generally produce a smaller file, though the exact reduction depends on the image format and content. Use our Image Compressor if file size, not dimensions, is your main goal.",
+      },
+      {
+        question: "Is my image uploaded anywhere?",
+        answer: "No, resizing happens entirely in your browser using canvas rendering, your image is never sent to or stored on our servers.",
+      },
+    ],
+    relatedSlugs: ["image-compressor", "image-metadata-remover"],
+  },
+  {
+    slug: "image-compressor",
+    category: "image",
+    title: "Image Compressor",
+    shortDescription: "Compress an image to reduce its file size.",
+    metaDescription: "Free online image compressor to reduce a JPG or PNG image's file size with an adjustable quality slider, entirely in your browser.",
+    h1: "Image Compressor",
+    intro: "Compress an image to reduce its file size, with an adjustable quality slider, processed entirely in your browser.",
+    icon: "🗜️",
+    status: "live",
+    widgetType: "imageCompress",
+    explanation: [
+      {
+        heading: "How this compressor works",
+        paragraphs: [
+          "This tool re-encodes your image as JPEG at an adjustable quality level using canvas rendering built into every modern browser, lower quality produces a smaller file at the cost of some visual detail. If your source image has transparency, transparent areas are filled with white, since JPEG doesn't support transparency.",
+        ],
+      },
+      {
+        heading: "Why the output is always JPEG",
+        paragraphs: [
+          "Browsers only expose an adjustable lossy quality setting for JPEG (and WebP) when re-encoding via canvas, PNG re-encoding is always lossless with no size-quality tradeoff. Standardizing on JPEG output gives predictable, meaningful compression regardless of your source format. If you specifically need a compressed WebP file, use our JPG to WebP or Image Resizer tools with a lower quality/resolution instead.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What quality setting should I use?",
+        answer: "80-90% typically gives a good balance of visibly minimal quality loss with a solid file size reduction. Go lower (50-70%) for a much smaller file where some quality loss is acceptable, like thumbnails.",
+      },
+      {
+        question: "Will this work well on PNG images with transparency?",
+        answer: "The output will be a JPEG with transparent areas filled white, since JPEG has no transparency channel. If you need to keep transparency, this tool isn't the right fit, consider resizing instead.",
+      },
+    ],
+    relatedSlugs: ["image-resizer", "jpg-to-webp"],
+  },
+  {
+    slug: "webp-to-jpg",
+    category: "image",
+    title: "WebP to JPG Converter",
+    shortDescription: "Convert a WebP image to JPG.",
+    metaDescription: "Free online WebP to JPG converter to convert a WebP image to JPG format, entirely in your browser.",
+    h1: "WebP to JPG Converter",
+    intro: "Convert a WebP image to JPG format, processed entirely in your browser using native image decoding, no upload required.",
+    icon: "🔄",
+    status: "live",
+    widgetType: "imageToJpg",
+    explanation: [
+      {
+        heading: "How this converter works",
+        paragraphs: [
+          "Modern browsers can natively decode WebP images. This tool loads your WebP file, draws it onto a canvas, and re-exports it as a JPEG, all using built-in browser capabilities with no upload or third-party service involved. Transparent areas in the source WebP are filled with white, since JPEG doesn't support transparency.",
+        ],
+      },
+      {
+        heading: "Why convert WebP to JPG",
+        paragraphs: [
+          "WebP offers better compression than JPEG for the same visual quality, but JPG remains the most universally compatible format, useful when submitting to a platform, printing service, or older software that doesn't accept WebP files.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will image quality be affected?",
+        answer: "There's a small quality/compression tradeoff inherent in converting to JPEG, but at the default quality setting the difference is minimal for most photos.",
+      },
+      {
+        question: "Is this tool free to use?",
+        answer: "Yes, completely free, with no sign-up, watermarks, or file limits beyond what your browser can handle.",
+      },
+    ],
+    relatedSlugs: ["jpg-to-webp", "image-compressor"],
+  },
+  {
+    slug: "jpg-to-webp",
+    category: "image",
+    title: "JPG to WebP Converter",
+    shortDescription: "Convert a JPG image to WebP.",
+    metaDescription: "Free online JPG to WebP converter to convert a JPG or PNG image to WebP format, entirely in your browser.",
+    h1: "JPG to WebP Converter",
+    intro: "Convert a JPG or PNG image to WebP format, with an adjustable quality slider, processed entirely in your browser.",
+    icon: "🔃",
+    status: "live",
+    widgetType: "imageToWebp",
+    explanation: [
+      {
+        heading: "How this converter works",
+        paragraphs: [
+          "This tool draws your uploaded image onto a canvas and re-exports it as WebP using the canvas encoding built into every modern browser, no upload or third-party service involved.",
+        ],
+      },
+      {
+        heading: "Why convert to WebP",
+        paragraphs: [
+          "WebP typically produces smaller file sizes than JPEG or PNG at a comparable visual quality, which helps pages load faster. It's supported by all modern browsers, making it a solid choice for web images where broad legacy compatibility isn't a concern.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does WebP support transparency like PNG?",
+        answer: "Yes, WebP supports transparency, and if your source image has an alpha channel, it's preserved in the WebP output (unlike converting to JPG, which always fills transparency with white).",
+      },
+      {
+        question: "What quality setting should I use?",
+        answer: "80-90% is a reasonable starting point for most images, balancing file size against visual quality. Adjust the slider and compare the resulting file size for your specific image.",
+      },
+    ],
+    relatedSlugs: ["webp-to-jpg", "image-compressor"],
+  },
+  {
+    slug: "svg-optimizer",
+    category: "image",
+    title: "SVG Optimizer",
+    shortDescription: "Clean up and shrink SVG markup.",
+    metaDescription: "Free online SVG optimizer to strip comments, editor metadata and excess coordinate precision from SVG markup, reducing file size.",
+    h1: "SVG Optimizer",
+    intro: "Paste your SVG markup to strip comments, design-tool metadata and unnecessary whitespace, and round excess coordinate precision.",
+    icon: "✨",
+    status: "live",
+    inputFields: [
+      { key: "svg", label: "Your SVG Markup", type: "textarea", placeholder: "<svg xmlns=\"http://www.w3.org/2000/svg\">...</svg>" },
+      { key: "precision", label: "Decimal Precision for Coordinates", type: "number", step: 1, defaultValue: 2 },
+    ],
+    resultFields: [
+      { key: "result", label: "Optimized SVG", wide: true },
+      { key: "originalSizeBytes", label: "Original Size (bytes)" },
+      { key: "optimizedSizeBytes", label: "Optimized Size (bytes)" },
+      { key: "reductionPercent", label: "Size Reduction (%)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const svg = String(inputs.svg ?? "");
+      const precision = Number(inputs.precision ?? 2);
+      const output = optimizeSvg(svg, precision);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this optimizer works",
+        paragraphs: [
+          "This tool strips XML comments, removes design-tool editor metadata (Illustrator, Inkscape and Sketch-specific namespaced attributes and elements, which have no visual effect), collapses unnecessary whitespace, and rounds excess decimal precision inside coordinate-bearing attributes (d, viewBox, points, transform) to your chosen precision. It's a text-based, heuristic cleanup, not a full AST-based optimizer like SVGO, but it safely handles the cleanups that account for most of the reducible size in hand-exported SVGs.",
+        ],
+      },
+      {
+        heading: "Why excess coordinate precision happens",
+        paragraphs: [
+          "Design tools frequently export path coordinates with far more decimal places than are visually meaningful (like 12.340000000001 instead of 12.34), a side effect of internal floating-point math. Rounding this precision, and only within known coordinate attributes so nothing else in the file is affected, shrinks path data without any visible change to how the SVG renders.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will this change how my SVG looks?",
+        answer: "No, every change made is either purely cosmetic (comments, metadata, whitespace) or a coordinate rounding small enough to be visually imperceptible at any reasonable precision setting (2 decimal places is a safe default).",
+      },
+      {
+        question: "Does this rewrite or simplify path data itself?",
+        answer: "No, this tool doesn't merge, simplify, or restructure path commands, a task that requires real path-data parsing. It focuses on safe removals and precision rounding, the highest-value, lowest-risk cleanups for typical exported SVGs.",
+      },
+    ],
+    relatedSlugs: ["image-metadata-remover", "html-minifier"],
+  },
+  {
+    slug: "image-metadata-remover",
+    category: "image",
+    title: "Image Metadata Remover",
+    shortDescription: "Strip EXIF, GPS and other metadata from an image.",
+    metaDescription: "Free online image metadata remover to strip EXIF, GPS location and other hidden metadata from a photo, entirely in your browser.",
+    h1: "Image Metadata Remover",
+    intro: "Remove EXIF, GPS location and other hidden metadata from a photo, keeping the same format and dimensions, processed entirely in your browser.",
+    icon: "🧹",
+    status: "live",
+    widgetType: "imageStripMetadata",
+    explanation: [
+      {
+        heading: "How this tool removes metadata",
+        paragraphs: [
+          "This tool draws your image onto a canvas and re-exports it, canvas rendering only ever carries the visible pixel data, not the original file's metadata segments, so re-encoding this way strips EXIF camera data, GPS location, timestamps, and any other embedded metadata as a natural side effect, no metadata-specific logic needed, which makes this a thorough and reliable removal method.",
+        ],
+      },
+      {
+        heading: "Why you might want to remove metadata",
+        paragraphs: [
+          "Photos taken on phones and cameras often embed GPS coordinates, device information, and timestamps in EXIF metadata. Stripping this before sharing a photo publicly (on a website, marketplace listing, or social media) prevents that hidden information, including your exact location, from being unintentionally exposed to anyone who inspects the file.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will the image quality change?",
+        answer: "The output uses a high quality setting for formats that need re-encoding (like JPEG), so any quality difference is minimal. PNG and WebP inputs are re-encoded losslessly where the browser supports it.",
+      },
+      {
+        question: "How do I check whether metadata was actually removed?",
+        answer: "Run the output file through our EXIF Viewer, it should show no EXIF data found.",
+      },
+    ],
+    relatedSlugs: ["exif-viewer", "image-compressor"],
+  },
+  {
+    slug: "exif-viewer",
+    category: "image",
+    title: "EXIF Viewer",
+    shortDescription: "View EXIF metadata embedded in a JPEG photo.",
+    metaDescription: "Free online EXIF viewer to see camera, exposure, date and other metadata embedded in a JPEG photo, entirely in your browser.",
+    h1: "EXIF Viewer",
+    intro: "View the EXIF metadata embedded in a JPEG photo, camera make and model, exposure settings, date taken, and more.",
+    icon: "🔍",
+    status: "live",
+    widgetType: "exifViewer",
+    explanation: [
+      {
+        heading: "How this viewer works",
+        paragraphs: [
+          "This tool reads your JPEG file's raw bytes directly in your browser and parses its EXIF metadata segment following the TIFF/EXIF specification's tag structure, no upload, and no third-party library involved. It currently supports JPEG files, the most common format for camera and phone photos to carry EXIF data.",
+        ],
+      },
+      {
+        heading: "What EXIF data typically includes",
+        paragraphs: [
+          "EXIF metadata can include the camera make and model, exposure time, f-number (aperture), ISO speed, focal length, orientation, and the date and time the photo was taken. Some photos also include GPS location data, though this tool focuses on the camera and exposure details most people are looking for.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does it say no EXIF data was found?",
+        answer: "Many images have their EXIF metadata stripped already, either by the platform they were downloaded from (social media and messaging apps commonly strip it), a previous edit, or because they were never a camera photo to begin with (like a screenshot or a graphic).",
+      },
+      {
+        question: "Does this work for PNG or WebP files?",
+        answer: "No, this tool currently supports JPEG files only, since JPEG's EXIF-in-APP1-segment structure is what this parser reads. JPEG is by far the most common format for photos carrying EXIF data from cameras and phones.",
+      },
+    ],
+    relatedSlugs: ["image-metadata-remover", "image-resizer"],
   },
 ];
 

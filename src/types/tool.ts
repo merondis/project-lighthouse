@@ -12,7 +12,8 @@ export type ToolCategorySlug =
   | "math"
   | "construction"
   | "automotive"
-  | "seo";
+  | "seo"
+  | "image";
 
 export type ToolStatus = "live" | "comingSoon";
 
@@ -85,7 +86,13 @@ export interface ToolConfig {
     | "watermarkPdf"
     | "bmi"
     | "matrix"
-    | "serpPreview";
+    | "serpPreview"
+    | "imageResize"
+    | "imageCompress"
+    | "imageToWebp"
+    | "imageToJpg"
+    | "imageStripMetadata"
+    | "exifViewer";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;

@@ -121,6 +121,14 @@ export const categories: Category[] = [
     intro:
       "Good on-page SEO involves a lot of small, precise details, meta tags, structured data, sitemaps, canonical URLs, that are easy to get slightly wrong by hand. Our SEO tools generate correctly formatted tags and markup from simple form inputs, so you can copy exactly what search engines and social platforms expect straight into your site, with no sign-up and nothing sent to a server.",
   },
+  {
+    slug: "image",
+    name: "Image Tools",
+    icon: "🖼️",
+    description: "Resize, compress, convert and clean up images, all in your browser.",
+    intro:
+      "Resizing, compressing or converting an image usually means uploading it to some website and hoping they don't keep a copy. Our image tools do the same job entirely inside your browser using the canvas rendering built into every modern browser, your photo is never uploaded anywhere, and it's processed instantly.",
+  },
 ];
 
 export function getCategory(slug: string) {

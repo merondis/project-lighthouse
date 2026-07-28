@@ -26,6 +26,8 @@ import { WatermarkPdfWidget } from "@/components/tool-page/WatermarkPdfWidget";
 import { BmiCalculatorWidget } from "@/components/tool-page/BmiCalculatorWidget";
 import { MatrixCalculatorWidget } from "@/components/tool-page/MatrixCalculatorWidget";
 import { SerpPreviewWidget } from "@/components/tool-page/SerpPreviewWidget";
+import { ImageProcessorWidget } from "@/components/tool-page/ImageProcessorWidget";
+import { ExifViewerWidget } from "@/components/tool-page/ExifViewerWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -66,5 +68,11 @@ export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "bmi") return <BmiCalculatorWidget />;
   if (tool.widgetType === "matrix") return <MatrixCalculatorWidget />;
   if (tool.widgetType === "serpPreview") return <SerpPreviewWidget />;
+  if (tool.widgetType === "imageResize") return <ImageProcessorWidget mode="resize" />;
+  if (tool.widgetType === "imageCompress") return <ImageProcessorWidget mode="compress" />;
+  if (tool.widgetType === "imageToWebp") return <ImageProcessorWidget mode="toWebp" />;
+  if (tool.widgetType === "imageToJpg") return <ImageProcessorWidget mode="toJpg" />;
+  if (tool.widgetType === "imageStripMetadata") return <ImageProcessorWidget mode="stripMetadata" />;
+  if (tool.widgetType === "exifViewer") return <ExifViewerWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }
