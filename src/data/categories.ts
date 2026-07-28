@@ -129,6 +129,14 @@ export const categories: Category[] = [
     intro:
       "Resizing, compressing or converting an image usually means uploading it to some website and hoping they don't keep a copy. Our image tools do the same job entirely inside your browser using the canvas rendering built into every modern browser, your photo is never uploaded anywhere, and it's processed instantly.",
   },
+  {
+    slug: "education",
+    name: "Education",
+    icon: "🎓",
+    description: "GPA, grade, attendance and study planning calculators for students.",
+    intro:
+      "These tools cover the everyday math of student life, working out a cumulative GPA across semesters, what score you need on a final exam, converting marks to a percentage, tracking attendance against a target, or planning how much time to study before an exam. All calculations run in your browser using standard formulas, with nothing to sign up for and nothing sent to a server.",
+  },
 ];
 
 export function getCategory(slug: string) {

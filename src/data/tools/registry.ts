@@ -69,6 +69,11 @@ import { calculateWorkingCapital } from "@/utils/calculators/working-capital-cal
 import { calculateCashFlow } from "@/utils/calculators/cash-flow-calculator";
 import { calculateInvoiceDueDate } from "@/utils/calculators/invoice-due-date-calculator";
 import { calculateBusinessValuation } from "@/utils/calculators/business-valuation-calculator";
+import { calculateCgpa } from "@/utils/calculators/cgpa-calculator";
+import { calculateFinalGradeNeeded } from "@/utils/calculators/final-grade-calculator";
+import { calculateGradePercentage } from "@/utils/calculators/grade-percentage-calculator";
+import { calculateAttendance } from "@/utils/calculators/attendance-calculator";
+import { calculateStudyTime } from "@/utils/calculators/study-time-calculator";
 import { calculateAge } from "@/utils/calculators/age-calculator";
 import { calculateSip } from "@/utils/calculators/sip-calculator";
 import { calculateRetirement } from "@/utils/calculators/retirement-calculator";
@@ -4257,8 +4262,12 @@ explanation: [
         question: "Can I calculate GPA for more than 5 courses?",
         answer: "This tool supports up to 5 courses at a time. For a full semester with more courses, you can calculate in batches and combine the weighted totals manually.",
       },
+      {
+        question: "I need my GPA across multiple semesters, not just one. Where do I do that?",
+        answer: "Use the CGPA Calculator instead. It combines each semester's GPA and credit hours into one cumulative figure, rather than calculating a single semester from letter grades.",
+      },
     ],
-    relatedSlugs: ["percentage-calculator"],
+    relatedSlugs: ["percentage-calculator", "cgpa-calculator"],
   },
   {
     slug: "ideal-weight-calculator",
@@ -13856,6 +13865,278 @@ explanation: [
       },
     ],
     relatedSlugs: ["ebitda-calculator", "roi-calculator"],
+  },
+  {
+    slug: "cgpa-calculator",
+    category: "education",
+    title: "CGPA Calculator",
+    shortDescription: "Calculate your cumulative GPA across multiple semesters.",
+    metaDescription: "Free online CGPA calculator to calculate your cumulative Grade Point Average across multiple semesters or years.",
+    h1: "CGPA Calculator",
+    intro: "Calculate your cumulative GPA (CGPA) by entering the GPA and credit hours for each semester or year.",
+    icon: "🎓",
+    status: "live",
+    inputFields: [
+      { key: "gpa1", label: "Semester 1 GPA", type: "number", step: 0.01, placeholder: "e.g. 3.5" },
+      { key: "credits1", label: "Semester 1 Credits", type: "number", step: 0.5, placeholder: "e.g. 15" },
+      { key: "gpa2", label: "Semester 2 GPA", type: "number", step: 0.01, placeholder: "e.g. 3.8" },
+      { key: "credits2", label: "Semester 2 Credits", type: "number", step: 0.5, placeholder: "e.g. 16" },
+      { key: "gpa3", label: "Semester 3 GPA", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "credits3", label: "Semester 3 Credits", type: "number", step: 0.5, placeholder: "Leave blank if not used" },
+      { key: "gpa4", label: "Semester 4 GPA", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "credits4", label: "Semester 4 Credits", type: "number", step: 0.5, placeholder: "Leave blank if not used" },
+      { key: "gpa5", label: "Semester 5 GPA", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "credits5", label: "Semester 5 Credits", type: "number", step: 0.5, placeholder: "Leave blank if not used" },
+      { key: "gpa6", label: "Semester 6 GPA", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "credits6", label: "Semester 6 Credits", type: "number", step: 0.5, placeholder: "Leave blank if not used" },
+    ],
+    resultFields: [
+      { key: "cgpa", label: "Cumulative GPA (CGPA)", highlight: true },
+      { key: "totalCredits", label: "Total Credits" },
+    ],
+    calculate: (inputs) => {
+      const semesters = [1, 2, 3, 4, 5, 6].map((n) => ({
+        gpa: Number(inputs["gpa" + n]) || 0,
+        credits: Number(inputs["credits" + n]) || 0,
+      }));
+      const output = calculateCgpa(semesters);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How CGPA is calculated",
+        paragraphs: [
+          "CGPA (Cumulative Grade Point Average) is a credit-weighted average of your GPA across all semesters: multiply each semester's GPA by its credit hours, sum those values, then divide by your total credit hours across every semester.",
+          "For example, a 3.5 GPA over 15 credits in one semester and a 3.8 GPA over 16 credits in the next gives a CGPA of (3.5×15 + 3.8×16) ÷ (15+16) ≈ 3.65.",
+        ],
+      },
+      {
+        heading: "CGPA vs single-semester GPA",
+        paragraphs: [
+          "A single-semester GPA only reflects the courses taken in that term. CGPA aggregates every semester you've completed, weighted by credit hours, giving a running average of your entire academic record. If you only need one semester's GPA from letter grades, use our GPA Calculator instead.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if I only have 2 or 3 semesters so far?",
+        answer: "Leave the remaining semester fields blank, they're excluded automatically and won't affect your CGPA.",
+      },
+      {
+        question: "How is this different from the GPA Calculator?",
+        answer: "The GPA Calculator converts letter grades to a GPA for a single semester's courses. This CGPA Calculator combines multiple semesters' already-calculated GPAs, weighted by credits, into one cumulative figure.",
+      },
+    ],
+    relatedSlugs: ["gpa-calculator", "grade-percentage-calculator", "final-grade-calculator"],
+  },
+  {
+    slug: "final-grade-calculator",
+    category: "education",
+    title: "Final Grade Calculator",
+    shortDescription: "Calculate the score you need on your final exam to reach a target grade.",
+    metaDescription: "Free online final grade calculator to find the score you need on your final exam to achieve your desired overall course grade.",
+    h1: "Final Grade Calculator",
+    intro: "Find out what score you need on your final exam to reach your desired overall grade in the course.",
+    icon: "📝",
+    status: "live",
+    inputFields: [
+      { key: "currentGrade", label: "Current Grade (%)", type: "number", step: 0.01, placeholder: "e.g. 75" },
+      { key: "finalExamWeight", label: "Final Exam Weight (%)", type: "number", step: 0.01, placeholder: "e.g. 30" },
+      { key: "desiredGrade", label: "Desired Overall Grade (%)", type: "number", step: 0.01, placeholder: "e.g. 80" },
+    ],
+    resultFields: [{ key: "neededScore", label: "Score Needed on Final", unit: "%", highlight: true }],
+    calculate: (inputs) => {
+      const currentGrade = Number(inputs.currentGrade);
+      const finalExamWeight = Number(inputs.finalExamWeight);
+      const desiredGrade = Number(inputs.desiredGrade);
+      const output = calculateFinalGradeNeeded(currentGrade, finalExamWeight, desiredGrade);
+      return { neededScore: output.neededScore };
+    },
+    explanation: [
+      {
+        heading: "How the needed final exam score is calculated",
+        paragraphs: [
+          "Needed Score = (Desired Grade − Current Grade × (1 − Final Weight)) ÷ Final Weight, where Final Weight is entered as a decimal (30% becomes 0.3). This works backward from your target overall grade to find what the final exam alone needs to contribute.",
+          "For example, with a 75% current grade, a final exam worth 30% of your overall grade, and a target of 80% overall, you'd need to score about 91.7% on the final.",
+        ],
+      },
+      {
+        heading: "When the needed score is over 100% or under 0%",
+        paragraphs: [
+          "If the calculated needed score is above 100%, your target grade isn't reachable no matter how well you do on the final, given your current grade and the exam's weight. If it's below 0%, you've already secured your target grade regardless of the final exam score.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my final exam weight isn't a clean percentage?",
+        answer: "Enter it as accurately as possible, for example 25.5 for 25.5%. Check your course syllabus for the exact weighting if you're unsure.",
+      },
+      {
+        question: "What does it mean if the needed score is negative or over 100%?",
+        answer: "A negative result means you've already reached your target grade regardless of the final. A result over 100% means the target isn't achievable given your current grade and the final's weight.",
+      },
+    ],
+    relatedSlugs: ["grade-percentage-calculator", "cgpa-calculator"],
+  },
+  {
+    slug: "grade-percentage-calculator",
+    category: "education",
+    title: "Grade Percentage Calculator",
+    shortDescription: "Convert marks obtained into a percentage and letter grade.",
+    metaDescription: "Free online grade percentage calculator to convert marks obtained out of total marks into a percentage and letter grade.",
+    h1: "Grade Percentage Calculator",
+    intro: "Calculate your percentage score and approximate letter grade from marks obtained and total marks.",
+    icon: "💯",
+    status: "live",
+    inputFields: [
+      { key: "marksObtained", label: "Marks Obtained", type: "number", step: 0.01, placeholder: "e.g. 425" },
+      { key: "totalMarks", label: "Total Marks", type: "number", step: 0.01, placeholder: "e.g. 500" },
+    ],
+    resultFields: [
+      { key: "percentage", label: "Percentage", unit: "%", highlight: true },
+      { key: "letterGrade", label: "Approximate Letter Grade", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const marksObtained = Number(inputs.marksObtained);
+      const totalMarks = Number(inputs.totalMarks);
+      const output = calculateGradePercentage(marksObtained, totalMarks);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How percentage and letter grade are calculated",
+        paragraphs: [
+          "Percentage = Marks Obtained ÷ Total Marks × 100. The letter grade shown uses a common general scale (90%+ = A, 80-89% = B, 70-79% = C, 60-69% = D, below 60% = F).",
+          "For example, 425 marks out of 500 gives 85%, which falls in the B range on this general scale.",
+        ],
+      },
+      {
+        heading: "About the letter grade scale",
+        paragraphs: [
+          "Grading scales vary between schools, countries, and institutions, some use plus/minus grades, different cutoffs, or entirely different scales. The letter grade shown here is a general approximation; check your institution's specific grading scale for an official grade.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does the letter grade match my school's exact scale?",
+        answer: "Not necessarily. This uses a common general scale as an approximation. Many schools use their own cutoffs or add plus/minus grades, so check your institution's official scale for the exact letter grade.",
+      },
+      {
+        question: "Can I use this for a single assignment or a whole course?",
+        answer: "Both. Enter whatever marks obtained and total marks apply, whether that's one test, one assignment, or your combined marks across an entire course.",
+      },
+    ],
+    relatedSlugs: ["final-grade-calculator", "cgpa-calculator"],
+  },
+  {
+    slug: "attendance-calculator",
+    category: "education",
+    title: "Attendance Calculator",
+    shortDescription: "Calculate your attendance percentage and how many classes you can miss or need to attend.",
+    metaDescription: "Free online attendance calculator to find your current attendance percentage, how many classes you need to attend or can skip to hit a target.",
+    h1: "Attendance Calculator",
+    intro: "Calculate your current attendance percentage, and how many more classes you need to attend (or can safely miss) to hit a target percentage.",
+    icon: "✅",
+    status: "live",
+    inputFields: [
+      { key: "classesAttended", label: "Classes Attended", type: "number", step: 1, placeholder: "e.g. 40" },
+      { key: "classesHeld", label: "Total Classes Held", type: "number", step: 1, placeholder: "e.g. 50" },
+      { key: "targetPercent", label: "Target Attendance (%)", type: "number", step: 0.01, placeholder: "e.g. 75" },
+    ],
+    resultFields: [
+      { key: "currentPercent", label: "Current Attendance", unit: "%", highlight: true },
+      { key: "classesNeededForTarget", label: "More Classes Needed to Reach Target" },
+      { key: "classesCanSkip", label: "Classes You Can Still Skip" },
+    ],
+    calculate: (inputs) => {
+      const classesAttended = Number(inputs.classesAttended);
+      const classesHeld = Number(inputs.classesHeld);
+      const targetPercent = Number(inputs.targetPercent);
+      const output = calculateAttendance(classesAttended, classesHeld, targetPercent);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How attendance projections are calculated",
+        paragraphs: [
+          "Current attendance is Classes Attended ÷ Total Classes Held × 100. Classes needed to reach a target assumes you attend every future class from now on, and solves for how many additional classes (attended and held) bring your percentage up to the target. Classes you can skip assumes you keep attending as before, and finds how many future classes (held but not attended) you can miss while staying at or above the target.",
+          "For example, with 40 of 50 classes attended (80%) and a 75% target, you're already above target, so the calculator shows how many classes you can still skip rather than how many more you need.",
+        ],
+      },
+      {
+        heading: "Why both figures are shown",
+        paragraphs: [
+          "If you're below your target, 'classes needed' tells you how many consecutive classes you must attend to catch up. If you're already above target, 'classes you can skip' tells you your safety margin before you'd fall below it. Only one of the two will typically be a meaningful non-zero number at a time.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this assume I attend every future class?",
+        answer: "The 'classes needed' figure assumes you attend all future classes without missing any, since that's the fastest way to recover a low attendance percentage. The 'classes you can skip' figure assumes the opposite, that you keep missing future classes while target-holding your percentage.",
+      },
+      {
+        question: "What if my target is 100%?",
+        answer: "If you've already missed any classes, 100% attendance can no longer be reached since past classes can't be un-missed, so the calculator shows this as not applicable.",
+      },
+    ],
+    relatedSlugs: ["study-time-calculator", "grade-percentage-calculator"],
+  },
+  {
+    slug: "study-time-calculator",
+    category: "education",
+    title: "Study Time Calculator",
+    shortDescription: "Calculate how many hours a day you need to study before your exam.",
+    metaDescription: "Free online study time calculator to find how many hours per day or week you need to study to cover your material before an exam date.",
+    h1: "Study Time Calculator",
+    intro: "Calculate how many hours per day or week you need to study to cover your material before your exam date.",
+    icon: "⏱️",
+    status: "live",
+    inputFields: [
+      { key: "examDate", label: "Exam Date", type: "date" },
+      { key: "totalHoursNeeded", label: "Total Study Hours Needed", type: "number", step: 0.5, placeholder: "e.g. 40" },
+      { key: "studyDaysPerWeek", label: "Study Days per Week", type: "number", step: 1, min: 1, max: 7, placeholder: "e.g. 5" },
+    ],
+    resultFields: [
+      { key: "daysRemaining", label: "Days Remaining", unit: "days" },
+      { key: "hoursPerDay", label: "Hours Needed per Study Day", unit: "hrs", highlight: true },
+      { key: "hoursPerWeek", label: "Hours Needed per Week", unit: "hrs", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const examDate = String(inputs.examDate);
+      const totalHoursNeeded = Number(inputs.totalHoursNeeded);
+      const studyDaysPerWeek = Number(inputs.studyDaysPerWeek);
+      const output = calculateStudyTime(examDate, totalHoursNeeded, studyDaysPerWeek);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How required study time is calculated",
+        paragraphs: [
+          "Days remaining is the gap between today and your exam date. That's converted to weeks remaining, then multiplied by your chosen study days per week to get your total number of study sessions. Total study hours needed is then divided by that session count (for hours per day) and by weeks remaining (for hours per week).",
+          "For example, with 20 days remaining, 5 study days a week, and 40 hours of material to cover, that's roughly 14.3 study sessions, about 2.8 hours per session, or 14 hours per week.",
+        ],
+      },
+      {
+        heading: "Estimating total study hours needed",
+        paragraphs: [
+          "A common rough estimate is 1-3 hours of focused study per hour of class content, or per chapter/topic depending on difficulty, adjust up for denser material or down for material you already know well. This calculator just does the scheduling math once you have that hours estimate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if the exam date has already passed?",
+        answer: "The calculator shows 0 days remaining and can't produce a meaningful daily or weekly study target in that case, double check the exam date you entered.",
+      },
+      {
+        question: "How do I estimate total study hours needed?",
+        answer: "A common starting point is 1-3 hours of focused review per topic or chapter, adjusted for how well you already know the material and how difficult the exam is expected to be.",
+      },
+    ],
+    relatedSlugs: ["attendance-calculator", "final-grade-calculator"],
   },
 ];
 

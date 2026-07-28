@@ -13,7 +13,8 @@ export type ToolCategorySlug =
   | "construction"
   | "automotive"
   | "seo"
-  | "image";
+  | "image"
+  | "education";
 
 export type ToolStatus = "live" | "comingSoon";
 
