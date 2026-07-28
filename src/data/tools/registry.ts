@@ -161,6 +161,16 @@ import { calculateEvChargingCost } from "@/utils/calculators/ev-charging-cost-ca
 import { calculateTireSize } from "@/utils/calculators/tire-size-calculator";
 import { calculateVehicleDepreciation } from "@/utils/calculators/vehicle-depreciation-calculator";
 import { calculateCarLoanAffordability } from "@/utils/calculators/car-loan-affordability-calculator";
+import { calculateCharacterCount } from "@/utils/calculators/character-counter";
+import { calculateReadingTime } from "@/utils/calculators/reading-time-calculator";
+import { generateSlug, SlugSeparator } from "@/utils/calculators/slug-generator";
+import { sortTextLines, TextSortOrder } from "@/utils/calculators/text-sorter";
+import { alphabetizeList, AlphabetizeDelimiter } from "@/utils/calculators/alphabetizer";
+import { removeEmptyLines } from "@/utils/calculators/remove-empty-lines";
+import { removeExtraSpaces } from "@/utils/calculators/remove-extra-spaces";
+import { reverseText, ReverseTextMode } from "@/utils/calculators/reverse-text";
+import { shuffleText, ShuffleTextMode } from "@/utils/calculators/shuffle-text";
+import { convertHtmlEntities, HtmlEntityMode } from "@/utils/calculators/html-entity-converter";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -11040,6 +11050,551 @@ explanation: [
       },
     ],
     relatedSlugs: ["viscosity-converter", "volume-converter", "ev-charging-cost-calculator"],
+  },
+  {
+    slug: "character-counter",
+    category: "text",
+    title: "Character Counter",
+    shortDescription: "Count characters and track usage against a character limit.",
+    metaDescription: "Free online character counter to count characters and check your text against a character limit, like a tweet, SMS, or meta description limit.",
+    h1: "Character Counter",
+    intro: "Count the characters in your text and track how much of a character limit, like a tweet, SMS, or meta description, you've used.",
+    icon: "🔢",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste or type your text here..." },
+      { key: "characterLimit", label: "Character Limit", type: "number", step: 1, defaultValue: 280 },
+    ],
+    resultFields: [
+      { key: "totalCharacters", label: "Total Characters", highlight: true },
+      { key: "remainingCharacters", label: "Remaining", highlight: true },
+      { key: "overLimit", label: "Over Limit?" },
+      { key: "percentUsed", label: "% of Limit Used" },
+      { key: "charactersNoSpaces", label: "Characters (no spaces)" },
+    ],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const characterLimit = Number(inputs.characterLimit ?? 280);
+      const output = calculateCharacterCount(text, characterLimit);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this differs from our Word Counter",
+        paragraphs: [
+          "Our Word Counter reports overall word, sentence and paragraph statistics for general writing. This tool is purpose-built for the 'how many characters do I have left' use case, tracking your text against a specific character limit, like a tweet (280), SMS (160), or meta description (roughly 155-160), so you can see at a glance whether you're within range.",
+        ],
+      },
+      {
+        heading: "Why character limits vary by platform",
+        paragraphs: [
+          "Different platforms and fields enforce different character limits for different technical or design reasons, SMS messages are limited by the underlying telecom protocol, while a meta description limit is really about how much text search engines display before truncating it. Set the limit field to match whatever you're writing for.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this count spaces as characters?",
+        answer: "Yes, the main character count includes spaces and punctuation, matching how most platforms count characters toward their limits. A separate 'characters without spaces' figure is also shown for reference.",
+      },
+      {
+        question: "Is my text sent to a server?",
+        answer: "No, all counting happens directly in your browser, your text is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["word-counter", "reading-time-calculator"],
+  },
+  {
+    slug: "reading-time-calculator",
+    category: "text",
+    title: "Reading Time Calculator",
+    shortDescription: "Estimate how long it takes to read a piece of text.",
+    metaDescription: "Free online reading time calculator to estimate how long an article, blog post, or document takes to read, based on word count and reading speed.",
+    h1: "Reading Time Calculator",
+    intro: "Estimate how long your article, blog post, or document takes to read, based on word count and a reading speed you choose.",
+    icon: "⏱️",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste or type your text here..." },
+      { key: "wordsPerMinute", label: "Reading Speed (words per minute)", type: "number", step: 1, defaultValue: 200 },
+    ],
+    resultFields: [
+      { key: "readingTimeFormatted", label: "Estimated Reading Time", highlight: true },
+      { key: "wordCount", label: "Word Count" },
+      { key: "readingTimeMinutesDecimal", label: "Reading Time (minutes, decimal)" },
+    ],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const wordsPerMinute = Number(inputs.wordsPerMinute ?? 200);
+      const output = calculateReadingTime(text, wordsPerMinute);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How reading time is estimated",
+        paragraphs: [
+          "Reading Time = Word Count ÷ Reading Speed (words per minute). The average adult reading speed for silent reading is commonly cited as somewhere around 200-238 words per minute, this calculator defaults to 200 wpm but lets you adjust it to match your own pace or audience.",
+        ],
+      },
+      {
+        heading: "Why this is useful for writers and publishers",
+        paragraphs: [
+          "Displaying an estimated reading time (like '5 min read') alongside an article is a common practice on blogs and publishing platforms, helping readers decide whether they have time to read something right now. It's also a useful gut-check for writers on whether a piece has run longer than intended.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What reading speed should I use?",
+        answer: "200 words per minute is a commonly used average for general adult silent reading. Technical or unfamiliar material is often read more slowly, while very easy, familiar text can be read faster, adjust the reading speed field to match your content and audience.",
+      },
+      {
+        question: "Does this account for images or complex formatting?",
+        answer: "No, this estimates reading time from word count alone. Some reading time calculators add a flat time penalty per image, this tool focuses on text only.",
+      },
+    ],
+    relatedSlugs: ["word-counter", "character-counter"],
+  },
+  {
+    slug: "slug-generator",
+    category: "text",
+    title: "Slug Generator",
+    shortDescription: "Convert text into a clean, URL-friendly slug.",
+    metaDescription: "Free online slug generator to convert a title or phrase into a clean, URL-friendly slug for blog posts, product pages and permalinks.",
+    h1: "Slug Generator",
+    intro: "Convert a title or phrase into a clean, URL-friendly slug, perfect for blog post URLs, product pages and permalinks.",
+    icon: "🔗",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "e.g. 10 Best Budget Laptops in 2026!" },
+      {
+        key: "separator",
+        label: "Separator",
+        type: "select",
+        options: [
+          { label: "Hyphen (-)", value: "-" },
+          { label: "Underscore (_)", value: "_" },
+        ],
+      },
+      { key: "lowercase", label: "Convert to Lowercase", type: "checkbox", defaultValue: "true" },
+    ],
+    resultFields: [{ key: "result", label: "Generated Slug", wide: true, highlight: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const separator = String(inputs.separator ?? "-") as SlugSeparator;
+      const lowercase = inputs.lowercase !== "false";
+      const result = generateSlug(text, separator, lowercase);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How slug generation works",
+        paragraphs: [
+          "This tool strips accented characters down to their base letters, removes punctuation and special characters, then replaces spaces with your chosen separator, producing a clean string safe for use in a URL. For example, '10 Best Budget Laptops in 2026!' becomes '10-best-budget-laptops-in-2026'.",
+        ],
+      },
+      {
+        heading: "Why slugs matter for SEO and URLs",
+        paragraphs: [
+          "A slug is the human-readable part of a URL identifying a specific page, like the 'best-budget-laptops' in example.com/blog/best-budget-laptops. Clean, descriptive, hyphen-separated slugs are easier to read, share, and are generally considered good practice for SEO compared to URLs with spaces, special characters, or auto-generated IDs.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I use hyphens or underscores in a slug?",
+        answer: "Hyphens are generally recommended and more widely supported for SEO purposes, most search engines treat hyphens as word separators but don't always treat underscores the same way. This tool defaults to hyphens but supports underscores if your platform requires them.",
+      },
+      {
+        question: "What happens to accented characters like é or ñ?",
+        answer: "They're converted to their closest plain-letter equivalent, for example é becomes e, since most URL slugs are expected to use only standard ASCII letters and numbers.",
+      },
+    ],
+    relatedSlugs: ["case-converter", "html-encoder-decoder"],
+  },
+  {
+    slug: "text-sorter",
+    category: "text",
+    title: "Text Sorter",
+    shortDescription: "Sort the lines of a text block alphabetically or numerically.",
+    metaDescription: "Free online text sorter to sort the lines of a text block alphabetically (A-Z or Z-A) or numerically, with optional duplicate removal.",
+    h1: "Text Sorter",
+    intro: "Sort the lines of any text block alphabetically or numerically, ascending or descending, with optional case sensitivity and duplicate removal.",
+    icon: "🔡",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text (one item per line)", type: "textarea", placeholder: "Paste text with one item per line..." },
+      {
+        key: "order",
+        label: "Sort Order",
+        type: "select",
+        options: [
+          { label: "Alphabetical (A-Z)", value: "az" },
+          { label: "Alphabetical (Z-A)", value: "za" },
+          { label: "Numerical (Ascending)", value: "numAsc" },
+          { label: "Numerical (Descending)", value: "numDesc" },
+        ],
+      },
+      { key: "caseSensitive", label: "Case Sensitive", type: "checkbox", defaultValue: "false" },
+      { key: "removeDuplicates", label: "Remove Duplicate Lines", type: "checkbox", defaultValue: "false" },
+    ],
+    resultFields: [{ key: "result", label: "Sorted Text", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const order = String(inputs.order ?? "az") as TextSortOrder;
+      const caseSensitive = inputs.caseSensitive === "true";
+      const removeDuplicates = inputs.removeDuplicates === "true";
+      const result = sortTextLines(text, order, caseSensitive, removeDuplicates);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this differs from our Alphabetizer",
+        paragraphs: [
+          "This tool is a general-purpose line sorter, it handles both alphabetical and numerical sorting for any kind of list, numbers, mixed content, code, or plain words. Our Alphabetizer, by contrast, is purpose-built for alphabetizing named lists (like bibliography entries or a list of authors), including an option to ignore leading articles ('a', 'an', 'the') when sorting, a specific convention this general sorter doesn't apply.",
+        ],
+      },
+      {
+        heading: "Alphabetical vs numerical sorting",
+        paragraphs: [
+          "Alphabetical sorting compares lines as text, character by character. Numerical sorting instead parses the leading number from each line and compares those values directly, so '9' correctly sorts before '10' (alphabetical sorting would place '10' before '9', since '1' comes before '9' character by character).",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What happens to lines that aren't numbers when using numerical sort?",
+        answer: "Lines that can't be parsed as a number are treated as having an infinitely large value and pushed to the end of the ascending sort (or the start of the descending sort).",
+      },
+      {
+        question: "Does case sensitivity affect the sort order?",
+        answer: "Yes, with case-sensitive sorting enabled, uppercase and lowercase letters may sort differently than with it disabled, since the comparison then treats 'Apple' and 'apple' as distinct values.",
+      },
+    ],
+    relatedSlugs: ["alphabetizer", "remove-duplicate-lines"],
+  },
+  {
+    slug: "alphabetizer",
+    category: "text",
+    title: "Alphabetizer",
+    shortDescription: "Alphabetize a list of names, titles or items into A-Z order.",
+    metaDescription: "Free online alphabetizer to sort a comma- or line-separated list of names, titles or items into proper A-Z order, with an option to ignore leading articles.",
+    h1: "Alphabetizer",
+    intro: "Alphabetize a comma- or newline-separated list of names, titles or items into A-Z order, with an option to ignore leading articles like 'the' or 'a'.",
+    icon: "🔠",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your List", type: "textarea", placeholder: "e.g. The Great Gatsby, A Tale of Two Cities, Moby Dick" },
+      {
+        key: "delimiter",
+        label: "List Format",
+        type: "select",
+        options: [
+          { label: "Comma-Separated", value: "comma" },
+          { label: "One per Line", value: "newline" },
+        ],
+      },
+      { key: "ignoreArticles", label: "Ignore Leading Articles (a, an, the)", type: "checkbox", defaultValue: "true" },
+      { key: "caseSensitive", label: "Case Sensitive", type: "checkbox", defaultValue: "false" },
+    ],
+    resultFields: [{ key: "result", label: "Alphabetized List", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const delimiter = String(inputs.delimiter ?? "comma") as AlphabetizeDelimiter;
+      const ignoreArticles = inputs.ignoreArticles !== "false";
+      const caseSensitive = inputs.caseSensitive === "true";
+      const result = alphabetizeList(text, delimiter, ignoreArticles, caseSensitive);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How ignoring leading articles works",
+        paragraphs: [
+          "When alphabetizing titles, standard convention (used in libraries, bibliographies and indexes) is to ignore a leading 'a', 'an', or 'the' when determining sort order, so 'The Great Gatsby' alphabetizes under 'G', not 'T'. This tool applies that convention automatically when the option is enabled, matching how titles are properly alphabetized in most style guides.",
+        ],
+      },
+      {
+        heading: "How this differs from our Text Sorter",
+        paragraphs: [
+          "This tool is purpose-built for alphabetizing lists of names, titles or items, entered either comma-separated or one per line, with the leading-article convention built in. Our more general Text Sorter instead sorts arbitrary text lines, alphabetically or numerically, without this list- and title-specific behavior.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I paste a comma-separated list instead of one item per line?",
+        answer: "Yes, choose 'Comma-Separated' as the list format and the tool will split your list on commas instead of line breaks.",
+      },
+      {
+        question: "Why would I want to ignore leading articles?",
+        answer: "It's the standard convention for alphabetizing titles, like book titles, movie titles, or article headlines, so that 'The Great Gatsby' and 'A Tale of Two Cities' sort under 'G' and 'T' rather than clustering under 'A' and 'T' for their articles.",
+      },
+    ],
+    relatedSlugs: ["text-sorter", "remove-duplicate-lines"],
+  },
+  {
+    slug: "remove-empty-lines",
+    category: "text",
+    title: "Remove Empty Lines",
+    shortDescription: "Remove blank lines from a block of text.",
+    metaDescription: "Free online tool to remove empty or blank lines from a block of text, with an option to also treat whitespace-only lines as empty.",
+    h1: "Remove Empty Lines",
+    intro: "Paste your text to instantly remove blank lines, optionally treating lines with only spaces or tabs as empty too.",
+    icon: "🧹",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste text with blank lines..." },
+      { key: "treatWhitespaceAsEmpty", label: "Treat Whitespace-Only Lines as Empty", type: "checkbox", defaultValue: "true" },
+    ],
+    resultFields: [
+      { key: "result", label: "Result (Empty Lines Removed)", wide: true },
+      { key: "linesRemoved", label: "Lines Removed" },
+    ],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const treatWhitespaceAsEmpty = inputs.treatWhitespaceAsEmpty !== "false";
+      const output = removeEmptyLines(text, treatWhitespaceAsEmpty);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How empty line removal works",
+        paragraphs: [
+          "This tool reads your text line by line and removes any line with no content, tightening up text that has accumulated extra blank lines from copy-pasting between documents, code editors, or spreadsheets.",
+        ],
+      },
+      {
+        heading: "Why the whitespace option matters",
+        paragraphs: [
+          "A line containing only spaces or a tab character looks empty but technically isn't blank. With 'treat whitespace-only lines as empty' enabled, these lines are removed too, useful when text was copied from a source that leaves invisible trailing whitespace on otherwise blank lines.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How is this different from Remove Extra Spaces?",
+        answer: "This tool removes entire blank lines. Remove Extra Spaces instead collapses multiple spaces within a line down to one, without deleting any lines, the two are meant to be used together for thoroughly cleaning up messy text.",
+      },
+      {
+        question: "Is my text sent to a server?",
+        answer: "No, all processing happens directly in your browser, your text is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["remove-extra-spaces", "remove-duplicate-lines"],
+  },
+  {
+    slug: "remove-extra-spaces",
+    category: "text",
+    title: "Remove Extra Spaces",
+    shortDescription: "Collapse multiple spaces in text down to a single space.",
+    metaDescription: "Free online tool to remove extra spaces from text, collapsing multiple consecutive spaces into one, with an option to trim each line.",
+    h1: "Remove Extra Spaces",
+    intro: "Paste your text to instantly collapse multiple consecutive spaces into a single space, with an option to trim leading and trailing whitespace.",
+    icon: "␣",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste text with extra   spaces..." },
+      { key: "trimLines", label: "Trim Leading/Trailing Whitespace per Line", type: "checkbox", defaultValue: "true" },
+    ],
+    resultFields: [{ key: "result", label: "Cleaned Text", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const trimLines = inputs.trimLines !== "false";
+      const result = removeExtraSpaces(text, trimLines);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How extra space removal works",
+        paragraphs: [
+          "This tool scans each line of your text and collapses any run of consecutive spaces or tabs down to a single space, a common cleanup step for text pasted from PDFs, old documents, or other sources that leave irregular spacing behind.",
+        ],
+      },
+      {
+        heading: "How this differs from Remove Empty Lines",
+        paragraphs: [
+          "This tool only affects horizontal whitespace within each line, it never deletes a line, even a blank one. Our Remove Empty Lines tool handles removing blank lines themselves. Use both together for a thorough text cleanup.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this remove blank lines?",
+        answer: "No, blank lines are left in place. Use our Remove Empty Lines tool if you also want to remove blank lines.",
+      },
+      {
+        question: "Does this affect spacing inside words?",
+        answer: "No, only runs of space or tab characters are collapsed, letters within a word are never affected.",
+      },
+    ],
+    relatedSlugs: ["remove-empty-lines", "remove-duplicate-lines"],
+  },
+  {
+    slug: "reverse-text",
+    category: "text",
+    title: "Reverse Text",
+    shortDescription: "Reverse text by character, word or line order.",
+    metaDescription: "Free online tool to reverse text by character, word, or line order.",
+    h1: "Reverse Text",
+    intro: "Reverse your text by character order, word order, or line order.",
+    icon: "🔄",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste or type your text here..." },
+      {
+        key: "mode",
+        label: "Reverse By",
+        type: "select",
+        options: [
+          { label: "Characters", value: "characters" },
+          { label: "Words", value: "words" },
+          { label: "Lines", value: "lines" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "Reversed Text", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const mode = String(inputs.mode ?? "characters") as ReverseTextMode;
+      const result = reverseText(text, mode);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How each reverse mode works",
+        paragraphs: [
+          "Character mode reverses the entire string letter by letter, turning 'hello' into 'olleh'. Word mode keeps each word intact but reverses their order, turning 'the quick fox' into 'fox quick the'. Line mode keeps each line intact but reverses the order lines appear in, useful for flipping a list or reordering pasted content.",
+        ],
+      },
+      {
+        heading: "Common uses for reversed text",
+        paragraphs: [
+          "Reversing text is used for puzzles and wordplay, checking whether a word or phrase is a palindrome, or simply reordering a pasted list or set of lines without retyping it by hand.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will this help me check if something is a palindrome?",
+        answer: "Yes, use Character mode and compare the reversed result to your original text, if they match, your text reads the same forwards and backwards.",
+      },
+      {
+        question: "Does word mode preserve punctuation attached to words?",
+        answer: "Yes, punctuation attached directly to a word (like a comma or period) moves with that word when the word order is reversed.",
+      },
+    ],
+    relatedSlugs: ["shuffle-text", "case-converter"],
+  },
+  {
+    slug: "shuffle-text",
+    category: "text",
+    title: "Shuffle Text",
+    shortDescription: "Randomly shuffle text by character, word or line.",
+    metaDescription: "Free online tool to randomly shuffle text by character, word, or line order.",
+    h1: "Shuffle Text",
+    intro: "Randomly shuffle your text by character, word, or line order, using a fair Fisher-Yates shuffle.",
+    icon: "🔀",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste or type your text here..." },
+      {
+        key: "mode",
+        label: "Shuffle By",
+        type: "select",
+        options: [
+          { label: "Characters", value: "characters" },
+          { label: "Words", value: "words" },
+          { label: "Lines", value: "lines" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "Shuffled Text", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const mode = String(inputs.mode ?? "words") as ShuffleTextMode;
+      const result = shuffleText(text, mode);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this shuffle works",
+        paragraphs: [
+          "This tool uses a Fisher-Yates shuffle, an algorithm that produces a genuinely random, unbiased ordering where every possible arrangement is equally likely, unlike naive shuffling approaches that can subtly favor certain orderings.",
+        ],
+      },
+      {
+        heading: "Common uses for shuffled text",
+        paragraphs: [
+          "Shuffling lines is useful for randomizing a list, like quiz questions or a set of names for random assignment. Shuffling words can be used for word games or generating scrambled prompts, and shuffling characters is mostly used for puzzles, since it usually produces unreadable output.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will I get the same result if I run it again?",
+        answer: "No, unlike our other text tools, this one is intentionally random, running it again on the same input produces a different shuffled order each time.",
+      },
+      {
+        question: "Is this shuffle truly random?",
+        answer: "It uses your browser's random number generator with a Fisher-Yates shuffle, which is statistically unbiased and suitable for general-purpose shuffling, though not intended for cryptographic use.",
+      },
+    ],
+    relatedSlugs: ["reverse-text", "random-number-generator"],
+  },
+  {
+    slug: "html-encoder-decoder",
+    category: "text",
+    title: "HTML Encoder/Decoder",
+    shortDescription: "Encode text to HTML entities or decode HTML entities to text.",
+    metaDescription: "Free online HTML encoder and decoder to convert special characters to HTML entities, or decode HTML entities back to plain text.",
+    h1: "HTML Encoder/Decoder",
+    intro: "Encode special characters into HTML entities, or decode HTML entities (named, decimal or hex) back into plain text.",
+    icon: "🏷️",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Paste text or HTML here..." },
+      {
+        key: "mode",
+        label: "Mode",
+        type: "select",
+        options: [
+          { label: "Encode", value: "encode" },
+          { label: "Decode", value: "decode" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "Result", wide: true }],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const mode = String(inputs.mode ?? "encode") as HtmlEntityMode;
+      const result = convertHtmlEntities(text, mode);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How HTML entity encoding works",
+        paragraphs: [
+          "Encoding converts characters with special meaning in HTML, like &, <, >, \" and ', into their entity equivalents (&amp;, &lt;, &gt;, &quot;, &#39;), so they display as literal text instead of being interpreted as markup. Decoding reverses this, converting named entities, decimal entities (like &#169;), and hex entities (like &#xA9;) back into their original characters.",
+        ],
+      },
+      {
+        heading: "Why HTML encoding matters",
+        paragraphs: [
+          "Displaying user-generated or code-like text safely inside an HTML page requires encoding special characters first, otherwise a stray '<' could be misinterpreted as the start of a tag. This is a common step when embedding code snippets in a web page or preparing text for an XML/HTML context.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this run in my browser or on a server?",
+        answer: "Entirely in your browser, your text is never sent to or stored on our servers.",
+      },
+      {
+        question: "What entity formats are supported for decoding?",
+        answer: "Common named entities (like &amp; and &lt;), decimal numeric entities (like &#169;), and hexadecimal numeric entities (like &#xA9;) are all supported.",
+      },
+    ],
+    relatedSlugs: ["slug-generator", "case-converter"],
   },
 ];
 
