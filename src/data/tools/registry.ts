@@ -74,6 +74,24 @@ import { calculateFinalGradeNeeded } from "@/utils/calculators/final-grade-calcu
 import { calculateGradePercentage } from "@/utils/calculators/grade-percentage-calculator";
 import { calculateAttendance } from "@/utils/calculators/attendance-calculator";
 import { calculateStudyTime } from "@/utils/calculators/study-time-calculator";
+import { calculateHouseAffordability } from "@/utils/calculators/house-affordability-calculator";
+import { calculateRentAffordability } from "@/utils/calculators/rent-affordability-calculator";
+import { calculateRentalProperty } from "@/utils/calculators/rental-property-calculator";
+import { calculateApr } from "@/utils/calculators/apr-calculator";
+import { calculateHomeEquityLoan } from "@/utils/calculators/home-equity-loan-calculator";
+import { calculateDownPayment } from "@/utils/calculators/down-payment-calculator";
+import { calculateCd, CdCompoundingFrequency } from "@/utils/calculators/cd-calculator";
+import { calculatePaybackPeriod } from "@/utils/calculators/payback-period-calculator";
+import { calculateTraditionalIra } from "@/utils/calculators/traditional-ira-calculator";
+import { calculateRmd } from "@/utils/calculators/rmd-calculator";
+import { calculateDebtConsolidation, DebtEntry } from "@/utils/calculators/debt-consolidation-calculator";
+import { calculateCollegeCost } from "@/utils/calculators/college-cost-calculator";
+import { calculateVat, VatMode } from "@/utils/calculators/vat-calculator";
+import { calculateDepreciation, DepreciationMethod } from "@/utils/calculators/depreciation-calculator";
+import { calculateTradingMargin } from "@/utils/calculators/trading-margin-calculator";
+import { calculateBudget } from "@/utils/calculators/budget-calculator";
+import { calculateAnnuity, AnnuityTiming } from "@/utils/calculators/annuity-calculator";
+import { calculateAnnuityPayout } from "@/utils/calculators/annuity-payout-calculator";
 import { calculateAge } from "@/utils/calculators/age-calculator";
 import { calculateSip } from "@/utils/calculators/sip-calculator";
 import { calculateRetirement } from "@/utils/calculators/retirement-calculator";
@@ -4075,8 +4093,12 @@ explanation: [
         answer:
           "Use 'Remove GST' when your amount already includes GST, and you want to find the original base price before GST was added.",
       },
+      {
+        question: "I need VAT, not GST. Is that different?",
+        answer: "The math is identical, add or remove a percentage-based tax, just under a different regional name. Use our VAT Calculator if that's the terminology used where you are (UK, EU and others), this GST Calculator if you're in India, Australia, Canada or another GST country.",
+      },
     ],
-    relatedSlugs: ["emi-calculator", "discount-calculator"],
+    relatedSlugs: ["emi-calculator", "discount-calculator", "vat-calculator"],
   },
   {
     slug: "loan-calculator",
@@ -6861,8 +6883,12 @@ explanation: [
         question: "What tax rate should I use for the comparison account?",
         answer: "Use your expected effective tax rate on investment gains and income, which depends on your tax bracket and the mix of dividends, interest and capital gains the comparison account would generate. The default of 15% approximates a common long-term capital gains rate, but adjust it to fit your situation.",
       },
+      {
+        question: "How is this different from a Traditional IRA?",
+        answer: "A Roth IRA is funded with after-tax money and grows tax-free. A Traditional IRA is funded with pre-tax money (an immediate deduction) but withdrawals are taxed in retirement. Use our Traditional IRA Calculator to compare the two based on your current and expected retirement tax rates.",
+      },
     ],
-    relatedSlugs: ["401k-calculator", "compound-interest-calculator", "savings-interest-calculator"],
+    relatedSlugs: ["401k-calculator", "compound-interest-calculator", "savings-interest-calculator", "traditional-ira-calculator"],
   },
   {
     slug: "fire-calculator",
@@ -14137,6 +14163,1061 @@ explanation: [
       },
     ],
     relatedSlugs: ["attendance-calculator", "final-grade-calculator"],
+  },
+  {
+    slug: "house-affordability-calculator",
+    category: "finance",
+    title: "House Affordability Calculator",
+    shortDescription: "Calculate how much house you can afford based on income and debts.",
+    metaDescription: "Free online house affordability calculator to estimate the maximum home price and loan amount you can afford based on income, debts and down payment.",
+    h1: "House Affordability Calculator",
+    intro: "Estimate the maximum home price and loan amount you can afford based on your income, existing debts, down payment and loan terms.",
+    icon: "🏡",
+    status: "live",
+    inputFields: [
+      { key: "annualIncome", label: "Annual Gross Income", type: "number", step: 0.01, placeholder: "e.g. 90000" },
+      { key: "monthlyDebts", label: "Existing Monthly Debt Payments", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "downPayment", label: "Down Payment", type: "number", step: 0.01, placeholder: "e.g. 40000" },
+      { key: "interestRate", label: "Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 6.5" },
+      { key: "loanTermYears", label: "Loan Term (Years)", type: "number", step: 1, defaultValue: 30 },
+      { key: "propertyTaxRate", label: "Property Tax Rate (% of home price/year)", type: "number", step: 0.01, defaultValue: 1.2 },
+      { key: "annualInsurance", label: "Estimated Annual Homeowners Insurance", type: "number", step: 0.01, defaultValue: 1200 },
+      { key: "maxDti", label: "Max Debt-to-Income Ratio (%)", type: "number", step: 0.1, defaultValue: 36 },
+    ],
+    resultFields: [
+      { key: "maxHomePrice", label: "Maximum Home Price", highlight: true },
+      { key: "maxLoanAmount", label: "Maximum Loan Amount", highlight: true },
+      { key: "estimatedMonthlyPayment", label: "Estimated Monthly Payment (PITI)" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateHouseAffordability(
+        Number(inputs.annualIncome),
+        Number(inputs.monthlyDebts) || 0,
+        Number(inputs.downPayment),
+        Number(inputs.interestRate),
+        Number(inputs.loanTermYears),
+        Number(inputs.propertyTaxRate),
+        Number(inputs.annualInsurance) || 0,
+        Number(inputs.maxDti)
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How affordability is calculated",
+        paragraphs: [
+          "This calculator works backward from your maximum allowed monthly housing payment, income × your target debt-to-income ratio, minus existing debts, to solve for the largest loan (and home price) whose combined principal, interest, property tax and insurance payment fits that budget.",
+          "It accounts for the fact that a higher home price means a higher property tax bill, so the loan amount and the tax estimate are solved together rather than one being an afterthought.",
+        ],
+      },
+      {
+        heading: "PITI: the four parts of your payment",
+        paragraphs: [
+          "PITI stands for Principal, Interest, Taxes and Insurance, the four components typically bundled into a single monthly mortgage payment. This calculator estimates all four so the 'maximum home price' reflects what you can actually afford to pay each month, not just the loan payment alone.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What debt-to-income ratio should I use?",
+        answer: "36% is a commonly used conservative guideline, though some lenders allow up to 43-50% depending on your credit profile and loan type. Check with a lender for the specific limit that applies to you.",
+      },
+      {
+        question: "Does this include HOA fees or PMI?",
+        answer: "No, this estimates principal, interest, property tax and homeowners insurance only. If your property has HOA dues or you'll need private mortgage insurance (PMI, typically required with under 20% down), factor those into your own budget separately.",
+      },
+    ],
+    relatedSlugs: ["mortgage-calculator", "down-payment-calculator", "dti-calculator"],
+  },
+  {
+    slug: "rent-calculator",
+    category: "finance",
+    title: "Rent Calculator",
+    shortDescription: "Calculate how much rent you can afford based on your income.",
+    metaDescription: "Free online rent calculator to find how much rent you can afford based on your monthly income and existing debts.",
+    h1: "Rent Calculator",
+    intro: "Calculate how much rent you can comfortably afford based on your monthly income and existing debt payments.",
+    icon: "🔑",
+    status: "live",
+    inputFields: [
+      { key: "monthlyIncome", label: "Monthly Gross Income", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "monthlyDebts", label: "Existing Monthly Debt Payments", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "rentToIncomeRatio", label: "Rent-to-Income Ratio (%)", type: "number", step: 0.1, defaultValue: 30 },
+    ],
+    resultFields: [
+      { key: "recommendedMaxRent", label: "Recommended Max Rent (30% Rule)", highlight: true },
+      { key: "debtAdjustedMaxRent", label: "Debt-Adjusted Max Rent (40% Rule)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const monthlyIncome = Number(inputs.monthlyIncome);
+      const monthlyDebts = Number(inputs.monthlyDebts) || 0;
+      const rentToIncomeRatio = Number(inputs.rentToIncomeRatio);
+      const output = calculateRentAffordability(monthlyIncome, monthlyDebts, rentToIncomeRatio);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The 30% rule and the debt-adjusted 40% rule",
+        paragraphs: [
+          "The classic '30% rule' suggests spending no more than 30% of gross monthly income on rent. The debt-adjusted figure instead caps rent plus existing debt payments (like a car loan or student loans) at 40% of gross income, a guideline closer to what many landlords and rental applications actually screen for.",
+          "For example, on a 5,000 monthly income, the 30% rule suggests up to 1,500 in rent, while the 40% rule with 0 in existing debts allows up to 2,000.",
+        ],
+      },
+      {
+        heading: "These are guidelines, not hard limits",
+        paragraphs: [
+          "Actual affordability depends on your full budget, cost of living in your area, and other financial goals like savings. Many renters in high cost-of-living areas spend more than 30%, this is a starting benchmark, not a strict rule.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why are there two different numbers?",
+        answer: "The 30% rule looks at rent alone, while the 40% rule accounts for your other debt payments too, which is often closer to what a landlord's income screening actually checks. Use whichever is more conservative for your situation.",
+      },
+      {
+        question: "Should I use gross or net income?",
+        answer: "Use gross (pre-tax) income, that's what these standard rent-to-income guidelines are based on and what most rental applications ask for.",
+      },
+    ],
+    relatedSlugs: ["dti-calculator", "budget-calculator", "house-affordability-calculator"],
+  },
+  {
+    slug: "rental-property-calculator",
+    category: "finance",
+    title: "Rental Property Calculator",
+    shortDescription: "Calculate cash flow, cap rate and cash-on-cash return for a rental property.",
+    metaDescription: "Free online rental property calculator to find monthly cash flow, cap rate and cash-on-cash return from purchase price, rent and expenses.",
+    h1: "Rental Property Calculator",
+    intro: "Calculate a rental property's monthly cash flow, cap rate and cash-on-cash return from its purchase price, rent and expenses.",
+    icon: "🏘️",
+    status: "live",
+    inputFields: [
+      { key: "purchasePrice", label: "Purchase Price", type: "number", step: 0.01, placeholder: "e.g. 250000" },
+      { key: "downPayment", label: "Down Payment", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+      { key: "monthlyRent", label: "Monthly Rental Income", type: "number", step: 0.01, placeholder: "e.g. 2200" },
+      { key: "monthlyOperatingExpenses", label: "Monthly Operating Expenses (tax, insurance, maintenance, etc.)", type: "number", step: 0.01, placeholder: "e.g. 500" },
+      { key: "monthlyMortgagePayment", label: "Monthly Mortgage Payment", type: "number", step: 0.01, placeholder: "e.g. 1100" },
+    ],
+    resultFields: [
+      { key: "monthlyCashFlow", label: "Monthly Cash Flow", highlight: true },
+      { key: "capRatePercent", label: "Cap Rate", unit: "%", highlight: true },
+      { key: "cashOnCashReturnPercent", label: "Cash-on-Cash Return", unit: "%" },
+      { key: "annualCashFlow", label: "Annual Cash Flow" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateRentalProperty(
+        Number(inputs.purchasePrice),
+        Number(inputs.downPayment),
+        Number(inputs.monthlyRent),
+        Number(inputs.monthlyOperatingExpenses),
+        Number(inputs.monthlyMortgagePayment)
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Cap rate vs cash-on-cash return",
+        paragraphs: [
+          "Cap rate (capitalization rate) measures a property's return as if bought entirely in cash: annual Net Operating Income ÷ purchase price, ignoring financing. Cash-on-cash return instead measures the return on the actual cash you invested (your down payment): annual cash flow after the mortgage payment ÷ down payment. The two can differ significantly on a leveraged purchase.",
+          "Net Operating Income (NOI) is rental income minus operating expenses, before the mortgage payment. Cash flow subtracts the mortgage payment too, showing what's actually left in your pocket each month.",
+        ],
+      },
+      {
+        heading: "What to include in operating expenses",
+        paragraphs: [
+          "Operating expenses typically include property tax, insurance, maintenance and repairs, property management fees, and a vacancy allowance, but exclude the mortgage payment itself, which is entered separately.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's a good cap rate?",
+        answer: "It varies by market, but 4-10% is a common general range, lower in expensive, low-risk markets and higher in markets with more risk or lower property prices. Compare against similar properties in the same area.",
+      },
+      {
+        question: "Why might cash-on-cash return be higher than the cap rate?",
+        answer: "When you finance part of the purchase with a mortgage at a lower rate than the property's cap rate, leverage amplifies your return on the cash you actually put in, this is often called 'positive leverage.'",
+      },
+    ],
+    relatedSlugs: ["mortgage-calculator", "roi-calculator", "cash-flow-calculator"],
+  },
+  {
+    slug: "apr-calculator",
+    category: "finance",
+    title: "APR Calculator",
+    shortDescription: "Calculate the true APR of a loan including fees and points.",
+    metaDescription: "Free online APR calculator to find a loan's true annual percentage rate (APR) once upfront fees and points are factored in.",
+    h1: "APR Calculator",
+    intro: "Calculate a loan's true Annual Percentage Rate (APR), which factors in upfront fees and points on top of the stated interest rate.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "loanAmount", label: "Loan Amount", type: "number", step: 0.01, placeholder: "e.g. 200000" },
+      { key: "statedAnnualRate", label: "Stated Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 6" },
+      { key: "termMonths", label: "Loan Term (Months)", type: "number", step: 1, placeholder: "e.g. 360" },
+      { key: "fees", label: "Upfront Fees & Points", type: "number", step: 0.01, defaultValue: 0, placeholder: "e.g. 4000" },
+    ],
+    resultFields: [
+      { key: "apr", label: "APR", unit: "%", highlight: true },
+      { key: "monthlyPayment", label: "Monthly Payment" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateApr(
+        Number(inputs.loanAmount),
+        Number(inputs.statedAnnualRate),
+        Number(inputs.termMonths),
+        Number(inputs.fees) || 0
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "Why APR is higher than the stated interest rate",
+        paragraphs: [
+          "The interest rate only reflects interest charged on the loan. APR spreads any upfront fees and points across the loan term too, so it reflects the loan's true annual cost. This calculator finds the payment based on your stated rate and loan amount, then solves for the rate that would produce that same payment on the smaller amount you actually receive after fees.",
+          "The larger the fees relative to the loan amount, or the shorter the loan term, the more APR will exceed the stated rate, since the same dollar amount of fees is spread over less time or a smaller loan.",
+        ],
+      },
+      {
+        heading: "Using APR to compare loan offers",
+        paragraphs: [
+          "APR is designed to let you compare loan offers with different fee structures on equal footing. A loan with a lower stated rate but high fees can end up with a higher APR than a loan with a slightly higher rate but low fees, always compare APR, not just the headline interest rate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What counts as a 'fee' for this calculation?",
+        answer: "Include upfront costs required to get the loan, like origination fees, discount points, and certain closing costs. Fees that aren't required to obtain the loan (like a home inspection) typically aren't included in official APR calculations.",
+      },
+      {
+        question: "Why is the APR here different from what my lender quoted?",
+        answer: "Official APR calculations (regulated under TILA in the US) include a precisely defined set of fees, and rounding conventions can vary slightly. This calculator gives a close estimate based on the fees you enter, but always confirm the official APR disclosure from your lender.",
+      },
+    ],
+    relatedSlugs: ["mortgage-calculator", "loan-calculator", "mortgage-refinance-calculator"],
+  },
+  {
+    slug: "home-equity-loan-calculator",
+    category: "finance",
+    title: "Home Equity Loan Calculator",
+    shortDescription: "Calculate your available home equity and monthly loan payment.",
+    metaDescription: "Free online home equity loan calculator to find your available equity and estimated monthly payment based on home value and mortgage balance.",
+    h1: "Home Equity Loan Calculator",
+    intro: "Calculate your available home equity and the estimated monthly payment on a home equity loan.",
+    icon: "🏠",
+    status: "live",
+    inputFields: [
+      { key: "homeValue", label: "Current Home Value", type: "number", step: 0.01, placeholder: "e.g. 400000" },
+      { key: "mortgageBalance", label: "Remaining Mortgage Balance", type: "number", step: 0.01, placeholder: "e.g. 220000" },
+      { key: "loanAmount", label: "Desired Loan Amount", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+      { key: "annualRate", label: "Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 8" },
+      { key: "termYears", label: "Loan Term (Years)", type: "number", step: 1, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "availableEquity", label: "Available Equity", highlight: true },
+      { key: "monthlyPayment", label: "Monthly Payment", highlight: true },
+      { key: "totalInterest", label: "Total Interest" },
+      { key: "totalPayment", label: "Total of Payments" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateHomeEquityLoan(
+        Number(inputs.homeValue),
+        Number(inputs.mortgageBalance),
+        Number(inputs.loanAmount),
+        Number(inputs.annualRate),
+        Number(inputs.termYears)
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How home equity and the loan payment are calculated",
+        paragraphs: [
+          "Available equity is simply your home's current value minus what you still owe on your mortgage. The monthly payment on the home equity loan itself uses the standard amortizing loan formula, applied to whatever loan amount you enter, spreading principal and interest evenly across the term.",
+        ],
+      },
+      {
+        heading: "How much can you actually borrow?",
+        paragraphs: [
+          "Lenders typically cap total borrowing (your existing mortgage plus the new home equity loan) at 80-85% of your home's value, known as combined loan-to-value (CLTV). Your available equity is the theoretical maximum, but your actual approved amount depends on your lender's CLTV limit, credit profile and income.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the difference between a home equity loan and a HELOC?",
+        answer: "A home equity loan gives you a lump sum with a fixed rate and fixed monthly payments, like a second mortgage. A HELOC (home equity line of credit) works more like a credit card, a revolving credit line you draw from and repay over time, often with a variable rate.",
+      },
+      {
+        question: "Can I borrow my full available equity?",
+        answer: "Usually not. Lenders typically limit combined borrowing to 80-85% of your home's value, so your actual approved loan amount is likely less than your full calculated equity.",
+      },
+    ],
+    relatedSlugs: ["mortgage-calculator", "loan-calculator", "mortgage-refinance-calculator"],
+  },
+  {
+    slug: "down-payment-calculator",
+    category: "finance",
+    title: "Down Payment Calculator",
+    shortDescription: "Calculate your down payment amount and resulting loan amount.",
+    metaDescription: "Free online down payment calculator to find your down payment amount, loan amount, and loan-to-value ratio from a home price and down payment percentage.",
+    h1: "Down Payment Calculator",
+    intro: "Calculate your down payment amount, remaining loan amount, and loan-to-value ratio from a home price and down payment percentage.",
+    icon: "💵",
+    status: "live",
+    inputFields: [
+      { key: "homePrice", label: "Home Price", type: "number", step: 0.01, placeholder: "e.g. 350000" },
+      { key: "downPaymentPercent", label: "Down Payment (%)", type: "number", step: 0.1, placeholder: "e.g. 20" },
+    ],
+    resultFields: [
+      { key: "downPaymentAmount", label: "Down Payment Amount", highlight: true },
+      { key: "loanAmount", label: "Loan Amount", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const output = calculateDownPayment(Number(inputs.homePrice), Number(inputs.downPaymentPercent));
+      return { downPaymentAmount: output.downPaymentAmount, loanAmount: output.loanAmount };
+    },
+    explanation: [
+      {
+        heading: "How down payment amount is calculated",
+        paragraphs: [
+          "Down Payment Amount = Home Price × Down Payment Percentage. The remaining Loan Amount is simply the home price minus the down payment.",
+          "For example, a 350,000 home with a 20% down payment requires 70,000 down, leaving a 280,000 loan.",
+        ],
+      },
+      {
+        heading: "Why 20% is a common benchmark",
+        paragraphs: [
+          "Putting down 20% typically avoids private mortgage insurance (PMI) on a conventional loan, an extra monthly cost lenders charge to protect themselves on smaller down payments. Many buyers put down less than 20%, but it's worth knowing the tradeoff.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What happens if I put down less than 20%?",
+        answer: "On most conventional loans, you'll likely be required to pay private mortgage insurance (PMI) until you build up 20% equity, which adds to your monthly payment. Some loan programs (like FHA loans) have their own separate mortgage insurance rules.",
+      },
+      {
+        question: "Does a bigger down payment always make sense?",
+        answer: "Not necessarily, it reduces your loan amount and interest costs, but ties up more cash upfront. Whether that tradeoff makes sense depends on your other financial goals, like keeping an emergency fund or investing elsewhere.",
+      },
+    ],
+    relatedSlugs: ["house-affordability-calculator", "mortgage-calculator"],
+  },
+  {
+    slug: "cd-calculator",
+    category: "finance",
+    title: "CD Calculator",
+    shortDescription: "Calculate the maturity value and interest earned on a certificate of deposit.",
+    metaDescription: "Free online CD calculator to find the maturity value and total interest earned on a certificate of deposit.",
+    h1: "CD Calculator",
+    intro: "Calculate the maturity value and total interest earned on a Certificate of Deposit (CD) based on principal, rate, term and compounding frequency.",
+    icon: "🏦",
+    status: "live",
+    inputFields: [
+      { key: "principal", label: "Deposit Amount", type: "number", step: 0.01, placeholder: "e.g. 10000" },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 4" },
+      { key: "termMonths", label: "Term (Months)", type: "number", step: 1, placeholder: "e.g. 12" },
+      {
+        key: "frequency",
+        label: "Compounding Frequency",
+        type: "select",
+        defaultValue: "monthly",
+        options: [
+          { label: "Annually", value: "annually" },
+          { label: "Semiannually", value: "semiannually" },
+          { label: "Quarterly", value: "quarterly" },
+          { label: "Monthly", value: "monthly" },
+          { label: "Daily", value: "daily" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "maturityValue", label: "Maturity Value", highlight: true },
+      { key: "totalInterest", label: "Total Interest Earned", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const output = calculateCd(
+        Number(inputs.principal),
+        Number(inputs.annualRate),
+        Number(inputs.termMonths),
+        String(inputs.frequency) as CdCompoundingFrequency
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How CD maturity value is calculated",
+        paragraphs: [
+          "This uses the standard compound interest formula: Maturity Value = Principal × (1 + rate/m)^(m×years), where m is the number of compounding periods per year. Unlike a savings account, a CD locks in your rate and term, with a fixed deposit and no further contributions.",
+        ],
+      },
+      {
+        heading: "Early withdrawal penalties",
+        paragraphs: [
+          "This calculator assumes you hold the CD to maturity. Withdrawing early typically triggers a penalty, often a forfeiture of some months of interest, which isn't reflected here. Check your CD's specific terms before committing funds you might need early.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How is a CD different from a regular savings account?",
+        answer: "A CD locks your money in for a fixed term at a fixed rate, usually higher than a regular savings account, in exchange for reduced access. Withdrawing before the term ends typically incurs a penalty.",
+      },
+      {
+        question: "Does compounding frequency make a big difference?",
+        answer: "It has a modest effect, more frequent compounding (daily vs annually) yields slightly more interest at the same stated rate, but the difference is usually small compared to the rate itself.",
+      },
+    ],
+    relatedSlugs: ["compound-interest-calculator", "savings-interest-calculator", "apy-calculator"],
+  },
+  {
+    slug: "payback-period-calculator",
+    category: "finance",
+    title: "Payback Period Calculator",
+    shortDescription: "Calculate how long it takes an investment to pay for itself.",
+    metaDescription: "Free online payback period calculator to find how many years it takes an investment to pay for itself from annual cash flows.",
+    h1: "Payback Period Calculator",
+    intro: "Calculate how long it takes an investment to pay for itself based on its initial cost and expected annual cash flows.",
+    icon: "⏳",
+    status: "live",
+    inputFields: [
+      { key: "initialInvestment", label: "Initial Investment", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+      { key: "cashFlow1", label: "Year 1 Cash Flow", type: "number", step: 0.01, placeholder: "e.g. 15000" },
+      { key: "cashFlow2", label: "Year 2 Cash Flow", type: "number", step: 0.01, placeholder: "e.g. 15000" },
+      { key: "cashFlow3", label: "Year 3 Cash Flow", type: "number", step: 0.01, placeholder: "e.g. 15000" },
+      { key: "cashFlow4", label: "Year 4 Cash Flow", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "cashFlow5", label: "Year 5 Cash Flow", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "cashFlow6", label: "Year 6 Cash Flow", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+    ],
+    resultFields: [{ key: "paybackPeriodYears", label: "Payback Period", unit: "years", highlight: true }],
+    calculate: (inputs) => {
+      const initialInvestment = Number(inputs.initialInvestment);
+      const cashFlows = [1, 2, 3, 4, 5, 6].map((n) => Number(inputs["cashFlow" + n]) || 0);
+      const output = calculatePaybackPeriod(initialInvestment, cashFlows);
+      return { paybackPeriodYears: output.paybackPeriodYears };
+    },
+    explanation: [
+      {
+        heading: "How payback period is calculated",
+        paragraphs: [
+          "The payback period is the point at which cumulative cash flows equal the initial investment. This calculator tracks your cash flows year by year and finds exactly when that happens, interpolating within the year the payback point falls in for a precise fractional-year answer.",
+          "For example, a 50,000 investment with 15,000 in annual cash flow each year pays back in exactly 3.33 years.",
+        ],
+      },
+      {
+        heading: "A limitation to know about",
+        paragraphs: [
+          "Payback period ignores the time value of money, a dollar received in year 5 is treated the same as a dollar received today, and it ignores any cash flows after the payback point. It's a useful simplicity/liquidity check, but pair it with a return-based metric like ROI or IRR for a fuller picture.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my cash flows aren't the same every year?",
+        answer: "Enter each year's actual expected cash flow, the calculator handles uneven cash flows correctly by tracking the running cumulative total year by year.",
+      },
+      {
+        question: "What does it mean if payback isn't reached in the years I entered?",
+        answer: "It means the investment hasn't paid for itself within your entered timeframe, add more years of cash flow if you want to see a further-out payback point.",
+      },
+    ],
+    relatedSlugs: ["roi-calculator", "present-value-calculator"],
+  },
+  {
+    slug: "traditional-ira-calculator",
+    category: "finance",
+    title: "Traditional IRA Calculator",
+    shortDescription: "Project your tax-deferred Traditional IRA balance and tax savings.",
+    metaDescription: "Free online Traditional IRA calculator to project your tax-deferred retirement balance, current-year tax savings, and after-tax value at withdrawal.",
+    h1: "Traditional IRA Calculator",
+    intro: "Project your Traditional IRA balance at retirement, this year's tax deduction, and the after-tax value once withdrawals are taxed.",
+    icon: "🏛️",
+    status: "live",
+    inputFields: [
+      { key: "currentAge", label: "Current Age", type: "number", step: 1, placeholder: "e.g. 30" },
+      { key: "retirementAge", label: "Retirement Age", type: "number", step: 1, placeholder: "e.g. 65" },
+      { key: "currentBalance", label: "Current Traditional IRA Balance", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "annualContribution", label: "Annual Contribution", type: "number", step: 0.01, placeholder: "e.g. 7000" },
+      { key: "expectedReturn", label: "Expected Annual Return (%)", type: "number", step: 0.01, placeholder: "e.g. 7" },
+      { key: "currentTaxRate", label: "Current Marginal Tax Rate (%)", type: "number", step: 0.1, placeholder: "e.g. 22" },
+      { key: "retirementTaxRate", label: "Expected Tax Rate in Retirement (%)", type: "number", step: 0.1, placeholder: "e.g. 15" },
+    ],
+    resultFields: [
+      { key: "balanceAtRetirement", label: "Balance at Retirement (Pre-Tax)", highlight: true },
+      { key: "afterTaxWithdrawalValue", label: "After-Tax Value at Withdrawal", highlight: true },
+      { key: "totalContributions", label: "Total Contributions" },
+      { key: "totalGrowth", label: "Total Growth" },
+      { key: "currentYearTaxSavings", label: "This Year's Tax Deduction Value" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateTraditionalIra(
+        Number(inputs.currentAge),
+        Number(inputs.retirementAge),
+        Number(inputs.currentBalance) || 0,
+        Number(inputs.annualContribution),
+        Number(inputs.expectedReturn),
+        Number(inputs.currentTaxRate),
+        Number(inputs.retirementTaxRate)
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How a Traditional IRA differs from a Roth IRA",
+        paragraphs: [
+          "Traditional IRA contributions are typically tax-deductible now, reducing your taxable income in the year you contribute, but the entire balance (contributions and growth) is taxed as ordinary income when withdrawn in retirement. A Roth IRA works the opposite way, contributions are made with after-tax money, but qualified withdrawals are entirely tax-free.",
+          "This calculator projects your pre-tax balance at retirement, shows this year's tax deduction value, and estimates the after-tax amount you'd actually be able to spend once withdrawals are taxed at your expected retirement tax rate.",
+        ],
+      },
+      {
+        heading: "Which one is better depends on your tax rates",
+        paragraphs: [
+          "A Traditional IRA tends to come out ahead if your tax rate in retirement will be lower than it is now, since you get the deduction at today's (higher) rate and pay tax later at a lower one. A Roth tends to come out ahead in the reverse situation. Compare this calculator's after-tax result against our Roth IRA Calculator's tax-free balance to see which fits your situation.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this account for the IRA contribution limit or income-based deduction phase-outs?",
+        answer: "No, IRA contribution limits and deduction eligibility (if you're also covered by a workplace plan) change periodically and depend on your income and filing status. Make sure your entered contribution reflects what you're actually allowed to deduct.",
+      },
+      {
+        question: "Why does the 'tax deduction value' only show one year?",
+        answer: "It illustrates the immediate tax savings from a single year's contribution at your current rate. Since you'd repeat that deduction annually, the actual cumulative tax savings over time would be larger.",
+      },
+    ],
+    relatedSlugs: ["roth-ira-calculator", "401k-calculator", "rmd-calculator"],
+  },
+  {
+    slug: "rmd-calculator",
+    category: "finance",
+    title: "RMD Calculator",
+    shortDescription: "Calculate your Required Minimum Distribution from a retirement account.",
+    metaDescription: "Free online RMD calculator to find your Required Minimum Distribution from a traditional IRA or retirement account using the IRS Uniform Lifetime Table.",
+    h1: "RMD Calculator",
+    intro: "Calculate your Required Minimum Distribution (RMD) from a traditional IRA or retirement account based on your age and account balance.",
+    icon: "📆",
+    status: "live",
+    inputFields: [
+      { key: "accountBalance", label: "Account Balance (Prior Year-End)", type: "number", step: 0.01, placeholder: "e.g. 500000" },
+      { key: "age", label: "Your Age (This Year)", type: "number", step: 1, placeholder: "e.g. 75" },
+    ],
+    resultFields: [
+      { key: "rmdAmount", label: "Required Minimum Distribution", highlight: true },
+      { key: "distributionPeriod", label: "IRS Distribution Period" },
+      { key: "monthlyEquivalent", label: "Monthly Equivalent" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateRmd(Number(inputs.accountBalance), Number(inputs.age));
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How RMD is calculated",
+        paragraphs: [
+          "RMD = Prior Year-End Account Balance ÷ Distribution Period, using the IRS Uniform Lifetime Table, which assigns a distribution period to each age from 72 upward. This calculator uses the table effective since 2022, which remains unchanged through 2026.",
+          "For example, a 500,000 balance at age 75 (distribution period 24.6) requires an RMD of about 20,325 for the year.",
+        ],
+      },
+      {
+        heading: "When RMDs start",
+        paragraphs: [
+          "Under current rules, your first RMD is generally required starting at age 73 if you were born between 1951 and 1959, or age 75 if born in 1960 or later. Roth IRAs aren't subject to RMDs during the original owner's lifetime.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What balance should I use?",
+        answer: "Use your account balance as of December 31 of the prior year, that's the figure the IRS RMD calculation is based on, not your current balance.",
+      },
+      {
+        question: "Does this apply to Roth IRAs?",
+        answer: "No, Roth IRAs aren't subject to RMDs during the original owner's lifetime. This calculator applies to traditional IRAs, SEP IRAs, SIMPLE IRAs, and most employer retirement plans.",
+      },
+    ],
+    relatedSlugs: ["traditional-ira-calculator", "401k-calculator", "roth-ira-calculator"],
+  },
+  {
+    slug: "debt-consolidation-calculator",
+    category: "finance",
+    title: "Debt Consolidation Calculator",
+    shortDescription: "See how consolidating multiple debts into one loan affects your monthly payment.",
+    metaDescription: "Free online debt consolidation calculator to compare your current combined debt payments against a single consolidation loan.",
+    h1: "Debt Consolidation Calculator",
+    intro: "Compare your current combined monthly debt payments against a single consolidation loan to see how your monthly payment would change.",
+    icon: "🔗",
+    status: "live",
+    inputFields: [
+      { key: "balance1", label: "Debt 1 Balance", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "minPayment1", label: "Debt 1 Minimum Payment", type: "number", step: 0.01, placeholder: "e.g. 200" },
+      { key: "balance2", label: "Debt 2 Balance", type: "number", step: 0.01, placeholder: "e.g. 3000" },
+      { key: "minPayment2", label: "Debt 2 Minimum Payment", type: "number", step: 0.01, placeholder: "e.g. 150" },
+      { key: "balance3", label: "Debt 3 Balance", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "minPayment3", label: "Debt 3 Minimum Payment", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "balance4", label: "Debt 4 Balance", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "minPayment4", label: "Debt 4 Minimum Payment", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "balance5", label: "Debt 5 Balance", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "minPayment5", label: "Debt 5 Minimum Payment", type: "number", step: 0.01, placeholder: "Leave blank if not used" },
+      { key: "consolidationRate", label: "Consolidation Loan Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 10" },
+      { key: "consolidationTermMonths", label: "Consolidation Loan Term (Months)", type: "number", step: 1, placeholder: "e.g. 36" },
+    ],
+    resultFields: [
+      { key: "currentTotalMonthlyPayment", label: "Current Combined Monthly Payment" },
+      { key: "newMonthlyPayment", label: "New Consolidated Monthly Payment", highlight: true },
+      { key: "monthlyPaymentChange", label: "Monthly Payment Change", highlight: true },
+      { key: "totalBalance", label: "Total Balance Consolidated" },
+      { key: "newTotalInterest", label: "Total Interest on New Loan" },
+    ],
+    calculate: (inputs) => {
+      const debts: DebtEntry[] = [1, 2, 3, 4, 5].map((n) => ({
+        balance: Number(inputs["balance" + n]) || 0,
+        minPayment: Number(inputs["minPayment" + n]) || 0,
+      }));
+      const output = calculateDebtConsolidation(debts, Number(inputs.consolidationRate), Number(inputs.consolidationTermMonths));
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the comparison is calculated",
+        paragraphs: [
+          "Your current combined monthly payment is simply the sum of each debt's minimum payment. The new consolidated payment amortizes the total balance of all your debts as a single loan at the consolidation rate and term you enter, using the standard loan payment formula.",
+          "A lower monthly payment on the new loan usually comes from a lower interest rate, a longer term, or both, a longer term can lower your monthly payment while increasing total interest paid, so check both figures.",
+        ],
+      },
+      {
+        heading: "When consolidation helps, and when it doesn't",
+        paragraphs: [
+          "Consolidation tends to help when it meaningfully lowers your interest rate, for example replacing high-rate credit card debt with a lower-rate personal loan. It can backfire if it just stretches the same or a higher rate over a much longer term, increasing total interest despite a lower monthly payment.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if I have fewer than 5 debts?",
+        answer: "Leave the unused debt fields blank, they're excluded automatically and won't affect the calculation.",
+      },
+      {
+        question: "Does a lower monthly payment always mean I'm saving money?",
+        answer: "Not necessarily. A lower payment achieved mainly by extending the loan term can mean paying more in total interest over time, compare the new loan's total interest against what you'd pay continuing your current debts to see the full picture.",
+      },
+    ],
+    relatedSlugs: ["debt-payoff-calculator", "credit-card-payoff-calculator", "loan-calculator"],
+  },
+  {
+    slug: "college-cost-calculator",
+    category: "finance",
+    title: "College Cost Calculator",
+    shortDescription: "Project future college costs based on today's cost and years until enrollment.",
+    metaDescription: "Free online college cost calculator to project future college costs, accounting for years until enrollment, tuition inflation and years in college.",
+    h1: "College Cost Calculator",
+    intro: "Project the future cost of college based on today's annual cost, years until enrollment, expected tuition inflation, and years in college.",
+    icon: "🎓",
+    status: "live",
+    inputFields: [
+      { key: "currentAnnualCost", label: "Current Annual Cost (Tuition + Room & Board)", type: "number", step: 0.01, placeholder: "e.g. 25000" },
+      { key: "yearsUntilEnrollment", label: "Years Until Enrollment", type: "number", step: 1, placeholder: "e.g. 10" },
+      { key: "inflationRate", label: "Expected College Cost Inflation (%)", type: "number", step: 0.1, defaultValue: 5 },
+      { key: "yearsInCollege", label: "Years in College", type: "number", step: 1, defaultValue: 4 },
+    ],
+    resultFields: [
+      { key: "projectedFirstYearCost", label: "Projected First-Year Cost", highlight: true },
+      { key: "totalProjectedCost", label: "Total Projected Cost (All Years)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const output = calculateCollegeCost(
+        Number(inputs.currentAnnualCost),
+        Number(inputs.yearsUntilEnrollment),
+        Number(inputs.inflationRate),
+        Number(inputs.yearsInCollege)
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How projected college cost is calculated",
+        paragraphs: [
+          "Projected First-Year Cost = Current Annual Cost × (1 + inflation rate)^years until enrollment. The total projected cost then compounds each subsequent year of college at the same inflation rate too, since costs keep rising while your student is enrolled, not just before.",
+          "For example, a 25,000 current annual cost with 10 years until enrollment, 5% inflation, and 4 years of college projects to roughly 40,722 in the first year and about 175,313 in total across all four years.",
+        ],
+      },
+      {
+        heading: "Why college cost inflation is often higher than general inflation",
+        paragraphs: [
+          "College tuition has historically risen faster than general consumer price inflation in many countries, so a default of around 5% is commonly used for planning purposes, higher than typical 2-3% general inflation estimates. Adjust based on the specific institution type you're planning for.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should I use in-state, out-of-state, or private school costs?",
+        answer: "Use whichever most closely matches where your student is likely to attend, current annual costs vary enormously between in-state public, out-of-state public, and private institutions.",
+      },
+      {
+        question: "Does this account for financial aid or scholarships?",
+        answer: "No, this projects the full sticker-price cost. Financial aid, scholarships and grants would reduce the actual amount you need to save or pay, factor those in separately.",
+      },
+    ],
+    relatedSlugs: ["savings-goal-calculator", "inflation-calculator"],
+  },
+  {
+    slug: "vat-calculator",
+    category: "finance",
+    title: "VAT Calculator",
+    shortDescription: "Add or remove VAT from a price.",
+    metaDescription: "Free online VAT calculator to add or remove Value Added Tax (VAT) from a price.",
+    h1: "VAT Calculator",
+    intro: "Calculate the VAT amount and final price for a given rate, whether you're adding VAT to a net price or removing it from a gross price.",
+    icon: "🧾",
+    status: "live",
+    inputFields: [
+      { key: "amount", label: "Amount", type: "number", step: 0.01, placeholder: "e.g. 1000" },
+      { key: "vatRate", label: "VAT Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 20" },
+      {
+        key: "mode",
+        label: "Calculation Type",
+        type: "select",
+        defaultValue: "add",
+        options: [
+          { label: "Add VAT (amount is net/excl. VAT)", value: "add" },
+          { label: "Remove VAT (amount is gross/incl. VAT)", value: "remove" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "netAmount", label: "Net Amount (Excl. VAT)" },
+      { key: "vatAmount", label: "VAT Amount", highlight: true },
+      { key: "grossAmount", label: "Gross Amount (Incl. VAT)", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const output = calculateVat(Number(inputs.amount), Number(inputs.vatRate), String(inputs.mode) as VatMode);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How to add or remove VAT",
+        paragraphs: [
+          "To add VAT to a net price: VAT Amount = Net Price × VAT Rate, and Gross Price = Net Price + VAT Amount. To remove VAT from a gross (VAT-inclusive) price: Net Price = Gross Price ÷ (1 + VAT Rate), and VAT Amount = Gross Price − Net Price.",
+          "For example, adding 20% VAT to a 1,000 net price gives 200 in VAT and a 1,200 gross price. Removing 20% VAT from a 1,200 gross price correctly gives back a 1,000 net price, not 1,200 × 0.8.",
+        ],
+      },
+      {
+        heading: "VAT vs GST",
+        paragraphs: [
+          "VAT (Value Added Tax) and GST (Goods and Services Tax) use the same underlying add/remove-tax math, they're just the terms used in different parts of the world (VAT in the UK and EU, GST in India, Australia and Canada, among others). Use whichever matches your local terminology, our GST Calculator uses identical logic under that name.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why can't I just subtract 20% to remove VAT from a gross price?",
+        answer: "Because the 20% VAT was added on top of the net price, not the gross price, so subtracting 20% of the gross amount overcorrects. You need to divide by (1 + VAT rate) instead to recover the correct net price.",
+      },
+      {
+        question: "What VAT rate should I use?",
+        answer: "VAT rates vary by country and sometimes by product category, check your local tax authority for the correct standard or reduced rate that applies to your situation.",
+      },
+    ],
+    relatedSlugs: ["gst-calculator", "sales-tax-calculator"],
+  },
+  {
+    slug: "depreciation-calculator",
+    category: "finance",
+    title: "Depreciation Calculator",
+    shortDescription: "Calculate asset depreciation using straight-line or declining balance methods.",
+    metaDescription: "Free online depreciation calculator to find annual depreciation and book value using the straight-line or declining balance method.",
+    h1: "Depreciation Calculator",
+    intro: "Calculate an asset's annual depreciation and book value using either the straight-line or declining balance method.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "assetCost", label: "Asset Cost", type: "number", step: 0.01, placeholder: "e.g. 50000" },
+      { key: "salvageValue", label: "Salvage Value", type: "number", step: 0.01, defaultValue: 0 },
+      { key: "usefulLifeYears", label: "Useful Life (Years)", type: "number", step: 1, placeholder: "e.g. 5" },
+      {
+        key: "method",
+        label: "Depreciation Method",
+        type: "select",
+        defaultValue: "straightLine",
+        options: [
+          { label: "Straight-Line", value: "straightLine" },
+          { label: "Double-Declining Balance", value: "decliningBalance" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "firstYearDepreciation", label: "Year 1 Depreciation", highlight: true },
+      { key: "bookValueAfterYear1", label: "Book Value After Year 1", highlight: true },
+      { key: "totalDepreciableAmount", label: "Total Depreciable Amount" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateDepreciation(
+        Number(inputs.assetCost),
+        Number(inputs.salvageValue) || 0,
+        Number(inputs.usefulLifeYears),
+        String(inputs.method) as DepreciationMethod
+      );
+      return {
+        firstYearDepreciation: output.firstYearDepreciation,
+        bookValueAfterYear1: output.bookValueAfterYear1,
+        totalDepreciableAmount: output.totalDepreciableAmount,
+      };
+    },
+    explanation: [
+      {
+        heading: "Straight-line vs declining balance depreciation",
+        paragraphs: [
+          "Straight-line depreciation spreads the depreciable amount (cost minus salvage value) evenly across the useful life: Annual Depreciation = (Cost − Salvage Value) ÷ Useful Life. Double-declining balance instead depreciates a fixed percentage (double the straight-line rate) of the remaining book value each year, front-loading more depreciation into earlier years.",
+          "For example, a 50,000 asset with a 5,000 salvage value over 5 years depreciates 9,000 per year under straight-line, but 20,000 in year 1 alone under double-declining balance (40% of the full 50,000 cost).",
+        ],
+      },
+      {
+        heading: "Which method should you use?",
+        paragraphs: [
+          "Straight-line is the simplest and most common for financial reporting. Declining balance methods are sometimes used for tax purposes or for assets that lose value faster early on (like vehicles or technology). Check with an accountant for the method required in your specific situation.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What is salvage value?",
+        answer: "Salvage value (also called residual value) is the estimated value of the asset at the end of its useful life, what you could sell it for or what it's worth as scrap. It reduces the total amount that gets depreciated.",
+      },
+      {
+        question: "Why does declining balance only show a first-year figure?",
+        answer: "Declining balance depreciation is a different, shrinking amount each year, since it's a fixed percentage of the remaining book value. The first-year figure gives you the starting point; each subsequent year would need to be recalculated on the reduced book value.",
+      },
+    ],
+    relatedSlugs: ["vehicle-depreciation-calculator", "business-valuation-calculator"],
+  },
+  {
+    slug: "margin-calculator",
+    category: "finance",
+    title: "Margin Calculator",
+    shortDescription: "Calculate required margin and buying power for a leveraged trading position.",
+    metaDescription: "Free online margin calculator to find the required margin, borrowed amount and maximum leverage for a trading position.",
+    h1: "Margin Calculator",
+    intro: "Calculate the required margin, borrowed amount, and maximum leverage for a trading position, based on your broker's margin requirement.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "positionValue", label: "Total Position Value", type: "number", step: 0.01, placeholder: "e.g. 20000" },
+      { key: "marginPercentRequired", label: "Margin Requirement (%)", type: "number", step: 0.1, placeholder: "e.g. 25" },
+    ],
+    resultFields: [
+      { key: "requiredMargin", label: "Required Margin (Your Cash)", highlight: true },
+      { key: "borrowedAmount", label: "Borrowed Amount", highlight: true },
+      { key: "maxLeverage", label: "Implied Max Leverage" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateTradingMargin(Number(inputs.positionValue), Number(inputs.marginPercentRequired));
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How margin trading works",
+        paragraphs: [
+          "This is a trading and investing margin calculator, not a business profit margin calculator (see our Profit Margin and Gross Margin Calculators for that). Margin trading lets you control a larger position than your cash alone would allow, by borrowing the rest from your broker. Required Margin = Position Value × Margin Requirement %, and the remainder is the amount effectively borrowed.",
+          "For example, a 20,000 position with a 25% margin requirement needs 5,000 of your own cash, with the remaining 15,000 borrowed, giving you implied leverage of up to 4:1.",
+        ],
+      },
+      {
+        heading: "Margin trading amplifies both gains and losses",
+        paragraphs: [
+          "Because you're controlling more shares or contracts than your cash alone would buy, both gains and losses are magnified relative to your invested capital. If the position moves against you enough, your broker can issue a margin call requiring you to add funds or have the position liquidated.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this the same as the Profit Margin or Gross Margin Calculator?",
+        answer: "No, this calculates trading margin, the collateral required to open a leveraged position. Our Profit Margin and Gross Margin Calculators measure business profitability instead, a completely different concept that happens to share the word 'margin.'",
+      },
+      {
+        question: "What's a typical margin requirement?",
+        answer: "It varies by broker, asset type and regulation, common initial margin requirements range from around 25% to 50% for stocks, with other asset classes like forex or futures often allowing much higher leverage (lower margin percentages).",
+      },
+    ],
+    relatedSlugs: ["profit-margin-calculator", "roi-calculator"],
+  },
+  {
+    slug: "budget-calculator",
+    category: "finance",
+    title: "Budget Calculator",
+    shortDescription: "Calculate a recommended budget using the 50/30/20 rule.",
+    metaDescription: "Free online budget calculator using the 50/30/20 rule to split your income into needs, wants and savings.",
+    h1: "Budget Calculator",
+    intro: "Calculate a recommended monthly budget split between needs, wants and savings using the popular 50/30/20 rule.",
+    icon: "🧮",
+    status: "live",
+    inputFields: [
+      { key: "monthlyIncome", label: "Monthly After-Tax Income", type: "number", step: 0.01, placeholder: "e.g. 5000" },
+      { key: "actualMonthlyExpenses", label: "Actual Monthly Expenses (optional)", type: "number", step: 0.01, defaultValue: 0 },
+    ],
+    resultFields: [
+      { key: "needsBudget", label: "Needs Budget (50%)", highlight: true },
+      { key: "wantsBudget", label: "Wants Budget (30%)", highlight: true },
+      { key: "savingsBudget", label: "Savings Budget (20%)", highlight: true },
+      { key: "surplusOrDeficit", label: "Surplus / Deficit vs Actual Expenses" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateBudget(Number(inputs.monthlyIncome), Number(inputs.actualMonthlyExpenses) || 0);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "The 50/30/20 budgeting rule",
+        paragraphs: [
+          "The 50/30/20 rule suggests allocating 50% of after-tax income to needs (housing, groceries, utilities, minimum debt payments), 30% to wants (dining out, entertainment, subscriptions), and 20% to savings and extra debt payoff.",
+          "For example, on a 5,000 monthly after-tax income, that's 2,500 for needs, 1,500 for wants, and 1,000 for savings.",
+        ],
+      },
+      {
+        heading: "It's a starting framework, not a strict rule",
+        paragraphs: [
+          "The exact split won't fit everyone, high cost-of-living areas often push 'needs' well above 50%, while aggressive savers might target more than 20%. Use it as a sanity-check starting point and adjust the proportions to fit your actual priorities and cost of living.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What counts as a 'need' vs a 'want'?",
+        answer: "Needs are essential, non-negotiable expenses like housing, groceries, utilities, insurance and minimum debt payments. Wants are discretionary, like dining out, entertainment, subscriptions and upgrades beyond the essential version of something.",
+      },
+      {
+        question: "What if my actual expenses don't match the 50/30/20 split?",
+        answer: "That's common, especially in high cost-of-living areas. Enter your actual monthly expenses to see your real surplus or deficit, and use the 50/30/20 figures as a target to work toward rather than a hard requirement.",
+      },
+    ],
+    relatedSlugs: ["rent-calculator", "savings-goal-calculator", "net-worth-calculator"],
+  },
+  {
+    slug: "annuity-calculator",
+    category: "finance",
+    title: "Annuity Calculator",
+    shortDescription: "Calculate the future value of a series of regular annuity payments.",
+    metaDescription: "Free online annuity calculator to find the future value of regular periodic payments into an annuity.",
+    h1: "Annuity Calculator",
+    intro: "Calculate the future value of an annuity, the total accumulated from a series of regular payments plus growth, at a given rate over time.",
+    icon: "💹",
+    status: "live",
+    inputFields: [
+      { key: "periodicPayment", label: "Payment Amount", type: "number", step: 0.01, placeholder: "e.g. 500" },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 6" },
+      { key: "years", label: "Number of Years", type: "number", step: 1, placeholder: "e.g. 10" },
+      { key: "paymentsPerYear", label: "Payments per Year", type: "number", step: 1, defaultValue: 12 },
+      {
+        key: "timing",
+        label: "Payment Timing",
+        type: "select",
+        defaultValue: "ordinary",
+        options: [
+          { label: "Ordinary Annuity (end of period)", value: "ordinary" },
+          { label: "Annuity Due (start of period)", value: "due" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "futureValue", label: "Future Value", highlight: true },
+      { key: "totalContributions", label: "Total Contributions" },
+      { key: "totalGrowth", label: "Total Growth" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateAnnuity(
+        Number(inputs.periodicPayment),
+        Number(inputs.annualRate),
+        Number(inputs.years),
+        Number(inputs.paymentsPerYear) || 12,
+        String(inputs.timing) as AnnuityTiming
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How future value of an annuity is calculated",
+        paragraphs: [
+          "For an ordinary annuity (payments at the end of each period): Future Value = Payment × [((1+r)^n − 1) ÷ r], where r is the interest rate per period and n is the total number of payments. An annuity due (payments at the start of each period) multiplies this result by (1+r), since each payment gets one extra period to grow.",
+          "For example, 500 monthly at 6% annual for 10 years grows to about 81,940 as an ordinary annuity, or about 82,349 as an annuity due.",
+        ],
+      },
+      {
+        heading: "Ordinary annuity vs annuity due",
+        paragraphs: [
+          "Most loan and investment payments (like a 401(k) contribution deducted at month-end) are ordinary annuities. Annuity due is less common but applies when payments happen at the start of each period, like many lease or rent payments.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this the same as compound interest?",
+        answer: "It's related but different, compound interest growth applies to a single lump sum, while an annuity involves a series of regular payments that each compound for a different length of time. This calculator combines both effects.",
+      },
+      {
+        question: "What's the difference between this and the Annuity Payout Calculator?",
+        answer: "This calculator handles the accumulation phase, growing regular payments into a future lump sum. The Annuity Payout Calculator handles the reverse: starting with a lump sum and calculating a regular payout.",
+      },
+    ],
+    relatedSlugs: ["annuity-payout-calculator", "compound-interest-calculator", "future-value-calculator"],
+  },
+  {
+    slug: "annuity-payout-calculator",
+    category: "finance",
+    title: "Annuity Payout Calculator",
+    shortDescription: "Calculate the regular payout a lump sum can provide over a set period.",
+    metaDescription: "Free online annuity payout calculator to find the regular periodic payment a lump sum can provide over a chosen payout period.",
+    h1: "Annuity Payout Calculator",
+    intro: "Calculate the regular periodic payout a lump sum can provide over a chosen number of years, fully depleting the balance by the end.",
+    icon: "💸",
+    status: "live",
+    inputFields: [
+      { key: "lumpSum", label: "Lump Sum Amount", type: "number", step: 0.01, placeholder: "e.g. 200000" },
+      { key: "annualRate", label: "Annual Interest Rate (%)", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      { key: "payoutYears", label: "Payout Period (Years)", type: "number", step: 1, placeholder: "e.g. 20" },
+      { key: "paymentsPerYear", label: "Payments per Year", type: "number", step: 1, defaultValue: 12 },
+    ],
+    resultFields: [
+      { key: "periodicPayout", label: "Payout per Period", highlight: true },
+      { key: "totalPayout", label: "Total Payout Over Period" },
+      { key: "totalInterestEarned", label: "Total Interest Earned" },
+    ],
+    calculate: (inputs) => {
+      const output = calculateAnnuityPayout(
+        Number(inputs.lumpSum),
+        Number(inputs.annualRate),
+        Number(inputs.payoutYears),
+        Number(inputs.paymentsPerYear) || 12
+      );
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the payout amount is calculated",
+        paragraphs: [
+          "This is the reverse of a loan payment formula: Payout = Lump Sum × r ÷ [1 − (1+r)^−n], where r is the interest rate per period and n is the total number of payments. The remaining balance keeps earning interest throughout the payout period, which is why the total payout is higher than the original lump sum.",
+          "For example, a 200,000 lump sum earning 5% annually, paid out monthly over 20 years, provides about 1,320 per month, totaling roughly 316,778 over the full period.",
+        ],
+      },
+      {
+        heading: "What this doesn't account for",
+        paragraphs: [
+          "This assumes a constant interest rate for the entire payout period and doesn't factor in inflation eroding the purchasing power of fixed payments over time, or any fees an actual annuity product might charge. Use it as a planning estimate, not a substitute for an actual annuity quote.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will the lump sum run out exactly at the end of the payout period?",
+        answer: "Yes, this calculator solves for the exact periodic payout that fully depletes the lump sum (principal and all earned interest) by the end of the period you enter, with nothing left over.",
+      },
+      {
+        question: "What if I want the payments to last indefinitely instead?",
+        answer: "That's a different calculation, a perpetuity, where you'd only withdraw the interest earned and never touch principal. This calculator instead spends down the full balance over your chosen period.",
+      },
+    ],
+    relatedSlugs: ["annuity-calculator", "present-value-calculator", "rmd-calculator"],
   },
 ];
 
