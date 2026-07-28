@@ -184,6 +184,17 @@ import { minifyHtml } from "@/utils/calculators/html-minifier";
 import { beautifyHtml } from "@/utils/calculators/html-beautifier";
 import { minifyCss } from "@/utils/calculators/css-minifier";
 import { beautifyCss } from "@/utils/calculators/css-beautifier";
+import { generateMetaTags } from "@/utils/calculators/meta-tag-generator";
+import { generateRobotsTxt } from "@/utils/calculators/robots-txt-generator";
+import { generateSitemap } from "@/utils/calculators/xml-sitemap-generator";
+import { generateOpenGraphTags } from "@/utils/calculators/open-graph-generator";
+import { generateTwitterCardTags } from "@/utils/calculators/twitter-card-generator";
+import { generateSchemaMarkup, SchemaType } from "@/utils/calculators/schema-markup-generator";
+import { generateCanonicalTag } from "@/utils/calculators/canonical-tag-generator";
+import { generateHreflangTags } from "@/utils/calculators/hreflang-generator";
+import { calculateKeywordDensity, PhraseLength } from "@/utils/calculators/keyword-density-checker";
+import { buildUtmUrl } from "@/utils/calculators/utm-url-builder";
+import { generateRedirectSnippets } from "@/utils/calculators/url-redirect-generator";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -12360,6 +12371,736 @@ explanation: [
       },
     ],
     relatedSlugs: ["css-minifier", "html-beautifier"],
+  },
+  {
+    slug: "meta-tag-generator",
+    category: "seo",
+    title: "Meta Tag Generator",
+    shortDescription: "Generate title, description and robots meta tags.",
+    metaDescription: "Free online meta tag generator to create title, description, keywords, viewport, charset and robots meta tags for your webpage.",
+    h1: "Meta Tag Generator",
+    intro: "Generate the core meta tags for your webpage's head section, title, description, keywords, robots directives and more, ready to paste in.",
+    icon: "🏷️",
+    status: "live",
+    inputFields: [
+      { key: "title", label: "Page Title", type: "text", placeholder: "e.g. Free Online Calculators - Merondis" },
+      { key: "description", label: "Meta Description", type: "textarea", placeholder: "A short summary of the page (150-160 characters recommended)" },
+      { key: "keywords", label: "Keywords (comma-separated, optional)", type: "text", placeholder: "e.g. calculator, converter, free tools" },
+      { key: "author", label: "Author (optional)", type: "text", placeholder: "e.g. Jane Doe" },
+      { key: "robotsIndex", label: "Allow Search Engines to Index This Page", type: "checkbox", defaultValue: "true" },
+      { key: "robotsFollow", label: "Allow Search Engines to Follow Links", type: "checkbox", defaultValue: "true" },
+      { key: "viewport", label: "Include Responsive Viewport Tag", type: "checkbox", defaultValue: "true" },
+      { key: "charset", label: "Include UTF-8 Charset Tag", type: "checkbox", defaultValue: "true" },
+    ],
+    resultFields: [{ key: "result", label: "Meta Tags", wide: true }],
+    calculate: (inputs) => {
+      const result = generateMetaTags({
+        title: String(inputs.title ?? ""),
+        description: String(inputs.description ?? ""),
+        keywords: String(inputs.keywords ?? ""),
+        author: String(inputs.author ?? ""),
+        robotsIndex: inputs.robotsIndex !== "false",
+        robotsFollow: inputs.robotsFollow !== "false",
+        viewport: inputs.viewport !== "false",
+        charset: inputs.charset !== "false",
+      });
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "Which meta tags matter most for SEO",
+        paragraphs: [
+          "The title tag and meta description are the two meta tags with the most direct SEO impact, they're what typically appears as your clickable headline and preview snippet in search results. The robots meta tag controls whether a page is indexed and whether its links are followed, useful for excluding pages like internal search results or duplicate content from search engines.",
+        ],
+      },
+      {
+        heading: "Does the keywords meta tag still matter?",
+        paragraphs: [
+          "No, major search engines like Google have not used the keywords meta tag for ranking purposes in a very long time. It's included here mainly for completeness and for any legacy systems that might still reference it, description and title tags are what's worth focusing your effort on.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How long should my meta description be?",
+        answer: "Roughly 150-160 characters is a commonly cited guideline, long enough to be descriptive but short enough to avoid truncation in most search results. Use our Google SERP Preview tool to check how your title and description will actually display.",
+      },
+      {
+        question: "When should I set robots to noindex?",
+        answer: "Use noindex for pages you don't want appearing in search results, like internal search result pages, thank-you/confirmation pages, staging environments, or duplicate content variants.",
+      },
+    ],
+    relatedSlugs: ["open-graph-generator", "google-serp-preview", "canonical-tag-generator"],
+  },
+  {
+    slug: "robots-txt-generator",
+    category: "seo",
+    title: "Robots.txt Generator",
+    shortDescription: "Generate a robots.txt file with allow/disallow rules.",
+    metaDescription: "Free online robots.txt generator to create a robots.txt file with user-agent, disallow, allow, sitemap and crawl-delay directives.",
+    h1: "Robots.txt Generator",
+    intro: "Generate a robots.txt file to control which parts of your site search engine crawlers can access.",
+    icon: "🤖",
+    status: "live",
+    inputFields: [
+      { key: "userAgent", label: "User-Agent", type: "text", defaultValue: "*" },
+      { key: "disallowPaths", label: "Disallow Paths (one per line)", type: "textarea", placeholder: "/admin\n/private" },
+      { key: "allowPaths", label: "Allow Paths (one per line, optional)", type: "textarea", placeholder: "/public" },
+      { key: "sitemapUrl", label: "Sitemap URL (optional)", type: "text", placeholder: "https://example.com/sitemap.xml" },
+      { key: "crawlDelay", label: "Crawl-Delay in Seconds (optional)", type: "text", placeholder: "e.g. 10" },
+    ],
+    resultFields: [{ key: "result", label: "robots.txt", wide: true }],
+    calculate: (inputs) => {
+      const result = generateRobotsTxt(
+        String(inputs.userAgent ?? "*"),
+        String(inputs.disallowPaths ?? ""),
+        String(inputs.allowPaths ?? ""),
+        String(inputs.sitemapUrl ?? ""),
+        String(inputs.crawlDelay ?? "")
+      );
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "What robots.txt controls",
+        paragraphs: [
+          "robots.txt is a plain text file placed at the root of your domain (e.g. example.com/robots.txt) that tells well-behaved search engine crawlers which parts of your site they may or may not access. It's a request, not an enforcement mechanism, malicious bots can ignore it entirely, so it shouldn't be relied on to keep sensitive content private.",
+        ],
+      },
+      {
+        heading: "Disallow vs noindex",
+        paragraphs: [
+          "Disallowing a path in robots.txt prevents crawling, but a disallowed URL can still occasionally appear in search results (without a snippet) if it's linked from elsewhere. To reliably keep a specific page out of search results, use a noindex meta tag on that page instead (see our Meta Tag Generator), robots.txt and noindex serve different purposes and are often used together.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Where do I put my robots.txt file?",
+        answer: "It must be placed at the root of your domain, accessible at https://yourdomain.com/robots.txt, robots.txt files placed anywhere else are not recognized by crawlers.",
+      },
+      {
+        question: "What does User-agent: * mean?",
+        answer: "The asterisk (*) is a wildcard meaning the rules apply to all crawlers. You can add separate User-agent blocks with different rules for specific crawlers if needed.",
+      },
+    ],
+    relatedSlugs: ["xml-sitemap-generator", "meta-tag-generator"],
+  },
+  {
+    slug: "xml-sitemap-generator",
+    category: "seo",
+    title: "XML Sitemap Generator",
+    shortDescription: "Generate a sitemap.xml from a list of URLs.",
+    metaDescription: "Free online XML sitemap generator to create a sitemap.xml file from a list of URLs, with priority, change frequency and last modified dates.",
+    h1: "XML Sitemap Generator",
+    intro: "Generate a sitemap.xml file from a list of URLs you provide, with optional priority, change frequency and last modified date per URL.",
+    icon: "🗺️",
+    status: "live",
+    inputFields: [
+      {
+        key: "urlList",
+        label: "URLs (one per line, optionally: url, priority, changefreq, lastmod)",
+        type: "textarea",
+        placeholder: "https://example.com/\nhttps://example.com/about, 0.8, monthly, 2026-01-15",
+      },
+      { key: "defaultPriority", label: "Default Priority (0.0-1.0)", type: "text", defaultValue: "0.5" },
+      {
+        key: "defaultChangefreq",
+        label: "Default Change Frequency",
+        type: "select",
+        options: [
+          { label: "Always", value: "always" },
+          { label: "Hourly", value: "hourly" },
+          { label: "Daily", value: "daily" },
+          { label: "Weekly", value: "weekly" },
+          { label: "Monthly", value: "monthly" },
+          { label: "Yearly", value: "yearly" },
+          { label: "Never", value: "never" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "sitemap.xml", wide: true }],
+    calculate: (inputs) => {
+      const urlList = String(inputs.urlList ?? "");
+      const defaultPriority = String(inputs.defaultPriority ?? "0.5");
+      const defaultChangefreq = String(inputs.defaultChangefreq ?? "monthly");
+      const result = generateSitemap(urlList, defaultPriority, defaultChangefreq);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this sitemap generator works",
+        paragraphs: [
+          "This tool formats a list of URLs you already have into a valid sitemap.xml file. It does not crawl your live website to discover pages, browsers can't fetch and read arbitrary external websites due to cross-origin (CORS) restrictions, so building the URL list is up to you, exported from your CMS, a site crawler tool, or typed manually.",
+        ],
+      },
+      {
+        heading: "What priority and changefreq actually do",
+        paragraphs: [
+          "Priority (0.0-1.0) and changefreq are hints to search engines about relative importance and how often a page changes, Google has stated it largely ignores these values for ranking purposes, though some other search engines and crawlers may still use them. lastmod (last modified date) is the most consistently useful of the three, helping crawlers prioritize re-crawling recently updated pages.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can this tool crawl my website automatically?",
+        answer: "No, browsers can't fetch and read arbitrary external websites due to cross-origin (CORS) restrictions, this tool formats a URL list you provide rather than discovering pages itself.",
+      },
+      {
+        question: "Where do I submit my sitemap?",
+        answer: "Upload the generated sitemap.xml to your site's root directory, then submit it through Google Search Console (and other search engines' equivalent webmaster tools), or reference it in your robots.txt file.",
+      },
+    ],
+    relatedSlugs: ["robots-txt-generator", "canonical-tag-generator"],
+  },
+  {
+    slug: "open-graph-generator",
+    category: "seo",
+    title: "Open Graph Generator",
+    shortDescription: "Generate Open Graph meta tags for social sharing.",
+    metaDescription: "Free online Open Graph generator to create og:title, og:description, og:image and other Open Graph meta tags for Facebook and LinkedIn sharing.",
+    h1: "Open Graph Generator",
+    intro: "Generate Open Graph meta tags that control how your page looks when shared on Facebook, LinkedIn and other platforms.",
+    icon: "📘",
+    status: "live",
+    inputFields: [
+      { key: "title", label: "og:title", type: "text", placeholder: "Your page title" },
+      { key: "description", label: "og:description", type: "textarea", placeholder: "A short description of the page" },
+      { key: "image", label: "og:image (URL)", type: "text", placeholder: "https://example.com/image.jpg" },
+      { key: "url", label: "og:url", type: "text", placeholder: "https://example.com/page" },
+      {
+        key: "type",
+        label: "og:type",
+        type: "select",
+        options: [
+          { label: "Website", value: "website" },
+          { label: "Article", value: "article" },
+          { label: "Product", value: "product" },
+          { label: "Profile", value: "profile" },
+        ],
+      },
+      { key: "siteName", label: "og:site_name (optional)", type: "text", placeholder: "Your Site Name" },
+    ],
+    resultFields: [{ key: "result", label: "Open Graph Tags", wide: true }],
+    calculate: (inputs) => {
+      const result = generateOpenGraphTags({
+        title: String(inputs.title ?? ""),
+        description: String(inputs.description ?? ""),
+        image: String(inputs.image ?? ""),
+        url: String(inputs.url ?? ""),
+        type: String(inputs.type ?? "website"),
+        siteName: String(inputs.siteName ?? ""),
+      });
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "What Open Graph tags do",
+        paragraphs: [
+          "Open Graph is a protocol (originally created by Facebook) that lets you control the title, description and image shown when your page is shared on Facebook, LinkedIn, and other platforms that support it. Without these tags, platforms fall back to guessing from your page's regular title and content, often with inconsistent results.",
+        ],
+      },
+      {
+        heading: "Recommended og:image size",
+        paragraphs: [
+          "A common recommendation is 1200×630 pixels for og:image, which displays well as a large preview card on most platforms without being cropped awkwardly. Use an absolute URL (starting with https://), not a relative path, since the platform fetching the image won't know your site's domain.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do I need Open Graph tags if I already have a meta description?",
+        answer: "Yes, they serve different purposes. Meta description affects search engine result snippets, Open Graph tags specifically control how your page appears when shared as a social media link, platforms don't reliably fall back to your meta description for this.",
+      },
+      {
+        question: "How do I test how my Open Graph tags will look?",
+        answer: "Facebook's Sharing Debugger and LinkedIn's Post Inspector are the standard tools platforms provide for previewing and re-scraping your Open Graph tags after you update them.",
+      },
+    ],
+    relatedSlugs: ["twitter-card-generator", "meta-tag-generator"],
+  },
+  {
+    slug: "twitter-card-generator",
+    category: "seo",
+    title: "Twitter Card Generator",
+    shortDescription: "Generate Twitter/X Card meta tags for rich link previews.",
+    metaDescription: "Free online Twitter Card generator to create twitter:card meta tags for rich link previews when your page is shared on X/Twitter.",
+    h1: "Twitter Card Generator",
+    intro: "Generate Twitter/X Card meta tags so your page shows a rich preview with title, description and image when shared on X.",
+    icon: "🐦",
+    status: "live",
+    inputFields: [
+      {
+        key: "cardType",
+        label: "Card Type",
+        type: "select",
+        options: [
+          { label: "Summary", value: "summary" },
+          { label: "Summary with Large Image", value: "summary_large_image" },
+          { label: "App", value: "app" },
+          { label: "Player", value: "player" },
+        ],
+      },
+      { key: "title", label: "twitter:title", type: "text", placeholder: "Your page title" },
+      { key: "description", label: "twitter:description", type: "textarea", placeholder: "A short description of the page" },
+      { key: "image", label: "twitter:image (URL)", type: "text", placeholder: "https://example.com/image.jpg" },
+      { key: "site", label: "twitter:site (your site's @handle, optional)", type: "text", placeholder: "@yourbrand" },
+      { key: "creator", label: "twitter:creator (author's @handle, optional)", type: "text", placeholder: "@author" },
+    ],
+    resultFields: [{ key: "result", label: "Twitter Card Tags", wide: true }],
+    calculate: (inputs) => {
+      const result = generateTwitterCardTags({
+        cardType: String(inputs.cardType ?? "summary"),
+        title: String(inputs.title ?? ""),
+        description: String(inputs.description ?? ""),
+        image: String(inputs.image ?? ""),
+        site: String(inputs.site ?? ""),
+        creator: String(inputs.creator ?? ""),
+      });
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "Choosing a card type",
+        paragraphs: [
+          "'Summary' shows a small square image alongside your title and description, suited to most articles and pages. 'Summary with Large Image' shows a full-width image above the text, better for visually-driven content. 'App' and 'Player' are specialized types for promoting a mobile app or embedding audio/video, and require additional platform-specific fields beyond what this generator covers.",
+        ],
+      },
+      {
+        heading: "What happens without a twitter:card tag",
+        paragraphs: [
+          "If no Twitter Card tags are present, X often falls back to using your Open Graph tags where compatible (og:title, og:description, og:image), but adding explicit Twitter Card tags gives you more reliable, predictable control over exactly how the preview appears there.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do I need both Open Graph and Twitter Card tags?",
+        answer: "It's common practice to include both, Open Graph covers Facebook, LinkedIn and other platforms, while explicit Twitter Card tags give X a dedicated, reliable preview rather than relying on its Open Graph fallback behavior.",
+      },
+      {
+        question: "Does the @ symbol matter for twitter:site and twitter:creator?",
+        answer: "The standard format includes the @ symbol (like @merondis). This tool automatically adds it if you leave it off.",
+      },
+    ],
+    relatedSlugs: ["open-graph-generator", "meta-tag-generator"],
+  },
+  {
+    slug: "schema-markup-generator",
+    category: "seo",
+    title: "Schema Markup Generator",
+    shortDescription: "Generate JSON-LD structured data for Article, Product, LocalBusiness or FAQPage.",
+    metaDescription: "Free online schema markup generator to create JSON-LD structured data for Article, Product, LocalBusiness and FAQPage schema.org types.",
+    h1: "Schema Markup Generator",
+    intro: "Generate JSON-LD structured data (schema.org markup) for an Article, Product, LocalBusiness, or FAQPage, ready to paste into your page's head.",
+    icon: "🧬",
+    status: "live",
+    inputFields: [
+      {
+        key: "schemaType",
+        label: "Schema Type",
+        type: "select",
+        options: [
+          { label: "Article", value: "Article" },
+          { label: "Product", value: "Product" },
+          { label: "Local Business", value: "LocalBusiness" },
+          { label: "FAQ Page", value: "FAQPage" },
+        ],
+      },
+      { key: "name", label: "Name / Headline (Article, Product, LocalBusiness)", type: "text", placeholder: "e.g. How to Choose a Laptop" },
+      { key: "description", label: "Description (Article, Product)", type: "textarea", placeholder: "A short description" },
+      { key: "imageUrl", label: "Image URL (Article, Product, LocalBusiness)", type: "text", placeholder: "https://example.com/image.jpg" },
+      { key: "url", label: "Page URL (Article, Product, LocalBusiness)", type: "text", placeholder: "https://example.com/page" },
+      { key: "authorName", label: "Author Name (Article)", type: "text", placeholder: "e.g. Jane Doe" },
+      { key: "datePublished", label: "Date Published (Article, e.g. 2026-07-28)", type: "text", placeholder: "2026-07-28" },
+      { key: "price", label: "Price (Product)", type: "text", placeholder: "e.g. 29.99" },
+      { key: "currency", label: "Currency Code (Product)", type: "text", defaultValue: "USD" },
+      {
+        key: "availability",
+        label: "Availability (Product)",
+        type: "select",
+        options: [
+          { label: "In Stock", value: "InStock" },
+          { label: "Out of Stock", value: "OutOfStock" },
+          { label: "Pre-Order", value: "PreOrder" },
+        ],
+      },
+      { key: "brand", label: "Brand (Product)", type: "text", placeholder: "e.g. Acme" },
+      { key: "phone", label: "Phone (LocalBusiness)", type: "text", placeholder: "+1-555-123-4567" },
+      { key: "address", label: "Address (LocalBusiness)", type: "text", placeholder: "123 Main St, Anytown, ST 12345" },
+      { key: "priceRange", label: "Price Range (LocalBusiness, e.g. $$)", type: "text", placeholder: "$$" },
+      {
+        key: "faqPairs",
+        label: 'Questions & Answers (FAQPage, one per line: "Question|Answer")',
+        type: "textarea",
+        placeholder: "What is SEO?|Search engine optimization.\nHow long does it take?|Results typically build over months.",
+      },
+    ],
+    resultFields: [{ key: "result", label: "JSON-LD Schema", wide: true }],
+    calculate: (inputs) => {
+      const result = generateSchemaMarkup({
+        schemaType: String(inputs.schemaType ?? "Article") as SchemaType,
+        name: String(inputs.name ?? ""),
+        description: String(inputs.description ?? ""),
+        imageUrl: String(inputs.imageUrl ?? ""),
+        url: String(inputs.url ?? ""),
+        authorName: String(inputs.authorName ?? ""),
+        datePublished: String(inputs.datePublished ?? ""),
+        price: String(inputs.price ?? ""),
+        currency: String(inputs.currency ?? "USD"),
+        availability: String(inputs.availability ?? "InStock"),
+        brand: String(inputs.brand ?? ""),
+        phone: String(inputs.phone ?? ""),
+        address: String(inputs.address ?? ""),
+        priceRange: String(inputs.priceRange ?? ""),
+        faqPairs: String(inputs.faqPairs ?? ""),
+      });
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "What structured data (schema markup) does",
+        paragraphs: [
+          "Structured data is machine-readable markup, in this case JSON-LD, a script tag embedded in your page, that describes your content in a standardized vocabulary (schema.org) search engines understand. It doesn't directly boost rankings, but it can make your page eligible for rich results in search (star ratings, FAQ dropdowns, price and availability), which can improve click-through rate.",
+        ],
+      },
+      {
+        heading: "Why this covers four types, not all of schema.org",
+        paragraphs: [
+          "schema.org defines hundreds of types with deeply nested optional properties. This generator focuses on four of the most commonly used types for typical websites, Article, Product, LocalBusiness and FAQPage, covering the fields that matter most for each rather than attempting exhaustive coverage of the entire vocabulary.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Where do I put the generated code?",
+        answer: "Paste the entire <script type=\"application/ld+json\">...</script> block anywhere in your page's <head> or <body>, it's not visually rendered, so placement within the visible page doesn't matter.",
+      },
+      {
+        question: "How do I check my structured data is valid?",
+        answer: "Google's Rich Results Test and the Schema.org Validator are the standard tools for checking that your JSON-LD is both valid and eligible for rich results.",
+      },
+      {
+        question: "Do I need all the fields for my schema type?",
+        answer: "No, only fields relevant to your selected schema type are used, fields for other types are simply ignored. Within a type, only the fields you fill in are included in the output.",
+      },
+    ],
+    relatedSlugs: ["json-formatter", "meta-tag-generator"],
+  },
+  {
+    slug: "canonical-tag-generator",
+    category: "seo",
+    title: "Canonical Tag Generator",
+    shortDescription: "Generate a canonical link tag and check for common issues.",
+    metaDescription: "Free online canonical tag generator to create a <link rel=\"canonical\"> tag from a URL, with checks for http vs https and trailing slash issues.",
+    h1: "Canonical Tag Generator",
+    intro: "Generate a canonical link tag from a URL, and get flagged on common issues like using http instead of https or an inconsistent trailing slash.",
+    icon: "🔗",
+    status: "live",
+    inputFields: [{ key: "url", label: "URL", type: "text", placeholder: "https://example.com/page" }],
+    resultFields: [
+      { key: "tag", label: "Canonical Tag", wide: true, highlight: true },
+      { key: "warnings", label: "Checks", wide: true },
+    ],
+    calculate: (inputs) => {
+      const url = String(inputs.url ?? "");
+      const output = generateCanonicalTag(url);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What a canonical tag does",
+        paragraphs: [
+          "A canonical tag (<link rel=\"canonical\" href=\"...\">) tells search engines which URL is the 'master' version of a page when the same or similar content is reachable through multiple URLs, like with and without a trailing slash, with tracking parameters, or through http vs https. This consolidates ranking signals onto one URL instead of splitting them across duplicates.",
+        ],
+      },
+      {
+        heading: "Common canonicalization mistakes",
+        paragraphs: [
+          "Pointing the canonical to an http:// URL when your site actually serves https:// (or vice versa), including tracking query parameters in the canonical URL, and inconsistent trailing slashes are all common mistakes that undermine what a canonical tag is meant to fix. This tool flags each of these automatically.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Should every page have a canonical tag?",
+        answer: "It's widely considered good practice for every indexable page to have a self-referencing canonical tag (pointing to itself), even when there's no known duplicate, as a safeguard against unexpected duplicate URLs appearing later.",
+      },
+      {
+        question: "Can a canonical tag point to a different domain?",
+        answer: "Yes, cross-domain canonicals are valid and used when the same content is intentionally published on multiple domains, pointing all copies to a single preferred domain.",
+      },
+    ],
+    relatedSlugs: ["hreflang-generator", "xml-sitemap-generator"],
+  },
+  {
+    slug: "hreflang-generator",
+    category: "seo",
+    title: "Hreflang Generator",
+    shortDescription: "Generate hreflang alternate link tags for multilingual pages.",
+    metaDescription: "Free online hreflang generator to create hreflang alternate link tags for multilingual and multi-regional websites, including x-default.",
+    h1: "Hreflang Generator",
+    intro: "Generate hreflang alternate link tags from a list of language/URL pairs, telling search engines which language or region each page version targets.",
+    icon: "🌐",
+    status: "live",
+    inputFields: [
+      {
+        key: "pairs",
+        label: 'Language Code and URL Pairs (one per line: "langcode, URL")',
+        type: "textarea",
+        placeholder: "en, https://example.com/en\nfr, https://example.com/fr\nes, https://example.com/es",
+      },
+      { key: "includeXDefault", label: "Include x-default", type: "checkbox", defaultValue: "true" },
+      { key: "xDefaultUrl", label: "x-default URL", type: "text", placeholder: "https://example.com/en" },
+    ],
+    resultFields: [{ key: "result", label: "Hreflang Tags", wide: true }],
+    calculate: (inputs) => {
+      const pairs = String(inputs.pairs ?? "");
+      const includeXDefault = inputs.includeXDefault !== "false";
+      const xDefaultUrl = String(inputs.xDefaultUrl ?? "");
+      const result = generateHreflangTags(pairs, includeXDefault, xDefaultUrl);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How hreflang tags work",
+        paragraphs: [
+          "hreflang tags tell search engines that multiple URLs are language or region-specific versions of the same content, so the right version is shown to users in each locale, rather than the pages being treated as duplicate content or the wrong version ranking for a given region. The same complete set of tags (listing every language version) is meant to be placed on every page in the set, including a page listing itself.",
+        ],
+      },
+      {
+        heading: "What x-default is for",
+        paragraphs: [
+          "The x-default entry specifies which version to show visitors whose language or region doesn't match any of your other listed versions, commonly your default or a language-selector page. It's optional but recommended for sites targeting multiple locales.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What format should the language code be in?",
+        answer: "Use ISO 639-1 language codes (like 'en', 'fr', 'es'), optionally combined with an ISO 3166-1 region code (like 'en-us' or 'en-gb') for region-specific targeting.",
+      },
+      {
+        question: "Do I need to include a self-referencing tag?",
+        answer: "Yes, each page's hreflang set should include a tag pointing to itself as well as to all other language versions, this tool's output is the same complete block meant to be placed on every page in the set.",
+      },
+    ],
+    relatedSlugs: ["canonical-tag-generator", "xml-sitemap-generator"],
+  },
+  {
+    slug: "keyword-density-checker",
+    category: "seo",
+    title: "Keyword Density Checker",
+    shortDescription: "Find the most frequent keywords and phrases in your text.",
+    metaDescription: "Free online keyword density checker to find the most frequent keywords and phrases in your text, with occurrence counts and density percentages.",
+    h1: "Keyword Density Checker",
+    intro: "Paste your content to find the most frequently repeated keywords and phrases, with occurrence counts and density percentages.",
+    icon: "🔑",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Content", type: "textarea", placeholder: "Paste your article or page content here..." },
+      {
+        key: "phraseLength",
+        label: "Phrase Length",
+        type: "select",
+        options: [
+          { label: "Single Words", value: "1" },
+          { label: "Two-Word Phrases", value: "2" },
+          { label: "Three-Word Phrases", value: "3" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "totalWords", label: "Total Words" },
+      { key: "uniqueWords", label: "Unique Words" },
+      { key: "topKeywords", label: "Top Repeated Phrases", wide: true },
+    ],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const phraseLength = String(inputs.phraseLength ?? "1") as PhraseLength;
+      const output = calculateKeywordDensity(text, phraseLength);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How keyword density is calculated",
+        paragraphs: [
+          "This tool counts how often each word or phrase appears, then divides by the total number of phrases of that length to get a density percentage. Single-word mode automatically excludes common stopwords ('the', 'and', 'of', and similar), so results focus on meaningful terms rather than the most common words in any English text.",
+        ],
+      },
+      {
+        heading: "Is there an ideal keyword density?",
+        paragraphs: [
+          "No, the once-popular idea of a target keyword density (like '2%') is outdated advice, modern search engines evaluate content quality and topical relevance far more holistically than counting exact keyword repetitions. This tool is best used as a sanity check, to catch accidental over-repetition or confirm your target terms actually appear naturally, not as a percentage to optimize toward.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why don't I see common words like 'the' or 'and' in single-word mode?",
+        answer: "Single-word mode filters out a basic list of common stopwords, since these would otherwise dominate the results in virtually any English text without providing useful insight.",
+      },
+      {
+        question: "Should I be worried about 'keyword stuffing'?",
+        answer: "Unnaturally repeating a phrase far more than normal writing would (keyword stuffing) can hurt rather than help, both from a search engine quality perspective and for readability. Use this tool to spot unintentional over-repetition.",
+      },
+    ],
+    relatedSlugs: ["word-counter", "meta-tag-generator"],
+  },
+  {
+    slug: "google-serp-preview",
+    category: "seo",
+    title: "Google SERP Preview",
+    shortDescription: "Preview how your page will look in Google search results.",
+    metaDescription: "Free online Google SERP preview tool to see how your page title and meta description will look in Google search results, with character limit checks.",
+    h1: "Google SERP Preview",
+    intro: "Preview how your page title, URL and meta description will look in Google search results, with live character limit checks.",
+    icon: "🔎",
+    status: "live",
+    widgetType: "serpPreview",
+    explanation: [
+      {
+        heading: "Why titles and descriptions get truncated",
+        paragraphs: [
+          "Google truncates search result titles and descriptions based on pixel width, not a strict character count, so the exact cutoff varies slightly depending on which characters you use (a title full of narrow letters like 'i' and 'l' fits more characters than one full of wide letters like 'w' and 'm'). This tool uses the commonly cited approximations of about 60 characters for titles and 155 characters for descriptions, the same simplified approach used by most SERP preview tools.",
+        ],
+      },
+      {
+        heading: "What this preview does and doesn't guarantee",
+        paragraphs: [
+          "This shows you a close approximation of typical desktop search result styling. Google sometimes rewrites titles or descriptions automatically if it judges your provided version to be a poor match for the search query, or generates a different snippet from your on-page content entirely, so treat this as a strong guide for what you're providing Google to work with, not a pixel-perfect guarantee of the final result.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does Google sometimes show a different title than what I set?",
+        answer: "Google may rewrite your title tag in search results if it determines a different phrasing better matches the user's search query or is more descriptive, this is a known, fairly common behavior and not a sign that anything is broken on your page.",
+      },
+      {
+        question: "Does a well-optimized snippet improve rankings?",
+        answer: "Not directly, but a compelling, accurate title and description can improve your click-through rate, which is a reasonable goal in its own right even though it isn't a direct ranking factor.",
+      },
+    ],
+    relatedSlugs: ["meta-tag-generator", "character-counter"],
+  },
+  {
+    slug: "utm-url-builder",
+    category: "seo",
+    title: "UTM URL Builder",
+    shortDescription: "Build a campaign tracking URL with UTM parameters.",
+    metaDescription: "Free online UTM URL builder to add utm_source, utm_medium, utm_campaign and other tracking parameters to a URL for campaign analytics.",
+    h1: "UTM URL Builder",
+    intro: "Build a campaign tracking URL by adding UTM parameters to a base URL, ready to use in analytics tools like Google Analytics.",
+    icon: "📌",
+    status: "live",
+    inputFields: [
+      { key: "baseUrl", label: "Website URL", type: "text", placeholder: "https://example.com/landing-page" },
+      { key: "source", label: "Campaign Source (utm_source)", type: "text", placeholder: "e.g. newsletter" },
+      { key: "medium", label: "Campaign Medium (utm_medium)", type: "text", placeholder: "e.g. email" },
+      { key: "campaign", label: "Campaign Name (utm_campaign)", type: "text", placeholder: "e.g. summer_sale" },
+      { key: "term", label: "Campaign Term (utm_term, optional)", type: "text", placeholder: "e.g. running+shoes" },
+      { key: "content", label: "Campaign Content (utm_content, optional)", type: "text", placeholder: "e.g. header_link" },
+    ],
+    resultFields: [{ key: "result", label: "Campaign URL", wide: true, highlight: true }],
+    calculate: (inputs) => {
+      const result = buildUtmUrl({
+        baseUrl: String(inputs.baseUrl ?? ""),
+        source: String(inputs.source ?? ""),
+        medium: String(inputs.medium ?? ""),
+        campaign: String(inputs.campaign ?? ""),
+        term: String(inputs.term ?? ""),
+        content: String(inputs.content ?? ""),
+      });
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "What UTM parameters do",
+        paragraphs: [
+          "UTM parameters are tags appended to a URL's query string that analytics tools like Google Analytics use to attribute traffic to a specific source, medium and campaign, letting you see exactly which newsletter, social post, or ad drove a visit rather than just seeing generic 'referral' traffic.",
+        ],
+      },
+      {
+        heading: "Source, medium and campaign explained",
+        paragraphs: [
+          "utm_source identifies where the traffic came from (e.g. 'newsletter', 'facebook'). utm_medium identifies the marketing medium (e.g. 'email', 'cpc', 'social'). utm_campaign identifies the specific campaign or promotion (e.g. 'summer_sale'). utm_term and utm_content are optional, used for paid keyword tracking and A/B testing different links within the same campaign, respectively.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will UTM parameters affect my SEO?",
+        answer: "No, but it's good practice to set a canonical tag on the landing page pointing to the clean URL without UTM parameters, so search engines consolidate ranking signals onto one version rather than treating tagged and untagged URLs as separate pages.",
+      },
+      {
+        question: "What if my base URL already has query parameters?",
+        answer: "This tool preserves any existing query parameters on your base URL and adds the UTM parameters alongside them, rather than overwriting them.",
+      },
+    ],
+    relatedSlugs: ["url-redirect-generator", "meta-tag-generator"],
+  },
+  {
+    slug: "url-redirect-generator",
+    category: "seo",
+    title: "URL Redirect Generator",
+    shortDescription: "Generate .htaccess, Nginx, HTML and JavaScript redirect code.",
+    metaDescription: "Free online URL redirect generator to create Apache .htaccess, Nginx, HTML meta-refresh and JavaScript redirect code for an old-to-new URL mapping.",
+    h1: "URL Redirect Generator",
+    intro: "Generate redirect code in four common formats (Apache .htaccess, Nginx, HTML meta-refresh, JavaScript) for an old URL to new URL mapping.",
+    icon: "↪️",
+    status: "live",
+    inputFields: [
+      { key: "oldPath", label: "Old Path or URL", type: "text", placeholder: "/old-page" },
+      { key: "newUrl", label: "New Destination URL", type: "text", placeholder: "https://example.com/new-page" },
+      {
+        key: "statusCode",
+        label: "Redirect Type",
+        type: "select",
+        options: [
+          { label: "301 (Permanent)", value: "301" },
+          { label: "302 (Temporary)", value: "302" },
+        ],
+      },
+    ],
+    resultFields: [
+      { key: "apacheHtaccess", label: "Apache (.htaccess)", wide: true },
+      { key: "nginxConfig", label: "Nginx", wide: true },
+      { key: "htmlMetaRefresh", label: "HTML Meta Refresh", wide: true },
+      { key: "javascriptRedirect", label: "JavaScript", wide: true },
+    ],
+    calculate: (inputs) => {
+      const oldPath = String(inputs.oldPath ?? "");
+      const newUrl = String(inputs.newUrl ?? "");
+      const statusCode = String(inputs.statusCode ?? "301") as "301" | "302";
+      const output = generateRedirectSnippets(oldPath, newUrl, statusCode);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "This generates redirect code, it doesn't test live redirects",
+        paragraphs: [
+          "This tool produces ready-to-use redirect code for common server and page-level setups. It does not check or follow an actual live redirect on the internet, browsers can't read cross-origin response headers or redirect chains without a server-side proxy, so verifying a redirect is actually working requires checking it directly (e.g. via your browser's network tab, curl, or your hosting provider's tools) after you deploy the code.",
+        ],
+      },
+      {
+        heading: "Choosing 301 vs 302",
+        paragraphs: [
+          "Use a 301 (permanent) redirect when a page has moved for good, this passes SEO ranking signals to the new URL and tells search engines to update their index. Use a 302 (temporary) redirect when the move is short-term, like a temporary maintenance page, since it tells search engines to keep the original URL indexed.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Which redirect method should I use?",
+        answer: "Server-level redirects (.htaccess for Apache, or the Nginx config) are strongly preferred over HTML meta-refresh or JavaScript redirects, they happen faster, are more reliably followed by search engines, and don't depend on the page's HTML/JS loading first.",
+      },
+      {
+        question: "When would I use a JavaScript or meta-refresh redirect instead?",
+        answer: "Mainly when you don't have access to server configuration, like on some static hosting or page-builder platforms. They work, but are slower and less SEO-friendly than a proper server-level redirect.",
+      },
+    ],
+    relatedSlugs: ["utm-url-builder", "canonical-tag-generator"],
   },
 ];
 

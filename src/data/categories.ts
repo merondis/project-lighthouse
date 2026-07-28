@@ -113,6 +113,14 @@ export const categories: Category[] = [
     intro:
       "Owning and running a vehicle comes with plenty of numbers worth checking, from how far a tank of gas or a full charge will actually take you, to what a car loan really costs each month. Our automotive calculators use standard fuel economy, depreciation and loan formulas to give you a quick, practical answer, whether you're comparing a gas car to an EV, sizing a replacement tire, or figuring out what you can actually afford.",
   },
+  {
+    slug: "seo",
+    name: "SEO Tools",
+    icon: "🔍",
+    description: "Meta tags, sitemaps, structured data and other on-page SEO generators.",
+    intro:
+      "Good on-page SEO involves a lot of small, precise details, meta tags, structured data, sitemaps, canonical URLs, that are easy to get slightly wrong by hand. Our SEO tools generate correctly formatted tags and markup from simple form inputs, so you can copy exactly what search engines and social platforms expect straight into your site, with no sign-up and nothing sent to a server.",
+  },
 ];
 
 export function getCategory(slug: string) {

@@ -25,6 +25,7 @@ import { EmailSignatureWidget } from "@/components/tool-page/EmailSignatureWidge
 import { WatermarkPdfWidget } from "@/components/tool-page/WatermarkPdfWidget";
 import { BmiCalculatorWidget } from "@/components/tool-page/BmiCalculatorWidget";
 import { MatrixCalculatorWidget } from "@/components/tool-page/MatrixCalculatorWidget";
+import { SerpPreviewWidget } from "@/components/tool-page/SerpPreviewWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -64,5 +65,6 @@ export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "watermarkPdf") return <WatermarkPdfWidget />;
   if (tool.widgetType === "bmi") return <BmiCalculatorWidget />;
   if (tool.widgetType === "matrix") return <MatrixCalculatorWidget />;
+  if (tool.widgetType === "serpPreview") return <SerpPreviewWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }

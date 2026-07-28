@@ -11,7 +11,8 @@ export type ToolCategorySlug =
   | "misc"
   | "math"
   | "construction"
-  | "automotive";
+  | "automotive"
+  | "seo";
 
 export type ToolStatus = "live" | "comingSoon";
 
@@ -83,7 +84,8 @@ export interface ToolConfig {
     | "emailSignature"
     | "watermarkPdf"
     | "bmi"
-    | "matrix";
+    | "matrix"
+    | "serpPreview";
   amortizationTenureUnit?: "months" | "years";
   aiSystemPrompt?: string;
   aiActionLabel?: string;
