@@ -1,6 +1,7 @@
 import { RecentlyViewedTools } from "@/components/home/RecentlyViewedTools";
 import { PopularTools } from "@/components/home/PopularTools";
 import { Hero } from "@/components/home/Hero";
+import { HomeCalculatorWidget } from "@/components/home/HomeCalculatorWidget";
 import { CategoryCard } from "@/components/home/CategoryCard";
 import { AdSensePlaceholder } from "@/components/ads/AdSensePlaceholder";
 import { Container } from "@/components/ui/Container";
@@ -18,6 +19,10 @@ export default function HomePage() {
   return (
     <Container>
 <Hero />
+
+      <div className="mb-8">
+        <HomeCalculatorWidget />
+      </div>
 
       <RecentlyViewedTools />
 
