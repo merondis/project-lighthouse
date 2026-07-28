@@ -171,6 +171,19 @@ import { removeExtraSpaces } from "@/utils/calculators/remove-extra-spaces";
 import { reverseText, ReverseTextMode } from "@/utils/calculators/reverse-text";
 import { shuffleText, ShuffleTextMode } from "@/utils/calculators/shuffle-text";
 import { convertHtmlEntities, HtmlEntityMode } from "@/utils/calculators/html-entity-converter";
+import { validateUuid } from "@/utils/calculators/uuid-validator";
+import { formatXml, validateXml } from "@/utils/calculators/xml-formatter";
+import { convertCsvToJson, convertJsonToCsv } from "@/utils/calculators/csv-json-converter";
+import { formatSql } from "@/utils/calculators/sql-formatter";
+import { decodeJwt } from "@/utils/calculators/jwt-decoder";
+import { calculateHashes } from "@/utils/calculators/hash-generator";
+import { generateJwt } from "@/utils/calculators/jwt-generator";
+import { generateCron } from "@/utils/calculators/cron-generator";
+import { convertTimestamp, TimestampConversionMode } from "@/utils/calculators/unix-timestamp-converter";
+import { minifyHtml } from "@/utils/calculators/html-minifier";
+import { beautifyHtml } from "@/utils/calculators/html-beautifier";
+import { minifyCss } from "@/utils/calculators/css-minifier";
+import { beautifyCss } from "@/utils/calculators/css-beautifier";
 
 export const toolRegistry: ToolConfig[] = [
   {
@@ -11595,6 +11608,758 @@ explanation: [
       },
     ],
     relatedSlugs: ["slug-generator", "case-converter"],
+  },
+  {
+    slug: "uuid-validator",
+    category: "developer",
+    title: "UUID Validator",
+    shortDescription: "Validate a UUID and identify its version and variant.",
+    metaDescription: "Free online UUID validator to check whether a string is a valid UUID, and identify its version and variant, per RFC 4122.",
+    h1: "UUID Validator",
+    intro: "Check whether a string is a valid UUID (universally unique identifier), and identify its version and variant.",
+    icon: "✅",
+    status: "live",
+    inputFields: [
+      { key: "uuid", label: "UUID", type: "text", placeholder: "e.g. 550e8400-e29b-41d4-a716-446655440000" },
+    ],
+    resultFields: [
+      { key: "isValid", label: "Status", highlight: true },
+      { key: "version", label: "Version" },
+      { key: "variant", label: "Variant" },
+    ],
+    calculate: (inputs) => {
+      const uuid = String(inputs.uuid ?? "");
+      const output = validateUuid(uuid);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this differs from our UUID Generator",
+        paragraphs: [
+          "Our UUID Generator creates new random version 4 UUIDs. This tool does the opposite, it checks whether a UUID string you already have is correctly formatted (the standard 8-4-4-4-12 hexadecimal pattern), and identifies its version (1-8) and variant from the bits embedded in the UUID itself.",
+        ],
+      },
+      {
+        heading: "What UUID version and variant mean",
+        paragraphs: [
+          "The version digit (the first character of the third group) indicates how the UUID was generated, version 4 is random, version 1 is timestamp-based, and so on. The variant (encoded in the top bits of the fourth group) indicates which layout rules the UUID follows, the vast majority of UUIDs in use today are RFC 4122 variant.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What makes a UUID invalid?",
+        answer: "A UUID is invalid if it doesn't match the standard 8-4-4-4-12 hexadecimal pattern, has the wrong length, contains non-hexadecimal characters, or has a version digit outside the valid 1-8 range.",
+      },
+      {
+        question: "Is my UUID sent to a server?",
+        answer: "No, all validation happens entirely in your browser, your data is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["uuid-generator", "json-formatter"],
+  },
+  {
+    slug: "xml-formatter",
+    category: "developer",
+    title: "XML Formatter",
+    shortDescription: "Format and indent XML with proper structure.",
+    metaDescription: "Free online XML formatter to beautify and indent XML with proper structure, and catch common well-formedness errors.",
+    h1: "XML Formatter",
+    intro: "Paste your XML to format it with consistent indentation. Also flags unclosed tags, mismatched tags, and multiple root elements.",
+    icon: "📰",
+    status: "live",
+    inputFields: [
+      { key: "xml", label: "Your XML", type: "textarea", placeholder: "<root><item>value</item></root>" },
+    ],
+    resultFields: [{ key: "result", label: "Formatted XML", wide: true }],
+    calculate: (inputs) => {
+      const xml = String(inputs.xml ?? "");
+      const result = formatXml(xml);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this XML formatter works",
+        paragraphs: [
+          "This tool parses your XML into tags, text, comments and CDATA sections using its own hand-written tokenizer, then re-indents it two spaces per nesting level. A single text-only child (like <name>John</name>) is kept on one line, matching how most XML formatters handle simple leaf elements.",
+        ],
+      },
+      {
+        heading: "What this catches along the way",
+        paragraphs: [
+          "Since formatting requires understanding the tag structure, this tool also surfaces common well-formedness problems as it goes: unclosed tags, mismatched opening/closing tag pairs, and multiple root elements (valid XML must have exactly one root element).",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What happens if my XML has an error?",
+        answer: "The tool shows an error message describing the specific problem, such as a mismatched closing tag or an unclosed tag, rather than a formatted result.",
+      },
+      {
+        question: "Does this validate against a schema (XSD/DTD)?",
+        answer: "No, this checks well-formedness only (correct tag structure), not validity against a specific schema. Schema validation is a separate, more involved process.",
+      },
+    ],
+    relatedSlugs: ["xml-validator", "json-formatter"],
+  },
+  {
+    slug: "xml-validator",
+    category: "developer",
+    title: "XML Validator",
+    shortDescription: "Check whether XML is well-formed.",
+    metaDescription: "Free online XML validator to check whether your XML is well-formed, catching unclosed tags, mismatched tags, and multiple root elements.",
+    h1: "XML Validator",
+    intro: "Paste your XML to check whether it's well-formed, catching unclosed tags, mismatched tags, and multiple root elements.",
+    icon: "🔍",
+    status: "live",
+    inputFields: [
+      { key: "xml", label: "Your XML", type: "textarea", placeholder: "<root><item>value</item></root>" },
+    ],
+    resultFields: [
+      { key: "isValid", label: "Status", highlight: true },
+      { key: "message", label: "Details", wide: true },
+    ],
+    calculate: (inputs) => {
+      const xml = String(inputs.xml ?? "");
+      const output = validateXml(xml);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What 'well-formed' means for XML",
+        paragraphs: [
+          "Well-formed XML follows XML's basic syntax rules: every opening tag has a matching closing tag (or is self-closed), tags are properly nested without overlapping, and the document has exactly one root element containing everything else. This tool checks exactly those rules using its own hand-written parser.",
+        ],
+      },
+      {
+        heading: "Well-formed vs valid",
+        paragraphs: [
+          "'Well-formed' and 'valid' are different concepts in XML. Well-formed means the syntax is structurally correct, which is what this tool checks. 'Valid' additionally means the document conforms to a specific schema (like an XSD or DTD) defining which elements and attributes are allowed, this tool doesn't check schema validity.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this tell me which line the error is on?",
+        answer: "The error message describes the specific tag or structural problem found (like which closing tag was unexpected), though it doesn't report a line number since the check is based on tag structure rather than raw text position.",
+      },
+      {
+        question: "Is my XML sent to a server?",
+        answer: "No, all validation happens entirely in your browser, your data is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["xml-formatter", "json-formatter"],
+  },
+  {
+    slug: "csv-to-json",
+    category: "developer",
+    title: "CSV to JSON Converter",
+    shortDescription: "Convert CSV data into a JSON array of objects.",
+    metaDescription: "Free online CSV to JSON converter to convert CSV data (with proper quoted-field handling) into a JSON array of objects.",
+    h1: "CSV to JSON Converter",
+    intro: "Convert CSV data into a JSON array of objects, using the first row as field names. Handles quoted fields containing commas or line breaks.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "csv", label: "Your CSV", type: "textarea", placeholder: "name,age\nAlice,30\nBob,25" },
+      {
+        key: "delimiter",
+        label: "Delimiter",
+        type: "select",
+        options: [
+          { label: "Comma (,)", value: "," },
+          { label: "Semicolon (;)", value: ";" },
+          { label: "Tab", value: "\t" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "JSON Output", wide: true }],
+    calculate: (inputs) => {
+      const csv = String(inputs.csv ?? "");
+      const delimiter = String(inputs.delimiter ?? ",");
+      const result = convertCsvToJson(csv, delimiter === "\\t" ? "\t" : delimiter);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How CSV to JSON conversion works",
+        paragraphs: [
+          "This tool treats the first row as field names, then converts every following row into a JSON object using those names as keys. It correctly handles quoted fields containing the delimiter, line breaks, or escaped ('\"\"') quotes, using its own hand-written CSV parser rather than a naive split-on-comma approach.",
+        ],
+      },
+      {
+        heading: "When you'd convert CSV to JSON",
+        paragraphs: [
+          "Converting spreadsheet or export data (CSV) into JSON is a common step when feeding data into an API, a JavaScript application, or a NoSQL database, all of which typically expect JSON rather than tabular CSV.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my CSV uses semicolons instead of commas?",
+        answer: "Select 'Semicolon' or 'Tab' from the delimiter dropdown, common in CSV exports from regions or tools that use commas as decimal separators.",
+      },
+      {
+        question: "Does this handle quoted fields with embedded commas?",
+        answer: "Yes, a field like \"New York, NY\" wrapped in quotes is correctly kept as a single value rather than being split into two fields.",
+      },
+    ],
+    relatedSlugs: ["json-to-csv", "json-formatter"],
+  },
+  {
+    slug: "json-to-csv",
+    category: "developer",
+    title: "JSON to CSV Converter",
+    shortDescription: "Convert a JSON array of objects into CSV data.",
+    metaDescription: "Free online JSON to CSV converter to convert a JSON array of objects into CSV data, with proper quoting for special characters.",
+    h1: "JSON to CSV Converter",
+    intro: "Convert a JSON array of objects into CSV data, automatically building a header row from all the keys used across your objects.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "json", label: "Your JSON", type: "textarea", placeholder: '[{"name":"Alice","age":30},{"name":"Bob","age":25}]' },
+      {
+        key: "delimiter",
+        label: "Delimiter",
+        type: "select",
+        options: [
+          { label: "Comma (,)", value: "," },
+          { label: "Semicolon (;)", value: ";" },
+          { label: "Tab", value: "\t" },
+        ],
+      },
+    ],
+    resultFields: [{ key: "result", label: "CSV Output", wide: true }],
+    calculate: (inputs) => {
+      const json = String(inputs.json ?? "");
+      const delimiter = String(inputs.delimiter ?? ",");
+      const result = convertJsonToCsv(json, delimiter === "\\t" ? "\t" : delimiter);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How JSON to CSV conversion works",
+        paragraphs: [
+          "This tool expects a JSON array of flat objects (like [{\"name\":\"Alice\",\"age\":30}, ...]). It collects every key used across all objects to build the header row, then writes one CSV row per object, quoting any value that contains the delimiter, a quote character, or a line break.",
+        ],
+      },
+      {
+        heading: "What happens if objects have different fields",
+        paragraphs: [
+          "If some objects are missing a field that others have, the resulting CSV cell for that row and column is simply left blank, the header row always includes every key seen across the full array.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does my JSON need to be an array?",
+        answer: "Yes, the input must be a JSON array of objects. A single object or a nested structure would need to be restructured into a flat array first.",
+      },
+      {
+        question: "What happens to nested objects or arrays inside a field?",
+        answer: "They're converted to their JSON string representation in the CSV cell, since CSV itself has no concept of nested structure.",
+      },
+    ],
+    relatedSlugs: ["csv-to-json", "json-formatter"],
+  },
+  {
+    slug: "sql-formatter",
+    category: "developer",
+    title: "SQL Formatter",
+    shortDescription: "Format SQL queries with readable line breaks and indentation.",
+    metaDescription: "Free online SQL formatter to format SQL queries with readable line breaks before major clauses like SELECT, FROM, WHERE and JOIN.",
+    h1: "SQL Formatter",
+    intro: "Paste a SQL query to format it with a line break before each major clause (SELECT, FROM, WHERE, JOIN, GROUP BY, ORDER BY and more).",
+    icon: "🗄️",
+    status: "live",
+    inputFields: [
+      { key: "sql", label: "Your SQL Query", type: "textarea", placeholder: "SELECT id, name FROM users WHERE age > 18 ORDER BY name" },
+    ],
+    resultFields: [{ key: "result", label: "Formatted SQL", wide: true }],
+    calculate: (inputs) => {
+      const sql = String(inputs.sql ?? "");
+      const result = formatSql(sql);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this SQL formatter works",
+        paragraphs: [
+          "This is a keyword-based formatter, not a full SQL parser: it recognizes major clause keywords (SELECT, FROM, WHERE, JOIN variants, GROUP BY, ORDER BY, HAVING, and more) and inserts a line break before each one, then indents AND/OR conditions within a WHERE clause. This produces readable formatting for typical single-statement queries.",
+        ],
+      },
+      {
+        heading: "What this formatter doesn't do",
+        paragraphs: [
+          "Because it works from keywords rather than a true SQL grammar, this tool won't perfectly handle every edge case, deeply nested subqueries, vendor-specific syntax, or unusual keyword usage inside string literals may not format exactly as a dedicated SQL IDE would. For everyday query cleanup and readability, it works well.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this work for INSERT, UPDATE and DELETE statements, not just SELECT?",
+        answer: "Yes, it recognizes keywords from INSERT INTO/VALUES, UPDATE/SET, and DELETE FROM statements too, not just SELECT queries.",
+      },
+      {
+        question: "Will this change my SQL's behavior?",
+        answer: "No, only whitespace and line breaks are changed, the query's keywords, identifiers and logic are left exactly as written.",
+      },
+    ],
+    relatedSlugs: ["json-formatter", "csv-to-json"],
+  },
+  {
+    slug: "jwt-decoder",
+    category: "developer",
+    title: "JWT Decoder",
+    shortDescription: "Decode a JWT's header and payload.",
+    metaDescription: "Free online JWT decoder to decode a JSON Web Token's header and payload. Does not verify the signature.",
+    h1: "JWT Decoder",
+    intro: "Paste a JWT to decode its header and payload. This is a decoder only, it does not verify the signature.",
+    icon: "🔓",
+    status: "live",
+    inputFields: [
+      { key: "token", label: "JWT", type: "textarea", placeholder: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...." },
+    ],
+    resultFields: [
+      { key: "header", label: "Header", wide: true },
+      { key: "payload", label: "Payload", wide: true },
+      { key: "signature", label: "Signature (raw, base64url)", wide: true },
+    ],
+    calculate: (inputs) => {
+      const token = String(inputs.token ?? "");
+      const output = decodeJwt(token);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How JWT decoding works",
+        paragraphs: [
+          "A JWT has three base64url-encoded segments separated by periods: header.payload.signature. This tool decodes the header and payload segments (each is just base64url-encoded JSON) and displays them pretty-printed, along with the raw signature segment.",
+        ],
+      },
+      {
+        heading: "Why this doesn't verify the signature",
+        paragraphs: [
+          "Verifying a JWT's signature requires the secret key (for HS256) or public key (for RS256/ES256) it was signed with, information this tool never asks for or has access to. Decoding shows you what's inside the token, it doesn't confirm the token is authentic or hasn't been tampered with, that check has to happen on the server that issued it.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is it safe to paste a JWT here?",
+        answer: "Decoding happens entirely in your browser, your token is never sent to or stored on our servers. That said, treat JWTs like any sensitive credential, avoid pasting tokens from production systems into any third-party tool if you're not sure how it handles data.",
+      },
+      {
+        question: "Can I use this to create a valid JWT?",
+        answer: "No, this tool only decodes existing tokens. Use our JWT Generator to create a new signed token.",
+      },
+    ],
+    relatedSlugs: ["jwt-generator", "hash-generator"],
+  },
+  {
+    slug: "jwt-generator",
+    category: "developer",
+    title: "JWT Generator",
+    shortDescription: "Generate a signed HS256 JWT from a JSON payload.",
+    metaDescription: "Free online JWT generator to create a signed HS256 JSON Web Token from a JSON payload and secret key.",
+    h1: "JWT Generator",
+    intro: "Generate a signed JWT (HS256) from a JSON payload and a secret key, computed entirely in your browser with our own SHA-256/HMAC implementation.",
+    icon: "🔏",
+    status: "live",
+    inputFields: [
+      { key: "payload", label: "Payload (JSON)", type: "textarea", placeholder: '{"sub":"1234567890","name":"John Doe"}' },
+      { key: "secret", label: "Secret Key", type: "text", placeholder: "your-secret-key" },
+    ],
+    resultFields: [
+      { key: "token", label: "Generated JWT", wide: true, highlight: true },
+      { key: "header", label: "Header", wide: true },
+      { key: "payload", label: "Payload", wide: true },
+    ],
+    calculate: (inputs) => {
+      const payload = String(inputs.payload ?? "");
+      const secret = String(inputs.secret ?? "");
+      const output = generateJwt(payload, secret);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How this JWT is signed",
+        paragraphs: [
+          "This tool builds a standard HS256 JWT: the header ({\"alg\":\"HS256\",\"typ\":\"JWT\"}) and your payload are base64url-encoded and joined with a period, then signed with HMAC-SHA256 using your secret key. The signature is appended as a third base64url segment, producing a complete, verifiable token. Both the SHA-256 and HMAC logic are implemented directly in this tool, no crypto library involved, and verified to produce byte-identical output to standard implementations.",
+        ],
+      },
+      {
+        heading: "Keep your secret key safe",
+        paragraphs: [
+          "Anyone with your secret key can generate valid tokens that your server will accept, or verify tokens they intercept, so treat it like a password. This tool runs entirely in your browser and never transmits your secret anywhere, but you should still avoid using a real production secret in any external tool, use this for testing, prototyping, or generating tokens with throwaway secrets.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why only HS256?",
+        answer: "HS256 (HMAC with SHA-256) is symmetric, signing and verifying both use the same secret key, which is why it can be implemented and computed entirely client-side. Asymmetric algorithms like RS256 require a private/public key pair and are a separate, more involved implementation.",
+      },
+      {
+        question: "Is my secret key sent anywhere?",
+        answer: "No, the entire signing process runs in your browser using JavaScript. Your secret and payload are never transmitted to or stored on our servers.",
+      },
+      {
+        question: "Can I verify a token this tool generated?",
+        answer: "Yes, paste the generated token into our JWT Decoder to see its decoded header and payload. Full signature verification would require re-computing the HMAC with the same secret, which this decoder intentionally doesn't do since it never asks for a secret.",
+      },
+    ],
+    relatedSlugs: ["jwt-decoder", "hash-generator"],
+  },
+  {
+    slug: "hash-generator",
+    category: "developer",
+    title: "Hash Generator",
+    shortDescription: "Generate MD5, SHA-1 and SHA-256 hashes of text.",
+    metaDescription: "Free online hash generator to compute MD5, SHA-1 and SHA-256 hashes of any text, entirely in your browser.",
+    h1: "Hash Generator",
+    intro: "Generate MD5, SHA-1 and SHA-256 hashes of any text, computed entirely in your browser using our own hash implementations.",
+    icon: "#️⃣",
+    status: "live",
+    inputFields: [
+      { key: "text", label: "Your Text", type: "textarea", placeholder: "Enter text to hash..." },
+    ],
+    resultFields: [
+      { key: "md5", label: "MD5", wide: true },
+      { key: "sha1", label: "SHA-1", wide: true },
+      { key: "sha256", label: "SHA-256", wide: true },
+    ],
+    calculate: (inputs) => {
+      const text = String(inputs.text ?? "");
+      const output = calculateHashes(text);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How these hashes are computed",
+        paragraphs: [
+          "This tool implements the MD5, SHA-1 and SHA-256 algorithms directly, no crypto library involved, and each was verified to produce byte-identical output to Node's built-in crypto module across empty input, unicode text, and inputs at the algorithms' internal block-size boundaries before being wired up here.",
+        ],
+      },
+      {
+        heading: "Choosing between MD5, SHA-1 and SHA-256",
+        paragraphs: [
+          "MD5 and SHA-1 are fast but considered cryptographically broken, both have known collision vulnerabilities and shouldn't be used for security-sensitive purposes like password storage, though they're still common for non-security uses like checksums and cache keys. SHA-256 is currently considered secure and is the standard choice for security-relevant hashing today.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this safe for hashing passwords?",
+        answer: "No, none of these algorithms (including SHA-256) should be used directly for password storage, dedicated password hashing algorithms like bcrypt, scrypt or Argon2 (which are deliberately slow and salted) exist specifically for that purpose. These general-purpose hashes are best suited for checksums, cache keys, and data integrity checks.",
+      },
+      {
+        question: "Is my text sent to a server?",
+        answer: "No, all hashing happens entirely in your browser, your text is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["jwt-generator", "jwt-decoder"],
+  },
+  {
+    slug: "cron-expression-generator",
+    category: "developer",
+    title: "Cron Expression Generator",
+    shortDescription: "Build a cron expression from simple schedule fields.",
+    metaDescription: "Free online cron expression generator to build a standard 5-field cron expression from minute, hour, day, month and weekday fields, with a plain-English description.",
+    h1: "Cron Expression Generator",
+    intro: "Build a standard 5-field cron expression from simple schedule fields, with a plain-English description of what it does.",
+    icon: "⏰",
+    status: "live",
+    inputFields: [
+      { key: "minute", label: "Minute (0-59 or *)", type: "text", defaultValue: "0" },
+      { key: "hour", label: "Hour (0-23 or *)", type: "text", defaultValue: "9" },
+      { key: "dayOfMonth", label: "Day of Month (1-31 or *)", type: "text", defaultValue: "*" },
+      { key: "month", label: "Month (1-12 or *)", type: "text", defaultValue: "*" },
+      { key: "dayOfWeek", label: "Day of Week (0-6, Sun=0, or *)", type: "text", defaultValue: "*" },
+    ],
+    resultFields: [
+      { key: "cronExpression", label: "Cron Expression", highlight: true },
+      { key: "description", label: "Description", wide: true },
+    ],
+    calculate: (inputs) => {
+      const minute = String(inputs.minute ?? "*");
+      const hour = String(inputs.hour ?? "*");
+      const dayOfMonth = String(inputs.dayOfMonth ?? "*");
+      const month = String(inputs.month ?? "*");
+      const dayOfWeek = String(inputs.dayOfWeek ?? "*");
+      const output = generateCron(minute, hour, dayOfMonth, month, dayOfWeek);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How cron expressions work",
+        paragraphs: [
+          "A standard cron expression has 5 fields, in order: minute, hour, day of month, month, and day of week, each either a specific value, a comma-separated list, a range (like 1-5), a step (like */15), or * meaning 'every'. This tool builds a valid expression from those five fields and generates a plain-English description for common, recognizable patterns.",
+        ],
+      },
+      {
+        heading: "Common cron patterns",
+        paragraphs: [
+          "'0 9 * * *' runs daily at 9:00 AM. '*/15 * * * *' runs every 15 minutes. '0 0 * * 0' runs weekly at midnight on Sunday. '0 0 1 * *' runs monthly on the 1st at midnight. Cron is used by task schedulers across servers, CI/CD pipelines, and cloud platforms to trigger jobs on a recurring schedule.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does day of week 0 mean?",
+        answer: "0 represents Sunday in standard cron notation, with the days numbered 0 (Sunday) through 6 (Saturday).",
+      },
+      {
+        question: "Can I combine day of month and day of week?",
+        answer: "Some cron implementations treat this as 'either/or' (OR logic) rather than requiring both to match, behavior can vary slightly between systems (like standard cron vs. Quartz), check your specific scheduler's documentation if you're combining both fields.",
+      },
+    ],
+    relatedSlugs: ["unix-timestamp-converter", "date-calculator"],
+  },
+  {
+    slug: "unix-timestamp-converter",
+    category: "developer",
+    title: "Unix Timestamp Converter",
+    shortDescription: "Convert between a Unix timestamp and a human-readable date.",
+    metaDescription: "Free online Unix timestamp converter to convert a Unix timestamp to a date, or a date to a Unix timestamp, in either direction.",
+    h1: "Unix Timestamp Converter",
+    intro: "Convert a Unix timestamp to a human-readable date, or a date to a Unix timestamp, in either direction.",
+    icon: "🕐",
+    status: "live",
+    inputFields: [
+      {
+        key: "mode",
+        label: "Direction",
+        type: "select",
+        options: [
+          { label: "Timestamp → Date", value: "timestampToDate" },
+          { label: "Date → Timestamp", value: "dateToTimestamp" },
+        ],
+      },
+      { key: "timestampInput", label: "Unix Timestamp (seconds or ms)", type: "text", placeholder: "e.g. 1700000000" },
+      { key: "dateInput", label: "Date (used for Date → Timestamp)", type: "text", placeholder: "e.g. 2026-07-28T14:30:00" },
+    ],
+    resultFields: [
+      { key: "unixTimestampSeconds", label: "Unix Timestamp (seconds)", highlight: true },
+      { key: "unixTimestampMillis", label: "Unix Timestamp (ms)" },
+      { key: "isoDate", label: "ISO 8601" },
+      { key: "utcDate", label: "UTC" },
+      { key: "localDate", label: "Local Time" },
+      { key: "relativeTime", label: "Relative" },
+    ],
+    calculate: (inputs) => {
+      const mode = String(inputs.mode ?? "timestampToDate") as TimestampConversionMode;
+      const timestampInput = String(inputs.timestampInput ?? "");
+      const dateInput = String(inputs.dateInput ?? "");
+      const output = convertTimestamp(mode, timestampInput, dateInput);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "What a Unix timestamp is",
+        paragraphs: [
+          "A Unix timestamp counts the number of seconds (sometimes milliseconds) that have elapsed since January 1, 1970, 00:00:00 UTC (the 'Unix epoch'). It's a compact, timezone-independent way to represent a point in time, widely used in databases, APIs and log files.",
+        ],
+      },
+      {
+        heading: "Seconds vs milliseconds",
+        paragraphs: [
+          "Some systems (like Unix/Linux and most databases) use seconds, while others (like JavaScript's Date.now()) use milliseconds. This tool auto-detects which one you've entered based on magnitude, and always shows both in the result alongside ISO 8601, UTC, local time, and a human-readable relative time.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How does this tell seconds and milliseconds apart?",
+        answer: "Timestamps larger than about 100 billion are assumed to be milliseconds (since a seconds-based timestamp that large would represent a date thousands of years in the future), otherwise the value is treated as seconds.",
+      },
+      {
+        question: "What date formats are accepted for Date → Timestamp?",
+        answer: "Standard formats like 2026-07-28, 2026-07-28T14:30:00, or 2026-07-28T14:30:00Z are all accepted, parsed using your browser's native date parsing.",
+      },
+    ],
+    relatedSlugs: ["cron-expression-generator", "date-calculator"],
+  },
+  {
+    slug: "html-minifier",
+    category: "developer",
+    title: "HTML Minifier",
+    shortDescription: "Minify HTML by removing comments and unnecessary whitespace.",
+    metaDescription: "Free online HTML minifier to remove comments and unnecessary whitespace from HTML, reducing file size.",
+    h1: "HTML Minifier",
+    intro: "Minify your HTML by stripping comments and collapsing unnecessary whitespace, while protecting script, style and pre content.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "html", label: "Your HTML", type: "textarea", placeholder: "<div>\n  <p>Hello</p>\n</div>" },
+    ],
+    resultFields: [{ key: "result", label: "Minified HTML", wide: true }],
+    calculate: (inputs) => {
+      const html = String(inputs.html ?? "");
+      const result = minifyHtml(html);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this minifier works",
+        paragraphs: [
+          "This tool strips HTML comments (except conditional comments), then collapses whitespace between and within tags down to a minimum. The contents of <script>, <style>, <pre> and <textarea> tags are protected from whitespace collapsing first, since removing newlines there could break JavaScript comments, CSS, or visibly alter preformatted text.",
+        ],
+      },
+      {
+        heading: "What this doesn't do",
+        paragraphs: [
+          "This is a regex/heuristic-based minifier, not a full HTML parser, so it won't rename attributes, remove optional quotes, or perform the more aggressive optimizations a build-tool-grade minifier would. It focuses on the safe, high-impact wins: comments and whitespace, which typically account for most of the reducible size in hand-written HTML.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Will this break my inline JavaScript or CSS?",
+        answer: "No, content inside <script>, <style>, <pre> and <textarea> tags is left completely untouched, only whitespace outside those tags is collapsed.",
+      },
+      {
+        question: "Is my HTML sent to a server?",
+        answer: "No, all minification happens entirely in your browser, your code is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["html-beautifier", "css-minifier"],
+  },
+  {
+    slug: "html-beautifier",
+    category: "developer",
+    title: "HTML Beautifier",
+    shortDescription: "Format and indent minified or messy HTML.",
+    metaDescription: "Free online HTML beautifier to format and indent minified or messy HTML for readability.",
+    h1: "HTML Beautifier",
+    intro: "Format minified or messy HTML with consistent indentation, making it readable again.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "html", label: "Your HTML", type: "textarea", placeholder: "<div><p>Hello</p></div>" },
+    ],
+    resultFields: [{ key: "result", label: "Formatted HTML", wide: true }],
+    calculate: (inputs) => {
+      const html = String(inputs.html ?? "");
+      const result = beautifyHtml(html);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this beautifier works",
+        paragraphs: [
+          "This tool tokenizes your HTML into tags and text using its own hand-written tokenizer, then re-indents based on tag nesting depth, two spaces per level. Void elements (like <br>, <img>, <input>, <meta>) don't affect indentation depth, since they never have closing tags. A single text-only child is kept on the same line as its parent tag for readability.",
+        ],
+      },
+      {
+        heading: "Why this is lenient about tag matching",
+        paragraphs: [
+          "Unlike our XML Formatter, this tool doesn't throw an error on mismatched or unclosed tags. Real-world HTML5 permits optional closing tags for several elements (like <li>, <p>, and <td> in certain contexts), so a strict well-formedness check would produce false errors on perfectly valid HTML, this tool prioritizes producing a reasonable, readable result over strict validation.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this validate my HTML?",
+        answer: "No, this is a formatter, not a validator, it re-indents based on tag structure but doesn't check whether your HTML follows the full HTML5 specification.",
+      },
+      {
+        question: "Is my HTML sent to a server?",
+        answer: "No, all formatting happens entirely in your browser, your code is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["html-minifier", "css-beautifier"],
+  },
+  {
+    slug: "css-minifier",
+    category: "developer",
+    title: "CSS Minifier",
+    shortDescription: "Minify CSS by removing comments and unnecessary whitespace.",
+    metaDescription: "Free online CSS minifier to remove comments and unnecessary whitespace from CSS, reducing file size.",
+    h1: "CSS Minifier",
+    intro: "Minify your CSS by stripping comments and unnecessary whitespace around selectors, properties and values.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "css", label: "Your CSS", type: "textarea", placeholder: ".box {\n  color: red;\n  padding: 10px;\n}" },
+    ],
+    resultFields: [{ key: "result", label: "Minified CSS", wide: true }],
+    calculate: (inputs) => {
+      const css = String(inputs.css ?? "");
+      const result = minifyCss(css);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this minifier works",
+        paragraphs: [
+          "This tool strips CSS comments, removes whitespace around punctuation ({, }, :, ;, ,), drops the last semicolon before a closing brace, and collapses any remaining whitespace, a purely text-based transformation with no CSS parser involved.",
+        ],
+      },
+      {
+        heading: "Why minify CSS",
+        paragraphs: [
+          "Removing comments and unnecessary whitespace reduces file size, which means faster downloads and slightly faster parsing, especially on larger stylesheets. It's a standard step in most production front-end build pipelines.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this rename classes or remove unused rules?",
+        answer: "No, this only removes comments and whitespace. It doesn't rename selectors, remove unused CSS, or merge duplicate rules, those require analyzing how the CSS is actually used, which is beyond a simple text-based minifier.",
+      },
+      {
+        question: "Is my CSS sent to a server?",
+        answer: "No, all minification happens entirely in your browser, your code is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["css-beautifier", "html-minifier"],
+  },
+  {
+    slug: "css-beautifier",
+    category: "developer",
+    title: "CSS Beautifier",
+    shortDescription: "Format and indent minified or messy CSS.",
+    metaDescription: "Free online CSS beautifier to format and indent minified or messy CSS, with one declaration per line.",
+    h1: "CSS Beautifier",
+    intro: "Format minified or messy CSS with one declaration per line and consistent indentation, including nested rules like media queries.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "css", label: "Your CSS", type: "textarea", placeholder: ".box{color:red;padding:10px}" },
+    ],
+    resultFields: [{ key: "result", label: "Formatted CSS", wide: true }],
+    calculate: (inputs) => {
+      const css = String(inputs.css ?? "");
+      const result = beautifyCss(css);
+      return { result };
+    },
+    explanation: [
+      {
+        heading: "How this beautifier works",
+        paragraphs: [
+          "This tool tracks brace ({, }) and semicolon (;) boundaries to reformat CSS with one selector and one declaration per line, indenting nested rules like @media queries an extra level, a straightforward state-machine approach rather than a full CSS parser.",
+        ],
+      },
+      {
+        heading: "How this differs from our CSS Minifier",
+        paragraphs: [
+          "This tool does the opposite of our CSS Minifier, adding readable formatting back to compressed or single-line CSS, rather than stripping it out. Use whichever direction matches what you're trying to do with the stylesheet.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this handle nested @media queries?",
+        answer: "Yes, nested rules like @media blocks are indented an additional level, matching how CSS nesting is typically formatted.",
+      },
+      {
+        question: "Is my CSS sent to a server?",
+        answer: "No, all formatting happens entirely in your browser, your code is never transmitted anywhere.",
+      },
+    ],
+    relatedSlugs: ["css-minifier", "html-beautifier"],
   },
 ];
 
