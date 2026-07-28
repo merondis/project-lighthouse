@@ -19,7 +19,7 @@ export function RecentlyViewedTools() {
   if (tools.length === 0) return null;
 
   return (
-    <div className="mb-16">
+    <div className="mb-10">
       <h2 className="mb-6 text-2xl font-bold text-white">Recently Viewed</h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {tools.map((tool) => (

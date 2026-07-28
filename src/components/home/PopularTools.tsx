@@ -7,7 +7,7 @@ export function PopularTools() {
   if (featured.length === 0) return null;
 
   return (
-    <div className="mb-16">
+    <div className="mb-10">
       <h2 className="mb-6 text-2xl font-bold text-white">Popular Tools</h2>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {featured.map((tool) => (
