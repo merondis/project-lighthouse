@@ -30,6 +30,7 @@ import { ImageProcessorWidget } from "@/components/tool-page/ImageProcessorWidge
 import { ExifViewerWidget } from "@/components/tool-page/ExifViewerWidget";
 import { GrowthCalculatorWidget } from "@/components/tool-page/GrowthCalculatorWidget";
 import { StopwatchWidget } from "@/components/tool-page/StopwatchWidget";
+import { BraSizeWidget } from "@/components/tool-page/BraSizeWidget";
 
 export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "countdown") return <CountdownWidget />;
@@ -78,5 +79,6 @@ export function renderToolWidget(tool: ToolConfig) {
   if (tool.widgetType === "exifViewer") return <ExifViewerWidget />;
   if (tool.widgetType === "growthChart") return <GrowthCalculatorWidget growthKey={tool.growthKey ?? tool.slug} />;
   if (tool.widgetType === "stopwatch") return <StopwatchWidget />;
+  if (tool.widgetType === "braSize") return <BraSizeWidget />;
   return <CalculatorWidget slug={tool.slug} />;
 }

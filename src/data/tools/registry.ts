@@ -16360,6 +16360,63 @@ explanation: [
     ],
     relatedSlugs: ["percentage-calculator", "root-calculator", "big-number-calculator"],
   },
+  {
+    slug: "bra-size-calculator",
+    category: "misc",
+    title: "Bra Size Calculator",
+    shortDescription: "Estimate your bra size from bust and band measurements, with US, UK, EU and AU conversions.",
+    metaDescription:
+      "Free online bra size calculator to estimate your band and cup size from bust and band measurements, with conversion tables for US, UK, EU, FR/BE/ES and AU/NZ sizing.",
+    h1: "Bra Size Calculator",
+    intro:
+      "Enter your bust and band measurements to estimate your bra size, with band and cup conversions across US, UK, EU, FR/BE/ES and AU/NZ sizing systems.",
+    icon: "👙",
+    status: "live",
+    widgetType: "braSize",
+    explanation: [
+      {
+        heading: "How to measure for a bra size",
+        paragraphs: [
+          "Bust size is the loose circumference measured around the chest at the fullest part of the breasts, standing straight with arms at your sides, while wearing a properly fitted (non-padded) bra. Band size is the firm circumference measured directly underneath the breasts, snug but not tight. For best accuracy, measure to the nearest ¼ inch or ½ centimeter.",
+        ],
+      },
+      {
+        heading: "How band and cup size are calculated",
+        paragraphs: [
+          "Band size is your underbust measurement rounded to the nearest even number (in inches), matching the standard US/UK sizing scale of 28, 30, 32, 34 and so on. Cup size is based on the difference between your bust and band measurements: each full inch of difference corresponds to one cup size (0-1\" is AA, 1\" is A, 2\" is B, 3\" is C, and so on up through N). Sizing conventions vary by country, this calculator also converts your band size to the EU (EN 13402), French/Belgian/Spanish, and Australian/New Zealand systems.",
+        ],
+      },
+      {
+        heading: "Bra sizing isn't perfectly standardized",
+        paragraphs: [
+          "Studies suggest a large share of women wear an incorrectly fitted bra, partly because band and cup measurements aren't standardized across countries or even between manufacturers, a 34B from one brand may not fit the same as a 34B from another. Treat this calculator's result as a solid starting point for trying on bras, not a guaranteed exact fit.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does the US cup letter sometimes show two options, like 'E/DD'?",
+        answer:
+          "In the US, a 5-inch bust-to-band difference is labeled DD by some brands and E by others, there's no single agreed standard. Both refer to the same size.",
+      },
+      {
+        question: "Why is my UK/Australia cup letter different from my US cup letter?",
+        answer:
+          "US and UK/Australia cup labeling diverges after the D cup, for example a 6\" difference is F/DDD in the US but only E in the UK/Australia system. This calculator shows both so you can shop confidently in either system.",
+      },
+      {
+        question: "Should I measure over a bra or without one?",
+        answer:
+          "Measure while wearing a well-fitted, non-padded bra for the most accurate bust measurement. Measuring bare-chested can understate your usual fullest-point measurement.",
+      },
+      {
+        question: "What if my measurements fall outside the table's range?",
+        answer:
+          "This calculator's band size table covers 28 to 46 inches (XXS to 5XL), the most commonly stocked range. Measurements outside this range are clamped to the nearest end of the table.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "body-type-calculator", "length-converter"],
+  },
 ];
 
 export function getToolBySlug(slug: string) {

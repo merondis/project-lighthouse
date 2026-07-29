@@ -95,7 +95,8 @@ export interface ToolConfig {
     | "imageStripMetadata"
     | "exifViewer"
     | "growthChart"
-    | "stopwatch";
+    | "stopwatch"
+    | "braSize";
   amortizationTenureUnit?: "months" | "years";
   growthKey?: string;
   aiSystemPrompt?: string;
