@@ -129,6 +129,10 @@ calculate?: (
     result: Record<string, string | number>,
     inputs: Record<string, string | number>
   ) => string[];
+  compositionChart?: (
+    result: Record<string, string | number>,
+    inputs: Record<string, string | number>
+  ) => { name: string; value: number; color: string }[];
   faqs: FaqItem[];
   relatedSlugs: string[];
   explanation?: ExplanationSection[];

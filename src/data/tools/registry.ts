@@ -4000,6 +4000,10 @@ explanation: [
       const output = calculateGst(amount, gstRate, mode);
       return { ...output };
     },
+    compositionChart: (result) => [
+      { name: "Base Amount", value: Number(result.baseAmount), color: "#2563eb" },
+      { name: "GST", value: Number(result.gstAmount), color: "#f59e0b" },
+    ],
 explanation: [
       {
         heading: "How to add GST to a price (GST formula)",
@@ -13973,6 +13977,10 @@ explanation: [
       );
       return { ...output };
     },
+    compositionChart: (result, inputs) => [
+      { name: "Down Payment", value: Number(inputs.downPayment), color: "#2563eb" },
+      { name: "Loan Amount", value: Number(result.maxLoanAmount), color: "#f59e0b" },
+    ],
     explanation: [
       {
         heading: "How affordability is calculated",
@@ -14250,6 +14258,10 @@ explanation: [
       const output = calculateDownPayment(Number(inputs.homePrice), Number(inputs.downPaymentPercent));
       return { downPaymentAmount: output.downPaymentAmount, loanAmount: output.loanAmount };
     },
+    compositionChart: (result) => [
+      { name: "Down Payment", value: Number(result.downPaymentAmount), color: "#2563eb" },
+      { name: "Loan Amount", value: Number(result.loanAmount), color: "#f59e0b" },
+    ],
     explanation: [
       {
         heading: "How down payment amount is calculated",
@@ -14494,6 +14506,10 @@ explanation: [
       const output = calculateDebtConsolidation(debts, Number(inputs.consolidationRate), Number(inputs.consolidationTermMonths));
       return { ...output };
     },
+    compositionChart: (result) => [
+      { name: "Principal", value: Number(result.totalBalance), color: "#2563eb" },
+      { name: "Interest on New Loan", value: Number(result.newTotalInterest), color: "#f59e0b" },
+    ],
     explanation: [
       {
         heading: "How the comparison is calculated",
@@ -14592,6 +14608,10 @@ explanation: [
       const output = calculateVat(Number(inputs.amount), Number(inputs.vatRate), String(inputs.mode) as VatMode);
       return { ...output };
     },
+    compositionChart: (result) => [
+      { name: "Net Amount", value: Number(result.netAmount), color: "#2563eb" },
+      { name: "VAT", value: Number(result.vatAmount), color: "#f59e0b" },
+    ],
     explanation: [
       {
         heading: "How to add or remove VAT",
@@ -14712,6 +14732,10 @@ explanation: [
       const output = calculateTradingMargin(Number(inputs.positionValue), Number(inputs.marginPercentRequired));
       return { ...output };
     },
+    compositionChart: (result) => [
+      { name: "Required Margin", value: Number(result.requiredMargin), color: "#2563eb" },
+      { name: "Borrowed Amount", value: Number(result.borrowedAmount), color: "#f59e0b" },
+    ],
     explanation: [
       {
         heading: "How margin trading works",
@@ -14763,6 +14787,11 @@ explanation: [
       const output = calculateBudget(Number(inputs.monthlyIncome), Number(inputs.actualMonthlyExpenses) || 0);
       return { ...output };
     },
+    compositionChart: (result) => [
+      { name: "Needs (50%)", value: Number(result.needsBudget), color: "#2563eb" },
+      { name: "Wants (30%)", value: Number(result.wantsBudget), color: "#f59e0b" },
+      { name: "Savings (20%)", value: Number(result.savingsBudget), color: "#10b981" },
+    ],
     explanation: [
       {
         heading: "The 50/30/20 budgeting rule",

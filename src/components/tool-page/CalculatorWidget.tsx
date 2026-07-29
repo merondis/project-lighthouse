@@ -7,6 +7,7 @@ import { DatePicker } from "@/components/ui/DatePicker";
 import { CopyButton } from "@/components/ui/CopyButton";
 import { ResultInsight } from "@/components/tool-page/ResultInsight";
 import { SearchableSelect } from "@/components/ui/SearchableSelect";
+import { CompositionDonutChart } from "@/components/tool-page/charts/CompositionDonutChart";
 
 export function CalculatorWidget({ slug }: { slug: string }) {
   const tool = getToolBySlug(slug);
@@ -188,6 +189,13 @@ export function CalculatorWidget({ slug }: { slug: string }) {
 
       {result && !error && tool.interpret ? (
         <ResultInsight insights={tool.interpret(result, lastInputs ?? {})} />
+      ) : null}
+
+      {result && !error && tool.compositionChart ? (
+        <div className="mt-8 border-t border-white/5 pt-6">
+          <h3 className="mb-4 text-lg font-semibold text-white">Breakdown</h3>
+          <CompositionDonutChart data={tool.compositionChart(result, lastInputs ?? {})} />
+        </div>
       ) : null}
     </div>
   );
