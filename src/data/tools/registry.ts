@@ -25,6 +25,19 @@ import { calculateGfr, GfrGender } from "@/utils/calculators/gfr-calculator";
 import { calculateFatIntake } from "@/utils/calculators/fat-intake-calculator";
 import { calculateCarbohydrateIntake } from "@/utils/calculators/carbohydrate-calculator";
 import { calculateBodyType, BodyFrameGender } from "@/utils/calculators/body-type-calculator";
+import { calculateTriangle } from "@/utils/calculators/triangle-calculator";
+import { calculateCircle } from "@/utils/calculators/circle-calculator";
+import { calculateDistance } from "@/utils/calculators/distance-calculator";
+import { calculateRoot } from "@/utils/calculators/root-calculator";
+import { calculateSlope } from "@/utils/calculators/slope-calculator";
+import { calculateZScore } from "@/utils/calculators/z-score-calculator";
+import { calculateConfidenceInterval } from "@/utils/calculators/confidence-interval-calculator";
+import { calculateNumberSequence, SequenceType } from "@/utils/calculators/number-sequence-calculator";
+import { calculateFactors } from "@/utils/calculators/factor-calculator";
+import { calculateSampleSize } from "@/utils/calculators/sample-size-calculator";
+import { calculateHalfLife } from "@/utils/calculators/half-life-calculator";
+import { calculateBigNumber, BigNumberOperation } from "@/utils/calculators/big-number-calculator";
+import { calculateRounding, RoundingMode } from "@/utils/calculators/rounding-calculator";
 import { validateEmailFormat } from "@/utils/calculators/email-format-validator";
 import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
@@ -15675,6 +15688,677 @@ explanation: [
       },
     ],
     relatedSlugs: ["bmi-calculator", "ideal-weight-calculator", "healthy-weight-calculator"],
+  },
+  {
+    slug: "triangle-calculator",
+    category: "math",
+    title: "Triangle Calculator",
+    shortDescription: "Calculate a triangle's area, perimeter and angles from its three side lengths.",
+    metaDescription:
+      "Free online triangle calculator to find a triangle's area, perimeter and all three angles from its three side lengths using Heron's formula and the law of cosines.",
+    h1: "Triangle Calculator",
+    intro:
+      "Enter the three side lengths of a triangle to calculate its area, perimeter and all three interior angles.",
+    icon: "📐",
+    status: "live",
+    inputFields: [
+      { key: "sideA", label: "Side A", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      { key: "sideB", label: "Side B", type: "number", step: 0.01, placeholder: "e.g. 6" },
+      { key: "sideC", label: "Side C", type: "number", step: 0.01, placeholder: "e.g. 7" },
+    ],
+    resultFields: [
+      { key: "area", label: "Area", highlight: true },
+      { key: "perimeter", label: "Perimeter", highlight: true },
+      { key: "angleA", label: "Angle A", unit: "°" },
+      { key: "angleB", label: "Angle B", unit: "°" },
+      { key: "angleC", label: "Angle C", unit: "°" },
+    ],
+    calculate: (inputs) => {
+      const sideA = Number(inputs.sideA);
+      const sideB = Number(inputs.sideB);
+      const sideC = Number(inputs.sideC);
+      const output = calculateTriangle(sideA, sideB, sideC);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How triangle area and angles are calculated",
+        paragraphs: [
+          "Area is calculated using Heron's formula, which finds a triangle's area purely from its three side lengths without needing a height measurement: first the semi-perimeter (half the perimeter) is found, then the area is the square root of semi-perimeter times each side subtracted from it in turn.",
+          "The three angles are found using the law of cosines, which relates each angle to the lengths of all three sides. This calculator checks the triangle inequality first (each side must be shorter than the sum of the other two) to make sure the three lengths you enter can actually form a triangle.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if my three side lengths don't form a valid triangle?",
+        answer:
+          "The calculator will show an error if any one side is longer than or equal to the sum of the other two, this is the triangle inequality, a requirement for three lengths to form a triangle at all.",
+      },
+      {
+        question: "Do the three angles always add up to 180°?",
+        answer: "Yes, for any triangle on a flat plane, the three interior angles always sum to exactly 180 degrees.",
+      },
+    ],
+    relatedSlugs: ["circle-calculator", "distance-calculator", "slope-calculator"],
+  },
+  {
+    slug: "circle-calculator",
+    category: "math",
+    title: "Circle Calculator",
+    shortDescription: "Calculate a circle's diameter, circumference and area from its radius.",
+    metaDescription: "Free online circle calculator to find a circle's diameter, circumference and area from its radius.",
+    h1: "Circle Calculator",
+    intro: "Enter a circle's radius to calculate its diameter, circumference and area.",
+    icon: "⭕",
+    status: "live",
+    inputFields: [{ key: "radius", label: "Radius", type: "number", step: 0.01, placeholder: "e.g. 5" }],
+    resultFields: [
+      { key: "diameter", label: "Diameter", highlight: true },
+      { key: "circumference", label: "Circumference", highlight: true },
+      { key: "area", label: "Area", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const radius = Number(inputs.radius);
+      const output = calculateCircle(radius);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How circle measurements are calculated",
+        paragraphs: [
+          "Diameter is simply twice the radius. Circumference is calculated as 2π × radius, the distance around the circle. Area is calculated as π × radius², the amount of space enclosed by the circle. All three use π (pi), approximately 3.14159.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What if I only know the diameter, not the radius?",
+        answer: "Divide the diameter by 2 to get the radius, then enter that value.",
+      },
+      {
+        question: "What if I only know the circumference or area?",
+        answer:
+          "Rearrange the formula to solve for radius first: radius = circumference ÷ (2π), or radius = √(area ÷ π), then enter that radius here.",
+      },
+    ],
+    relatedSlugs: ["triangle-calculator", "distance-calculator", "root-calculator"],
+  },
+  {
+    slug: "distance-calculator",
+    category: "math",
+    title: "Distance Calculator",
+    shortDescription: "Calculate the straight-line distance and midpoint between two coordinate points.",
+    metaDescription:
+      "Free online distance calculator to find the straight-line (Euclidean) distance and midpoint between two points on a coordinate plane.",
+    h1: "Distance Calculator",
+    intro: "Enter the coordinates of two points to calculate the straight-line distance and midpoint between them.",
+    icon: "📏",
+    status: "live",
+    inputFields: [
+      { key: "x1", label: "Point 1: X", type: "number", step: 0.0001, placeholder: "e.g. 0" },
+      { key: "y1", label: "Point 1: Y", type: "number", step: 0.0001, placeholder: "e.g. 0" },
+      { key: "x2", label: "Point 2: X", type: "number", step: 0.0001, placeholder: "e.g. 3" },
+      { key: "y2", label: "Point 2: Y", type: "number", step: 0.0001, placeholder: "e.g. 4" },
+    ],
+    resultFields: [
+      { key: "distance", label: "Distance", highlight: true },
+      { key: "midpointX", label: "Midpoint X" },
+      { key: "midpointY", label: "Midpoint Y" },
+    ],
+    calculate: (inputs) => {
+      const x1 = Number(inputs.x1);
+      const y1 = Number(inputs.y1);
+      const x2 = Number(inputs.x2);
+      const y2 = Number(inputs.y2);
+      const output = calculateDistance(x1, y1, x2, y2);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How distance and midpoint are calculated",
+        paragraphs: [
+          "Distance is calculated using the Pythagorean theorem applied to the coordinate plane (the distance formula): the square root of (x2-x1)² plus (y2-y1)². Midpoint is simply the average of the two x-coordinates and the average of the two y-coordinates.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this work for negative coordinates?",
+        answer: "Yes, enter any positive or negative coordinate values for either point.",
+      },
+      {
+        question: "Can I use this for real-world distances, like GPS coordinates?",
+        answer:
+          "This calculator uses flat-plane (Euclidean) geometry, suited to graph coordinates. Real-world GPS distances over the Earth's curved surface require a different formula (like the Haversine formula) and aren't covered by this tool.",
+      },
+    ],
+    relatedSlugs: ["slope-calculator", "circle-calculator", "triangle-calculator"],
+  },
+  {
+    slug: "root-calculator",
+    category: "math",
+    title: "Root Calculator",
+    shortDescription: "Calculate the nth root of a number, including square roots and cube roots.",
+    metaDescription: "Free online root calculator to find the nth root of any number, including square roots, cube roots and beyond.",
+    h1: "Root Calculator",
+    intro: "Enter a number and a root degree to calculate its nth root, including square roots and cube roots.",
+    icon: "√",
+    status: "live",
+    inputFields: [
+      { key: "value", label: "Number", type: "number", step: 0.0001, placeholder: "e.g. 27" },
+      { key: "rootDegree", label: "Root Degree", type: "number", step: 1, defaultValue: 2, placeholder: "e.g. 2 for square root, 3 for cube root" },
+    ],
+    resultFields: [{ key: "result", label: "Result", highlight: true }],
+    calculate: (inputs) => {
+      const value = Number(inputs.value);
+      const rootDegree = Number(inputs.rootDegree);
+      const output = calculateRoot(value, rootDegree);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the nth root is calculated",
+        paragraphs: [
+          "The nth root of a number is the value that, multiplied by itself n times, produces that number. This calculator raises your number to the power of 1 ÷ n to find it. A root degree of 2 gives the square root, 3 gives the cube root, and so on.",
+          "For negative numbers, an odd root degree still produces a real result (for example, the cube root of -8 is -2), but an even root degree doesn't, since no real number multiplied by itself an even number of times produces a negative result.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does entering a negative number with root degree 2 give an error?",
+        answer:
+          "The square root (and any even-degree root) of a negative number isn't a real number, it's only defined in the complex number system, which this calculator doesn't cover.",
+      },
+      {
+        question: "Can I calculate a cube root of a negative number?",
+        answer: "Yes, odd-degree roots (3, 5, 7...) of negative numbers are real and negative, for example the cube root of -27 is -3.",
+      },
+    ],
+    relatedSlugs: ["circle-calculator", "quadratic-solver", "fraction-calculator"],
+  },
+  {
+    slug: "slope-calculator",
+    category: "math",
+    title: "Slope Calculator",
+    shortDescription: "Calculate the slope, y-intercept and equation of a line through two points.",
+    metaDescription: "Free online slope calculator to find the slope, y-intercept, line equation and incline angle between two coordinate points.",
+    h1: "Slope Calculator",
+    intro: "Enter the coordinates of two points to calculate the slope, y-intercept, line equation and angle of incline between them.",
+    icon: "📈",
+    status: "live",
+    inputFields: [
+      { key: "x1", label: "Point 1: X", type: "number", step: 0.0001, placeholder: "e.g. 0" },
+      { key: "y1", label: "Point 1: Y", type: "number", step: 0.0001, placeholder: "e.g. 0" },
+      { key: "x2", label: "Point 2: X", type: "number", step: 0.0001, placeholder: "e.g. 4" },
+      { key: "y2", label: "Point 2: Y", type: "number", step: 0.0001, placeholder: "e.g. 8" },
+    ],
+    resultFields: [
+      { key: "slope", label: "Slope", highlight: true },
+      { key: "yIntercept", label: "Y-Intercept" },
+      { key: "equation", label: "Line Equation", wide: true },
+      { key: "angleDegrees", label: "Angle of Incline", unit: "°" },
+    ],
+    calculate: (inputs) => {
+      const x1 = Number(inputs.x1);
+      const y1 = Number(inputs.y1);
+      const x2 = Number(inputs.x2);
+      const y2 = Number(inputs.y2);
+      const output = calculateSlope(x1, y1, x2, y2);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How slope is calculated",
+        paragraphs: [
+          "Slope is calculated as the change in y divided by the change in x (rise over run) between the two points. The y-intercept is found by solving the slope-intercept equation (y = mx + b) for b using one of your points. The angle of incline converts the slope into degrees using the arctangent function.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does an 'undefined' slope mean?",
+        answer:
+          "A vertical line (where both points share the same x-coordinate) has an undefined slope, since the change in x is zero and division by zero isn't defined. The line's equation is simply x = (that x-coordinate).",
+      },
+      {
+        question: "What does a slope of 0 mean?",
+        answer: "A slope of 0 means the line is perfectly horizontal, y stays the same regardless of x.",
+      },
+    ],
+    relatedSlugs: ["distance-calculator", "triangle-calculator", "quadratic-solver"],
+  },
+  {
+    slug: "z-score-calculator",
+    category: "math",
+    title: "Z-Score Calculator",
+    shortDescription: "Calculate a z-score and percentile from a value, mean and standard deviation.",
+    metaDescription:
+      "Free online z-score calculator to find a value's z-score and corresponding percentile in a normal distribution from the mean and standard deviation.",
+    h1: "Z-Score Calculator",
+    intro:
+      "Enter a value along with the mean and standard deviation of its distribution to calculate its z-score and corresponding percentile.",
+    icon: "📊",
+    status: "live",
+    inputFields: [
+      { key: "value", label: "Value", type: "number", step: 0.01, placeholder: "e.g. 85" },
+      { key: "mean", label: "Mean", type: "number", step: 0.01, placeholder: "e.g. 75" },
+      { key: "stdDev", label: "Standard Deviation", type: "number", step: 0.01, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "zScore", label: "Z-Score", highlight: true },
+      { key: "percentile", label: "Percentile", unit: "%", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const value = Number(inputs.value);
+      const mean = Number(inputs.mean);
+      const stdDev = Number(inputs.stdDev);
+      const output = calculateZScore(value, mean, stdDev);
+      return { ...output };
+    },
+    interpret: (result) => {
+      return [
+        "A z-score of " + result.zScore + " means this value is " + Math.abs(Number(result.zScore)) + " standard deviations " + (Number(result.zScore) >= 0 ? "above" : "below") + " the mean.",
+        "That corresponds to approximately the " + result.percentile + "th percentile of the distribution.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How z-score and percentile are calculated",
+        paragraphs: [
+          "A z-score measures how many standard deviations a value is from the mean: z = (value − mean) ÷ standard deviation. This calculator then converts that z-score into a percentile using the standard normal cumulative distribution function, showing what percentage of values in a normal distribution fall below your entered value.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does a negative z-score mean?",
+        answer: "A negative z-score means the value is below the mean, a positive z-score means it's above the mean.",
+      },
+      {
+        question: "Does this assume a normal distribution?",
+        answer:
+          "Yes, the percentile conversion assumes the underlying data follows a normal (bell-curve) distribution. The z-score itself is valid for any distribution, but the percentile figure is only accurate when that assumption holds.",
+      },
+    ],
+    relatedSlugs: ["confidence-interval-calculator", "standard-deviation-calculator", "sample-size-calculator"],
+  },
+  {
+    slug: "confidence-interval-calculator",
+    category: "math",
+    title: "Confidence Interval Calculator",
+    shortDescription: "Calculate a confidence interval and margin of error from a sample mean and standard deviation.",
+    metaDescription:
+      "Free online confidence interval calculator to find the margin of error and confidence interval bounds from a sample mean, standard deviation and sample size.",
+    h1: "Confidence Interval Calculator",
+    intro:
+      "Enter your sample mean, standard deviation and sample size to calculate the margin of error and confidence interval at your chosen confidence level.",
+    icon: "📉",
+    status: "live",
+    inputFields: [
+      { key: "sampleMean", label: "Sample Mean", type: "number", step: 0.01, placeholder: "e.g. 100" },
+      { key: "stdDev", label: "Standard Deviation", type: "number", step: 0.01, placeholder: "e.g. 15" },
+      { key: "sampleSize", label: "Sample Size", type: "number", step: 1, placeholder: "e.g. 50" },
+      { key: "confidenceLevel", label: "Confidence Level", type: "select", options: [
+        { label: "90%", value: "90" }, { label: "95%", value: "95" }, { label: "99%", value: "99" },
+      ], defaultValue: "95" },
+    ],
+    resultFields: [
+      { key: "marginOfError", label: "Margin of Error", highlight: true },
+      { key: "lowerBound", label: "Lower Bound", highlight: true },
+      { key: "upperBound", label: "Upper Bound", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const sampleMean = Number(inputs.sampleMean);
+      const stdDev = Number(inputs.stdDev);
+      const sampleSize = Number(inputs.sampleSize);
+      const confidenceLevel = String(inputs.confidenceLevel ?? "95");
+      const output = calculateConfidenceInterval(sampleMean, stdDev, sampleSize, confidenceLevel);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the confidence interval is calculated",
+        paragraphs: [
+          "The margin of error is calculated as the z-score for your chosen confidence level multiplied by the standard error (standard deviation ÷ square root of sample size). The confidence interval is then the sample mean plus and minus that margin of error, giving a range you can be reasonably confident contains the true population mean.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does a 95% confidence interval actually mean?",
+        answer:
+          "It means that if you repeated your sampling process many times, about 95% of the resulting intervals would contain the true population mean. It doesn't mean there's a 95% chance the true mean falls in this specific interval.",
+      },
+      {
+        question: "Why does a larger sample size shrink the interval?",
+        answer:
+          "The margin of error divides by the square root of sample size, so larger samples produce smaller standard errors and, therefore, narrower, more precise confidence intervals.",
+      },
+    ],
+    relatedSlugs: ["z-score-calculator", "sample-size-calculator", "standard-deviation-calculator"],
+  },
+  {
+    slug: "number-sequence-calculator",
+    category: "math",
+    title: "Number Sequence Calculator",
+    shortDescription: "Find the nth term and sum of an arithmetic or geometric sequence.",
+    metaDescription: "Free online number sequence calculator to find the nth term and sum of the first n terms of an arithmetic or geometric sequence.",
+    h1: "Number Sequence Calculator",
+    intro: "Enter a sequence's first term and common difference or ratio to find its nth term and the sum of its first n terms.",
+    icon: "🔢",
+    status: "live",
+    inputFields: [
+      { key: "sequenceType", label: "Sequence Type", type: "select", options: [
+        { label: "Arithmetic", value: "arithmetic" }, { label: "Geometric", value: "geometric" },
+      ] },
+      { key: "firstTerm", label: "First Term", type: "number", step: 0.01, placeholder: "e.g. 2" },
+      { key: "commonValue", label: "Common Difference (arithmetic) or Ratio (geometric)", type: "number", step: 0.01, placeholder: "e.g. 3" },
+      { key: "numberOfTerms", label: "Number of Terms (n)", type: "number", step: 1, placeholder: "e.g. 10" },
+    ],
+    resultFields: [
+      { key: "nthTerm", label: "nth Term", highlight: true },
+      { key: "sumOfTerms", label: "Sum of First n Terms", highlight: true },
+      { key: "sequencePreview", label: "Sequence Preview", wide: true },
+    ],
+    calculate: (inputs) => {
+      const sequenceType = String(inputs.sequenceType) as SequenceType;
+      const firstTerm = Number(inputs.firstTerm);
+      const commonValue = Number(inputs.commonValue);
+      const numberOfTerms = Number(inputs.numberOfTerms);
+      const output = calculateNumberSequence(sequenceType, firstTerm, commonValue, numberOfTerms);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How arithmetic and geometric sequences are calculated",
+        paragraphs: [
+          "In an arithmetic sequence, each term adds a fixed common difference to the previous term: nth term = first term + (n − 1) × common difference. In a geometric sequence, each term multiplies the previous term by a fixed common ratio: nth term = first term × ratio^(n − 1). The sum of terms uses the standard arithmetic or geometric series sum formula.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the difference between arithmetic and geometric sequences?",
+        answer:
+          "An arithmetic sequence adds the same amount each step (like 2, 5, 8, 11...). A geometric sequence multiplies by the same factor each step (like 2, 6, 18, 54...).",
+      },
+      {
+        question: "Can the common difference or ratio be negative?",
+        answer: "Yes, a negative common difference produces a decreasing arithmetic sequence, and a negative common ratio produces a geometric sequence that alternates sign.",
+      },
+    ],
+    relatedSlugs: ["factor-calculator", "root-calculator", "big-number-calculator"],
+  },
+  {
+    slug: "factor-calculator",
+    category: "math",
+    title: "Factor Calculator",
+    shortDescription: "List all the factors (divisors) of a whole number.",
+    metaDescription: "Free online factor calculator to list all the positive factors (divisors) of a whole number and check whether it's prime.",
+    h1: "Factor Calculator",
+    intro: "Enter a whole number to list every positive factor (divisor) that divides evenly into it.",
+    icon: "➗",
+    status: "live",
+    inputFields: [{ key: "number", label: "Number", type: "number", step: 1, placeholder: "e.g. 24" }],
+    resultFields: [
+      { key: "factorsList", label: "Factors", wide: true, highlight: true },
+      { key: "factorCount", label: "Total Factors" },
+      { key: "isPrime", label: "Is Prime?" },
+    ],
+    calculate: (inputs) => {
+      const number = Number(inputs.number);
+      const output = calculateFactors(number);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How factors are found",
+        paragraphs: [
+          "This calculator checks every whole number up to the square root of your number, and whenever one divides evenly, both it and its paired divisor (number ÷ that divisor) are added to the list, which is an efficient way to find all factors without checking every number up to the value itself.",
+        ],
+      },
+      {
+        heading: "How this differs from the Prime Factorization Calculator",
+        paragraphs: [
+          "The Prime Factorization Calculator breaks a number down into only its prime factors (like 2, 3 and 5 for the number 30). This calculator instead lists every factor, prime or not, that divides evenly into the number (for 30, that's 1, 2, 3, 5, 6, 10, 15 and 30).",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the largest number I can enter?",
+        answer: "This calculator supports whole numbers up to 10,000,000.",
+      },
+      {
+        question: "How can I tell if a number is prime from the results?",
+        answer: "A prime number has exactly two factors, 1 and itself. This calculator flags that directly in the 'Is Prime?' result.",
+      },
+    ],
+    relatedSlugs: ["gcf-calculator", "lcm-calculator", "prime-factorization-calculator"],
+  },
+  {
+    slug: "sample-size-calculator",
+    category: "math",
+    title: "Sample Size Calculator",
+    shortDescription: "Calculate the survey sample size needed for a target confidence level and margin of error.",
+    metaDescription:
+      "Free online sample size calculator to find the minimum survey sample size needed for a target confidence level and margin of error, with optional population size correction.",
+    h1: "Sample Size Calculator",
+    intro:
+      "Calculate the minimum sample size needed for a survey or study, based on your desired confidence level, margin of error and expected population proportion.",
+    icon: "🧮",
+    status: "live",
+    inputFields: [
+      { key: "confidenceLevel", label: "Confidence Level", type: "select", options: [
+        { label: "90%", value: "90" }, { label: "95%", value: "95" }, { label: "99%", value: "99" },
+      ], defaultValue: "95" },
+      { key: "marginOfErrorPercent", label: "Margin of Error (%)", type: "number", step: 0.1, defaultValue: 5 },
+      { key: "populationProportionPercent", label: "Expected Proportion (%)", type: "number", step: 1, defaultValue: 50 },
+      { key: "populationSize", label: "Population Size (optional, blank = large/unknown)", type: "number", step: 1, placeholder: "e.g. 10000" },
+    ],
+    resultFields: [{ key: "sampleSize", label: "Required Sample Size", highlight: true }],
+    calculate: (inputs) => {
+      const confidenceLevel = String(inputs.confidenceLevel ?? "95");
+      const marginOfErrorPercent = Number(inputs.marginOfErrorPercent);
+      const populationProportionPercent = Number(inputs.populationProportionPercent ?? 50);
+      const populationSizeRaw = inputs.populationSize;
+      const populationSize = populationSizeRaw !== undefined && populationSizeRaw !== "" ? Number(populationSizeRaw) : undefined;
+      const output = calculateSampleSize(confidenceLevel, marginOfErrorPercent, populationProportionPercent, populationSize);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How required sample size is calculated",
+        paragraphs: [
+          "This calculator uses the standard survey sample size formula: n = (z² × p × (1 − p)) ÷ e², where z is the critical value for your confidence level, p is the expected proportion (50% is the most conservative, producing the largest sample size), and e is your margin of error. If you enter a population size, a finite population correction is applied to reduce the required sample size for smaller populations.",
+        ],
+      },
+      {
+        heading: "Why 50% is the default proportion",
+        paragraphs: [
+          "When the true proportion is unknown, 50% produces the largest possible required sample size, making it the safest, most conservative default. If you have a reasonable estimate of the true proportion from prior data, using it can reduce your required sample size.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do I need to know my population size?",
+        answer:
+          "No, leave it blank for a large or unknown population. Only enter it if you're sampling from a small, well-defined population (like all employees at a single company), since it can meaningfully reduce the required sample size.",
+      },
+      {
+        question: "What margin of error should I use?",
+        answer: "5% is a common standard for general surveys. Tighter margins (like 1-3%) require substantially larger sample sizes.",
+      },
+    ],
+    relatedSlugs: ["confidence-interval-calculator", "z-score-calculator", "standard-deviation-calculator"],
+  },
+  {
+    slug: "half-life-calculator",
+    category: "math",
+    title: "Half-Life Calculator",
+    shortDescription: "Calculate the remaining amount of a substance after a period of exponential decay.",
+    metaDescription:
+      "Free online half-life calculator to find how much of a substance remains after a given time, based on its half-life and exponential decay.",
+    h1: "Half-Life Calculator",
+    intro:
+      "Enter an initial amount, its half-life, and an elapsed time (in the same units) to calculate how much remains after exponential decay.",
+    icon: "☢️",
+    status: "live",
+    inputFields: [
+      { key: "initialAmount", label: "Initial Amount", type: "number", step: 0.0001, placeholder: "e.g. 100" },
+      { key: "halfLife", label: "Half-Life", type: "number", step: 0.0001, placeholder: "e.g. 5730" },
+      { key: "elapsedTime", label: "Elapsed Time (same units as half-life)", type: "number", step: 0.0001, placeholder: "e.g. 1000" },
+    ],
+    resultFields: [
+      { key: "remainingAmount", label: "Remaining Amount", highlight: true },
+      { key: "percentRemaining", label: "Percent Remaining", unit: "%", highlight: true },
+      { key: "numberOfHalfLives", label: "Number of Half-Lives Elapsed" },
+    ],
+    calculate: (inputs) => {
+      const initialAmount = Number(inputs.initialAmount);
+      const halfLife = Number(inputs.halfLife);
+      const elapsedTime = Number(inputs.elapsedTime);
+      const output = calculateHalfLife(initialAmount, halfLife, elapsedTime);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How half-life decay is calculated",
+        paragraphs: [
+          "Half-life describes the time it takes for a quantity to reduce to half its value through exponential decay. This calculator applies the formula: remaining amount = initial amount × 0.5^(elapsed time ÷ half-life), directly modeling how the substance halves repeatedly over each full half-life period.",
+        ],
+      },
+      {
+        heading: "Common uses of half-life",
+        paragraphs: [
+          "Half-life is most commonly associated with radioactive decay (like carbon-14 dating, half-life about 5,730 years), but the same math applies to drug elimination from the body, and any other process that decays at a rate proportional to its current amount.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do the elapsed time and half-life need to be in the same units?",
+        answer: "Yes, both values must use the same time unit (both in years, both in hours, and so on) for the calculation to be correct.",
+      },
+      {
+        question: "What if the elapsed time is longer than several half-lives?",
+        answer: "The formula works for any elapsed time, the remaining amount just keeps approaching (but never quite reaching) zero.",
+      },
+    ],
+    relatedSlugs: ["number-sequence-calculator", "root-calculator", "big-number-calculator"],
+  },
+  {
+    slug: "big-number-calculator",
+    category: "math",
+    title: "Big Number Calculator",
+    shortDescription: "Add, subtract, multiply, divide or raise to a power very large whole numbers with full precision.",
+    metaDescription:
+      "Free online big number calculator for arbitrary-precision arithmetic on very large whole numbers, add, subtract, multiply, divide or raise to a power, with no precision loss.",
+    h1: "Big Number Calculator",
+    intro:
+      "Perform addition, subtraction, multiplication, division or exponentiation on whole numbers of any size, with full precision and no rounding errors.",
+    icon: "🔟",
+    status: "live",
+    inputFields: [
+      { key: "numberA", label: "First Number", type: "text", placeholder: "e.g. 123456789123456789" },
+      { key: "operation", label: "Operation", type: "select", options: [
+        { label: "Add (+)", value: "add" },
+        { label: "Subtract (−)", value: "subtract" },
+        { label: "Multiply (×)", value: "multiply" },
+        { label: "Divide (÷, integer)", value: "divide" },
+        { label: "Power (^)", value: "power" },
+      ] },
+      { key: "numberB", label: "Second Number (or exponent for Power)", type: "text", placeholder: "e.g. 987654321987654321" },
+    ],
+    resultFields: [
+      { key: "result", label: "Result", wide: true, highlight: true },
+      { key: "remainder", label: "Remainder (division only)", wide: true },
+    ],
+    calculate: (inputs) => {
+      const numberA = String(inputs.numberA ?? "");
+      const operation = String(inputs.operation) as BigNumberOperation;
+      const numberB = String(inputs.numberB ?? "");
+      const output = calculateBigNumber(numberA, operation, numberB);
+      return { result: output.result, remainder: output.remainder ?? "-" };
+    },
+    explanation: [
+      {
+        heading: "How this calculator handles arbitrarily large numbers",
+        paragraphs: [
+          "Standard calculators and even JavaScript's regular numbers lose precision beyond about 15-17 significant digits. This calculator uses arbitrary-precision integer arithmetic instead, so numbers with hundreds or even thousands of digits are calculated exactly, with no rounding or precision loss.",
+          "Only whole numbers (no decimals) are supported, and division returns an integer quotient plus a remainder rather than a decimal result, since converting an arbitrary-precision division into a decimal would reintroduce the precision limits this tool is designed to avoid.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why doesn't division give a decimal answer?",
+        answer:
+          "This calculator works with exact whole numbers of unlimited size. A decimal result could require infinite digits to represent exactly, so division instead returns a whole-number quotient and the remainder.",
+      },
+      {
+        question: "Is there a limit to how large my numbers can be?",
+        answer:
+          "This calculator supports numbers up to 2,000 digits, and results from multiplication or exponentiation are capped at 2,000 digits as well, to keep calculations fast in your browser.",
+      },
+      {
+        question: "Can I use decimal numbers?",
+        answer: "No, only whole numbers (integers) are supported, positive or negative, with no decimal point.",
+      },
+    ],
+    relatedSlugs: ["number-sequence-calculator", "factor-calculator", "root-calculator"],
+  },
+  {
+    slug: "rounding-calculator",
+    category: "math",
+    title: "Rounding Calculator",
+    shortDescription: "Round a number to a chosen number of decimal places, up, down or to the nearest value.",
+    metaDescription: "Free online rounding calculator to round any number to a chosen number of decimal places, rounding up, down or to the nearest value.",
+    h1: "Rounding Calculator",
+    intro: "Enter a number and choose how many decimal places to round to, and whether to round to the nearest value, up, or down.",
+    icon: "🔵",
+    status: "live",
+    inputFields: [
+      { key: "value", label: "Number", type: "number", step: 0.000001, placeholder: "e.g. 3.14159" },
+      { key: "decimalPlaces", label: "Decimal Places", type: "number", step: 1, defaultValue: 2, min: 0 },
+      { key: "mode", label: "Rounding Mode", type: "select", options: [
+        { label: "Round to Nearest", value: "nearest" },
+        { label: "Round Up", value: "up" },
+        { label: "Round Down", value: "down" },
+      ] },
+    ],
+    resultFields: [{ key: "roundedValue", label: "Rounded Value", highlight: true }],
+    calculate: (inputs) => {
+      const value = Number(inputs.value);
+      const decimalPlaces = Number(inputs.decimalPlaces ?? 0);
+      const mode = String(inputs.mode ?? "nearest") as RoundingMode;
+      const output = calculateRounding(value, decimalPlaces, mode);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How each rounding mode works",
+        paragraphs: [
+          "Round to Nearest rounds to the closest value at your chosen decimal place, the standard rounding method (0.5 rounds up). Round Up always rounds toward positive infinity, and Round Down always rounds toward negative infinity, regardless of how close the number is to either boundary.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What does 'decimal places' mean for whole numbers?",
+        answer:
+          "Enter 0 decimal places to round to the nearest whole number. You can also round to negative territory conceptually by scaling your input, though this calculator supports 0 or more decimal places directly.",
+      },
+      {
+        question: "What's the difference between 'Round Up' and 'Round to Nearest'?",
+        answer:
+          "Round to Nearest picks whichever boundary is closer. Round Up always moves toward positive infinity even if the number is very close to the lower boundary, for example, 3.01 rounded up to 0 decimal places becomes 4, not 3.",
+      },
+    ],
+    relatedSlugs: ["percentage-calculator", "root-calculator", "big-number-calculator"],
   },
 ];
 
