@@ -419,6 +419,12 @@ explanation: [
           "This tool works for any type of amortizing loan, personal loans, business loans, or any fixed-rate installment loan, not just mortgages or car loans specifically. If you're working with a home loan or auto loan specifically, our Mortgage Calculator and Auto Loan Calculator include the same schedule with terminology tailored to that loan type.",
         ],
       },
+      {
+        heading: "A worked example",
+        paragraphs: [
+          "A $20,000 loan at 6% annual interest over 60 months produces a fixed monthly payment of $386.66. In month 1, $100 of that payment is interest (6% ÷ 12 × $20,000) and the remaining $286.66 reduces the principal. By the end of the schedule, total interest paid comes to $3,199.33, roughly 16% of the original loan amount. As the balance shrinks each month, the interest portion of the fixed payment shrinks with it, and the principal portion grows to compensate.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -429,6 +435,11 @@ explanation: [
         question: "Can I see monthly detail for a long-term loan?",
         answer: "Yes, toggle between the yearly summary view and the full monthly breakdown using the button above the schedule table.",
       },
+    ],
+    commonMistakes: [
+      "Entering the loan term in years instead of months, this tool expects total months (e.g. 360 for a 30-year loan), entering '30' instead will produce a payment estimate that's off by a factor of 12.",
+      "Forgetting that the interest rate you enter is annual, the tool divides it by 12 internally to get the monthly rate used in each period's calculation.",
+      "Assuming the schedule reflects extra payments automatically, it doesn't, this schedule assumes exactly the calculated fixed payment every month; use the Extra Payment Calculator to see the effect of paying more.",
     ],
     relatedSlugs: ["emi-calculator", "mortgage-calculator", "loan-calculator"],
   },
@@ -485,6 +496,7 @@ explanation: [
         heading: "Why total savings compares more than just the interest rate",
         paragraphs: [
           "A lower interest rate doesn't automatically mean refinancing saves money overall, extending your loan term resets the amortization clock, potentially increasing total interest paid even at a lower rate. This calculator compares total remaining cost of your current loan against the new loan's total cost plus closing costs, giving a fuller picture than the rate alone.",
+          "For example, refinancing a $250,000 balance with 300 months (25 years) remaining at 7.5%, into a new 360-month (30-year) loan at 6.2%, with $4,000 in closing costs, drops the monthly payment from $1,847.48 to $1,531.17, a monthly savings of $316.31, and pays back the closing costs in 13 months. But because the term reset from 25 to 30 years, the total interest savings actually comes out to about −$979, a net loss overall, despite the lower rate and lower monthly payment. This is exactly the term-reset trap described above.",
         ],
       },
     ],
@@ -498,7 +510,12 @@ explanation: [
         answer: "Enter your total estimated closing costs, including any appraisal, origination, or other fees your lender quotes, as a single combined number in the closing costs field.",
       },
     ],
-    relatedSlugs: ["mortgage-calculator", "emi-calculator"],
+    commonMistakes: [
+      "Judging a refinance purely by the drop in monthly payment, as the worked example above shows, a lower monthly payment can still come with a net total-cost loss if the term resets to a longer period.",
+      "Not entering closing costs, or underestimating them, appraisal, origination, and title fees add up and directly extend the break-even period.",
+      "Ignoring how long you plan to stay in the home, if you'll move or sell before the break-even month, refinancing likely isn't worth it even with a positive monthly savings figure.",
+    ],
+    relatedSlugs: ["mortgage-calculator", "emi-calculator", "apr-calculator"],
   },
   {
     slug: "credit-card-interest-calculator",
@@ -538,6 +555,7 @@ explanation: [
         heading: "This tool vs our Credit Card Payoff Calculator",
         paragraphs: [
           "This calculator answers 'how much interest does one billing cycle actually charge' using the average daily balance method. If you instead want to know how long it will take to pay off a balance completely and the total interest over that whole payoff period, use our Credit Card Payoff Calculator instead.",
+          "For example, an average daily balance of $2,000 at 22% APR over a 30-day billing cycle gives a daily periodic rate of about 0.0603% (22% ÷ 365), for an interest charge of $36.16 for that cycle. Projected out over a full year at that same balance, the annual interest works out to $440, about 22% of the balance, matching the APR exactly, as expected.",
         ],
       },
     ],
@@ -551,7 +569,12 @@ explanation: [
         answer: "The projected annual figure assumes the same average daily balance stays constant for a full year, in reality, your balance and interest charges will vary from cycle to cycle based on payments and new purchases.",
       },
     ],
-    relatedSlugs: ["credit-card-payoff-calculator", "simple-interest-calculator"],
+    commonMistakes: [
+      "Dividing APR by 12 instead of 365, credit card issuers almost universally use a daily periodic rate (APR ÷ 365), not a monthly one, this calculator follows that same convention.",
+      "Using your statement's ending balance instead of the average daily balance, most issuers charge interest on the average across the cycle, not a single day's snapshot.",
+      "Assuming the projected annual interest is your real yearly cost, it's a constant-balance projection, your actual balance (and therefore interest) will fluctuate with payments and new purchases.",
+    ],
+    relatedSlugs: ["credit-card-payoff-calculator", "simple-interest-calculator", "compound-interest-calculator"],
   },
   {
     slug: "dti-calculator",
@@ -582,6 +605,7 @@ explanation: [
         heading: "How DTI ratio is calculated",
         paragraphs: [
           "The DTI formula is: DTI % = (Total Monthly Debt Payments ÷ Gross Monthly Income) × 100. This includes recurring debt obligations like rent or mortgage, car loans, student loans, and minimum credit card payments, divided by your income before taxes and deductions.",
+          "For example, someone with $1,500 in total monthly debt payments and $5,000 in gross monthly income has a DTI of (1,500 ÷ 5,000) × 100 = 30%, comfortably under the 36% general guideline and the 43% cap many mortgage lenders use.",
         ],
       },
       {
@@ -604,6 +628,11 @@ explanation: [
         question: "What's considered a good DTI ratio?",
         answer: "Generally, 36% or below is considered good, with many mortgage lenders capping approval around 43%. Ratios above that may make loan qualification more difficult.",
       },
+    ],
+    commonMistakes: [
+      "Using net (take-home) income instead of gross income, lenders calculate DTI on gross income, so using net pay makes your ratio look artificially high.",
+      "Leaving out a debt because it's small or paid automatically, like a car payment or student loan, every recurring debt obligation counts toward the total.",
+      "Including non-debt monthly expenses like groceries, utilities or insurance premiums, these aren't part of the standard DTI formula at all.",
     ],
     relatedSlugs: ["mortgage-calculator", "credit-card-payoff-calculator", "net-worth-calculator"],
   },
@@ -680,6 +709,7 @@ explanation: [
         heading: "Why interest rate matters for your savings plan",
         paragraphs: [
           "Even a modest interest rate reduces how much you need to personally contribute each month, since your money grows on its own over time. Setting the interest rate to 0% shows the contribution needed with no growth, useful as a conservative baseline.",
+          "For example, saving toward a $10,000 goal starting from $1,000 already saved, over 24 months at 4% annual interest, requires a monthly contribution of $357.49. Over those two years you'd personally contribute $8,579.78, with the remaining $420.22 coming from interest earned along the way, interest that a 0%-rate baseline would leave you to make up entirely out of pocket.",
         ],
       },
     ],
@@ -693,7 +723,12 @@ explanation: [
         answer: "If your current savings already meet or exceed your goal, this calculator isn't needed, you've already reached your target.",
       },
     ],
-    relatedSlugs: ["compound-interest-calculator", "net-worth-calculator"],
+    commonMistakes: [
+      "Entering the interest rate as a decimal (0.04) instead of a whole percentage (4), which understates the required contribution.",
+      "Leaving current savings at zero when you already have some money set aside, this calculator factors existing savings' own growth into the required monthly amount, omitting it overstates what you need to contribute.",
+      "Treating the interest rate as guaranteed and fixed, real savings and investment rates can change over the saving period, so revisit this calculation periodically rather than setting it once.",
+    ],
+    relatedSlugs: ["compound-interest-calculator", "net-worth-calculator", "budget-calculator"],
   },
   {
     slug: "font-signature-generator",
@@ -914,6 +949,7 @@ explanation: [
         heading: "How this calculator works",
         paragraphs: [
           "Each debt makes its minimum payment every month, while any extra payment you specify is directed entirely toward one debt at a time based on your chosen strategy, moving to the next debt once the current target is fully paid off.",
+          "For example, with two debts, a $3,000 balance at 24% APR ($90 minimum) and a $1,500 balance at 18% APR ($50 minimum), plus $100 in extra monthly payments using the Avalanche strategy, the higher-rate $3,000 balance gets targeted first. The combined payoff takes 27 months and costs $1,051.91 in total interest across both debts.",
         ],
       },
     ],
@@ -927,7 +963,12 @@ explanation: [
         answer: "This tool supports up to three debts at a time. For more debts, you can combine smaller balances into a single entry as an approximation.",
       },
     ],
-    relatedSlugs: ["credit-card-payoff-calculator", "extra-payment-calculator"],
+    commonMistakes: [
+      "Entering only the extra payment amount and leaving a debt's actual minimum payment blank or at zero, each debt needs its own real minimum payment entered separately from the shared extra amount.",
+      "Assuming Snowball always costs meaningfully more than Avalanche, with only two or three debts of similar rates, the difference is often smaller than people expect.",
+      "Not revisiting the schedule when a promotional 0% APR period on a card ends, this calculator assumes each debt's interest rate stays constant for the full payoff period.",
+    ],
+    relatedSlugs: ["credit-card-payoff-calculator", "extra-payment-calculator", "debt-consolidation-calculator"],
   },
   {
     slug: "quadratic-solver",
@@ -970,6 +1011,12 @@ explanation: [
           "A positive discriminant means two distinct real roots. A discriminant of exactly zero means one repeated real root (the parabola touches the x-axis at a single point). A negative discriminant means the roots are complex numbers, meaning the parabola never crosses the x-axis.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For x² − 3x + 2 = 0: a = 1, b = −3, c = 2. The discriminant is b² − 4ac = (−3)² − 4(1)(2) = 9 − 8 = 1, which is positive, so there are two real roots. Applying the formula: x = (3 ± √1) / 2, giving x₁ = (3 + 1)/2 = 2 and x₂ = (3 − 1)/2 = 1.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -981,7 +1028,12 @@ explanation: [
         answer: "A complex root includes an imaginary component (shown with 'i'), meaning the equation's graph doesn't intersect the x-axis at any real number.",
       },
     ],
-    relatedSlugs: ["standard-deviation-calculator", "fraction-calculator"],
+    commonMistakes: [
+      "Mixing up the signs of b and c when reading them out of the original equation, for x² − 3x + 2 = 0, b is −3 and c is +2, not 3 and −2, a sign slip here throws off both roots.",
+      "Forgetting the ± in the quadratic formula and only computing one root, every quadratic with a positive discriminant has two distinct solutions, not one.",
+      "Assuming a negative discriminant means there's no answer at all, rather than that the roots are complex numbers; the equation still has solutions, they're just not real numbers.",
+    ],
+    relatedSlugs: ["standard-deviation-calculator", "fraction-calculator", "scientific-calculator"],
   },
   {
     slug: "rotate-pdf",
@@ -1081,6 +1133,12 @@ explanation: [
           "You can type a full expression like sqrt(16) + 2^3 and it will be evaluated following standard order of operations, respecting parentheses and function precedence.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For the expression sqrt(16) + 2^3: sqrt(16) evaluates to 4, and 2^3 (2 raised to the power of 3) evaluates to 8. Adding them gives 4 + 8 = 12. If the expression instead used parentheses, like sqrt(16 + 2)^3, the addition inside the parentheses would happen first (16 + 2 = 18), then the square root, then the cube, producing a very different result.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1092,7 +1150,12 @@ explanation: [
         answer: "Yes, parentheses work as expected to control the order of operations within your expression.",
       },
     ],
-    relatedSlugs: ["quadratic-solver", "standard-deviation-calculator"],
+    commonMistakes: [
+      "Entering trig function angles in degrees instead of radians, sin(90) here means the sine of 90 radians, not 90 degrees; convert degrees to radians first (degrees × π / 180) if that's what you mean.",
+      "Leaving out parentheses around a compound argument, sqrt(16 + 2)^3 and sqrt(16) + 2^3 evaluate very differently, so make sure grouping reflects what you actually intend to calculate.",
+      "Forgetting standard order of operations applies, exponents are evaluated before addition and subtraction, so 2 + 3^2 is 11, not 25.",
+    ],
+    relatedSlugs: ["quadratic-solver", "standard-deviation-calculator", "matrix-calculator"],
   },
   {
     slug: "jpg-to-pdf",
@@ -1154,6 +1217,7 @@ explanation: [
         heading: "What this calculator doesn't include",
         paragraphs: [
           "This tool estimates principal and interest only. It doesn't include sales tax, registration fees, dealer add-ons, or trade-in value, all of which affect the actual amount financed and your real monthly payment.",
+          "For example, financing $25,000 at 7% APR over 60 months produces a monthly payment of $495.03, with total interest of $4,701.80 over the life of the loan, about 19% of the amount financed.",
         ],
       },
     ],
@@ -1167,7 +1231,12 @@ explanation: [
         answer: "Common auto loan terms range from 36 to 72 months, with longer terms offering lower monthly payments but more total interest paid over the loan's life.",
       },
     ],
-    relatedSlugs: ["emi-calculator", "loan-calculator"],
+    commonMistakes: [
+      "Financing the full sticker price instead of the amount actually owed after a down payment or trade-in value is subtracted.",
+      "Forgetting sales tax, title and registration fees, which many buyers roll into the loan itself, increasing the true amount financed beyond just the car's price.",
+      "Choosing a longer term purely to shrink the monthly payment without checking how much extra total interest that adds, as the worked example shows, a 60-month term alone adds nearly a fifth of the loan amount in interest.",
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator", "car-loan-affordability-calculator"],
   },
   {
     slug: "breakeven-calculator",
@@ -1220,7 +1289,12 @@ explanation: [
         answer: "No, this is a simplified break-even model covering ongoing fixed and variable costs only, not taxes or one-time capital expenses.",
       },
     ],
-    relatedSlugs: ["markup-calculator", "roi-calculator"],
+    commonMistakes: [
+      "Mixing up fixed and variable costs, for example including rent (a fixed cost) as a per-unit variable cost, which distorts the contribution margin and the resulting break-even point.",
+      "Forgetting that clearing the break-even point isn't the same as being profitable after taxes and one-time startup costs, actual profitability requires selling beyond this number.",
+      "Not recalculating after a price change, even a small discount changes the contribution margin (price minus variable cost), which directly changes how many units are needed to break even.",
+    ],
+    relatedSlugs: ["markup-calculator", "roi-calculator", "profit-margin-calculator"],
   },
   {
     slug: "heart-rate-zone-calculator",
@@ -1259,6 +1333,7 @@ explanation: [
         heading: "What each zone is used for",
         paragraphs: [
           "Zone 2 is often targeted for fat-burning and base endurance training, Zone 3 for general aerobic fitness, and Zones 4-5 for high-intensity interval training and performance gains. Training across different zones supports different fitness goals.",
+          "For example, a 30-year-old has an estimated max heart rate of 220 − 30 = 190 bpm. Their Zone 2 (fat burn, 60-70%) range is 114-133 bpm, and their Zone 4 (anaerobic, 80-90%) range is 152-171 bpm, a noticeably harder effort reserved for shorter, higher-intensity intervals.",
         ],
       },
     ],
@@ -1272,7 +1347,12 @@ explanation: [
         answer: "If you have any heart conditions or are new to exercise, consulting a healthcare provider before starting high-intensity training is recommended.",
       },
     ],
-    relatedSlugs: ["bmr-calculator", "calorie-goal-calculator"],
+    commonMistakes: [
+      "Treating the 220-minus-age max heart rate as an exact personal ceiling, actual max heart rate varies by up to 10-15 bpm from this formula for many individuals.",
+      "Training mostly in Zone 4-5 under the assumption that harder is always better, most endurance-building volume in structured training plans is actually done in Zone 2, with high-intensity zones used more sparingly.",
+      "Ignoring resting heart rate entirely, this flat-percentage method doesn't account for individual fitness level the way a heart rate reserve (Karvonen) method does.",
+    ],
+    relatedSlugs: ["bmr-calculator", "calorie-goal-calculator", "target-heart-rate-calculator"],
   },
   {
     slug: "standard-deviation-calculator",
@@ -1311,6 +1391,12 @@ explanation: [
           "This calculator computes population standard deviation, dividing by the total count of numbers. Sample standard deviation (used when your data is a sample of a larger population) divides by count minus one instead, resulting in a slightly larger value.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For the data set 4, 8, 15, 16, 23, 42 (6 numbers): the mean is (4+8+15+16+23+42) ÷ 6 = 108 ÷ 6 = 18. The squared differences from the mean are (4−18)²=196, (8−18)²=100, (15−18)²=9, (16−18)²=4, (23−18)²=25, and (42−18)²=576. Their sum is 910, and dividing by the count of 6 gives a population variance of 151.6667. The standard deviation is the square root of that: √151.6667 ≈ 12.3153.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1322,7 +1408,12 @@ explanation: [
         answer: "Enter numbers separated by commas, spaces, or both, for example '4, 8, 15, 16, 23, 42' or '4 8 15 16 23 42' both work.",
       },
     ],
-    relatedSlugs: ["percentage-calculator"],
+    commonMistakes: [
+      "Assuming this calculator's result is sample standard deviation, it computes the population version (dividing by count), which is slightly smaller than the sample version (dividing by count minus one); use the Statistics Calculator if you need both figures side by side.",
+      "Confusing variance with standard deviation, variance is the squared-difference average and is in squared units, while standard deviation (its square root) is back in the original units and easier to interpret directly.",
+      "Entering only one number, standard deviation measures spread across multiple values, so this calculator requires at least two numbers to produce a meaningful result.",
+    ],
+    relatedSlugs: ["percentage-calculator", "statistics-calculator", "mean-median-mode-calculator"],
   },
   {
     slug: "find-and-replace",
@@ -1415,6 +1506,7 @@ explanation: [
         heading: "Why credit card debt can take so long to pay off",
         paragraphs: [
           "Credit cards typically carry much higher interest rates than other loans, often 15-25% APR or more, so a large portion of a minimum payment can go toward interest rather than reducing the actual balance, which is why balances can take years to clear at low payment amounts.",
+          "For example, a $5,000 balance at 22% APR with a fixed $200 monthly payment takes 34 months to pay off, and costs $1,749.88 in total interest, bringing the total amount paid to $6,749.88, about 35% more than the original balance.",
         ],
       },
     ],
@@ -1428,7 +1520,12 @@ explanation: [
         answer: "No, this assumes no new charges are added and only the existing balance is being paid down.",
       },
     ],
-    relatedSlugs: ["extra-payment-calculator", "simple-interest-calculator"],
+    commonMistakes: [
+      "Entering a monthly payment at or barely above the interest charged, this technically pays the balance down but can stretch payoff time out to years, as the worked example shows, even a modest balance costs over a third extra in interest at a low fixed payment.",
+      "Forgetting this tool assumes no new purchases, adding new charges while 'paying off' the card will keep the balance from shrinking as projected.",
+      "Not comparing this fixed-payment payoff time against your card's minimum-payment schedule, minimum payments are often much lower and take dramatically longer, worth checking both.",
+    ],
+    relatedSlugs: ["extra-payment-calculator", "simple-interest-calculator", "credit-card-interest-calculator"],
   },
   {
     slug: "calorie-goal-calculator",
@@ -1488,6 +1585,7 @@ explanation: [
         heading: "Why gradual rates of change are recommended",
         paragraphs: [
           "A rate of 0.25 to 0.5 kg per week is commonly considered a sustainable pace for weight loss or gain. Faster rates require larger calorie deficits or surpluses, which can be harder to maintain and may not be appropriate for everyone, consulting a healthcare provider is recommended for personalized guidance.",
+          "For example, a 30-year-old woman, 165 cm tall, weighing 70 kg, moderately active, targeting a 0.5 kg/week weight loss, has an estimated maintenance calorie level of 2,201 kcal/day. Her daily target to hit that rate of loss works out to 1,651 kcal/day, a deficit of about 550 kcal below maintenance.",
         ],
       },
     ],
@@ -1501,7 +1599,12 @@ explanation: [
         answer: "The calculator will show an error if your target rate of change would result in an unsafely low calorie target. Reduce your target rate of change or consult a healthcare provider.",
       },
     ],
-    relatedSlugs: ["bmr-calculator", "bmi-calculator"],
+    commonMistakes: [
+      "Choosing an aggressive target rate of change, larger deficits are harder to sustain and more likely to trigger muscle loss or rebound weight regain than a gradual 0.25-0.5 kg/week pace.",
+      "Not updating the calorie target as weight changes, maintenance calories shift as body weight changes, so a target set at the start of a long weight-loss journey gradually becomes less accurate.",
+      "Confusing this goal-based target with plain maintenance calories, the 'maintenance calories' figure shown alongside the target is the unadjusted baseline, not the number to actually eat if the goal is to lose or gain weight.",
+    ],
+    relatedSlugs: ["bmr-calculator", "bmi-calculator", "tdee-calculator"],
   },
   {
     slug: "text-diff-checker",
@@ -1623,6 +1726,7 @@ explanation: [
         heading: "How daily water intake is calculated",
         paragraphs: [
           "This calculator uses a common baseline of 33 ml of water per kilogram of body weight, then adds extra for activity level: 350 ml for moderate activity, or 700 ml for high activity, reflecting additional fluid loss through sweat during exercise.",
+          "For example, a 70 kg person with a moderate activity level needs a baseline of 70 × 33 = 2,310 ml, plus 350 ml for activity, totaling 2,660 ml, or about 2.66 liters (roughly 11.2 cups) per day.",
         ],
       },
       {
@@ -1642,7 +1746,12 @@ explanation: [
         answer: "Yes, hot weather and increased sweating raise fluid needs beyond this baseline estimate.",
       },
     ],
-    relatedSlugs: ["bmi-calculator", "bmr-calculator"],
+    commonMistakes: [
+      "Assuming all fluid needs must come from plain water, food (especially fruits and vegetables) and other beverages also count toward total daily hydration, this estimate covers drinking water specifically.",
+      "Using a single flat number year-round, hotter weather, illness, or increased sweating meaningfully raise fluid needs above this baseline estimate.",
+      "Chugging large amounts at once rather than spreading intake through the day, which the body absorbs and uses less efficiently than steady intake.",
+    ],
+    relatedSlugs: ["bmi-calculator", "bmr-calculator", "calorie-goal-calculator"],
   },
   {
     slug: "pregnancy-due-date-calculator",
@@ -1673,6 +1782,7 @@ explanation: [
         heading: "How due date is calculated (Naegele's Rule)",
         paragraphs: [
           "This calculator uses Naegele's Rule, the standard method for estimating due dates: it adds 280 days (40 weeks) to the first day of your last menstrual period. This assumes a typical 28-day cycle with ovulation around day 14.",
+          "For example, a last menstrual period starting January 5, 2026 gives an estimated due date of October 12, 2026, exactly 280 days later.",
         ],
       },
       {
@@ -1692,7 +1802,12 @@ explanation: [
         answer: "If your last period date is uncertain, a healthcare provider can estimate your due date using an ultrasound instead, which is generally more reliable in that situation.",
       },
     ],
-    relatedSlugs: ["age-calculator", "date-calculator"],
+    commonMistakes: [
+      "Using the date conception is believed to have occurred instead of the first day of the last menstrual period, Naegele's Rule specifically requires the LMP date, not the estimated conception date.",
+      "Assuming this estimate is precise for an irregular cycle, Naegele's Rule assumes a typical 28-day cycle, a consistently longer or shorter cycle shifts the actual likely due date.",
+      "Treating the due date as a firm deadline rather than the center of a normal range, only a small share of babies arrive exactly on the estimated date.",
+    ],
+    relatedSlugs: ["age-calculator", "date-calculator", "pregnancy-week-calculator"],
   },
   {
     slug: "fraction-calculator",
@@ -1742,6 +1857,12 @@ explanation: [
           "After calculating the result, this tool automatically simplifies the fraction by dividing both numerator and denominator by their greatest common divisor, so results like 4/8 are shown as the simplified 1/2.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Adding 1/2 + 1/3: cross-multiplying gives (1×3 + 1×2) / (2×3) = (3 + 2) / 6 = 5/6. Since 5 and 6 share no common factor besides 1, the result is already in simplest form: 5/6, or 0.8333 as a decimal.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1753,7 +1874,12 @@ explanation: [
         answer: "Simplifying to lowest terms is standard mathematical practice and makes the result easier to read and use in further calculations.",
       },
     ],
-    relatedSlugs: ["percentage-calculator"],
+    commonMistakes: [
+      "Adding or subtracting numerators and denominators straight across (1/2 + 1/3 ≠ 2/5), fractions need a common denominator first, this calculator handles that automatically via cross-multiplication.",
+      "Forgetting that dividing by a fraction means multiplying by its reciprocal, so 1/2 ÷ 1/3 is 1/2 × 3/1 = 3/2, not 1/2 × 1/3.",
+      "Expecting an unsimplified result like 4/8 instead of 1/2, this tool always reduces to lowest terms, which is standard practice but can look different from an intermediate step shown in a textbook.",
+    ],
+    relatedSlugs: ["percentage-calculator", "ratio-calculator", "gcf-calculator"],
   },
   {
     slug: "uuid-generator",
@@ -1874,6 +2000,7 @@ explanation: [
         heading: "What this calculator doesn't include",
         paragraphs: [
           "This tool estimates principal and interest only. It doesn't include property taxes, homeowner's insurance, PMI (private mortgage insurance), or HOA fees, all of which typically add to your actual monthly housing payment beyond this estimate.",
+          "For example, a $350,000 loan at 6.5% over a 30-year (360-month) term produces a monthly principal-and-interest payment of $2,212.24, with total interest over the full term reaching $446,404.09, more than the original loan amount itself, illustrating just how much a 30-year term compounds interest over time.",
         ],
       },
     ],
@@ -1887,7 +2014,12 @@ explanation: [
         answer: "15-year and 30-year fixed terms are the most common in many markets, with 30-year terms offering lower monthly payments but more total interest paid over the loan's life.",
       },
     ],
-    relatedSlugs: ["emi-calculator", "loan-calculator"],
+    commonMistakes: [
+      "Forgetting property tax, homeowner's insurance, PMI and HOA fees, this estimate covers principal and interest only, so your real monthly housing payment will typically be higher.",
+      "Entering the home's purchase price instead of the loan amount, subtract your down payment first, the loan amount is what actually gets amortized.",
+      "Comparing a 15-year and 30-year term by monthly payment alone, as the worked example shows, the 30-year term's total interest can exceed the loan amount itself, a comparison worth running for both terms.",
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator", "house-affordability-calculator"],
   },
   {
 slug: "volume-converter",
@@ -2328,7 +2460,12 @@ calculate: (inputs) => {
         answer: "Yes, it works with negative numbers for all three calculation types.",
       },
     ],
-    relatedSlugs: ["age-calculator", "discount-calculator"],
+    commonMistakes: [
+      "Using the wrong base value in a percentage change calculation, percentage change is always relative to the starting (old) value, not the ending value, so a change from 150 to 180 is ((180−150)/150)×100 = 20%, not ((180−150)/180)×100.",
+      "Mixing up 'X% of Y' with 'X is what % of Y', the first multiplies (X÷100)×Y, the second divides (X÷Y)×100, picking the wrong mode gives an answer that looks plausible but answers a different question.",
+      "Assuming a percentage increase followed by the same percentage decrease returns you to the original value, it doesn't, since the second percentage is calculated on a different (already changed) base number.",
+    ],
+    relatedSlugs: ["age-calculator", "discount-calculator", "fraction-calculator", "ratio-calculator"],
   },
   {
     slug: "simple-interest-calculator",
@@ -2392,7 +2529,13 @@ explanation: [
           "Simple interest is commonly used for short-term loans, certain bonds, and some auto loans, where interest doesn't compound over the loan term.",
       },
     ],
-    relatedSlugs: ["compound-interest-calculator", "emi-calculator"],
+    commonMistakes: [
+      "Applying this formula to something that actually compounds, most savings accounts, credit cards and many loans compound interest, using the simple interest formula on them will understate the real growth or cost.",
+      "Entering the rate as a decimal (0.05) instead of a whole percentage (5), the formula in this calculator expects a percentage value.",
+      "Assuming extra payments toward principal reduce future interest the way they would on a compounding loan, with true simple interest, the interest is fixed by the original principal, rate and time, regardless of partial early payments.",
+    ],
+    relatedSlugs: ["compound-interest-calculator", "emi-calculator", "roi-calculator"],
+    relatedPostSlugs: ["apy-vs-apr-difference"],
   },
   {
     slug: "random-number-generator",
@@ -2553,7 +2696,13 @@ explanation: [
         answer: "No, this is a simple ROI calculation and doesn't factor in how long the investment was held. For comparing investments over different time periods, an annualized return would be more appropriate.",
       },
     ],
-    relatedSlugs: ["compound-interest-calculator", "simple-interest-calculator"],
+    commonMistakes: [
+      "Comparing ROI figures across investments held for very different lengths of time without annualizing first, a 25% ROI over 1 year and a 25% ROI over 10 years represent very different actual performance, use the CAGR Calculator to compare fairly.",
+      "Leaving fees, taxes or other transaction costs out of the initial investment or final value, which can meaningfully overstate the real return.",
+      "Treating a negative result as a calculator error rather than a legitimate loss, a negative ROI correctly means the final value ended up below the initial investment.",
+    ],
+    relatedSlugs: ["compound-interest-calculator", "simple-interest-calculator", "cagr-calculator"],
+    relatedPostSlugs: ["cagr-vs-average-annual-return"],
   },
   {
     slug: "markup-calculator",
@@ -2605,7 +2754,12 @@ explanation: [
         answer: "Markup is often used when setting prices from cost, while margin is often used when analyzing profitability of sales. Many businesses track both.",
       },
     ],
-    relatedSlugs: ["discount-calculator", "roi-calculator"],
+    commonMistakes: [
+      "Confusing markup and margin percentages, as the worked example shows, a 40% markup on a $50 cost is only about a 28.6% margin, using one figure where the other is meant is a very common pricing error.",
+      "Setting a markup percentage based purely on desired profit without checking whether the resulting selling price is still competitive in the market.",
+      "Forgetting to fold all costs, shipping, packaging, payment processing fees, overhead, into the cost price before applying markup, which understates true profit per sale.",
+    ],
+    relatedSlugs: ["discount-calculator", "roi-calculator", "profit-margin-calculator"],
   },
   {
     slug: "data-storage-converter",
@@ -3151,7 +3305,13 @@ widgetType: "compressPdf",
           "Yes, select 'Other' in the unit toggle to choose your height unit (centimeters, meters, inches or feet) and weight unit (kilograms, pounds or stone) independently.",
       },
     ],
+    commonMistakes: [
+      "Treating BMI as a direct measurement of body fat, it's a weight-to-height ratio only, a muscular person and a person with high body fat can share the same BMI despite very different body compositions.",
+      "Comparing a child's or teenager's BMI against these adult thresholds, that requires the separate age- and sex-specific percentile method this calculator doesn't provide.",
+      "Mixing units accidentally, entering height in inches while selecting the metric formula (or vice versa) produces a BMI far outside any realistic range without an obvious error message pointing to the cause.",
+    ],
     relatedSlugs: ["calorie-goal-calculator", "body-fat-calculator", "bmr-calculator", "ideal-weight-calculator"],
+    relatedPostSlugs: ["bmi-vs-bmr-difference"],
   },
   {
     slug: "compound-interest-calculator",
@@ -3196,7 +3356,13 @@ widgetType: "compressPdf",
           "This calculator assumes a fixed interest rate and no additional contributions. Real investment returns often vary and may include regular deposits, which this tool does not account for.",
       },
     ],
-    relatedSlugs: ["emi-calculator", "loan-calculator"],
+    commonMistakes: [
+      "Entering the interest rate as a decimal (0.07) instead of a whole percentage (7), which produces a dramatically understated result.",
+      "Assuming annual and monthly compounding produce roughly the same result, over long time horizons the gap compounds too, on large balances the difference is far from trivial.",
+      "Forgetting this calculator assumes a single lump sum with no further contributions, use a growth calculator with regular contributions (like the SIP or 401k Calculator) if you're adding money over time.",
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator", "future-value-calculator"],
+    relatedPostSlugs: ["apy-vs-apr-difference"],
   },
   {
     slug: "tip-calculator",
@@ -3313,6 +3479,7 @@ explanation: [
         heading: "How to calculate daily calorie needs from BMR",
         paragraphs: [
           "BMR alone only reflects calories burned at rest. To estimate total daily calorie needs (also called maintenance calories or TDEE), this figure is multiplied by an activity level multiplier: 1.2 for sedentary, 1.375 for light activity, 1.55 for moderate, 1.725 for active, and 1.9 for very active lifestyles.",
+          "For example, a 30-year-old man, 175 cm tall, weighing 70 kg, has a BMR of 10×70 + 6.25×175 − 5×30 + 5 = 1,649 kcal/day at complete rest. With a moderate activity level (multiplier 1.55), his estimated maintenance calories come to 1,649 × 1.55 ≈ 2,556 kcal/day.",
         ],
       },
     ],
@@ -3332,7 +3499,13 @@ explanation: [
         answer: "This calculator uses the Mifflin-St Jeor equation, widely regarded as one of the most accurate BMR formulas.",
       },
     ],
-    relatedSlugs: ["bmi-calculator", "age-calculator"],
+    commonMistakes: [
+      "Confusing BMR with maintenance calories, BMR is calories burned at complete rest only, eating at your BMR level (rather than your activity-adjusted maintenance figure) creates an unintended, often severe calorie deficit.",
+      "Selecting an activity level that overstates how active you actually are, most people who don't exercise in a structured way daily should choose sedentary or light rather than active or very active.",
+      "Not recalculating as weight or age changes, BMR shifts meaningfully with both, a figure calculated a year ago may no longer reflect current calorie needs.",
+    ],
+    relatedSlugs: ["bmi-calculator", "age-calculator", "tdee-calculator"],
+    relatedPostSlugs: ["bmi-vs-bmr-difference"],
   },
   {
     slug: "word-counter",
@@ -3479,6 +3652,7 @@ explanation: [
         heading: "Gross salary vs net salary",
         paragraphs: [
           "Gross salary is your total pay before any deductions, while net salary (take-home pay) is what actually lands in your bank account after tax, social security, retirement contributions and other withholdings are subtracted. The gap between the two varies significantly by country and individual circumstances.",
+          "For example, an annual gross salary of $60,000 with an estimated 25% total deduction rate leaves an annual take-home of $45,000, or $3,750 per month, against a monthly gross of $5,000, a $1,250 monthly gap going to tax and other withholdings.",
         ],
       },
     ],
@@ -3498,7 +3672,13 @@ explanation: [
         answer: "Check a recent pay stub, divide your total deductions by your gross pay for that period, and multiply by 100 to get your personal deduction percentage.",
       },
     ],
-    relatedSlugs: ["emi-calculator", "gst-calculator"],
+    commonMistakes: [
+      "Using a flat deduction percentage that ignores progressive tax brackets, most income tax systems tax higher income slices at higher rates, so your true effective rate may differ from a single flat guess.",
+      "Forgetting pre-tax deductions like retirement contributions or health insurance premiums, which reduce taxable income before tax is even calculated, a flat percentage on gross pay can miss this nuance.",
+      "Using a deduction percentage from a different country or state than where you actually pay tax, withholding rates vary significantly by jurisdiction.",
+    ],
+    relatedSlugs: ["emi-calculator", "gst-calculator", "hourly-wage-calculator"],
+    relatedPostSlugs: ["why-take-home-pay-differs-from-salary"],
   },
   {
     slug: "sales-tax-calculator",
@@ -3548,7 +3728,13 @@ explanation: [
         answer: "GST and VAT work similarly to sales tax in principle, calculated as a percentage of the price, but rules on what's taxed and how it's applied can differ. Our GST Calculator has a dedicated add/remove mode for GST-inclusive pricing.",
       },
     ],
-    relatedSlugs: ["gst-calculator", "discount-calculator"],
+    commonMistakes: [
+      "Applying the tax rate to a price that already includes tax, if your starting number is a post-tax total, use the reverse calculation described above instead of taxing it again.",
+      "Using a single tax rate across a whole country when sales tax in many places is actually a combination of state, county and city rates that vary block to block.",
+      "Forgetting that some items (like groceries or prescription medicine in many jurisdictions) may be exempt or taxed at a different rate than the general sales tax rate.",
+    ],
+    relatedSlugs: ["gst-calculator", "discount-calculator", "vat-calculator"],
+    relatedPostSlugs: ["sales-tax-vs-vat-vs-gst"],
   },
   {
     slug: "fuel-cost-calculator",
@@ -3771,7 +3957,12 @@ explanation: [
         answer: "No, applying discount A then discount B gives the same final price as applying B then A, multiplication is commutative either way.",
       },
     ],
-    relatedSlugs: ["discount-calculator", "percentage-calculator"],
+    commonMistakes: [
+      "Adding the two discount percentages together (assuming 20% + 10% = 30% off), as the worked example shows, stacked discounts multiply, not add, and the true effective discount is smaller.",
+      "Applying both discounts to the original price separately instead of applying the second discount to the already-discounted price.",
+      "Forgetting that a coupon code and a storewide sale often stack this way too, not as a simple sum, worth checking the actual final price before assuming the advertised combined percentage.",
+    ],
+    relatedSlugs: ["discount-calculator", "percentage-calculator", "markup-calculator"],
   },
   {
     slug: "extra-payment-calculator",
@@ -3814,6 +4005,7 @@ explanation: [
         heading: "Extra payments vs a shorter loan term",
         paragraphs: [
           "Adding even a modest extra amount to a monthly mortgage or loan payment can shave years off the payoff time and save a substantial amount in total interest, often more than the extra payments themselves might suggest, because the savings compound over the remaining life of the loan.",
+          "For example, on a $200,000 balance at 6.5% with a $1,500 monthly payment, adding just $200 extra per month cuts the payoff time from 238 months to 188 months, 50 months (over 4 years) sooner, and saves $36,561.08 in total interest, more than 180 times the size of a single extra payment.",
         ],
       },
     ],
@@ -3832,7 +4024,12 @@ explanation: [
         answer: "If your payment doesn't cover the monthly interest charge, the loan balance would never decrease. The calculator will show an error in this case rather than an incorrect result.",
       },
     ],
-    relatedSlugs: ["emi-calculator", "loan-calculator"],
+    commonMistakes: [
+      "Assuming extra payments need to be large to matter, as the worked example shows, a modest $200 extra on a $1,500 payment saved over $36,000 in interest, small amounts compound significantly over a long loan.",
+      "Not checking for prepayment penalties first, some loans charge a fee for extra or early payments that could offset part of the interest savings.",
+      "Forgetting to confirm with your lender that extra payments are applied to principal, not held as an early future payment, some servicers require you to specify this explicitly.",
+    ],
+    relatedSlugs: ["emi-calculator", "loan-calculator", "debt-payoff-calculator"],
   },
   {
     slug: "password-generator",
@@ -3947,7 +4144,13 @@ explanation: [
           "This calculator handles a single discount. For stacked discounts, apply this calculator once per discount, using the previous result as the new original price.",
       },
     ],
-    relatedSlugs: ["percentage-calculator", "gst-calculator"],
+    commonMistakes: [
+      "Applying a second discount to the original price instead of the already-discounted price when combining multiple offers, use the Stacked Discount Calculator for that scenario instead.",
+      "Confusing the discount percentage with the final price percentage, a 20% discount means paying 80% of the original price, not 20% of it.",
+      "Forgetting sales tax is usually calculated on the discounted price, not the original price, when estimating a final total at checkout.",
+    ],
+    relatedSlugs: ["percentage-calculator", "gst-calculator", "discount-stack-calculator"],
+    relatedPostSlugs: ["gst-add-vs-remove-explained"],
   },
   {
     slug: "emi-calculator",
@@ -3973,7 +4176,7 @@ explanation: [
       {
         heading: "EMI calculation example",
         paragraphs: [
-          "For a loan of 500,000 at 8.5% annual interest over 60 months: the monthly interest rate is 8.5 ÷ 12 ÷ 100 = 0.007083. Plugging this into the EMI formula gives a fixed monthly EMI, with the exact month-by-month breakdown of how much goes to principal versus interest shown in the loan amortization schedule below.",
+          "For a loan of 500,000 at 8.5% annual interest over 60 months: the monthly interest rate is 8.5 ÷ 12 ÷ 100 = 0.007083. Plugging this into the EMI formula gives a fixed monthly EMI of 10,258.27, with total interest of 115,495.88 paid over the full 60 months, about 23% of the original loan amount. The exact month-by-month breakdown of how much goes to principal versus interest is shown in the loan amortization schedule below.",
         ],
       },
     ],
@@ -3997,7 +4200,13 @@ explanation: [
         answer: "An amortization schedule shows how each payment splits between principal and interest over the life of the loan, and how your remaining balance decreases over time.",
       },
     ],
-    relatedSlugs: ["loan-calculator", "gst-calculator"],
+    commonMistakes: [
+      "Entering a monthly interest rate instead of the annual rate, this calculator expects the annual rate and converts it to monthly internally, entering an already-monthly rate overstates the EMI significantly.",
+      "Choosing a longer tenure purely because it lowers the EMI, without checking total interest, as the worked example shows, interest can still add up to nearly a quarter of the loan amount even over a modest 5-year term.",
+      "Forgetting that EMI covers principal and interest only, processing fees, insurance premiums or other loan charges some lenders add aren't part of this calculation.",
+    ],
+    relatedSlugs: ["loan-calculator", "gst-calculator", "amortization-schedule-calculator"],
+    relatedPostSlugs: ["how-emi-is-calculated", "gst-add-vs-remove-explained"],
   },
   {
     slug: "gst-calculator",
@@ -4068,7 +4277,13 @@ explanation: [
         answer: "The math is identical, add or remove a percentage-based tax, just under a different regional name. Use our VAT Calculator if that's the terminology used where you are (UK, EU and others), this GST Calculator if you're in India, Australia, Canada or another GST country.",
       },
     ],
+    commonMistakes: [
+      "Subtracting the GST percentage directly from a GST-inclusive amount instead of dividing by (1 + rate ÷ 100), as the explanation above shows, this produces the wrong base price.",
+      "Applying the wrong mode, using 'Add GST' on an amount that already includes tax double-counts the GST portion.",
+      "Assuming the GST rate is the same for every product category, many GST systems apply different rates (or exemptions) to different goods and services.",
+    ],
     relatedSlugs: ["emi-calculator", "discount-calculator", "vat-calculator"],
+    relatedPostSlugs: ["sales-tax-vs-vat-vs-gst", "gst-add-vs-remove-explained"],
   },
   {
     slug: "loan-calculator",
@@ -4092,7 +4307,7 @@ explanation: [
       {
         heading: "Loan repayment calculation example",
         paragraphs: [
-          "For a loan of 250,000 at 7.2% annual interest over 15 years (180 months): the monthly interest rate is 7.2 ÷ 12 ÷ 100 = 0.006. Applying the loan formula gives a fixed monthly payment, with total interest and total repayment shown alongside the full loan amortization schedule below, which breaks down exactly how much of each payment goes toward principal versus interest.",
+          "For a loan of 250,000 at 7.2% annual interest over 15 years (180 months): the monthly interest rate is 7.2 ÷ 12 ÷ 100 = 0.006. Applying the loan formula gives a fixed monthly payment of 2,275.12. Over the full 180 months, total interest comes to 159,520.59, bringing the total repayment to 409,520.59, nearly 64% more than the amount borrowed. The full amortization schedule below breaks down exactly how much of each payment goes toward principal versus interest.",
         ],
       },
     ],
@@ -4112,7 +4327,13 @@ explanation: [
         answer: "Yes, the amortization schedule below shows a year-by-year or month-by-month breakdown of principal, interest and remaining balance for the entire loan term.",
       },
     ],
-    relatedSlugs: ["emi-calculator", "gst-calculator"],
+    commonMistakes: [
+      "Entering the loan tenure in months when this calculator expects years, unlike the EMI Calculator, which uses months, entering '180' here instead of '15' would produce a wildly wrong result.",
+      "Focusing only on the monthly payment without checking total interest, as the worked example shows, total repayment can end up well over 50% more than the original loan amount on a long term.",
+      "Forgetting this estimate excludes processing fees, insurance, and other lender charges that add to the real total cost of the loan.",
+    ],
+    relatedSlugs: ["emi-calculator", "gst-calculator", "extra-payment-calculator"],
+    relatedPostSlugs: ["how-emi-is-calculated"],
   },
   {
     slug: "date-calculator",
@@ -4293,6 +4514,7 @@ explanation: [
         paragraphs: [
           "This calculator uses the Devine formula, one of the most widely used ideal body weight formulas: for men, Ideal Weight (kg) = 50 + 2.3 × (height in inches − 60). For women, the same formula is used but starting from 45.5 kg instead of 50.",
           "The formula is based on height over 5 feet (60 inches), adding 2.3 kg for every inch above that baseline.",
+          "For example, for a man 178 cm tall: first convert to inches, 178 ÷ 2.54 = 70.08 inches. Subtract the 60-inch (5 ft) baseline: 70.08 − 60 = 10.08 inches over. Multiply by 2.3: 10.08 × 2.3 = 23.18. Add the 50 kg base: 50 + 23.18 = 73.2 kg (about 161.3 lb).",
         ],
       },
       {
@@ -4312,7 +4534,12 @@ explanation: [
         answer: "The formula uses different baseline constants for men and women to reflect typical differences in body composition, this is a simplification, not a precise individual assessment.",
       },
     ],
-    relatedSlugs: ["bmi-calculator", "body-fat-calculator"],
+    commonMistakes: [
+      "Treating the Devine formula's result as a strict target weight, it was originally built for medication dosing, not as a personal fitness or aesthetic goal.",
+      "Ignoring frame size and muscle mass entirely, someone with a larger bone structure or more muscle mass will naturally sit above this estimate without being overweight.",
+      "Using it as the sole measure of healthy weight instead of pairing it with BMI, body fat percentage, or a healthcare provider's assessment for a fuller picture.",
+    ],
+    relatedSlugs: ["bmi-calculator", "body-fat-calculator", "healthy-weight-calculator"],
   },
   {
     slug: "body-fat-calculator",
@@ -4351,6 +4578,7 @@ explanation: [
         heading: "How the U.S. Navy body fat method works",
         paragraphs: [
           "This method estimates body fat percentage using circumference measurements at the neck, waist, and (for women) hips, combined with height, using a formula developed by the U.S. Navy as a practical field alternative to more precise methods like DEXA scans or hydrostatic weighing.",
+          "For a man, the formula is: Body Fat % = 495 ÷ (1.0324 − 0.19077 × log₁₀(waist − neck) + 0.15456 × log₁₀(height)) − 450, with all measurements in inches. For example, for a man 178 cm tall (70.08 in) with a 38 cm neck (14.96 in) and 85 cm waist (33.46 in): waist − neck = 33.46 − 14.96 = 18.50 in, log₁₀(18.50) ≈ 1.2672. log₁₀(70.08) ≈ 1.8456. Plugging in: 1.0324 − (0.19077 × 1.2672) + (0.15456 × 1.8456) = 1.0324 − 0.2418 + 0.2853 = 1.0759. Then 495 ÷ 1.0759 = 460.1, and 460.1 − 450 = 10.1%, which falls in the 'Athletic' category for men.",
         ],
       },
       {
@@ -4370,7 +4598,12 @@ explanation: [
         answer: "The U.S. Navy formula uses different variables for men and women based on typical fat distribution patterns, the male formula only requires waist and neck, while the female formula also factors in hip measurement.",
       },
     ],
-    relatedSlugs: ["bmi-calculator", "ideal-weight-calculator"],
+    commonMistakes: [
+      "Measuring waist at the belt line instead of at the true narrowest point (or navel level), which can meaningfully skew the estimate in either direction.",
+      "Pulling the tape measure too tight or too loose, the method assumes a snug, non-compressing measurement, inconsistent tension between measurements introduces real error.",
+      "Comparing results across two different measurement methods (like this Navy method versus a skinfold caliper test) and expecting them to match exactly, different methods have different systematic biases.",
+    ],
+    relatedSlugs: ["bmi-calculator", "ideal-weight-calculator", "lean-body-mass-calculator"],
   },
   {
     slug: "inflation-calculator",
@@ -4410,6 +4643,7 @@ explanation: [
         heading: "This uses an assumed rate, not historical CPI data",
         paragraphs: [
           "Unlike calculators that pull real historical Consumer Price Index data for a specific country, this tool uses an annual inflation rate you specify, letting you model different scenarios (for example, comparing 2% versus 5% average inflation) rather than being limited to one country's historical record.",
+          "For example, 10,000 today, projected forward 10 years at an assumed 3% annual inflation rate, would need to grow to 13,439.16 just to have the same purchasing power, a total increase of 3,439.16, or about 34.4%, even though the money itself hasn't changed.",
         ],
       },
     ],
@@ -4423,7 +4657,12 @@ explanation: [
         answer: "No, this calculator applies a constant rate you specify rather than pulling actual historical CPI data, making it a modeling tool rather than a historical lookup.",
       },
     ],
-    relatedSlugs: ["compound-interest-calculator", "net-worth-calculator"],
+    commonMistakes: [
+      "Treating the output as a prediction of future prices rather than a modeling estimate, real inflation fluctuates year to year and rarely holds at one constant rate for a decade or more.",
+      "Using a single national average rate when your own spending mix, housing, education, healthcare, may inflate faster or slower than the headline CPI figure.",
+      "Forgetting to apply the same inflation logic to income and investment growth, comparing an inflated future cost against today's non-inflated salary or savings target understates the real gap.",
+    ],
+    relatedSlugs: ["compound-interest-calculator", "net-worth-calculator", "retirement-calculator"],
   },
   {
     slug: "net-worth-calculator",
@@ -4460,6 +4699,7 @@ explanation: [
         heading: "Why tracking net worth matters",
         paragraphs: [
           "Unlike income or a single account balance, net worth gives a complete picture of financial position by combining everything you own and everything you owe. Tracking it over time, rather than as a single snapshot, is generally more useful for understanding financial progress.",
+          "For example, someone with 150,000 in total assets, savings, investments, home equity, and 50,000 in total liabilities, mortgage balance, car loan, credit card debt, has a net worth of 100,000. That single number can be tracked quarter over quarter to see whether it's genuinely growing, not just whether income looks healthy.",
         ],
       },
     ],
@@ -4477,7 +4717,12 @@ explanation: [
         answer: "It's common, particularly earlier in life or after taking on debt like a mortgage or student loans. Net worth typically shifts over time as assets grow and debts are paid down.",
       },
     ],
-    relatedSlugs: ["inflation-calculator", "compound-interest-calculator"],
+    commonMistakes: [
+      "Valuing assets like a home or car at their original purchase price instead of current market value, which can make net worth look higher or lower than reality.",
+      "Leaving out less obvious liabilities, unpaid taxes, personal loans from family, buy-now-pay-later balances, which understates how much is actually owed.",
+      "Calculating net worth once and never again, a single snapshot says little; the trend across several months or years is what actually shows financial progress.",
+    ],
+    relatedSlugs: ["inflation-calculator", "compound-interest-calculator", "retirement-calculator"],
   },
   {
     slug: "countdown-timer",
@@ -4562,6 +4807,11 @@ explanation: [
           "This calculator is designed for recurring monthly investments. For a one-time lump sum, use our Compound Interest Calculator instead.",
       },
     ],
+    commonMistakes: [
+      "Assuming the expected annual return is guaranteed year to year, actual market returns fluctuate significantly, the SIP formula only projects an average, not a certainty.",
+      "Stopping or pausing contributions during a market downturn, which works against the core SIP advantage of buying more units when prices are low.",
+      "Ignoring the impact of fund expense ratios and exit loads on the final maturity amount, this calculator shows gross projected returns, not what actually lands after fees.",
+    ],
     relatedSlugs: ["compound-interest-calculator", "retirement-calculator", "savings-goal-calculator"],
   },
   {
@@ -4583,6 +4833,7 @@ explanation: [
         heading: "How your retirement corpus is projected",
         paragraphs: [
           "This calculator compounds your current savings forward to your retirement age, and separately calculates the future value of your ongoing monthly contributions using the future value of an annuity formula, then adds the two together to get your projected total retirement corpus.",
+          "For example, starting at age 30 with 500,000 already saved, contributing 15,000 every month until retiring at 60 (30 years, or 360 months), at an expected 10% annual return, projects to a retirement corpus of roughly 44,108,579.55. Of that, only 5,900,000 came from actual contributions, meaning about 38,208,579.55 is investment growth, illustrating how much compounding does over a multi-decade horizon.",
         ],
       },
       {
@@ -4608,6 +4859,11 @@ explanation: [
         answer:
           "This calculator assumes a constant, uninterrupted monthly contribution. Pauses or changes in your contribution amount will affect your actual results compared to this projection.",
       },
+    ],
+    commonMistakes: [
+      "Treating the projected corpus as spendable today's-dollars value, since this calculator projects nominal growth, actual purchasing power at retirement will be lower once inflation is factored in.",
+      "Using an overly optimistic expected annual return for the entire multi-decade period, historical long-term equity returns vary widely and rarely sit at one constant rate every single year.",
+      "Relying solely on the 4% withdrawal rule without adjusting for a longer-than-average retirement, healthcare costs, or a more conservative investment mix after retiring.",
     ],
     relatedSlugs: ["sip-calculator", "compound-interest-calculator", "net-worth-calculator"],
   },
@@ -4678,6 +4934,7 @@ explanation: [
         heading: "Why protein needs vary by activity level and goal",
         paragraphs: [
           "Sedentary individuals need less protein than those who train regularly, since resistance training and higher activity levels increase muscle protein breakdown and the need for repair and growth. Someone aiming to build muscle or lose fat while preserving muscle generally needs more protein per kg than someone simply maintaining their current weight and activity.",
+          "For example, a 70 kg person with an active lifestyle (base 1.4 g/kg) aiming to build muscle (+0.4 g/kg modifier) gets a target of 1.8 g/kg, or 70 × 1.8 = 126 g of protein per day, providing about 504 kcal from protein and roughly 31.5 g per meal across 4 meals.",
         ],
       },
     ],
@@ -4697,6 +4954,11 @@ explanation: [
         answer:
           "No, this tool provides a general estimate based on common fitness guidelines. Consult a registered dietitian or healthcare provider for personalized nutrition advice, especially if you have kidney issues or other medical conditions affected by protein intake.",
       },
+    ],
+    commonMistakes: [
+      "Using total body weight for the calculation when carrying significant excess body fat, protein needs track more closely with lean mass, so a lean body mass estimate can be a better input in that situation.",
+      "Spreading protein unevenly across the day, most research on muscle protein synthesis favors distributing intake across multiple meals rather than one large serving.",
+      "Assuming higher activity always means proportionally higher protein needs without limit, this calculator caps the recommendation at 2.2 g/kg since intake beyond that generally doesn't provide additional benefit.",
     ],
     relatedSlugs: ["calorie-goal-calculator", "bmr-calculator", "ideal-weight-calculator"],
   },
@@ -4777,6 +5039,7 @@ explanation: [
         heading: "How the macro split is calculated",
         paragraphs: [
           "The suggested macro breakdown splits your maintenance TDEE into roughly 30% protein, 40% carbohydrates and 30% fat, a commonly used balanced starting point. Protein and carbohydrates provide about 4 kcal per gram, while fat provides about 9 kcal per gram, which is how the gram amounts are derived from the calorie split.",
+          "For example, a 30-year-old man, 175 cm, 70 kg, moderately active, has a BMR of 1,649 kcal/day and a TDEE of 2,556 kcal/day. To lose about 0.5 kg per week, his target would be roughly 2,056 kcal/day (a 500 kcal deficit), while to gain weight at the same rate his target would be about 3,056 kcal/day. At maintenance, his suggested macro split is roughly 192g protein, 256g carbs and 85g fat.",
         ],
       },
     ],
@@ -4796,6 +5059,11 @@ explanation: [
         answer:
           "Eating at your TDEE is intended to maintain your current weight. Use the weight loss or weight gain targets instead if your goal is to change your body weight, and adjust based on your actual results over a few weeks.",
       },
+    ],
+    commonMistakes: [
+      "Overestimating activity level, choosing 'active' or 'very active' without a genuinely demanding daily routine inflates TDEE and can stall weight loss progress despite following the plan.",
+      "Not adjusting the target over time, TDEE shifts as body weight changes, a figure calculated at the start of a diet becomes progressively less accurate as weight is lost or gained.",
+      "Treating the 30/40/30 macro split as mandatory, it's a reasonable general default, but training style, personal preference and specific goals often justify a different ratio.",
     ],
     relatedSlugs: ["bmr-calculator", "calorie-goal-calculator", "protein-calculator"],
   },
@@ -4838,6 +5106,7 @@ explanation: [
         heading: "Understanding the fertile window",
         paragraphs: [
           "The fertile window spans from about 5 days before ovulation through 1 day after, since sperm can survive in the reproductive tract for up to 5 days while an egg is typically viable for about 24 hours after release. Conception is most likely for intercourse occurring in the 1-2 days leading up to and including ovulation day itself.",
+          "For example, with a last period starting June 1, 2026 and a 28-day average cycle: the next period is expected June 29, 2026 (June 1 + 28 days), so ovulation is estimated 14 days before that, on June 15, 2026. The fertile window then runs from June 10 (5 days before ovulation) through June 16 (1 day after).",
         ],
       },
     ],
@@ -4857,6 +5126,11 @@ explanation: [
         answer:
           "No, this tool is intended for general planning and awareness only. It should not be relied on as a method of contraception, since ovulation timing can vary and this estimate isn't precise enough for that purpose.",
       },
+    ],
+    commonMistakes: [
+      "Using an average or 'textbook' 28-day cycle length instead of your own actual average, cycle length varies significantly between individuals and directly shifts the estimated ovulation date.",
+      "Relying on this estimate alone for contraception, ovulation timing naturally varies cycle to cycle, this tool is intended for planning and awareness, not as a birth control method.",
+      "Ignoring cycle irregularity, if cycles vary widely month to month, a single average-based estimate is much less reliable than tracking methods like basal body temperature or ovulation predictor kits.",
     ],
     relatedSlugs: ["pregnancy-due-date-calculator", "age-calculator", "date-calculator"],
   },
@@ -5111,6 +5385,11 @@ explanation: [
         answer: "If the two values share no common factor other than 1 (they're coprime), the ratio is already in its simplest form, for example 5:7.",
       },
     ],
+    commonMistakes: [
+      "Reading a ratio like 2:3 as a fraction meaning 2 out of 3 total parts, it actually means 2 parts to 3 parts, 5 parts total, so '2 out of 5' is the fraction equivalent, not '2 out of 3'.",
+      "Not scaling decimal values before simplifying, a ratio like 1.5:2 needs to be converted to whole numbers (15:20) first, otherwise the greatest-common-divisor simplification won't work correctly.",
+      "Reversing the order of values, 8:12 (simplifying to 2:3) is not the same ratio as 12:8 (which simplifies to 3:2), order matters and represents which quantity is being compared to which.",
+    ],
     relatedSlugs: ["fraction-calculator", "percentage-calculator", "lcm-calculator"],
   },
   {
@@ -5161,6 +5440,11 @@ explanation: [
         answer: "LCM is the smallest number that all your numbers divide into evenly, useful for tasks like finding a common denominator. GCD is the largest number that divides evenly into all your numbers, useful for simplifying fractions or ratios.",
       },
     ],
+    commonMistakes: [
+      "Confusing LCM with GCD, LCM is always greater than or equal to the largest number entered, while GCD is always less than or equal to the smallest, mixing them up is easy to catch by checking the result against that rule.",
+      "Assuming the LCM of two numbers is just their product, that's only true when the numbers share no common factors, otherwise LCM(a,b) = (a×b) ÷ GCD(a,b) gives a smaller result, for example LCM(4,6) is 12, not 24.",
+      "Entering only one number, both LCM and GCD are relationships between two or more numbers, a single value doesn't have a meaningful LCM or GCD to compute.",
+    ],
     relatedSlugs: ["fraction-calculator", "ratio-calculator", "prime-number-calculator"],
   },
   {
@@ -5200,6 +5484,13 @@ explanation: [
           "Every whole number greater than 1 can be broken down into a unique product of prime numbers, called its prime factorization. This calculator repeatedly divides your number by the smallest possible prime factor until only 1 remains, listing each prime factor found along the way.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For 97: checking primality only requires testing divisors up to √97 ≈ 9.85, so divisors 2 through 9. None of 2, 3, 4, 5, 6, 7, 8 or 9 divide evenly into 97, so 97 is prime, and its prime factorization is just 97 itself. The next prime after 97 is 101 (98, 99 and 100 are all divisible by smaller numbers), and the previous prime is 89.",
+          "For comparison, 60 is not prime: dividing repeatedly by the smallest prime factors gives 60 = 2 × 2 × 3 × 5.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5210,6 +5501,11 @@ explanation: [
         question: "What's the largest number this calculator can check?",
         answer: "This calculator supports positive whole numbers up to 100,000,000. Very large numbers would take too long to check using this method in a browser.",
       },
+    ],
+    commonMistakes: [
+      "Assuming you need to test every number up to your target to check primality, you only need to test divisors up to the square root of the number, since any factor larger than the square root would need a matching factor smaller than it.",
+      "Thinking 2 is not prime because it's even, 2 is the only even prime number, every other even number is divisible by 2 and therefore not prime.",
+      "Treating 0 or negative numbers as valid inputs, primality is only defined for whole numbers greater than 1, this calculator requires a positive whole number.",
     ],
     relatedSlugs: ["lcm-calculator", "quadratic-solver", "fraction-calculator"],
   },
@@ -5251,6 +5547,12 @@ explanation: [
           "The mean is useful for evenly distributed data, but a few extreme values can pull it away from what feels like a 'typical' value, for example, average household income is often much higher than the median due to a small number of very high earners. The median better represents a typical value in data sets with outliers or skewed distributions.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For the data set 4, 8, 6, 8, 15, 23 (6 numbers): the mean is (4+8+6+8+15+23) ÷ 6 = 64 ÷ 6 ≈ 10.67. Sorted, the values are 4, 6, 8, 8, 15, 23; with an even count of 6, the median is the average of the two middle values (8 and 8), which is 8. The mode is 8, since it's the only value that appears more than once (twice). The range is the highest minus the lowest: 23 − 4 = 19.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5262,7 +5564,12 @@ explanation: [
         answer: "Enter numbers separated by commas, spaces, or both, for example '4, 8, 6, 8, 15, 23' or '4 8 6 8 15 23' both work.",
       },
     ],
-    relatedSlugs: ["standard-deviation-calculator", "percentage-calculator"],
+    commonMistakes: [
+      "Forgetting to sort the values before finding the median, the median is the middle value of the sorted list, not the middle entry in whatever order you typed them.",
+      "Averaging the two middle values only when the count is even, and mistakenly doing the same for an odd count, an odd-count data set has one exact middle value, no averaging needed.",
+      "Assuming every data set has a mode, if every value is unique (appears exactly once), there is no mode, that's a valid and common result, not an error.",
+    ],
+    relatedSlugs: ["standard-deviation-calculator", "percentage-calculator", "statistics-calculator"],
   },
   {
     slug: "concrete-calculator",
@@ -5920,6 +6227,7 @@ explanation: [
         heading: "Choosing a diet style",
         paragraphs: [
           "Balanced (30% protein / 40% carbs / 30% fat) suits most general fitness goals. High Protein shifts more calories toward protein, often preferred for muscle building or preserving lean mass in a deficit. Low Carb reduces carbohydrate intake while keeping protein high. Keto is a very low-carb, high-fat split intended to shift metabolism toward ketosis, this is a more restrictive approach and isn't necessary or appropriate for everyone.",
+          "For example, a 30-year-old man, 175 cm, 70 kg, moderately active, aiming to lose weight on a High Protein (40/30/30) diet style gets a daily target of 2,056 kcal, split into 206g protein, 154g carbs and 69g fat.",
         ],
       },
     ],
@@ -5932,6 +6240,11 @@ explanation: [
         question: "Should I follow a keto or low-carb split without medical guidance?",
         answer: "Significant diet changes, especially very low-carb approaches like keto, can affect people differently and may not be appropriate for everyone, particularly those with existing health conditions. Consult a healthcare provider or registered dietitian before making major changes.",
       },
+    ],
+    commonMistakes: [
+      "Switching diet styles frequently without giving any one approach enough time to assess results, most diet styles need several weeks of consistent adherence before their effect on weight or performance is clear.",
+      "Choosing keto or another restrictive split for its perceived speed without considering long-term sustainability, the best diet style is generally the one that can actually be followed consistently.",
+      "Forgetting that this calculator's 500 kcal deficit/surplus is an approximation, actual weekly weight change varies by individual and should be tracked and adjusted based on real results.",
     ],
     relatedSlugs: ["tdee-calculator", "protein-calculator", "calorie-goal-calculator"],
   },
@@ -6040,6 +6353,12 @@ explanation: [
           "If you enter a second event, this calculator treats events A and B as independent (one doesn't affect the other's outcome). P(A and B), the probability both happen, is P(A) × P(B). P(A or B), the probability at least one happens, is P(A) + P(B) − P(A) × P(B), which avoids double-counting the overlap where both occur.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Event A: rolling a 4 on a six-sided die, so 1 favorable outcome out of 6, P(A) = 1/6 ≈ 16.67%. Event B: drawing a heart from a standard 52-card deck, 13 favorable outcomes out of 52, P(B) = 13/52 = 25%. Treating these as independent events: P(A and B) = P(A) × P(B) = 0.1667 × 0.25 ≈ 4.17%. P(A or B) = P(A) + P(B) − P(A)×P(B) = 0.1667 + 0.25 − 0.0417 = 0.375, or 37.5%.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -6050,6 +6369,11 @@ explanation: [
         question: "Is event B required?",
         answer: "No, leave event B's fields at 0 to calculate the probability of event A alone.",
       },
+    ],
+    commonMistakes: [
+      "Using this calculator for dependent events, like drawing two cards from the same deck without replacement, since it assumes independence; dependent events need conditional probability instead, where the second probability changes based on the first outcome.",
+      "Adding P(A) + P(B) to get P(A or B) without subtracting the overlap P(A)×P(B), doing so double-counts the outcomes where both events happen and overstates the combined probability.",
+      "Expressing probability as a raw fraction of favorable-to-unfavorable outcomes (like '1 in 5 chance of failure' meaning 1/5) instead of favorable-to-total outcomes (which would be 1/6 if there are 5 unfavorable and 1 favorable, i.e. 6 total).",
     ],
     relatedSlugs: ["statistics-calculator", "standard-deviation-calculator", "random-number-generator"],
   },
@@ -6102,6 +6426,12 @@ explanation: [
           "Quartiles split the sorted data into four equal parts: Q1 is the value below which 25% of the data falls, and Q3 is the value below which 75% falls. The interquartile range (IQR = Q3 − Q1) captures the spread of the middle 50% of the data and is less sensitive to outliers than the full range.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For the data set 4, 8, 15, 16, 23, 42 (6 numbers, sum 108): mean = 108 ÷ 6 = 18. Sorted, the values are already in order, so the median (average of the two middle values, 15 and 16) is 15.5. Every value is unique, so there's no mode. Range = 42 − 4 = 38. Population variance = 151.6667 and population standard deviation ≈ 12.3153; sample variance (dividing by count−1 = 5 instead of 6) = 182 and sample standard deviation ≈ 13.4907. Q1 ≈ 9.75, Q3 ≈ 21.25, and the interquartile range (Q3 − Q1) is 11.5.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -6112,6 +6442,11 @@ explanation: [
         question: "How is this different from the separate Mean/Median/Mode and Standard Deviation calculators?",
         answer: "This calculator combines everything from both of those tools into one comprehensive result, and adds quartiles, IQR, sum, min and max, useful when you want a full statistical summary of a data set in a single place.",
       },
+    ],
+    commonMistakes: [
+      "Reading the population standard deviation when you meant to use the sample figure (or vice versa), the two rows are both shown, but they answer different questions and can differ noticeably on small data sets.",
+      "Expecting the IQR to be affected by extreme outliers the way the full range is, IQR only looks at the middle 50% of the data, so a single very high or low value barely moves it, that's precisely why it's often preferred for skewed data.",
+      "Assuming Q1 and Q3 always land exactly on a value in your data set, depending on the quartile method and how the count divides, quartiles can fall between two data points, this calculator interpolates in that case.",
     ],
     relatedSlugs: ["mean-median-mode-calculator", "standard-deviation-calculator", "probability-calculator"],
   },
@@ -6186,6 +6521,11 @@ explanation: [
         answer: "More frequent compounding (like daily vs annually) results in a slightly higher future value for the same nominal interest rate, since interest is added to the balance more often and starts earning its own interest sooner.",
       },
     ],
+    commonMistakes: [
+      "Mismatching the compounding frequency selector with the rate actually quoted by a bank or fund, using 'monthly' when the account really compounds daily understates the true future value.",
+      "Forgetting that monthly contributions compound too, mentally estimating growth from the lump sum alone and treating added deposits as if they just accumulate at face value.",
+      "Entering an overly optimistic annual rate for a long time horizon, small rate differences compound into very large gaps in projected future value over 20-30 years.",
+    ],
     relatedSlugs: ["present-value-calculator", "compound-interest-calculator", "sip-calculator", "savings-goal-calculator"],
   },
   {
@@ -6256,6 +6596,11 @@ explanation: [
         answer: "Future Value projects a present amount forward in time; Present Value works backward from a future target to tell you what it's worth (or what you'd need to invest) today.",
       },
     ],
+    commonMistakes: [
+      "Using an unrealistically high discount rate to make a future payout look artificially cheap today, the discount rate should reflect a genuinely achievable return, not a wish.",
+      "Confusing present value with a savings goal, present value tells you the lump sum needed today assuming no further deposits, it isn't the same as a monthly savings target.",
+      "Mismatching the compounding frequency with the rate quoted, since present value shrinks as compounding frequency increases for the same nominal rate.",
+    ],
     relatedSlugs: ["future-value-calculator", "compound-interest-calculator", "savings-goal-calculator"],
   },
   {
@@ -6314,7 +6659,13 @@ explanation: [
         answer: "No, CAGR only looks at the beginning and ending values. Two investments can have the same CAGR but very different levels of volatility along the way.",
       },
     ],
+    commonMistakes: [
+      "Confusing CAGR with the average of yearly percentage returns, arithmetic averaging overstates true growth whenever returns are volatile, CAGR is the geometric measure that accounts for compounding correctly.",
+      "Comparing CAGR figures across investments held for very different time periods without noting that a short, lucky window can produce a misleadingly high CAGR.",
+      "Assuming a strong historical CAGR will continue at the same rate going forward, CAGR describes what happened, not a guaranteed future rate.",
+    ],
     relatedSlugs: ["roi-calculator", "investment-return-calculator", "compound-interest-calculator"],
+    relatedPostSlugs: ["cagr-vs-average-annual-return"],
   },
   {
     slug: "investment-return-calculator",
@@ -6355,6 +6706,11 @@ explanation: [
         question: "What happens if my ending balance is unrealistic for the inputs given?",
         answer: "The calculator searches within a wide but bounded range of annual returns (roughly -99% to +1000%). If your ending balance falls outside what's achievable in that range, it will let you know so you can double-check your inputs.",
       },
+    ],
+    commonMistakes: [
+      "Entering the total amount contributed (initial plus all deposits) as the ending balance instead of the actual current account value, this calculator solves for return using the true ending balance, not your running contribution total.",
+      "Forgetting that irregular contributions, skipped months, changed amounts, aren't modeled here; the solved rate assumes a perfectly consistent monthly contribution.",
+      "Mistaking the solved annualized rate for a guaranteed future return rather than a backward-looking description of what already happened to this specific account.",
     ],
     relatedSlugs: ["cagr-calculator", "roi-calculator", "sip-calculator", "compound-interest-calculator"],
   },
@@ -6424,7 +6780,13 @@ explanation: [
         answer: "Yes, when interest compounds only once a year, APY and the nominal rate (APR) are exactly the same, since there's no additional compounding within the year to create a difference.",
       },
     ],
+    commonMistakes: [
+      "Comparing a bank's advertised APY directly against a loan's advertised APR as if they measure the same thing, APY is the effective post-compounding yield, APR is typically the nominal pre-compounding rate.",
+      "Assuming a higher compounding frequency always makes a meaningfully bigger difference, in practice the gap between monthly and daily compounding at typical savings rates is usually just a few hundredths of a percent.",
+      "Forgetting that APY quoted by a bank can change over time on variable-rate accounts, the number entered here is only accurate for the rate in effect right now.",
+    ],
     relatedSlugs: ["compound-interest-calculator", "simple-interest-calculator", "savings-goal-calculator"],
+    relatedPostSlugs: ["apy-vs-apr-difference"],
   },
   {
     slug: "rule-of-72-calculator",
@@ -6495,6 +6857,11 @@ explanation: [
         answer: "For years to double: ln(2) ÷ ln(1 + r), where r is the annual rate as a decimal. For required rate: (2^(1/years) − 1) × 100. These come directly from the compound growth formula rather than the Rule of 72 approximation.",
       },
     ],
+    commonMistakes: [
+      "Applying the Rule of 72 at very high or very low interest rates, the approximation drifts noticeably outside the roughly 6-10% range where it was calibrated to be accurate.",
+      "Using the rule for simple (non-compounding) interest, the Rule of 72 is specifically a compound-growth shortcut and overstates doubling speed under simple interest.",
+      "Forgetting the rule ignores fees, taxes, and inflation, an investment 'doubling' in nominal terms may show far less real growth in purchasing power.",
+    ],
     relatedSlugs: ["compound-interest-calculator", "cagr-calculator", "future-value-calculator"],
   },
   {
@@ -6562,6 +6929,11 @@ explanation: [
         question: "Why does a lower residual value increase my payment?",
         answer: "A lower residual value means the vehicle is expected to depreciate more over the lease term, and that depreciation is what you're paying for through the monthly depreciation fee, so more depreciation means a higher payment.",
       },
+    ],
+    commonMistakes: [
+      "Comparing lease offers by monthly payment alone without checking the money factor and residual value, two leases with identical payments can have very different total costs depending on term length and cap cost reduction.",
+      "Rolling a large down payment into a lease to lower the monthly payment, if the vehicle is totaled or the lease ends early, that upfront money is generally not recoverable the way it would be with a loan down payment building equity.",
+      "Ignoring mileage limits and excess-wear charges when comparing a lease to buying, these fees can add substantially to the total lease cost beyond what this calculator estimates.",
     ],
     relatedSlugs: ["auto-loan-calculator", "loan-calculator", "amortization-schedule-calculator"],
   },
@@ -6635,6 +7007,11 @@ explanation: [
         answer: "No, this calculator assumes a standard fixed monthly payment over your chosen term. Income-driven repayment plans adjust your payment based on income and family size, which follows different math entirely.",
       },
     ],
+    commonMistakes: [
+      "Treating an unsubsidized loan's grace period as free, interest keeps accruing the whole time, and capitalization at repayment means you end up paying interest on interest.",
+      "Only looking at the monthly payment when comparing a longer versus shorter repayment term, longer terms lower payments but substantially increase total lifetime interest.",
+      "Forgetting to factor in multiple loans, each with a different rate and balance, this calculator projects one loan at a time and won't automatically combine several.",
+    ],
     relatedSlugs: ["loan-calculator", "amortization-schedule-calculator", "extra-payment-calculator"],
   },
   {
@@ -6675,6 +7052,11 @@ explanation: [
         question: "Why does salary growth matter for the projection?",
         answer: "Since your contribution and your employer's match are both calculated as a percentage of salary, a rising salary means both grow in dollar terms over time, meaningfully increasing your projected balance compared to assuming a flat salary.",
       },
+    ],
+    commonMistakes: [
+      "Contributing less than the full employer match percentage, that unclaimed match is essentially free money left on the table every single paycheck.",
+      "Assuming this projection accounts for IRS annual contribution limits, it doesn't, so high earners or high contribution percentages may hit real-world caps this tool won't flag.",
+      "Ignoring vesting schedules, some employer match dollars aren't fully yours until you've worked a certain number of years, this calculator assumes the full match is retained.",
     ],
     relatedSlugs: ["retirement-calculator", "compound-interest-calculator", "savings-goal-calculator"],
   },
@@ -6722,6 +7104,11 @@ explanation: [
         answer: "A Roth IRA is funded with after-tax money and grows tax-free. A Traditional IRA is funded with pre-tax money (an immediate deduction) but withdrawals are taxed in retirement. Use our Traditional IRA Calculator to compare the two based on your current and expected retirement tax rates.",
       },
     ],
+    commonMistakes: [
+      "Ignoring the annual Roth IRA contribution limit and income phase-out rules, this calculator doesn't enforce either, so overstating your allowed annual contribution will inflate the projection.",
+      "Using too high a tax rate for the taxable comparison account, overstating the taxable account's drag and making the Roth advantage look larger than it would realistically be.",
+      "Forgetting that early withdrawals of Roth IRA earnings (not contributions) before age 59½ can trigger taxes and penalties, this calculator assumes qualified, untouched growth to retirement.",
+    ],
     relatedSlugs: ["401k-calculator", "compound-interest-calculator", "savings-interest-calculator", "traditional-ira-calculator"],
   },
   {
@@ -6763,6 +7150,11 @@ explanation: [
         question: "Does this account for taxes or investment fees?",
         answer: "No, this calculator uses your entered expected annual return as a net figure. If your actual returns will be reduced by fees or taxes on gains, use a lower expected return to get a more realistic estimate.",
       },
+    ],
+    commonMistakes: [
+      "Underestimating annual expenses by using current spending instead of expected retirement spending, healthcare, travel, or lost employer benefits can change the number significantly.",
+      "Using a withdrawal rate that's too aggressive for a very long retirement horizon, someone retiring in their 30s or 40s may need a rate closer to 3% to 3.5% rather than the traditional 4%.",
+      "Not revisiting the FIRE number periodically, rising expenses, inflation, or lifestyle changes mean the target should be recalculated rather than set once and forgotten.",
     ],
     relatedSlugs: ["retirement-calculator", "401k-calculator", "savings-goal-calculator"],
   },
@@ -6824,6 +7216,11 @@ explanation: [
         question: "Do I need to enter a new salary?",
         answer: "No, it's optional. Leave it blank or at 0 to simply see what your old salary is worth in today's dollars, without comparing it to a specific new salary.",
       },
+    ],
+    commonMistakes: [
+      "Comparing a raise to inflation using just the nominal percentage, as the worked example shows, a 20% raise during a period of near-20% inflation can leave real purchasing power almost unchanged.",
+      "Using a national average inflation rate when personal cost-of-living increases (housing, childcare, healthcare) have risen faster than the headline number in your specific situation.",
+      "Applying a single flat inflation rate across a period that actually had very uneven year-to-year inflation, this calculator assumes a constant average rate, not the real historical path.",
     ],
     relatedSlugs: ["inflation-calculator", "salary-calculator", "cagr-calculator"],
   },
@@ -6887,6 +7284,11 @@ explanation: [
         question: "How is this different from the Compound Interest Calculator?",
         answer: "The Compound Interest Calculator projects growth on a single lump sum with no ongoing deposits and no tax. This calculator adds both: optional monthly deposits and an optional annual tax on interest earned, better reflecting an actual savings account you contribute to over time.",
       },
+    ],
+    commonMistakes: [
+      "Comparing a savings account's advertised rate directly to a tax-advantaged account's return without applying a tax rate here first, that's not an apples-to-apples comparison.",
+      "Leaving the tax rate at 0 by default and forgetting it later, which quietly overstates the realistic ending balance for a standard taxable account.",
+      "Assuming interest tax is only owed when money is withdrawn, in most jurisdictions interest in a regular taxable account is taxed as it's earned each year, not when it's later withdrawn.",
     ],
     relatedSlugs: ["compound-interest-calculator", "apy-calculator", "roth-ira-calculator"],
   },
@@ -6965,6 +7367,11 @@ explanation: [
         answer: "No, it assumes you're paid for 52 weeks a year at the schedule you enter. If you have unpaid leave, adjust your inputs accordingly for a more accurate annual figure.",
       },
     ],
+    commonMistakes: [
+      "Confusing biweekly (26 pay periods) with semi-monthly (24 pay periods), since 26 and 24 are different numbers, treating them as interchangeable produces a noticeably wrong per-paycheck figure.",
+      "Forgetting to adjust hours or days per week for a part-time schedule, the default 40-hour, 5-day assumptions only apply to a standard full-time role.",
+      "Overlooking that this tool assumes 52 fully paid weeks, unpaid time off, seasonal layoffs, or reduced schedules will make actual annual income lower than the projection.",
+    ],
     relatedSlugs: ["hourly-wage-calculator", "salary-calculator", "commission-calculator"],
   },
   {
@@ -7027,6 +7434,11 @@ explanation: [
         question: "Why is paid weeks per year adjustable?",
         answer: "Not everyone is paid for a full 52 weeks, unpaid leave, seasonal work, or specific contract terms can mean fewer paid weeks. Adjust this figure to get an annual estimate that matches your actual work schedule.",
       },
+    ],
+    commonMistakes: [
+      "Assuming all overtime pays 1.5x by default without checking local labor law or a specific employment contract, some jurisdictions and roles use different thresholds or multipliers.",
+      "Entering overtime hours as part of regular hours instead of separately, which understates true earnings since the overtime premium never gets applied.",
+      "Using this calculator's gross pay figures as take-home pay, taxes, benefits deductions and withholdings aren't factored in here.",
     ],
     relatedSlugs: ["annual-income-calculator", "salary-calculator", "commission-calculator"],
   },
@@ -7091,6 +7503,11 @@ explanation: [
         answer: "This calculator supports one threshold and one bonus rate. For commission structures with three or more tiers, you'd need to calculate each tier's contribution separately and add them together.",
       },
     ],
+    commonMistakes: [
+      "Applying the bonus rate to the full sales amount instead of just the portion above the threshold, as the worked example shows, only the excess over quota earns the richer rate.",
+      "Forgetting draws or clawbacks, some commission plans advance pay against future commission or claw back commission on cancelled sales, neither of which this calculator models.",
+      "Comparing a commission-heavy offer to a salary-only offer using only the commission figure, without factoring in the base salary and realistic sales variability from month to month.",
+    ],
     relatedSlugs: ["hourly-wage-calculator", "annual-income-calculator", "salary-calculator"],
   },
   {
@@ -7139,6 +7556,7 @@ explanation: [
         heading: "Why lean body mass matters",
         paragraphs: [
           "Lean body mass is often used as a more accurate basis than total body weight for things like protein intake recommendations, medication dosing, and tracking body composition changes during training, since two people at the same weight can have very different amounts of muscle versus fat, and it's often the lean mass that's more relevant to these calculations.",
+          "For example, a man 175 cm tall weighing 70 kg has an estimated lean body mass of 0.407 × 70 + 0.267 × 175 − 19.2 = 56.0 kg, leaving about 14.0 kg of estimated fat mass, or a lean mass percentage of 80%.",
         ],
       },
     ],
@@ -7155,6 +7573,11 @@ explanation: [
         question: "How is this different from the Body Fat Calculator?",
         answer: "The Body Fat Calculator estimates your body fat percentage directly from circumference measurements (neck, waist, hip). This calculator estimates lean mass from height and weight alone, using a different formula that doesn't require any circumference measurements.",
       },
+    ],
+    commonMistakes: [
+      "Treating the Boer formula's estimate as precise enough for clinical decisions, it's a population-based approximation from height and weight alone, not a substitute for DEXA or hydrostatic measurement when precision actually matters.",
+      "Using this figure interchangeably with the Body Fat Calculator's result without realizing they come from entirely different formulas, small discrepancies between the two are expected, not a sign either is wrong.",
+      "Not accounting for very muscular or very lean individuals, height-and-weight-only formulas like Boer's are less accurate at the extremes of muscle mass than for an average build.",
     ],
     relatedSlugs: ["body-fat-calculator", "bmi-calculator", "protein-calculator"],
   },
@@ -7193,6 +7616,7 @@ explanation: [
         heading: "Mosteller vs DuBois formula",
         paragraphs: [
           "The Mosteller formula, BSA = √((height (cm) × weight (kg)) ÷ 3600), is simpler to compute and is commonly the default in modern clinical calculators. The DuBois & DuBois formula, BSA = 0.007184 × height (cm)^0.725 × weight (kg)^0.425, dates back to 1916 and remains widely referenced. The two formulas typically produce very similar results, within a few percent of each other.",
+          "For example, for a height of 175 cm and weight of 70 kg: Mosteller gives √((175 × 70) ÷ 3600) = √3.403 ≈ 1.84 m², while DuBois gives 0.007184 × 175^0.725 × 70^0.425 ≈ 1.85 m², within 0.01 m² of each other.",
         ],
       },
     ],
@@ -7209,6 +7633,11 @@ explanation: [
         question: "Is this calculator a substitute for medical dosing calculations?",
         answer: "No, this tool is for general informational purposes only. Any medication dosing based on BSA should always be calculated and verified by a qualified healthcare professional.",
       },
+    ],
+    commonMistakes: [
+      "Using this estimate directly for medication dosing without clinical verification, actual dosing protocols require a healthcare provider to confirm the figure and apply the correct drug-specific dosing formula.",
+      "Assuming Mosteller and DuBois will always agree closely, the two formulas can diverge more noticeably at unusual height-to-weight combinations, like very tall, low-weight individuals.",
+      "Confusing body surface area with skin surface area measured directly, both formulas are mathematical estimates from height and weight, not direct measurements.",
     ],
     relatedSlugs: ["bmi-calculator", "lean-body-mass-calculator", "ideal-weight-calculator"],
   },
@@ -7258,6 +7687,7 @@ explanation: [
         heading: "Why WHR is used alongside, not instead of, BMI",
         paragraphs: [
           "BMI doesn't capture where fat is distributed on the body, two people with identical BMI can have very different WHR, and therefore very different associated health risk. WHR is best used as a complementary measure alongside BMI, not a replacement for it, since each captures something the other misses.",
+          "For example, a man with an 85 cm waist and a 100 cm hip circumference has a WHR of 85 ÷ 100 = 0.85. Since the male thresholds classify below 0.90 as Low Risk, 0.90 to 0.99 as Moderate Risk, and 1.00 or above as High Risk, a WHR of 0.85 falls in the Low Risk category.",
         ],
       },
     ],
@@ -7274,6 +7704,11 @@ explanation: [
         question: "Is this different from the Waist-to-Height Ratio Calculator?",
         answer: "Yes, waist-to-hip ratio compares your waist to your hip circumference, while waist-to-height ratio compares your waist to your height. Both are fat-distribution screening measures, but they use different reference points and different risk thresholds.",
       },
+    ],
+    commonMistakes: [
+      "Measuring waist and hip at inconsistent points between check-ins, moving where the tape is placed session to session introduces variation that has nothing to do with actual body composition change.",
+      "Applying the male risk thresholds to a female measurement or vice versa, the WHO thresholds used here are gender-specific and produce a meaningfully different risk category if swapped.",
+      "Treating WHR as a full risk assessment on its own, it's a screening measure meant to complement BMI and other factors, not replace a healthcare provider's broader evaluation.",
     ],
     relatedSlugs: ["waist-to-height-ratio-calculator", "bmi-calculator", "body-fat-calculator"],
   },
@@ -7312,6 +7747,7 @@ explanation: [
         heading: "Why some research favors WHtR over BMI",
         paragraphs: [
           "Because WHtR directly reflects abdominal fat relative to body size, some studies suggest it may be a better predictor of cardiovascular and metabolic risk than BMI, and it applies a single simple threshold (0.5) reasonably consistently across different heights, unlike BMI, which uses more complex category boundaries.",
+          "For example, someone with an 85 cm waist and a height of 175 cm has a WHtR of 85 ÷ 175 ≈ 0.49, just under the 0.5 threshold, placing them in the Healthy category (0.40 to 0.49) under the bands used here.",
         ],
       },
     ],
@@ -7328,6 +7764,11 @@ explanation: [
         question: "Does this replace a doctor's assessment?",
         answer: "No, this is a general screening tool. Speak with a healthcare professional for a full assessment of your individual health risk, especially if you have other risk factors or existing health conditions.",
       },
+    ],
+    commonMistakes: [
+      "Measuring waist inconsistently between check-ins, at the belt line one time and at the navel another, small placement differences shift the ratio enough to change the category near a threshold.",
+      "Treating the 0.5 threshold as a hard medical cutoff rather than a general population guideline, individual risk depends on many factors beyond this single ratio.",
+      "Using outdated height, height can change slightly with age or posture; re-measuring periodically keeps the ratio accurate.",
     ],
     relatedSlugs: ["waist-to-hip-ratio-calculator", "bmi-calculator", "body-fat-calculator"],
   },
@@ -7387,6 +7828,7 @@ explanation: [
         heading: "Checking against Army body fat standards",
         paragraphs: [
           "The U.S. Army (under AR 600-9) sets maximum allowable body fat percentages that vary by age group and gender, tightening slightly less as age increases. This calculator checks your estimated body fat percentage against your age group's maximum, giving a pass/fail-style result. These figures are commonly cited standards, always confirm against the current official regulation for any official purpose.",
+          "For example, a 25-year-old man, 178 cm tall, with a 38 cm neck and 85 cm waist, has an estimated body fat of 16.5% using the tape-test formula. Since the male maximum for the 21-27 age bracket used here is 22%, this result meets the standard.",
         ],
       },
     ],
@@ -7403,6 +7845,11 @@ explanation: [
         question: "Why do the age brackets matter?",
         answer: "Body fat naturally tends to increase somewhat with age even at a stable fitness level, so the Army's standards allow a slightly higher maximum body fat percentage for older age brackets rather than applying one flat standard to everyone.",
       },
+    ],
+    commonMistakes: [
+      "Comparing this tape-test result directly against a percentage from a different method (like the Navy/Siri body fat formula), the two formulas are mathematically distinct and won't produce identical numbers for the same person.",
+      "Assuming these age-bracket maximums are current without checking, official Army body composition standards are periodically revised, always confirm against the current regulation for anything official.",
+      "Measuring circumferences inconsistently between check-ins, small differences in tape placement or tension shift the result enough to flip a borderline pass/fail outcome.",
     ],
     relatedSlugs: ["body-fat-calculator", "lean-body-mass-calculator", "bmi-calculator"],
   },
@@ -7459,6 +7906,7 @@ explanation: [
         heading: "Why body weight affects the result so much",
         paragraphs: [
           "Heavier bodies require more energy to move, so for the same activity and duration, a heavier person burns more calories than a lighter person, this is built directly into the MET formula through the weight term. This is also why calorie burn estimates from generic charts (that don't account for your specific weight) are less accurate than a formula-based calculation like this one.",
+          "For example, running has a MET value around 9.8. A 70 kg person running for 30 minutes (0.5 hours) burns roughly 9.8 × 70 × 0.5 ≈ 343 kcal, or about 686 kcal per hour at that pace.",
         ],
       },
     ],
@@ -7475,6 +7923,11 @@ explanation: [
         question: "Does this account for afterburn (calories burned after exercise ends)?",
         answer: "No, this calculator estimates calories burned during the activity itself. Intense exercise can elevate metabolism for a period afterward (sometimes called EPOC), which isn't included in this estimate.",
       },
+    ],
+    commonMistakes: [
+      "Treating the MET value as fixed regardless of intensity, running at an easy jog versus a hard sprint have very different true MET values, even though both are labeled 'running' here.",
+      "Forgetting this estimate is for the activity period only, it doesn't include any elevated post-exercise calorie burn (afterburn/EPOC) from more intense sessions.",
+      "Using a single calorie-burned figure to justify a matching food reward, calorie estimates from exercise are approximate and easy to overestimate relative to actual intake needs.",
     ],
     relatedSlugs: ["bmr-calculator", "tdee-calculator", "target-heart-rate-calculator"],
   },
@@ -7514,6 +7967,7 @@ explanation: [
         paragraphs: [
           "The Karvonen method calculates target heart rate using your heart rate reserve (the gap between your maximum and resting heart rate), rather than a flat percentage of max heart rate alone: Target HR = ((Max HR − Resting HR) × Intensity %) + Resting HR. Max heart rate is estimated as 220 minus your age.",
           "This matters because two people of the same age share the same estimated max heart rate, but if one has a resting heart rate of 55 (very fit) and the other 75 (less fit), their heart rate reserves, and therefore their target ranges for the same relative effort, are meaningfully different.",
+          "For example, a 30-year-old with a resting heart rate of 65 bpm has an estimated max heart rate of 190 bpm and a heart rate reserve of 190 − 65 = 125 bpm. At a 50-85% intensity range, the target zone is ((125 × 0.50) + 65) = 128 bpm on the low end and ((125 × 0.85) + 65) = 171 bpm on the high end.",
         ],
       },
       {
@@ -7536,6 +7990,11 @@ explanation: [
         question: "Why use the Karvonen method instead of a flat percentage of max heart rate?",
         answer: "The Karvonen method accounts for your individual resting heart rate, giving a more personalized target range. Two people with the same max heart rate but different fitness levels (and therefore different resting heart rates) will get different, more individually appropriate target ranges under Karvonen than under a flat max-heart-rate-percentage method.",
       },
+    ],
+    commonMistakes: [
+      "Using a resting heart rate measured after coffee, exercise, or stress, rather than a true resting reading taken first thing in the morning before getting out of bed, this can meaningfully skew the heart rate reserve.",
+      "Treating the 220-minus-age max heart rate estimate as exact, actual max heart rate varies by individual and this formula is a population average.",
+      "Training in the same intensity zone for every session, varying intensity across the week (mostly lower zones with some higher-intensity work) is generally more effective than staying in one zone constantly.",
     ],
     relatedSlugs: ["heart-rate-zone-calculator", "calories-burned-calculator", "bmr-calculator"],
   },
@@ -7573,6 +8032,7 @@ explanation: [
         heading: "How one-rep max is estimated",
         paragraphs: [
           "Since maxing out on every lift isn't practical or safe for most training, one-rep max (1RM) is commonly estimated from a lighter set taken close to failure. This calculator uses two widely cited formulas: Epley, 1RM = Weight × (1 + Reps ÷ 30), and Brzycki, 1RM = Weight × (36 ÷ (37 − Reps)). The two formulas tend to agree closely at low rep counts and diverge somewhat at higher reps, which is why both are shown alongside their average.",
+          "For example, lifting 100 for 5 reps: Epley gives 100 × (1 + 5 ÷ 30) = 100 × 1.167 = 116.7, while Brzycki gives 100 × (36 ÷ (37 − 5)) = 100 × 1.125 = 112.5. The average of the two is 114.6, and 80% of that estimated max is about 91.7.",
         ],
       },
       {
@@ -7595,6 +8055,11 @@ explanation: [
         question: "Should I actually attempt a true 1RM to check this estimate?",
         answer: "That's a personal training decision best made with appropriate experience, warm-up and, ideally, a spotter. Many lifters find estimated 1RM from submaximal sets is perfectly sufficient for programming purposes without needing to test a true max.",
       },
+    ],
+    commonMistakes: [
+      "Estimating from a set that wasn't actually close to failure, the formulas assume the entered reps represent close to maximum effort at that weight, a set with several reps left in reserve produces an inflated 1RM estimate.",
+      "Using a very high rep count (above about 10-12) for the estimate, both formulas become progressively less reliable outside their originally studied rep ranges.",
+      "Re-testing 1RM (real or estimated) too frequently, strength changes gradually, testing every session adds fatigue without meaningfully new information.",
     ],
     relatedSlugs: ["bmr-calculator", "lean-body-mass-calculator", "protein-calculator"],
   },
@@ -7633,6 +8098,7 @@ explanation: [
         heading: "How pace and speed are calculated",
         paragraphs: [
           "Pace is your total time divided by distance, expressed as minutes and seconds per kilometer or per mile. Speed is the inverse relationship, distance divided by time, expressed in kilometers or miles per hour. This calculator computes both directly from the distance and finish time you enter, converting between kilometers and miles using the standard factor of 1.60934 km per mile.",
+          "For example, running 5 km in 25 minutes flat gives a pace of exactly 5:00 min/km (25 ÷ 5), which converts to about 8:03 min/mile, or a speed of 12 km/h (5 km ÷ (25/60) hours), about 7.46 mph.",
         ],
       },
       {
@@ -7655,6 +8121,11 @@ explanation: [
         question: "Can I use this for walking or cycling too?",
         answer: "Yes, the pace and speed math is the same regardless of activity, though for cycling, speed (km/h or mph) is typically the more commonly used figure rather than pace.",
       },
+    ],
+    commonMistakes: [
+      "Entering hours, minutes and seconds inconsistently, for example putting a total minute count above 60 into the minutes field, throws off the total time and therefore the pace calculation.",
+      "Confusing average pace over a whole run with the pace at any single moment, a negative-split or variable-effort run can have very different actual per-kilometer splits than the flat average shown here.",
+      "Mixing up min/km and min/mile when comparing to a training plan or race goal, always confirm which unit the plan uses before applying this calculator's pace target.",
     ],
     relatedSlugs: ["walking-calories-calculator", "calories-burned-calculator", "target-heart-rate-calculator"],
   },
@@ -7690,6 +8161,7 @@ explanation: [
         heading: "Why walking pace changes the calorie estimate",
         paragraphs: [
           "Walking's metabolic demand varies meaningfully with speed, a slow stroll and brisk power walking are quite different in energy cost, even over the same distance and duration category. This calculator first works out your average speed from the distance and time you provide, then selects a MET (Metabolic Equivalent of Task) value that matches that specific pace: roughly 2.0 for under 2 mph, 2.8 for 2-3 mph, 3.5 for 3-4 mph, 5.0 for 4-4.5 mph, and 7.0 for brisk power walking above 4.5 mph.",
+          "For example, a 70 kg person walking 3 km in 40 minutes averages 4.5 km/h (about 2.8 mph), which selects a MET of 2.8, giving an estimated calorie burn of about 131 kcal for the walk.",
         ],
       },
       {
@@ -7712,6 +8184,11 @@ explanation: [
         question: "Is this more accurate than the general Calories Burned Calculator for walking specifically?",
         answer: "Yes, for walking specifically, since it adjusts the MET value to your actual measured pace rather than using one fixed value for all walking regardless of speed.",
       },
+    ],
+    commonMistakes: [
+      "Including rest stops in the total duration, pausing during a walk (without pausing the timer) lowers the calculated average speed and understates the true walking-only MET and calorie burn.",
+      "Ignoring incline or terrain, this calculator assumes flat, level ground, walking uphill or on soft terrain burns meaningfully more than these flat-ground MET values suggest.",
+      "Using this tool's result interchangeably with the general Calories Burned Calculator's flat 'walking' MET, the two can give different answers by design since this one adjusts to actual measured pace.",
     ],
     relatedSlugs: ["calories-burned-calculator", "running-pace-calculator", "bmr-calculator"],
   },
@@ -7759,12 +8236,14 @@ explanation: [
         paragraphs: [
           "This calculator uses the Widmark formula, a standard method for estimating BAC: BAC = (total alcohol consumed in grams ÷ (body weight in grams × distribution ratio)) × 100, minus the alcohol eliminated over time at a typical average rate of about 0.015% per hour. The distribution ratio (0.68 for men, 0.55 for women, on average) reflects that alcohol distributes through body water, and body water proportion differs between sexes on average.",
           "A standard drink is commonly defined as containing about 14 grams of pure alcohol (roughly a 12 oz beer, a 5 oz glass of wine, or a 1.5 oz shot of spirits in the US), adjustable if you're measuring differently.",
+          "For example, a 75 kg man who has had 3 standard drinks (3 × 14 = 42 grams of alcohol) over the last 2 hours: raw BAC = (42 ÷ (75,000 × 0.68)) × 100 = (42 ÷ 51,000) × 100 ≈ 0.0824%. Subtracting elimination of 0.015 × 2 = 0.03% over those 2 hours gives an estimated BAC of about 0.052%, in the 'Mild Impairment' range.",
         ],
       },
       {
         heading: "Important safety note",
         paragraphs: [
           "This calculator provides a rough mathematical estimate only. Actual BAC is affected by many factors this formula cannot fully account for, including food intake, drinking rate, medications, individual metabolism, and body composition, and it is not a reliable way to determine whether it's safe for you or anyone else to drive or perform other tasks requiring sobriety. Never use this or any BAC estimate as the basis for deciding to drive; when in doubt, don't.",
+          "There is no BAC number from this or any calculator that makes it safe to drive after drinking. The only safe approach is to not drink and drive at all: arrange a designated driver, rideshare, taxi, or public transit before you start drinking, not after, regardless of what number this tool shows.",
         ],
       },
     ],
@@ -7774,6 +8253,10 @@ explanation: [
         answer: "No. This is a rough estimate for educational purposes only, individual factors can cause your actual BAC to differ meaningfully from this estimate. Never use a BAC calculator, this one or any other, to decide whether it's safe to drive.",
       },
       {
+        question: "What's the safest approach if I've been drinking and need to get somewhere?",
+        answer: "There is no BAC number, from this calculator or any other source, that makes driving after drinking safe. The only safe option is not to drive at all: use a rideshare, taxi, public transit, or a designated driver who hasn't been drinking. Plan this before you start drinking, not after, regardless of how low this tool's estimate looks.",
+      },
+      {
         question: "What counts as a 'standard drink'?",
         answer: "In the US, a standard drink is generally defined as about 14 grams of pure alcohol, roughly a 12 oz regular beer, a 5 oz glass of wine, or a 1.5 oz shot of distilled spirits. This can be adjusted in the calculator if your drinks are stronger, weaker, or a different size.",
       },
@@ -7781,6 +8264,12 @@ explanation: [
         question: "Why does gender affect the estimate?",
         answer: "The Widmark formula's distribution ratio reflects average differences in body water percentage between men and women, which affects how alcohol distributes through the body, though individual variation within each gender is significant.",
       },
+    ],
+    commonMistakes: [
+      "Using any BAC number, including this estimate, to decide whether it's safe to drive, no calculated BAC makes driving after drinking safe; the only safe choice is a designated driver, rideshare, taxi, or public transit, arranged before drinking starts.",
+      "Treating this estimate as a reliable way to judge impairment generally, individual factors (food intake, medications, drinking rate, metabolism) can shift real BAC well away from this rough estimate in either direction.",
+      "Assuming BAC declines instantly once drinking stops, elimination proceeds at a roughly constant rate per hour, not immediately, so BAC can still be rising for a while after the last drink as absorption catches up.",
+      "Using a generic 14g standard drink size for a drink that's actually stronger or larger, cocktails, craft beers, and generous pours often contain meaningfully more alcohol than a standard reference drink.",
     ],
     relatedSlugs: ["bmi-calculator", "lean-body-mass-calculator", "bmr-calculator"],
   },
@@ -7825,6 +8314,7 @@ explanation: [
         heading: "How gain-to-date is estimated",
         paragraphs: [
           "If you enter your current week, this calculator estimates a recommended gain-to-date by applying a small, roughly consistent first-trimester gain (about 0.5-2 kg, regardless of BMI category, following common guidance) and then spreading the remainder of your recommended total gain evenly across the following weeks. This is a simplified linear approximation, actual recommended gain per week can vary somewhat by trimester and individual circumstances, so use it as a general guide rather than an exact target.",
+          "For example, a pre-pregnancy height of 165 cm and weight of 62 kg gives a BMI of about 22.8, in the Normal Weight category, so the recommended total gain range is 11.5 to 16 kg. At week 20, the estimated recommended gain-to-date falls between about 3.4 and 5.6 kg.",
         ],
       },
     ],
@@ -7841,6 +8331,11 @@ explanation: [
         question: "Does this account for twins or multiple pregnancies?",
         answer: "No, these ranges are based on IOM guidance for a single pregnancy. Recommended gain for twins or other multiples is generally higher and should be discussed directly with your healthcare provider.",
       },
+    ],
+    commonMistakes: [
+      "Using current weight instead of pre-pregnancy weight for the BMI calculation, this shifts the BMI category and therefore the entire recommended gain range.",
+      "Treating the gain-to-date estimate as a precise weekly target, actual healthy weight gain isn't perfectly linear, it's normal for gain to be slower in the first trimester and faster later on.",
+      "Comparing personal weight gain directly against these general population ranges without factoring in individual circumstances, always discuss unusual patterns with a healthcare provider rather than self-diagnosing from this tool alone.",
     ],
     relatedSlugs: ["bmi-calculator", "pregnancy-week-calculator", "pregnancy-due-date-calculator"],
   },
@@ -7890,6 +8385,7 @@ explanation: [
         heading: "How this differs from our other pregnancy calculators",
         paragraphs: [
           "This calculator is focused on 'what week am I in right now', supporting either an LMP or due date starting point. Our Pregnancy Due Date Calculator only accepts an LMP date directly. Our Due Date Reverse Calculator, meanwhile, is a pure reference tool: given a due date, it reconstructs your estimated LMP, conception date and trimester start dates without referencing today's date at all, useful for looking up your full timeline rather than tracking current progress.",
+          "For example, if exactly 143 days (20 weeks and 3 days) have passed since the first day of your last menstrual period, you're in week 20, day 3, in your second trimester (which starts at week 14), with about 20 weeks remaining until your estimated due date, 280 days after your LMP.",
         ],
       },
     ],
@@ -7906,6 +8402,11 @@ explanation: [
         question: "Which trimester am I in?",
         answer: "This calculator uses the common convention of weeks 1-13 as the first trimester, 14-26 as the second, and 27 onward as the third, though exact boundaries are sometimes defined slightly differently between sources.",
       },
+    ],
+    commonMistakes: [
+      "Entering the due date when the tool's LMP mode is still selected (or vice versa), the mode toggle changes what the date field means, and mismatching them shifts every downstream result by up to a couple of weeks.",
+      "Treating 'weeks remaining' as a countdown to a guaranteed delivery date, most healthy pregnancies deliver anywhere from 37 to 42 weeks, not precisely at 40.",
+      "Assuming trimester boundaries are universally agreed upon, some sources define them slightly differently (for example by month rather than week), so a week or two of difference near a boundary is normal.",
     ],
     relatedSlugs: ["pregnancy-due-date-calculator", "due-date-reverse-calculator", "pregnancy-weight-gain-calculator"],
   },
@@ -7938,6 +8439,7 @@ explanation: [
         heading: "Working backward from a due date",
         paragraphs: [
           "Due dates are conventionally calculated as 280 days (40 weeks) after the last menstrual period (LMP), so this calculator reverses that: subtracting 280 days from your due date to estimate your LMP. From there, it adds roughly 14 typical days to estimate a conception date, and adds 13 and 27 weeks respectively to estimate when the second and third trimesters began or will begin.",
+          "For example, for a due date of March 15, 2027: the estimated LMP is 280 days earlier, June 8, 2026. Estimated conception is 14 days after that, June 22, 2026. The second trimester is estimated to start 13 weeks (91 days) after the LMP, September 7, 2026, and the third trimester 27 weeks (189 days) after the LMP, December 14, 2026.",
         ],
       },
       {
@@ -7960,6 +8462,11 @@ explanation: [
         question: "Is this the same as the Pregnancy Week Calculator's due date mode?",
         answer: "They share the same underlying 280-day math, but this calculator focuses on reconstructing your full estimated timeline (LMP, conception, trimester start dates) as a reference, while the Pregnancy Week Calculator focuses on your current week, day and trimester relative to today.",
       },
+    ],
+    commonMistakes: [
+      "Confusing this reverse calculator with the forward-calculating Pregnancy Due Date Calculator, this tool starts from a known due date and works backward to estimate LMP and conception, the other starts from your LMP and works forward to a due date.",
+      "Treating the reconstructed LMP and conception dates as precise facts rather than estimates, they're derived from the standard 280-day/14-day assumptions and can be off by a week or more if your actual cycle or ovulation timing differed from average.",
+      "Plugging in an actual birth date instead of the original estimated due date, since most babies aren't born exactly on their due date, doing this shifts every reconstructed date (LMP, conception, trimester starts) away from what was actually true during the pregnancy.",
     ],
     relatedSlugs: ["pregnancy-week-calculator", "pregnancy-due-date-calculator", "fertility-window-calculator"],
   },
@@ -7996,6 +8503,7 @@ explanation: [
         heading: "The calendar (rhythm) method",
         paragraphs: [
           "This calculator uses the calendar method, a well-established approach for estimating a fertile window when cycles vary in length: fertile window start = last period start date + (shortest recent cycle − 18 days), and fertile window end = last period start date + (longest recent cycle − 11 days). Using your shortest and longest cycle from the past 6-12 months, rather than a single average cycle length, widens the estimated window to account for month-to-month variability.",
+          "For example, with a last period starting June 1, 2026, a shortest recent cycle of 26 days, and a longest of 31 days: the fertile window starts June 1 + (26 − 18) = 8 days later, June 9, 2026, and ends June 1 + (31 − 11) = 20 days later, June 21, 2026, a 13-day window reflecting that cycle variability.",
         ],
       },
       {
@@ -8018,6 +8526,11 @@ explanation: [
         question: "Is the calendar method as accurate as ovulation predictor kits?",
         answer: "Generally no, ovulation predictor kits (which detect a hormone surge directly) or basal body temperature tracking tend to be more precise for a given cycle. The calendar method is a useful planning estimate based on your historical pattern, not a direct real-time measurement.",
       },
+    ],
+    commonMistakes: [
+      "Entering only 1-2 months of cycle data instead of the recommended 6-12, a short tracking window risks missing your true shortest and longest cycle, narrowing the estimated window inaccurately.",
+      "Using this method for contraception, the calendar method produces a planning estimate, not a reliable way to avoid pregnancy, and shouldn't be relied on for that purpose.",
+      "Forgetting to update the shortest/longest cycle inputs over time, cycle patterns can shift due to age, stress, or health changes, stale cycle data produces a stale window estimate.",
     ],
     relatedSlugs: ["ovulation-calculator", "pregnancy-due-date-calculator", "due-date-reverse-calculator"],
   },
@@ -8045,6 +8558,12 @@ explanation: [
           "These are by far the most commonly needed sizes for coursework, introductory linear algebra, and quick manual checks. Larger matrices are typically handled with dedicated computational software rather than manual entry, since the number of cells to enter grows quickly with size.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For Matrix A = [[1, 2], [3, 4]] and Matrix B = [[5, 6], [7, 8]]: addition gives [[1+5, 2+6], [3+7, 4+8]] = [[6, 8], [10, 12]]. Multiplication (row-by-column) gives [[1×5+2×7, 1×6+2×8], [3×5+4×7, 3×6+4×8]] = [[19, 22], [43, 50]]. The determinant of A alone is (1×4) − (2×3) = 4 − 6 = −2, and its transpose swaps rows and columns to give [[1, 3], [2, 4]].",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8060,7 +8579,12 @@ explanation: [
         answer: "No, only addition, subtraction and multiplication use Matrix B. Determinant and transpose only operate on Matrix A, so Matrix B's fields are hidden for those operations.",
       },
     ],
-    relatedSlugs: ["scientific-calculator", "quadratic-equation-solver", "statistics-calculator"],
+    commonMistakes: [
+      "Multiplying matrices entry-by-entry like addition, matrix multiplication uses the row-by-column dot product rule instead, so A×B ≠ [[1×5, 2×6], [3×7, 4×8]], that pattern is a common but incorrect shortcut.",
+      "Assuming matrix multiplication is commutative (A×B = B×A), it generally isn't, order matters and multiplying in the reverse order typically produces a different result.",
+      "Forgetting that only square matrices (equal rows and columns) have a determinant, and that this calculator's determinant and transpose operations act on Matrix A only, changes to Matrix B won't affect those results.",
+    ],
+    relatedSlugs: ["scientific-calculator", "quadratic-solver", "statistics-calculator"],
   },
   {
     slug: "gcf-calculator",
@@ -8097,6 +8621,12 @@ explanation: [
           "GCF and LCM (Least Common Multiple) answer opposite kinds of questions: GCF finds the largest number that divides into your numbers, while LCM finds the smallest number that all your numbers divide into. Our LCM Calculator computes both figures together if you need them side by side.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For 24, 36 and 60: the Euclidean algorithm first finds GCF(24, 36) = 12, then finds GCF(12, 60) = 12 (since 12 divides evenly into 60). So the GCF of all three numbers is 12, the largest number that divides evenly into 24, 36 and 60 with no remainder.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8111,6 +8641,11 @@ explanation: [
         question: "Can I enter more than two numbers?",
         answer: "Yes, enter as many numbers as you'd like, separated by commas or spaces, and this calculator will find the GCF across all of them at once.",
       },
+    ],
+    commonMistakes: [
+      "Confusing GCF with LCM, GCF is always less than or equal to the smallest number entered, while LCM is always greater than or equal to the largest, checking a result against that rule catches most mix-ups.",
+      "Listing out every factor by hand for large numbers, this gets slow and error-prone quickly, the Euclidean algorithm this calculator uses finds the GCF in a handful of steps regardless of how large the numbers are.",
+      "Entering non-whole or negative numbers, GCF is only defined for positive whole numbers, this calculator requires all entries to be positive integers.",
     ],
     relatedSlugs: ["lcm-calculator", "prime-factorization-calculator", "fraction-calculator"],
   },
@@ -8150,6 +8685,12 @@ explanation: [
           "Prime factorization is the basis for finding a number's GCF and LCM with other numbers, simplifying fractions, and various topics in number theory and cryptography. It's also a common way to check whether a number is 'nice' for a particular calculation, for example, a number with only small prime factors divides evenly by many things.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For 360: dividing repeatedly by the smallest possible prime gives 360 = 2 × 2 × 2 × 3 × 3 × 5, that's six prime factors as a plain list. Grouping the repeated factors gives the more compact exponent form: 2³ × 3² × 5.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8164,6 +8705,11 @@ explanation: [
         question: "Is there a limit to how large a number I can enter?",
         answer: "This calculator supports numbers up to 100,000,000. Beyond that, factorization by trial division becomes impractically slow.",
       },
+    ],
+    commonMistakes: [
+      "Stopping the factorization too early, every prime factor needs to be pulled out completely (all three 2s in 360, not just one) before moving to the next prime, otherwise the factorization won't multiply back to the original number.",
+      "Confusing the plain factor list with the exponent form, 2 × 2 × 2 × 3 × 3 × 5 and 2³ × 3² × 5 represent the exact same factorization, just written differently, one isn't more 'correct' than the other.",
+      "Entering 1 or a non-whole number, prime factorization is only defined for whole numbers greater than 1, since 1 has no prime factors at all.",
     ],
     relatedSlugs: ["prime-number-calculator", "gcf-calculator", "lcm-calculator"],
   },
@@ -8203,6 +8749,12 @@ explanation: [
           "The key distinction is whether order matters: permutations count arrangements (1st-2nd-3rd place is different from 2nd-1st-3rd), while combinations count selections regardless of order (a committee of 3 people is the same group no matter what order they were chosen in). Our Combination Calculator handles the order-doesn't-matter case.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For n = 10, r = 3: nPr = n! ÷ (n−r)! = 10! ÷ 7!, which simplifies to just the first 3 terms of 10!: 10 × 9 × 8 = 720. So there are 720 different ways to award 1st, 2nd and 3rd place among 10 competitors.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8217,6 +8769,11 @@ explanation: [
         question: "Can r be larger than n?",
         answer: "No, you can't arrange more items than exist in the set, so r must be less than or equal to n.",
       },
+    ],
+    commonMistakes: [
+      "Using this calculator when order doesn't actually matter for your situation, like picking a committee, that's a combination (nCr), not a permutation, and will overcount how many distinct outcomes there really are.",
+      "Trying to compute full factorials for large n by hand, this calculator computes nPr as a running product of only r terms rather than full factorials, so it stays accurate and fast even for large n without needing n! itself.",
+      "Entering r greater than n, you can't select and arrange more items than exist in the set, this calculator requires r to be less than or equal to n.",
     ],
     relatedSlugs: ["combination-calculator", "binomial-calculator", "probability-calculator"],
   },
@@ -8256,6 +8813,12 @@ explanation: [
           "Since combinations don't distinguish between different orderings of the same group, nCr is always nPr divided by r! (the number of ways to reorder r items). This is exactly why choosing a committee (120 ways) produces a smaller count than arranging medal positions (720 ways) from the same 10 people and group size of 3.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For n = 10, r = 3: nCr = n! ÷ (r! × (n−r)!) = 10! ÷ (3! × 7!). This calculator computes it more efficiently via the multiplicative form: (10 × 9 × 8) ÷ (3 × 2 × 1) = 720 ÷ 6 = 120. So there are 120 different 3-person committees possible from a group of 10 people, exactly 6 times fewer than the 720 permutations, since each group of 3 can be ordered 3! = 6 different ways.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8270,6 +8833,11 @@ explanation: [
         question: "What if r is 0?",
         answer: "nCr with r=0 always equals 1, there's exactly one way to choose nothing from any set (the empty selection).",
       },
+    ],
+    commonMistakes: [
+      "Using this calculator when the order of selection actually does matter for your situation, like assigning distinct roles or ranks, that's a permutation (nPr), not a combination, and will undercount the distinct outcomes.",
+      "Forgetting that nCr counts unique groups, not unique orderings, so a committee of Alice, Bob and Carol is the same single combination no matter which order they were selected in.",
+      "Entering r greater than n, you can't choose more items than exist in the set, this calculator requires r to be less than or equal to n.",
     ],
     relatedSlugs: ["permutation-calculator", "binomial-calculator", "probability-calculator"],
   },
@@ -8314,6 +8882,12 @@ explanation: [
           "The binomial distribution applies when you have a fixed number of independent trials, each with only two possible outcomes (success or failure), and the same probability of success on every trial, classic examples include counting heads in a series of coin flips, or counting defective items in a batch where each item independently has the same defect probability.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For n = 10 coin flips, p = 50% chance of heads per flip, k = 6: the exact probability of getting precisely 6 heads is P(X=6) = C(10,6) × 0.5⁶ × 0.5⁴ ≈ 20.51%. The cumulative probability of getting 6 or fewer heads, P(X≤6), sums the exact probabilities for 0 through 6 heads, giving about 82.81%. The expected (mean) number of heads is n × p = 10 × 0.5 = 5, and the standard deviation is √(n×p×(1−p)) = √(10×0.5×0.5) = √2.5 ≈ 1.58.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8328,6 +8902,11 @@ explanation: [
         question: "Does this work if the probability of success changes between trials?",
         answer: "No, the binomial distribution specifically assumes the same success probability on every trial. If probabilities vary trial to trial, a different (non-binomial) model is needed.",
       },
+    ],
+    commonMistakes: [
+      "Confusing exact probability P(X=k) with cumulative probability P(X≤k), the exact probability of precisely 6 heads out of 10 flips is about 20.5%, but the probability of 6 or fewer heads is much higher, about 82.8%, since it includes every outcome from 0 through 6.",
+      "Using the binomial distribution for trials that aren't actually independent or don't share the same success probability, like drawing cards from a deck without replacement, that changes the probability on each draw and needs a different (hypergeometric) model.",
+      "Entering the probability as a decimal (0.5) instead of a percentage (50), this calculator's probability field expects a percentage between 0 and 100.",
     ],
     relatedSlugs: ["combination-calculator", "probability-calculator", "statistics-calculator"],
   },
@@ -8367,6 +8946,12 @@ explanation: [
           "Raising a negative number to a fractional exponent doesn't always produce a real number result, for example, (−4)^0.5 would be the square root of a negative number, which isn't a real number. This calculator will let you know when a combination you've entered has no real number result.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "2^10 = 2×2×2×2×2×2×2×2×2×2 = 1024, ten repeated multiplications by the base. 2^(−3) is the reciprocal of 2^3: 1 ÷ (2×2×2) = 1 ÷ 8 = 0.125. And 16^0.5 (a fractional exponent of 1/2) means the square root of 16, which is 4.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8381,6 +8966,11 @@ explanation: [
         question: "What does a decimal exponent like 0.5 mean?",
         answer: "A decimal exponent represents a root, base^0.5 is the same as the square root of the base, base^(1/3) (approximately 0.333) is the cube root, and so on, following the general rule base^(1/n) equals the nth root of the base.",
       },
+    ],
+    commonMistakes: [
+      "Treating a negative exponent as making the result negative, it doesn't, base^(−n) is a reciprocal (1 ÷ base^n), which stays positive for a positive base, for example 2^(−3) = 0.125, not −8.",
+      "Expecting a real number result from a negative base raised to a non-integer exponent, like (−4)^0.5, that's the square root of a negative number, which has no real number result, this calculator will flag it rather than silently returning something misleading.",
+      "Mixing up base and exponent order when reading a formula, base^exponent means the base multiplied by itself exponent times, not the other way around, 2^10 (1024) is very different from 10^2 (100).",
     ],
     relatedSlugs: ["logarithm-calculator", "scientific-notation-calculator", "scientific-calculator"],
   },
@@ -8420,6 +9010,12 @@ explanation: [
           "The common logarithm uses base 10 (written log(x) without a base, often used in fields like chemistry for pH, and acoustics for decibels). The natural logarithm uses base e (approximately 2.71828, written ln(x)), which arises naturally in calculus, continuous compound growth, and many scientific formulas. To calculate a natural log with this calculator, enter 2.71828 as the base, or simply use base 10 for a common log.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "log_10(100) asks 'to what power must 10 be raised to get 100?', the answer is 2, since 10² = 100. Similarly, log_2(8) asks the same question with base 2: 2³ = 8, so log_2(8) = 3. This calculator finds both using the change-of-base formula: log_2(8) = ln(8) ÷ ln(2) ≈ 2.0794 ÷ 0.6931 = 3.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8434,6 +9030,11 @@ explanation: [
         question: "How is this related to exponents?",
         answer: "Logarithms and exponents are inverse operations, if b^y = x, then log_b(x) = y. Our Exponent Calculator handles the forward direction (calculating a power); this calculator handles the reverse.",
       },
+    ],
+    commonMistakes: [
+      "Entering a negative number or zero as the value, logarithms of non-positive numbers are undefined in the real number system, this calculator requires a value greater than zero.",
+      "Forgetting what base to use for 'log' versus 'ln' in a textbook problem, plain 'log' conventionally means base 10 unless stated otherwise, while 'ln' always means the natural log (base e ≈ 2.71828), enter the matching base here to get the equivalent result.",
+      "Mixing up which number is the value and which is the base, log_2(8) and log_8(2) are reciprocals of each other (3 versus roughly 0.333), not the same number, so it matters which field each number goes into.",
     ],
     relatedSlugs: ["exponent-calculator", "scientific-notation-calculator", "scientific-calculator"],
   },
@@ -8488,6 +9089,12 @@ explanation: [
           "To convert a decimal to scientific notation, this calculator finds how many places the decimal point needs to move to leave exactly one non-zero digit before it, that count becomes the exponent. To convert scientific notation back to a decimal, it simply multiplies the coefficient by 10 raised to the given exponent.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 6,020,000,000 to scientific notation: the decimal point needs to move 9 places to the left to leave a single digit (6) before it, so the exponent is 9 and the coefficient is 6.02, giving 6.02 × 10^9. Going the other direction, converting 6.02 × 10^9 back to a decimal multiplies 6.02 by 10^9 (1,000,000,000), giving back 6,020,000,000.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8502,6 +9109,11 @@ explanation: [
         question: "Is this the same as engineering notation?",
         answer: "No, engineering notation is a close cousin that restricts exponents to multiples of 3 (aligning with metric prefixes like kilo, mega, milli), while standard scientific notation used here allows any integer exponent.",
       },
+    ],
+    commonMistakes: [
+      "Entering a coefficient outside the 1-to-10 range, like 60.2 × 10^8 instead of 6.02 × 10^9, that's mathematically equal but not standard scientific notation, which requires exactly one non-zero digit before the decimal point.",
+      "Getting the sign of the exponent backwards, large numbers (greater than 10) use a positive exponent, while small numbers (less than 1) use a negative exponent, mixing these up produces a wildly different magnitude.",
+      "Miscounting how many places the decimal point moved, especially for numbers with many trailing or leading zeros, double-check by counting digits between the original decimal point's position and its new position after the leading digit.",
     ],
     relatedSlugs: ["exponent-calculator", "logarithm-calculator", "scientific-calculator"],
   },
@@ -8542,6 +9154,12 @@ explanation: [
           "Percent error assumes one of the two values (the accepted value) is authoritative, a known standard your measurement is being checked against. Our Percentage Difference Calculator instead compares two values symmetrically, with neither treated as more correct than the other, appropriate when you're simply comparing two measurements or estimates as peers.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Measuring gravitational acceleration as 9.8 m/s² against the accepted value of 9.81 m/s²: the absolute error is |9.8 − 9.81| = 0.01. Dividing by the accepted value and converting to a percentage: (0.01 ÷ 9.81) × 100 ≈ 0.1019%, meaning the measurement is off from the accepted value by about one-tenth of one percent.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8556,6 +9174,11 @@ explanation: [
         question: "What if I don't have a known 'accepted' value?",
         answer: "If you're just comparing two values without either being an authoritative standard, use our Percentage Difference Calculator instead, which doesn't require designating one value as more correct than the other.",
       },
+    ],
+    commonMistakes: [
+      "Dividing by the measured value instead of the accepted value, percent error is always calculated relative to the accepted (true) value specifically, dividing by the wrong one gives a different, incorrect percentage.",
+      "Using percent error when neither value is actually a known standard, if you're comparing two peer measurements or estimates with neither being authoritative, use the Percentage Difference Calculator instead.",
+      "Assuming a small percent error always means the measurement is 'good enough', acceptable error thresholds vary enormously by field, a rough classroom experiment and a precision manufacturing process have very different standards for what counts as accurate.",
     ],
     relatedSlugs: ["percentage-difference-calculator", "percentage-calculator", "standard-deviation-calculator"],
   },
@@ -8596,6 +9219,12 @@ explanation: [
           "Use percentage difference when comparing two values as equal peers, neither is a 'before' state nor a known correct standard, for example, comparing two competitors' prices, or two lab samples measured under similar conditions. If one value is a starting point being changed into another (like a salary before and after a raise), our Percentage Calculator's percentage change mode is more appropriate. If one value is a known accepted standard being checked against a measurement, use our Percent Error Calculator instead.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Comparing two values, 40 and 50: the absolute difference is |40 − 50| = 10, and the average of the two is (40 + 50) ÷ 2 = 45. Percentage difference = (10 ÷ 45) × 100 ≈ 22.22%. Notice this differs from a percentage change from 40 to 50, which would be (10 ÷ 40) × 100 = 25%, because percentage change divides by the starting value specifically rather than the average of both.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8610,6 +9239,11 @@ explanation: [
         question: "Does this work with negative values?",
         answer: "This calculator expects non-negative values, since the standard percentage difference formula is best defined for positive quantities. For values that can be negative or represent a directional change, percentage change (available in our Percentage Calculator) is more appropriate.",
       },
+    ],
+    commonMistakes: [
+      "Confusing percentage difference with percentage change, percentage difference divides by the average of both values and is symmetric (order doesn't matter), while percentage change divides by the starting value specifically and is directional, these can give noticeably different results for the same two numbers.",
+      "Treating percentage difference as capable of showing direction (increase vs decrease), it can't, the result is always a non-negative magnitude of how far apart two values are, not which one is bigger.",
+      "Using this calculator when one value is actually a known correct standard, in that case percent error (dividing by the accepted value specifically) is the more appropriate and conventional choice.",
     ],
     relatedSlugs: ["percent-error-calculator", "percentage-calculator", "ratio-calculator"],
   },
@@ -8649,6 +9283,12 @@ explanation: [
           "This calculator is intentionally simple, just the average, sum and count, for whenever you need that figure quickly without a broader statistical breakdown. Our Mean, Median & Mode Calculator and Statistics Calculator both include this same average figure as part of a more comprehensive set of results, useful if you need median, mode, standard deviation or other measures at the same time.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For the numbers 12, 18, 25 and 30: the sum is 12 + 18 + 25 + 30 = 85, and dividing by the count of 4 gives an average of 85 ÷ 4 = 21.25.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8663,6 +9303,11 @@ explanation: [
         question: "How is this different from the Statistics Calculator?",
         answer: "This tool shows only the average (plus sum and count) for a quick, focused result. The Statistics Calculator computes a full set of descriptive statistics at once, including median, mode, standard deviation, variance and quartiles.",
       },
+    ],
+    commonMistakes: [
+      "Treating the average as automatically representative of a 'typical' value, a few extreme outliers can pull the average noticeably away from what most of the data actually looks like, the median is often a better measure of typical value when outliers are present.",
+      "Forgetting to include every value when computing by hand, the average requires dividing by the full count of numbers entered, leaving one out (even a repeated value) changes both the sum and the count.",
+      "Mixing up sum and average, the sum is the total of all values added together, the average divides that total by how many values there are, they answer different questions.",
     ],
     relatedSlugs: ["median-calculator", "mean-median-mode-calculator", "statistics-calculator"],
   },
@@ -8702,6 +9347,12 @@ explanation: [
           "Unlike the average (mean), the median isn't pulled by extreme outliers, a single very large or very small value barely affects it, since only the middle position matters, not the actual magnitude of every value. This is why median is often used for figures like household income or home prices, where a few extreme values could otherwise skew the average significantly.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For the numbers 12, 18, 25, 30 and 45 (5 values, an odd count, already sorted): the median is simply the single middle value, 25, with two values below it and two above it. If a sixth value were added, say 50 (making 12, 18, 25, 30, 45, 50), the median would instead be the average of the two middle values, 25 and 30: (25 + 30) ÷ 2 = 27.5.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -8716,6 +9367,11 @@ explanation: [
         question: "How is this different from the Statistics Calculator?",
         answer: "This tool shows only the median (plus count and sorted list) for a quick, focused result. The Statistics Calculator computes a full set of descriptive statistics at once, including mean, mode, standard deviation, variance and quartiles.",
       },
+    ],
+    commonMistakes: [
+      "Finding the middle value of the unsorted list, the median depends on sorted order, not the order values were typed in, this calculator sorts automatically, but doing it by hand requires sorting first.",
+      "Forgetting to average the two middle values for an even-count data set, and instead picking just one of them, an even count has no single middle value, so both middle values need to be averaged.",
+      "Assuming median and average will always be close together, they can differ substantially in skewed data sets, that gap is actually informative, a large difference between the two often signals the presence of outliers pulling the average away from the typical value.",
     ],
     relatedSlugs: ["average-calculator", "mean-median-mode-calculator", "statistics-calculator"],
   },
@@ -13279,6 +13935,11 @@ explanation: [
         answer: "It varies widely by industry. Retail and grocery often run on thin margins of a few percent, while software and services businesses often see margins of 20% or more. Compare against your specific industry rather than a universal benchmark.",
       },
     ],
+    commonMistakes: [
+      "Confusing net profit margin with gross margin, net margin subtracts every expense, while gross margin only subtracts cost of goods sold, using the wrong one when comparing businesses skews the comparison.",
+      "Comparing net margin across industries without adjusting for structural differences, a thin-margin grocery business and a high-margin software business are not directly comparable on this figure alone.",
+      "Forgetting to include one-time or non-operating expenses in total expenses, leaving them out inflates net profit margin above what the business's ongoing operations actually support.",
+    ],
     relatedSlugs: ["gross-margin-calculator", "roi-calculator", "breakeven-calculator"],
   },
   {
@@ -13329,6 +13990,11 @@ explanation: [
         question: "What's a healthy gross margin?",
         answer: "It depends heavily on industry. Software businesses often see gross margins above 70%, while retailers and manufacturers often run between 20% and 50%. Compare against similar businesses in your sector.",
       },
+    ],
+    commonMistakes: [
+      "Including indirect costs like rent, marketing, or admin salaries in COGS, which artificially depresses gross margin, COGS should only cover the direct cost of producing what was sold.",
+      "Confusing gross margin with markup, a 40% markup on cost is not the same percentage as a 40% gross margin, the two are calculated from different bases.",
+      "Tracking gross margin without also tracking gross margin trend over time, a single snapshot can look fine while the underlying trend is quietly eroding.",
     ],
     relatedSlugs: ["profit-margin-calculator", "markup-calculator", "breakeven-calculator"],
   },
@@ -13389,7 +14055,12 @@ explanation: [
         answer: "Revenue is optional and only used to calculate EBITDA margin (EBITDA as a percentage of revenue). Leave it blank if you only need the EBITDA figure itself.",
       },
     ],
-    relatedSlugs: ["business-valuation-calculator", "profit-margin-calculator"],
+    commonMistakes: [
+      "Treating EBITDA as equivalent to free cash flow, EBITDA ignores capital expenditures and changes in working capital, both of which can consume significant real cash.",
+      "Using EBITDA alone to compare companies without also checking debt levels, EBITDA excludes interest expense, so a heavily leveraged company can look deceptively similar to an unleveraged one on this metric alone.",
+      "Applying an industry-average valuation multiple to EBITDA without adjusting for company-specific risk factors, growth rate, or customer concentration.",
+    ],
+    relatedSlugs: ["business-valuation-calculator", "profit-margin-calculator", "cash-flow-calculator"],
   },
   {
     slug: "inventory-turnover-calculator",
@@ -13443,7 +14114,12 @@ explanation: [
         answer: "Days to sell inventory is 365 divided by the turnover ratio. A turnover ratio of 10 means inventory sits for roughly 36.5 days on average before being sold.",
       },
     ],
-    relatedSlugs: ["inventory-days-calculator", "working-capital-calculator"],
+    commonMistakes: [
+      "Using ending inventory alone instead of the average of beginning and ending inventory, which can distort the ratio if inventory levels swing significantly during the period.",
+      "Comparing turnover ratios across very different industries, grocery, fashion, and heavy equipment all have naturally different 'normal' turnover rates.",
+      "Chasing an artificially high turnover ratio by understocking, which can hurt sales through stockouts even though the ratio itself looks better.",
+    ],
+    relatedSlugs: ["inventory-days-calculator", "working-capital-calculator", "cash-flow-calculator"],
   },
   {
     slug: "inventory-days-calculator",
@@ -13497,7 +14173,12 @@ explanation: [
         answer: "It depends heavily on the industry. Perishable-goods retailers often aim for single-digit DIO, while manufacturers of durable goods commonly run 60-90 days or more. Compare against similar businesses rather than a fixed target.",
       },
     ],
-    relatedSlugs: ["inventory-turnover-calculator", "working-capital-calculator"],
+    commonMistakes: [
+      "Reading a rising DIO in isolation as automatically bad, sometimes it reflects intentional stockpiling ahead of a demand surge or supply disruption rather than a problem.",
+      "Mixing annual COGS with a shorter inventory measurement period (like a single month), producing a DIO figure that doesn't reflect either period accurately.",
+      "Ignoring seasonality, a retailer's DIO calculated right after a holiday inventory build-up will look very different than one calculated after peak selling season.",
+    ],
+    relatedSlugs: ["inventory-turnover-calculator", "working-capital-calculator", "cash-flow-calculator"],
   },
   {
     slug: "working-capital-calculator",
@@ -13548,7 +14229,12 @@ explanation: [
         answer: "A current ratio between 1.5 and 3 is often considered healthy, though this varies by industry. A ratio below 1 can indicate difficulty covering short-term obligations, while a very high ratio may suggest assets aren't being used efficiently.",
       },
     ],
-    relatedSlugs: ["cash-flow-calculator", "inventory-turnover-calculator"],
+    commonMistakes: [
+      "Treating negative working capital as automatically alarming, some business models (subscriptions, grocery retailers collecting cash before paying suppliers) run normally on low or negative working capital.",
+      "Including illiquid or slow-moving inventory in current assets at full face value, overstating actual short-term liquidity.",
+      "Looking at working capital as a single snapshot rather than tracking the trend, a steadily shrinking figure is a more useful early warning sign than one low reading.",
+    ],
+    relatedSlugs: ["cash-flow-calculator", "inventory-turnover-calculator", "net-worth-calculator"],
   },
   {
     slug: "cash-flow-calculator",
@@ -13598,7 +14284,12 @@ explanation: [
         answer: "Not necessarily. A company could show positive net cash flow simply by taking on debt (financing activity) while its core operations lose cash. It's worth checking each of the three components, not just the total.",
       },
     ],
-    relatedSlugs: ["working-capital-calculator", "net-worth-calculator"],
+    commonMistakes: [
+      "Forgetting to enter outflows as negative numbers, mixing signs makes the net total meaningless rather than just directionally off.",
+      "Focusing only on the net total instead of the three components, as the FAQ notes, positive overall cash flow propped up entirely by financing (debt) while operations bleed cash is a very different story than positive operating cash flow.",
+      "Confusing net cash flow with net profit, a profitable business on paper (accrual accounting) can still have negative cash flow if customers pay slowly or inventory ties up cash.",
+    ],
+    relatedSlugs: ["working-capital-calculator", "net-worth-calculator", "business-valuation-calculator"],
   },
   {
     slug: "invoice-due-date-calculator",
@@ -13649,7 +14340,12 @@ explanation: [
         answer: "No, it adds calendar days, not business days, which matches how most standard payment terms (Net 30, Net 60, etc.) are defined.",
       },
     ],
-    relatedSlugs: ["date-calculator", "working-days-calculator"],
+    commonMistakes: [
+      "Assuming payment terms use business days when most standard terms like Net 30 are defined in calendar days, using working-day logic would push the due date later than it actually is.",
+      "Overlooking early-payment discount terms like '2/10 Net 30', which have two dates that matter, the discount deadline and the full-payment due date, not just one.",
+      "Forgetting time zone or invoice timestamp nuances for invoices issued near midnight, which can shift the effective due date by a day in edge cases.",
+    ],
+    relatedSlugs: ["date-calculator", "working-days-calculator", "business-hours-calculator"],
   },
   {
     slug: "business-valuation-calculator",
@@ -13699,7 +14395,12 @@ explanation: [
         answer: "SDE (Seller's Discretionary Earnings) adds back the owner's salary and personal benefits on top of EBITDA, and is typically used for smaller, owner-operated businesses. EBITDA is more common for larger businesses with professional management already in place.",
       },
     ],
-    relatedSlugs: ["ebitda-calculator", "roi-calculator"],
+    commonMistakes: [
+      "Applying an industry-average multiple without adjusting for the specific business's growth rate, customer concentration, or owner dependency, real multiples vary widely even within the same industry.",
+      "Using unadjusted net income instead of SDE or EBITDA, which fails to add back the owner's salary, one-time expenses, and other discretionary items buyers typically normalize for.",
+      "Treating this as a precise valuation rather than a rough starting estimate, actual sale prices depend heavily on deal structure, due diligence findings, and negotiation.",
+    ],
+    relatedSlugs: ["ebitda-calculator", "roi-calculator", "profit-margin-calculator"],
   },
   {
     slug: "cgpa-calculator",
@@ -14021,6 +14722,7 @@ explanation: [
         paragraphs: [
           "This calculator works backward from your maximum allowed monthly housing payment, income × your target debt-to-income ratio, minus existing debts, to solve for the largest loan (and home price) whose combined principal, interest, property tax and insurance payment fits that budget.",
           "It accounts for the fact that a higher home price means a higher property tax bill, so the loan amount and the tax estimate are solved together rather than one being an afterthought.",
+          "For example, with 90,000 annual income, no existing monthly debts, a 40,000 down payment, 6.5% interest over 30 years, 1.2% property tax, 1,200 annual insurance, and a 36% max DTI, this calculator caps the estimated monthly PITI payment at 2,700, which supports a maximum home price of about 389,694.28 (a 349,694.28 loan plus the 40,000 down payment).",
         ],
       },
       {
@@ -14039,6 +14741,11 @@ explanation: [
         question: "Does this include HOA fees or PMI?",
         answer: "No, this estimates principal, interest, property tax and homeowners insurance only. If your property has HOA dues or you'll need private mortgage insurance (PMI, typically required with under 20% down), factor those into your own budget separately.",
       },
+    ],
+    commonMistakes: [
+      "Using a maximum DTI limit as a spending target rather than a ceiling, being approved for the maximum doesn't mean it's comfortable once other expenses, savings goals, and irregular costs are factored in.",
+      "Forgetting HOA fees and PMI, which aren't included here, on a low down payment purchase PMI alone can meaningfully raise the true monthly payment beyond this estimate.",
+      "Using a rough property tax rate estimate for the wrong location, property tax rates vary significantly by city and county, and materially affect the maximum affordable home price.",
     ],
     relatedSlugs: ["mortgage-calculator", "down-payment-calculator", "dti-calculator"],
   },
@@ -14092,6 +14799,11 @@ explanation: [
         question: "Should I use gross or net income?",
         answer: "Use gross (pre-tax) income, that's what these standard rent-to-income guidelines are based on and what most rental applications ask for.",
       },
+    ],
+    commonMistakes: [
+      "Using net (take-home) income instead of gross income, since these guidelines and most landlord screening criteria are based on gross pay, using net income understates what's typically allowed.",
+      "Forgetting utilities, renters insurance, and parking fees when budgeting off the recommended max rent figure, those add-ons can meaningfully raise total monthly housing cost beyond just the rent line.",
+      "Treating 30% as a hard rule rather than a general benchmark, actual comfortable spending depends on the rest of your budget and cost of living in your specific area.",
     ],
     relatedSlugs: ["dti-calculator", "budget-calculator", "house-affordability-calculator"],
   },
@@ -14153,6 +14865,11 @@ explanation: [
         answer: "When you finance part of the purchase with a mortgage at a lower rate than the property's cap rate, leverage amplifies your return on the cash you actually put in, this is often called 'positive leverage.'",
       },
     ],
+    commonMistakes: [
+      "Underestimating operating expenses, forgetting a vacancy allowance, maintenance reserve, or property management fee makes cash flow and returns look better than they'll actually be.",
+      "Comparing cap rates across very different markets without adjusting for risk, a higher cap rate in a declining market isn't automatically a better deal than a lower cap rate in a stable one.",
+      "Ignoring that cash-on-cash return only reflects year one, it doesn't account for rent growth, appreciation, or how the numbers change once the mortgage is eventually paid off.",
+    ],
     relatedSlugs: ["mortgage-calculator", "roi-calculator", "cash-flow-calculator"],
   },
   {
@@ -14208,6 +14925,11 @@ explanation: [
         question: "Why is the APR here different from what my lender quoted?",
         answer: "Official APR calculations (regulated under TILA in the US) include a precisely defined set of fees, and rounding conventions can vary slightly. This calculator gives a close estimate based on the fees you enter, but always confirm the official APR disclosure from your lender.",
       },
+    ],
+    commonMistakes: [
+      "Comparing a stated interest rate on one offer against another offer's APR, that's not apples-to-apples, always compare rate-to-rate or APR-to-APR, not one of each.",
+      "Assuming a lower stated rate is automatically the cheaper loan, as the explanation shows, high fees can push APR above a competing offer's headline rate.",
+      "Forgetting APR assumes you keep the loan for its full term, if you plan to sell or refinance early, upfront fees are spread over fewer years than APR assumes, making the true cost per year higher.",
     ],
     relatedSlugs: ["mortgage-calculator", "loan-calculator", "mortgage-refinance-calculator"],
   },
@@ -14268,6 +14990,11 @@ explanation: [
         answer: "Usually not. Lenders typically limit combined borrowing to 80-85% of your home's value, so your actual approved loan amount is likely less than your full calculated equity.",
       },
     ],
+    commonMistakes: [
+      "Treating available equity as automatically approved credit, actual lending limits depend on CLTV caps, credit profile and income, not just the raw math of value minus mortgage balance.",
+      "Forgetting that a home equity loan is secured by the home itself, missing payments carries the risk of foreclosure, unlike unsecured debt.",
+      "Borrowing against equity for depreciating expenses without a repayment plan, since the loan term and payment estimate here assume steady, on-time payments to the full term.",
+    ],
     relatedSlugs: ["mortgage-calculator", "loan-calculator", "mortgage-refinance-calculator"],
   },
   {
@@ -14321,7 +15048,12 @@ explanation: [
         answer: "Not necessarily, it reduces your loan amount and interest costs, but ties up more cash upfront. Whether that tradeoff makes sense depends on your other financial goals, like keeping an emergency fund or investing elsewhere.",
       },
     ],
-    relatedSlugs: ["house-affordability-calculator", "mortgage-calculator"],
+    commonMistakes: [
+      "Forgetting closing costs on top of the down payment, many buyers need cash for both, not just the down payment percentage shown here.",
+      "Assuming 20% down is required to buy a home, many loan programs allow far less, though usually with added costs like PMI.",
+      "Draining an emergency fund to reach a bigger down payment, leaving no buffer for unexpected repairs or income disruption right after a major purchase.",
+    ],
+    relatedSlugs: ["house-affordability-calculator", "mortgage-calculator", "dti-calculator"],
   },
   {
     slug: "cd-calculator",
@@ -14357,6 +15089,11 @@ explanation: [
         question: "Does compounding frequency make a big difference?",
         answer: "It has a modest effect, more frequent compounding (daily vs annually) yields slightly more interest at the same stated rate, but the difference is usually small compared to the rate itself.",
       },
+    ],
+    commonMistakes: [
+      "Withdrawing before maturity and being surprised by the early withdrawal penalty, which this projection doesn't subtract since it assumes the CD is held to term.",
+      "Letting a CD auto-renew at a lower rate after maturity without checking current market rates first, many banks default to an unremarkable renewal rate.",
+      "Comparing a CD's stated rate to a savings account's APY without checking whether both are being quoted on the same basis (APY vs simple nominal rate).",
     ],
     relatedSlugs: ["compound-interest-calculator", "savings-interest-calculator", "apy-calculator"],
   },
@@ -14411,7 +15148,12 @@ explanation: [
         answer: "It means the investment hasn't paid for itself within your entered timeframe, add more years of cash flow if you want to see a further-out payback point.",
       },
     ],
-    relatedSlugs: ["roi-calculator", "present-value-calculator"],
+    commonMistakes: [
+      "Using payback period as the only investment decision metric, since it ignores the time value of money and everything that happens after the payback point, pair it with ROI or NPV for a fuller picture.",
+      "Treating a shorter payback period as automatically the better investment, a fast-payback project can still have lower total lifetime returns than a slower one.",
+      "Entering optimistic, non-conservative cash flow estimates, since the payback calculation is only as reliable as the cash flow projections that feed it.",
+    ],
+    relatedSlugs: ["roi-calculator", "present-value-calculator", "cash-flow-calculator"],
   },
   {
     slug: "traditional-ira-calculator",
@@ -14448,6 +15190,11 @@ explanation: [
         question: "Why does the 'tax deduction value' only show one year?",
         answer: "It illustrates the immediate tax savings from a single year's contribution at your current rate. Since you'd repeat that deduction annually, the actual cumulative tax savings over time would be larger.",
       },
+    ],
+    commonMistakes: [
+      "Assuming your tax bracket in retirement will definitely be lower than today's, tax rates and your own income needs can both change, making this comparison genuinely uncertain rather than a sure thing.",
+      "Forgetting that Traditional IRA withdrawals count as taxable income and can affect other things tied to income level, like Social Security taxation or Medicare premium tiers, in retirement.",
+      "Ignoring Required Minimum Distributions, unlike a Roth IRA, a Traditional IRA forces withdrawals starting at a certain age regardless of whether you actually need the money that year.",
     ],
     relatedSlugs: ["roth-ira-calculator", "401k-calculator", "rmd-calculator"],
   },
@@ -14498,6 +15245,11 @@ explanation: [
         question: "Does this apply to Roth IRAs?",
         answer: "No, Roth IRAs aren't subject to RMDs during the original owner's lifetime. This calculator applies to traditional IRAs, SEP IRAs, SIMPLE IRAs, and most employer retirement plans.",
       },
+    ],
+    commonMistakes: [
+      "Missing an RMD deadline, the IRS penalty for not withdrawing the full required amount by the deadline is substantial, historically up to 25% of the amount not withdrawn.",
+      "Using the current account balance instead of the prior year-end balance, RMDs are specifically based on the December 31 value from the year before.",
+      "Forgetting that RMD rules and the starting age have changed in recent years, always confirm the distribution period table and starting age currently in effect rather than relying on outdated figures.",
     ],
     relatedSlugs: ["traditional-ira-calculator", "401k-calculator", "roth-ira-calculator"],
   },
@@ -14569,6 +15321,11 @@ explanation: [
         answer: "Not necessarily. A lower payment achieved mainly by extending the loan term can mean paying more in total interest over time, compare the new loan's total interest against what you'd pay continuing your current debts to see the full picture.",
       },
     ],
+    commonMistakes: [
+      "Consolidating without addressing the spending habits that created the debt, freeing up credit card limits after consolidation can lead to running the balances right back up.",
+      "Not comparing the new loan's total interest against continuing to pay the current debts individually, a lower monthly payment can still cost more overall if the term is much longer.",
+      "Overlooking origination fees or prepayment penalties on the consolidation loan itself, which effectively raise its true cost beyond the quoted interest rate.",
+    ],
     relatedSlugs: ["debt-payoff-calculator", "credit-card-payoff-calculator", "loan-calculator"],
   },
   {
@@ -14607,7 +15364,12 @@ explanation: [
         answer: "No, this projects the full sticker-price cost. Financial aid, scholarships and grants would reduce the actual amount you need to save or pay, factor those in separately.",
       },
     ],
-    relatedSlugs: ["savings-goal-calculator", "inflation-calculator"],
+    commonMistakes: [
+      "Using general inflation instead of college-specific cost inflation, which has historically run higher than the general CPI in many countries, understating the true future cost.",
+      "Planning for only the first year's projected cost instead of the full multi-year total, tuition keeps rising throughout the years a student is enrolled, not just before they start.",
+      "Ignoring likely financial aid or scholarships entirely, since this projects sticker price only, actual out-of-pocket cost for many families ends up meaningfully lower.",
+    ],
+    relatedSlugs: ["savings-goal-calculator", "inflation-calculator", "compound-interest-calculator"],
   },
   {
     slug: "vat-calculator",
@@ -14671,7 +15433,12 @@ explanation: [
         answer: "VAT rates vary by country and sometimes by product category, check your local tax authority for the correct standard or reduced rate that applies to your situation.",
       },
     ],
-    relatedSlugs: ["gst-calculator", "sales-tax-calculator"],
+    commonMistakes: [
+      "Subtracting the VAT percentage directly from a gross price instead of dividing by (1 + VAT rate), as the explanation shows, this overcorrects and produces the wrong net price.",
+      "Applying the standard VAT rate to goods or services that actually qualify for a reduced or zero rate in your jurisdiction.",
+      "Mixing up net and gross prices when comparing quotes between suppliers, always confirm whether a quoted price already includes VAT before comparing it to another quote.",
+    ],
+    relatedSlugs: ["gst-calculator", "sales-tax-calculator", "markup-calculator"],
   },
   {
     slug: "depreciation-calculator",
@@ -14741,7 +15508,12 @@ explanation: [
         answer: "Declining balance depreciation is a different, shrinking amount each year, since it's a fixed percentage of the remaining book value. The first-year figure gives you the starting point; each subsequent year would need to be recalculated on the reduced book value.",
       },
     ],
-    relatedSlugs: ["vehicle-depreciation-calculator", "business-valuation-calculator"],
+    commonMistakes: [
+      "Forgetting to subtract salvage value before applying the straight-line formula, depreciating the full asset cost overstates annual depreciation and understates ending book value.",
+      "Using declining balance depreciation for financial reporting when straight-line is what's required or expected, the two methods produce meaningfully different book values in early years.",
+      "Assuming book value equals resale value, book value is an accounting figure based on the depreciation schedule, not necessarily what the asset would actually sell for on the open market.",
+    ],
+    relatedSlugs: ["vehicle-depreciation-calculator", "business-valuation-calculator", "ebitda-calculator"],
   },
   {
     slug: "margin-calculator",
@@ -14795,7 +15567,12 @@ explanation: [
         answer: "It varies by broker, asset type and regulation, common initial margin requirements range from around 25% to 50% for stocks, with other asset classes like forex or futures often allowing much higher leverage (lower margin percentages).",
       },
     ],
-    relatedSlugs: ["profit-margin-calculator", "roi-calculator"],
+    commonMistakes: [
+      "Confusing this trading margin with business profit margin, they share a name but measure completely different things, this calculator is about collateral for a leveraged position, not profitability.",
+      "Underestimating how leverage magnifies losses just as much as gains, a small adverse price move on a highly leveraged position can wipe out a large share of the cash actually put in.",
+      "Ignoring maintenance margin requirements, which can differ from the initial margin and trigger a margin call well before the position would otherwise be a total loss.",
+    ],
+    relatedSlugs: ["profit-margin-calculator", "roi-calculator", "compound-interest-calculator"],
   },
   {
     slug: "budget-calculator",
@@ -14851,6 +15628,11 @@ explanation: [
         answer: "That's common, especially in high cost-of-living areas. Enter your actual monthly expenses to see your real surplus or deficit, and use the 50/30/20 figures as a target to work toward rather than a hard requirement.",
       },
     ],
+    commonMistakes: [
+      "Applying the 50/30/20 split to gross income instead of after-tax income, the rule is meant to be applied to what actually lands in your account, not your pre-tax salary.",
+      "Misclassifying wants as needs, upgraded subscriptions, premium versions of essentials, and discretionary upgrades often get counted as 'needs' when they're really 'wants.'",
+      "Treating the 20% savings bucket as optional when the budget feels tight, cutting savings first rather than trimming discretionary wants defeats the purpose of the framework.",
+    ],
     relatedSlugs: ["rent-calculator", "savings-goal-calculator", "net-worth-calculator"],
   },
   {
@@ -14889,6 +15671,11 @@ explanation: [
         answer: "This calculator handles the accumulation phase, growing regular payments into a future lump sum. The Annuity Payout Calculator handles the reverse: starting with a lump sum and calculating a regular payout.",
       },
     ],
+    commonMistakes: [
+      "Mixing up ordinary annuity and annuity due, as the worked example shows, the difference compounds to a meaningfully different future value, especially over long periods or high payment amounts.",
+      "Assuming a constant interest rate for the entire period, real investment returns fluctuate year to year, this projection uses one flat average rate throughout.",
+      "Forgetting to account for fees, an actual annuity product from an insurer often carries fees that reduce the effective return compared to this idealized calculation.",
+    ],
     relatedSlugs: ["annuity-payout-calculator", "compound-interest-calculator", "future-value-calculator"],
   },
   {
@@ -14926,6 +15713,11 @@ explanation: [
         question: "What if I want the payments to last indefinitely instead?",
         answer: "That's a different calculation, a perpetuity, where you'd only withdraw the interest earned and never touch principal. This calculator instead spends down the full balance over your chosen period.",
       },
+    ],
+    commonMistakes: [
+      "Not accounting for inflation, a fixed monthly payout that looks comfortable today will buy noticeably less by year 15 or 20 of a long payout period.",
+      "Assuming a constant return rate throughout retirement, real returns vary, so this projection is a planning estimate rather than a guaranteed payout amount.",
+      "Confusing this with a perpetuity or an RMD schedule, this calculator fully depletes the lump sum by design, unlike a perpetuity (interest-only) or an RMD (a shrinking required percentage each year).",
     ],
     relatedSlugs: ["annuity-calculator", "present-value-calculator", "rmd-calculator"],
   },
@@ -15296,6 +16088,7 @@ explanation: [
         heading: "How the healthy weight range is calculated",
         paragraphs: [
           "This calculator finds the weight range that corresponds to a BMI between 18.5 and 25, the range widely classified as 'normal weight'. It rearranges the BMI formula (BMI = weight ÷ height²) to solve for weight at each end of that range, using your height in meters squared.",
+          "For example, at a height of 175 cm (1.75 m): the minimum healthy weight is 18.5 × 1.75² = 18.5 × 3.0625 ≈ 56.7 kg, and the maximum is 25 × 3.0625 ≈ 76.6 kg, giving a healthy weight range of roughly 56.7 to 76.6 kg (about 124.9 to 168.8 lb).",
         ],
       },
       {
@@ -15321,6 +16114,11 @@ explanation: [
         answer:
           "The Ideal Weight Calculator gives one specific target weight using the Devine formula. This calculator gives a broader healthy range based on standard BMI classification instead.",
       },
+    ],
+    commonMistakes: [
+      "Treating the top or bottom of the range as a strict personal target, the whole range is considered healthy for most people, there's no requirement to sit at any particular point within it.",
+      "Ignoring that this range doesn't account for muscle mass, a muscular individual can weigh above this range while still being healthy, since BMI-based ranges don't distinguish muscle from fat.",
+      "Using this range for children or teenagers, it's based on the adult BMI classification and doesn't apply to growing bodies, which need age- and sex-specific growth charts instead.",
     ],
     relatedSlugs: ["bmi-calculator", "ideal-weight-calculator", "body-fat-calculator"],
   },
@@ -15365,6 +16163,7 @@ explanation: [
         heading: "How future period dates are forecast",
         paragraphs: [
           "This calculator repeatedly adds your average cycle length to the first day of your last period to project each subsequent period's start date, up to the number of cycles you choose to forecast.",
+          "For example, with a last period starting June 1, 2026 and a 28-day average cycle, forecasting 3 cycles ahead gives: June 29, 2026 (June 1 + 28 days), July 27, 2026 (+28 more days), and August 24, 2026 (+28 more days).",
         ],
       },
       {
@@ -15389,6 +16188,11 @@ explanation: [
         answer:
           "No, this tool forecasts a list of upcoming period dates. The Ovulation Calculator instead estimates a single ovulation date and fertile window for conception planning.",
       },
+    ],
+    commonMistakes: [
+      "Forecasting many cycles ahead and treating every date as equally reliable, forecast accuracy naturally degrades further into the future since small cycle variations compound with each projected cycle.",
+      "Using an outdated average cycle length, if your recent cycles have shifted (due to stress, health changes, or age), update the average before forecasting for a more accurate result.",
+      "Assuming every cycle will be exactly the average length, this calculator assumes perfect consistency, real cycles vary somewhat month to month even for people with generally regular cycles.",
     ],
     relatedSlugs: ["ovulation-calculator", "conception-calculator", "pregnancy-due-date-calculator"],
   },
@@ -15421,6 +16225,7 @@ explanation: [
         heading: "How conception date is estimated from a due date",
         paragraphs: [
           "This calculator works backward from your due date using the standard 266-day gestation period counted from conception (as opposed to the 280 days counted from your last menstrual period, which includes about two extra weeks before ovulation). It also shows a small conception window around that date, and the corresponding last menstrual period date for reference.",
+          "For example, for a due date of March 15, 2027: the likely conception date is estimated at June 22, 2026, with a conception window of June 20-24, 2026, and a corresponding last menstrual period date of June 8, 2026 (280 days before the due date).",
         ],
       },
       {
@@ -15446,6 +16251,11 @@ explanation: [
         answer:
           "This calculator works backward from a due date to estimate conception. The Pregnancy Due Date Calculator works forward from your last period to estimate a due date. They're inverse calculations.",
       },
+    ],
+    commonMistakes: [
+      "Treating the estimated conception date as a single precise day, ovulation timing naturally varies, which is why this calculator shows a window rather than one fixed date.",
+      "Using an actual birth date instead of a due date without accounting for early or late delivery, since babies aren't always born exactly on their due date, the reverse estimate shifts accordingly.",
+      "Confusing the 266-day (from conception) and 280-day (from LMP) gestation conventions, mixing them up produces dates that are about two weeks off from what's intended.",
     ],
     relatedSlugs: ["pregnancy-due-date-calculator", "ovulation-calculator", "period-calculator"],
   },
@@ -15483,7 +16293,8 @@ explanation: [
       {
         heading: "How eGFR is calculated (2021 CKD-EPI creatinine equation)",
         paragraphs: [
-          "This calculator uses the 2021 CKD-EPI creatinine equation, the current race-free standard recommended by the National Kidney Foundation and American Society of Nephrology, which estimates GFR from serum creatinine, age and gender using published coefficients that differ slightly for men and women.",
+          "This calculator uses the 2021 CKD-EPI creatinine equation, the current race-free standard recommended by the National Kidney Foundation and American Society of Nephrology, which estimates GFR from serum creatinine, age and gender using published coefficients that differ slightly for men and women. The formula is eGFR = 142 × min(Scr/κ, 1)^α × max(Scr/κ, 1)^−1.2 × 0.9938^age × (1.012 if female), where κ (kappa) is 0.9 for men and 0.7 for women, and α (alpha) is −0.302 for men and −0.241 for women.",
+          "For example, a 45-year-old man with a serum creatinine of 1.0 mg/dL: Scr/κ = 1.0 ÷ 0.9 = 1.111. Since this is above 1, the min(…)^α term equals 1^−0.302 = 1, and the max(…)^−1.2 term equals 1.111^−1.2 ≈ 0.881. The age term is 0.9938^45 ≈ 0.756. Multiplying: 142 × 1 × 0.881 × 0.756 ≈ 94.6 mL/min/1.73m², which falls in the Normal (G1) stage.",
         ],
       },
       {
@@ -15509,6 +16320,11 @@ explanation: [
         answer:
           "The 2021 CKD-EPI equation removed race from the calculation to address concerns that earlier race-based versions could lead to inequities in diagnosis and care, and it's now the recommended standard.",
       },
+    ],
+    commonMistakes: [
+      "Drawing conclusions from a single eGFR reading, kidney function assessment normally requires multiple readings over time (typically at least 3 months apart) to distinguish a genuine trend from normal day-to-day variation.",
+      "Using a serum creatinine value from a different unit system (µmol/L instead of mg/dL) without converting first, this would produce a wildly incorrect eGFR.",
+      "Treating eGFR as equally accurate at very high values, the equation is less precise above roughly 60-90 mL/min/1.73m², where it's better at confirming normal function than at fine distinctions within the normal range.",
     ],
     relatedSlugs: ["bmi-calculator", "bmr-calculator", "body-fat-calculator"],
   },
@@ -15543,6 +16359,7 @@ explanation: [
         heading: "How the fat intake range is calculated",
         paragraphs: [
           "This calculator applies the standard Dietary Guidelines for Americans recommendation of 20-35% of total daily calories from fat, converting that percentage range of calories into grams using 9 calories per gram of fat.",
+          "For example, on a 2,000 kcal daily target: 20% of 2,000 is 400 kcal from fat (400 ÷ 9 ≈ 44 g), and 35% is 700 kcal (700 ÷ 9 ≈ 78 g), giving a recommended range of about 44 to 78 grams of fat per day.",
         ],
       },
       {
@@ -15568,6 +16385,11 @@ explanation: [
         answer:
           "It depends on your goals and diet style, lower-fat, higher-carb diets and higher-fat, lower-carb diets can both fit within healthy guidelines. Use the Macro Calculator if you want a specific diet-style-based split.",
       },
+    ],
+    commonMistakes: [
+      "Trying to hit both this range and the Carbohydrate Calculator's range and the Protein Calculator's range independently without checking they add up to 100% of calories, since these are general guideline ranges, not a single coordinated split like the Macro Calculator provides.",
+      "Assuming all fat should be avoided for weight loss, adequate fat intake supports hormone production and nutrient absorption, going well below this range isn't necessarily healthier.",
+      "Using an outdated or incorrect daily calorie target as the input, since the gram range scales directly with that figure, an inaccurate calorie target produces an inaccurate fat range.",
     ],
     relatedSlugs: ["macro-calculator", "carbohydrate-calculator", "protein-calculator"],
   },
@@ -15602,6 +16424,7 @@ explanation: [
         heading: "How the carbohydrate intake range is calculated",
         paragraphs: [
           "This calculator applies the standard Dietary Guidelines for Americans recommendation of 45-65% of total daily calories from carbohydrates, converting that percentage range of calories into grams using 4 calories per gram of carbohydrate.",
+          "For example, on a 2,000 kcal daily target: 45% of 2,000 is 900 kcal from carbs (900 ÷ 4 = 225 g), and 65% is 1,300 kcal (1,300 ÷ 4 = 325 g), giving a recommended range of about 225 to 325 grams of carbohydrate per day.",
         ],
       },
       {
@@ -15627,6 +16450,11 @@ explanation: [
         answer:
           "Use the Calorie Goal Calculator or TDEE Calculator to estimate your daily calorie needs, then enter that figure here.",
       },
+    ],
+    commonMistakes: [
+      "Treating this as a target to hit exactly rather than a range, both the low and high end (and anywhere between) are considered within general healthy guidelines for most people.",
+      "Applying this general-population range to a specific therapeutic diet (like a medically supervised low-carb plan), those situations follow different, individualized guidance rather than the standard 45-65% range.",
+      "Forgetting that fiber counts as part of total carbohydrate grams, someone eating high-fiber foods gets some metabolic benefit not reflected simply by the gram total alone.",
     ],
     relatedSlugs: ["macro-calculator", "fat-intake-calculator", "protein-calculator"],
   },
@@ -15671,6 +16499,7 @@ explanation: [
         heading: "How body frame size is calculated",
         paragraphs: [
           "This calculator divides your height by your wrist circumference, both in centimeters, to get a ratio. That ratio is compared against standard thresholds that differ for men and women, a higher ratio (a comparatively thinner wrist for your height) indicates a smaller frame, while a lower ratio indicates a larger frame.",
+          "For example, a man 175 cm tall with a 16 cm wrist has a height-to-wrist ratio of 175 ÷ 16 ≈ 10.94, which classifies as a 'Small' frame under the male thresholds used here (a higher ratio meaning a comparatively thinner wrist relative to height).",
         ],
       },
       {
@@ -15696,6 +16525,11 @@ explanation: [
         answer:
           "It's related but simpler, this calculator classifies bone frame size specifically, while somatotype classification more broadly describes body shape and composition tendencies.",
       },
+    ],
+    commonMistakes: [
+      "Measuring wrist circumference over a watch, bracelet, or bulky sleeve, which inflates the measurement and can shift the result toward a larger frame size than accurate.",
+      "Treating frame size as a fitness or health indicator on its own, it's a bone-structure reference used alongside other tools, not a measure of body composition or fitness.",
+      "Expecting frame size to change with weight loss or gain, since it reflects bone structure rather than muscle or fat, it stays essentially fixed in adulthood regardless of body composition changes.",
     ],
     relatedSlugs: ["bmi-calculator", "ideal-weight-calculator", "healthy-weight-calculator"],
   },
@@ -15738,6 +16572,12 @@ explanation: [
           "The three angles are found using the law of cosines, which relates each angle to the lengths of all three sides. This calculator checks the triangle inequality first (each side must be shorter than the sum of the other two) to make sure the three lengths you enter can actually form a triangle.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For sides 5, 6 and 7: the semi-perimeter is (5+6+7) ÷ 2 = 9. Area = √(9 × (9−5) × (9−6) × (9−7)) = √(9 × 4 × 3 × 2) = √216 ≈ 14.70. Using the law of cosines for angle A (opposite side 5): angle A ≈ 44.42°, angle B ≈ 57.12°, and angle C = 180 − 44.42 − 57.12 = 78.46°, confirming the three angles sum to exactly 180°.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15749,6 +16589,11 @@ explanation: [
         question: "Do the three angles always add up to 180°?",
         answer: "Yes, for any triangle on a flat plane, the three interior angles always sum to exactly 180 degrees.",
       },
+    ],
+    commonMistakes: [
+      "Entering side lengths that violate the triangle inequality (like 2, 3 and 10), where one side is longer than the sum of the other two, no triangle can be formed from such lengths, this calculator will flag it rather than returning a misleading result.",
+      "Mixing up which angle is 'opposite' which side, angle A is opposite side A (not adjacent to it), getting this backwards when cross-checking by hand is a common source of confusion.",
+      "Assuming Heron's formula requires knowing the height, it doesn't, that's exactly its advantage: it computes area purely from the three side lengths, no separate height measurement needed.",
     ],
     relatedSlugs: ["circle-calculator", "distance-calculator", "slope-calculator"],
   },
@@ -15780,6 +16625,12 @@ explanation: [
           "Diameter is simply twice the radius. Circumference is calculated as 2π × radius, the distance around the circle. Area is calculated as π × radius², the amount of space enclosed by the circle. All three use π (pi), approximately 3.14159.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a radius of 5: diameter = 5 × 2 = 10. Circumference = 2 × π × 5 ≈ 31.42. Area = π × 5² = π × 25 ≈ 78.54.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15791,6 +16642,11 @@ explanation: [
         answer:
           "Rearrange the formula to solve for radius first: radius = circumference ÷ (2π), or radius = √(area ÷ π), then enter that radius here.",
       },
+    ],
+    commonMistakes: [
+      "Entering the diameter instead of the radius, this calculator expects the radius specifically, entering a diameter by mistake will double every result.",
+      "Confusing area and circumference, circumference (2πr) is a length measured around the circle's edge, while area (πr²) is the space enclosed inside it, they use different formulas and different units (linear vs squared).",
+      "Using an overly rounded value of π for precise work, this calculator uses JavaScript's full-precision π, so results may differ slightly from hand calculations using 3.14 as an approximation.",
     ],
     relatedSlugs: ["triangle-calculator", "distance-calculator", "root-calculator"],
   },
@@ -15831,6 +16687,12 @@ explanation: [
           "Distance is calculated using the Pythagorean theorem applied to the coordinate plane (the distance formula): the square root of (x2-x1)² plus (y2-y1)². Midpoint is simply the average of the two x-coordinates and the average of the two y-coordinates.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For point 1 at (0, 0) and point 2 at (3, 4): distance = √((3−0)² + (4−0)²) = √(9 + 16) = √25 = 5. The midpoint is the average of each coordinate: ((0+3)÷2, (0+4)÷2) = (1.5, 2).",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15842,6 +16704,11 @@ explanation: [
         answer:
           "This calculator uses flat-plane (Euclidean) geometry, suited to graph coordinates. Real-world GPS distances over the Earth's curved surface require a different formula (like the Haversine formula) and aren't covered by this tool.",
       },
+    ],
+    commonMistakes: [
+      "Using this calculator for real-world GPS or map distances, it uses flat-plane geometry suited to graph coordinates, not the Earth's curved surface, which needs a different formula (like the Haversine formula) to stay accurate over long distances.",
+      "Subtracting coordinates in the wrong order, (x2−x1) and (x1−x2) give opposite signs, but since the distance formula squares the result, the final distance comes out the same either way, only the midpoint and other directional calculations are order-sensitive.",
+      "Forgetting that midpoint is a coordinate pair, not a single number, it's the average x-coordinate and the average y-coordinate together, describing a point exactly halfway between the two original points.",
     ],
     relatedSlugs: ["slope-calculator", "circle-calculator", "triangle-calculator"],
   },
@@ -15874,6 +16741,12 @@ explanation: [
           "For negative numbers, an odd root degree still produces a real result (for example, the cube root of -8 is -2), but an even root degree doesn't, since no real number multiplied by itself an even number of times produces a negative result.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "The cube root of 27 (root degree 3) is 3, since 3 × 3 × 3 = 27. The cube root of −8 is −2, since −2 × −2 × −2 = −8, a real result because the root degree (3) is odd. Trying the square root of −8 (root degree 2) instead would produce an error, since no real number squared gives a negative result.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15885,6 +16758,11 @@ explanation: [
         question: "Can I calculate a cube root of a negative number?",
         answer: "Yes, odd-degree roots (3, 5, 7...) of negative numbers are real and negative, for example the cube root of -27 is -3.",
       },
+    ],
+    commonMistakes: [
+      "Assuming every negative number has no real root, that's only true for even root degrees, odd-degree roots (cube root, 5th root, etc.) of negative numbers are perfectly real, for example the cube root of −8 is −2.",
+      "Confusing root degree with the value being rooted, entering 3 as the 'Number' and 27 as the 'Root Degree' asks a very different question (the 27th root of 3) than the intended cube root of 27.",
+      "Expecting a negative result from an even root of a positive number, mathematically a positive number has both a positive and negative even root (like ±3 for the square root of 9), but this calculator returns only the principal (positive) root, matching standard calculator convention.",
     ],
     relatedSlugs: ["circle-calculator", "quadratic-solver", "fraction-calculator"],
   },
@@ -15925,6 +16803,12 @@ explanation: [
           "Slope is calculated as the change in y divided by the change in x (rise over run) between the two points. The y-intercept is found by solving the slope-intercept equation (y = mx + b) for b using one of your points. The angle of incline converts the slope into degrees using the arctangent function.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For point 1 at (0, 0) and point 2 at (4, 8): slope = (8−0) ÷ (4−0) = 8 ÷ 4 = 2. Solving for the y-intercept using point 1: 0 = 2(0) + b, so b = 0, giving the equation y = 2x + 0. The angle of incline is arctan(2) ≈ 63.43°.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15936,6 +16820,11 @@ explanation: [
         question: "What does a slope of 0 mean?",
         answer: "A slope of 0 means the line is perfectly horizontal, y stays the same regardless of x.",
       },
+    ],
+    commonMistakes: [
+      "Computing rise over run in the wrong order, slope must use (y2−y1) ÷ (x2−x1) with both differences taken in the same point order, mixing the order for one but not the other flips the sign of the result.",
+      "Assuming every pair of points has a defined slope, two points with the same x-coordinate form a vertical line, which has an undefined (not zero) slope, since division by zero isn't defined.",
+      "Confusing a slope of 0 (horizontal line) with an undefined slope (vertical line), these are opposite cases, a slope of 0 means y never changes, while undefined means x never changes.",
     ],
     relatedSlugs: ["distance-calculator", "triangle-calculator", "quadratic-solver"],
   },
@@ -15980,6 +16869,12 @@ explanation: [
           "A z-score measures how many standard deviations a value is from the mean: z = (value − mean) ÷ standard deviation. This calculator then converts that z-score into a percentile using the standard normal cumulative distribution function, showing what percentage of values in a normal distribution fall below your entered value.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a test score of 85, with a class mean of 75 and standard deviation of 10: z = (85 − 75) ÷ 10 = 1, meaning the score is exactly 1 standard deviation above the mean. Converting that z-score to a percentile using the standard normal distribution gives approximately the 84.13th percentile, so this score is higher than about 84% of the distribution, assuming scores are normally distributed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15991,6 +16886,11 @@ explanation: [
         answer:
           "Yes, the percentile conversion assumes the underlying data follows a normal (bell-curve) distribution. The z-score itself is valid for any distribution, but the percentile figure is only accurate when that assumption holds.",
       },
+    ],
+    commonMistakes: [
+      "Applying the percentile conversion to data that isn't actually normally distributed, the z-score itself is valid for any distribution, but the percentile figure specifically assumes a bell-curve shape, and can be misleading for skewed data.",
+      "Confusing z-score with percentile, a z-score of 1 doesn't mean the 1st percentile, it means 1 standard deviation above the mean, which actually corresponds to roughly the 84th percentile.",
+      "Using population standard deviation when the data is really a sample, or vice versa, the standard deviation entered should match how it was actually calculated, since sample and population versions can differ, especially for small data sets.",
     ],
     relatedSlugs: ["confidence-interval-calculator", "standard-deviation-calculator", "sample-size-calculator"],
   },
@@ -16034,6 +16934,12 @@ explanation: [
           "The margin of error is calculated as the z-score for your chosen confidence level multiplied by the standard error (standard deviation ÷ square root of sample size). The confidence interval is then the sample mean plus and minus that margin of error, giving a range you can be reasonably confident contains the true population mean.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a sample mean of 100, standard deviation of 15, sample size of 50, at a 95% confidence level (z ≈ 1.96): the standard error is 15 ÷ √50 ≈ 2.1213. Margin of error = 1.96 × 2.1213 ≈ 4.1578. The confidence interval is 100 ± 4.1578, giving a lower bound of about 95.84 and an upper bound of about 104.16.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16046,6 +16952,11 @@ explanation: [
         answer:
           "The margin of error divides by the square root of sample size, so larger samples produce smaller standard errors and, therefore, narrower, more precise confidence intervals.",
       },
+    ],
+    commonMistakes: [
+      "Interpreting a 95% confidence interval as 'a 95% chance the true mean is in this specific range', that's a common but technically incorrect interpretation, the 95% describes the long-run reliability of the method across repeated sampling, not the probability for this one interval.",
+      "Using a higher confidence level (like 99%) without realizing it widens the interval, higher confidence requires a larger margin of error to maintain that confidence, there's a direct tradeoff between confidence level and precision.",
+      "Assuming a bigger sample always dramatically narrows the interval, since margin of error scales with the square root of sample size, quadrupling the sample size only halves the margin of error, not a proportional four-times reduction.",
     ],
     relatedSlugs: ["z-score-calculator", "sample-size-calculator", "standard-deviation-calculator"],
   },
@@ -16087,6 +16998,13 @@ explanation: [
           "In an arithmetic sequence, each term adds a fixed common difference to the previous term: nth term = first term + (n − 1) × common difference. In a geometric sequence, each term multiplies the previous term by a fixed common ratio: nth term = first term × ratio^(n − 1). The sum of terms uses the standard arithmetic or geometric series sum formula.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Arithmetic: first term 2, common difference 3, 10 terms: the sequence runs 2, 5, 8, 11, 14, 17, 20, 23, 26, 29. The 10th term = 2 + (10−1)×3 = 2 + 27 = 29, and the sum of all 10 terms = (10÷2)×(2+29) = 5×31 = 155.",
+          "Geometric: first term 2, common ratio 3, 6 terms: the sequence runs 2, 6, 18, 54, 162, 486. The 6th term = 2 × 3⁵ = 2 × 243 = 486, and the sum of all 6 terms = 2×(3⁶−1)÷(3−1) = 2×728÷2 = 728.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16098,6 +17016,11 @@ explanation: [
         question: "Can the common difference or ratio be negative?",
         answer: "Yes, a negative common difference produces a decreasing arithmetic sequence, and a negative common ratio produces a geometric sequence that alternates sign.",
       },
+    ],
+    commonMistakes: [
+      "Using the geometric formula's ratio exponent incorrectly, the nth term uses ratio^(n−1), not ratio^n, since the first term itself counts as the 0th multiplication by the ratio.",
+      "Picking the wrong sequence type for the pattern, if consecutive terms share a constant difference, it's arithmetic, if they share a constant ratio (multiplier), it's geometric, mixing these up gives a completely different nth term and sum.",
+      "Entering a common ratio of exactly 1 for a geometric sequence and expecting the standard sum formula to work, that formula divides by (ratio − 1), which is undefined at ratio 1, this calculator handles that case separately since every term is simply equal to the first term.",
     ],
     relatedSlugs: ["factor-calculator", "root-calculator", "big-number-calculator"],
   },
@@ -16135,6 +17058,12 @@ explanation: [
           "The Prime Factorization Calculator breaks a number down into only its prime factors (like 2, 3 and 5 for the number 30). This calculator instead lists every factor, prime or not, that divides evenly into the number (for 30, that's 1, 2, 3, 5, 6, 10, 15 and 30).",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For 24: checking divisors up to √24 ≈ 4.9 (so 1 through 4) finds 1 (paired with 24), 2 (paired with 12), 3 (paired with 8), and 4 (paired with 6). Combining and sorting all of these gives the complete factor list: 1, 2, 3, 4, 6, 8, 12, 24, a total of 8 factors. Since it has more than 2 factors, 24 is not prime.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16145,6 +17074,11 @@ explanation: [
         question: "How can I tell if a number is prime from the results?",
         answer: "A prime number has exactly two factors, 1 and itself. This calculator flags that directly in the 'Is Prime?' result.",
       },
+    ],
+    commonMistakes: [
+      "Confusing this tool with the Prime Factorization Calculator, this one lists every factor (prime or not) that divides evenly into the number, while prime factorization breaks the number down into only its prime building blocks, they answer related but different questions.",
+      "Forgetting that 1 and the number itself always count as factors, even a prime number technically has two factors (1 and itself), not zero.",
+      "Stopping the search partway through and missing paired factors, every factor below the square root pairs with a corresponding factor above it (like 3 pairing with 8 for 24), missing this pairing undercounts the total factor list.",
     ],
     relatedSlugs: ["gcf-calculator", "lcm-calculator", "prime-factorization-calculator"],
   },
@@ -16191,6 +17125,12 @@ explanation: [
           "When the true proportion is unknown, 50% produces the largest possible required sample size, making it the safest, most conservative default. If you have a reasonable estimate of the true proportion from prior data, using it can reduce your required sample size.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 95% confidence level (z ≈ 1.96), a 5% margin of error, and the conservative 50% expected proportion, with no population size entered: n = (1.96² × 0.5 × 0.5) ÷ 0.05² = (3.8416 × 0.25) ÷ 0.0025 = 0.9604 ÷ 0.0025 = 384.16, rounded up to 385. So a survey of an unknown or large population would need at least 385 respondents to achieve that confidence level and margin of error.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16202,6 +17142,11 @@ explanation: [
         question: "What margin of error should I use?",
         answer: "5% is a common standard for general surveys. Tighter margins (like 1-3%) require substantially larger sample sizes.",
       },
+    ],
+    commonMistakes: [
+      "Entering a population proportion far from 50% without good reason, doing so shrinks the calculated sample size, using an inaccurate assumed proportion (rather than the conservative 50% default) can leave a survey under-sampled if the true proportion turns out to be closer to even.",
+      "Forgetting the finite population correction only matters for small, well-defined populations, for a large or unknown population, the required sample size barely changes even as the population grows into the millions, entering a huge population size here has little effect.",
+      "Requesting an unrealistically tight margin of error without accounting for the sample size cost, cutting the margin of error in half roughly quadruples the required sample size, since margin of error is squared in the denominator of the formula.",
     ],
     relatedSlugs: ["confidence-interval-calculator", "z-score-calculator", "standard-deviation-calculator"],
   },
@@ -16247,6 +17192,12 @@ explanation: [
           "Half-life is most commonly associated with radioactive decay (like carbon-14 dating, half-life about 5,730 years), but the same math applies to drug elimination from the body, and any other process that decays at a rate proportional to its current amount.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For an initial amount of 100 (grams, say), a half-life of 5,730 years (carbon-14), and 1,000 years elapsed: the number of half-lives elapsed is 1000 ÷ 5730 ≈ 0.1745. Remaining amount = 100 × 0.5^0.1745 ≈ 88.61, meaning about 88.61% of the original amount remains after 1,000 years, since not even one full half-life has passed yet.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16257,6 +17208,11 @@ explanation: [
         question: "What if the elapsed time is longer than several half-lives?",
         answer: "The formula works for any elapsed time, the remaining amount just keeps approaching (but never quite reaching) zero.",
       },
+    ],
+    commonMistakes: [
+      "Entering half-life and elapsed time in different units (like half-life in years but elapsed time in days), both must use the exact same time unit for the formula to give a correct result.",
+      "Assuming the substance is completely gone after exactly one half-life, it isn't, half of it remains after one half-life, a quarter after two, an eighth after three, the amount keeps approaching zero without ever fully reaching it mathematically.",
+      "Expecting a linear decay rate, half-life decay is exponential, not linear, so the amount lost in the first half-life period is much larger in absolute terms than the amount lost in a later equal-length period, even though each period always removes half of what remained.",
     ],
     relatedSlugs: ["number-sequence-calculator", "root-calculator", "big-number-calculator"],
   },
@@ -16302,6 +17258,12 @@ explanation: [
           "Only whole numbers (no decimals) are supported, and division returns an integer quotient plus a remainder rather than a decimal result, since converting an arbitrary-precision division into a decimal would reintroduce the precision limits this tool is designed to avoid.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Multiplying 123456789123456789 by 987654321987654321, two 18-digit numbers well beyond the roughly 15-17 digits of precision a regular calculator or JavaScript number can handle exactly, gives exactly 121932631356500531347203169112635269, a full 36-digit result with no rounding error.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16318,6 +17280,11 @@ explanation: [
         question: "Can I use decimal numbers?",
         answer: "No, only whole numbers (integers) are supported, positive or negative, with no decimal point.",
       },
+    ],
+    commonMistakes: [
+      "Entering a decimal point or other non-digit characters, this calculator only accepts whole numbers (optionally with a leading minus sign for negatives), a decimal point or comma will be rejected.",
+      "Expecting a decimal result from division, division here returns a whole-number quotient plus a separate remainder, not a decimal, since a full-precision decimal could require infinitely many digits to represent exactly.",
+      "Using a regular calculator or spreadsheet to double-check a very large result and finding it doesn't match, standard calculators and spreadsheet software silently lose precision beyond about 15-17 significant digits, this tool is specifically built to avoid that rounding.",
     ],
     relatedSlugs: ["number-sequence-calculator", "factor-calculator", "root-calculator"],
   },
@@ -16355,6 +17322,12 @@ explanation: [
           "Round to Nearest rounds to the closest value at your chosen decimal place, the standard rounding method (0.5 rounds up). Round Up always rounds toward positive infinity, and Round Down always rounds toward negative infinity, regardless of how close the number is to either boundary.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Rounding 3.14159 to 2 decimal places using Round to Nearest looks at the third decimal digit (1), which is less than 5, so it rounds down to 3.14. Rounding 3.011 to 0 decimal places using Round Up moves to the next whole number toward positive infinity regardless of closeness, giving 4, not 3, even though 3.011 is much closer to 3.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16367,6 +17340,11 @@ explanation: [
         answer:
           "Round to Nearest picks whichever boundary is closer. Round Up always moves toward positive infinity even if the number is very close to the lower boundary, for example, 3.01 rounded up to 0 decimal places becomes 4, not 3.",
       },
+    ],
+    commonMistakes: [
+      "Assuming 'Round Up' always means 'round away from zero', for negative numbers, rounding up means moving toward positive infinity, so −3.5 rounded up becomes −3, not −4, which can feel counterintuitive.",
+      "Using 'Round to Nearest' when the goal is actually always rounding in one direction, like always rounding a price up to avoid undercharging, Round to Nearest can round down depending on the digits, use Round Up specifically for that case.",
+      "Forgetting that decimal places must be a whole number of 0 or more, this calculator doesn't support rounding to negative decimal places (like rounding to the nearest 10 or 100) directly.",
     ],
     relatedSlugs: ["percentage-calculator", "root-calculator", "big-number-calculator"],
   },
@@ -16467,6 +17445,7 @@ explanation: [
         heading: "How sleep cycle timing works",
         paragraphs: [
           "A full sleep cycle lasts about 90 minutes, moving through light sleep, deep sleep and REM sleep. Waking up in the middle of a cycle (especially during deep sleep) tends to feel groggy, while waking up at the end of a complete cycle tends to feel more refreshed. This calculator works in 90-minute increments from your entered time, and adds about 15 minutes for the average time it takes to fall asleep.",
+          "For example, for a 7:00 AM wake-up time, the 6-cycle (9 hour) option works backward: 7:00 AM minus 9 hours of sleep minus 15 minutes to fall asleep lands on a bedtime of 9:45 PM. The 4-cycle (6 hour) option gives a later bedtime of 12:45 AM.",
         ],
       },
       {
@@ -16492,6 +17471,11 @@ explanation: [
         answer:
           "No, actual sleep cycle length varies somewhat by individual, typically 70-120 minutes. 90 minutes is a widely used average for general planning purposes.",
       },
+    ],
+    commonMistakes: [
+      "Picking the option with the most cycles regardless of how it fits your actual schedule, a slightly shorter but schedule-compatible option landing at the end of a cycle is usually better than an ideal-length option that gets interrupted mid-cycle by an alarm.",
+      "Assuming exactly 90 minutes applies precisely to you, individual cycle length varies (roughly 70-120 minutes), so these times are a helpful average-based estimate, not an exact personal calculation.",
+      "Ignoring sleep debt accumulated over previous nights, this tool times a single night's cycles, it doesn't account for catching up on a prior sleep deficit.",
     ],
     relatedSlugs: ["age-calculator", "time-duration-calculator", "stopwatch"],
   },
@@ -16532,6 +17516,12 @@ explanation: [
           "Standard Roman numerals don't have a symbol for numbers 4000 and above without adding special notation (like a bar over a numeral to multiply it by 1000), so this calculator, like most standard implementations, supports the conventional range of 1 to 3999.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 2026 to Roman numerals: 2026 = 1000 + 1000 + 10 + 10 + 5 + 1, so the largest symbols are taken first (M for 1000, twice, giving MM), then X for 10 (twice, giving XX), then V for 5 and I for 1, giving MMXXVI. Converting MMXXVI back to a number reverses the process: M+M+X+X+V+I = 1000+1000+10+10+5+1 = 2026.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16543,6 +17533,11 @@ explanation: [
         answer:
           "IV uses subtractive notation (one less than V), which became the standard convention, though IIII does appear historically and is still sometimes used on clock faces.",
       },
+    ],
+    commonMistakes: [
+      "Writing repeated subtractive pairs instead of the correct larger symbol, like IIIIX instead of IX for 9, or VIIII instead of IX, standard Roman numerals never repeat a symbol more than three times in a row and use subtractive notation instead.",
+      "Trying to convert 0 or a number above 3999, standard Roman numerals have no symbol for zero and don't extend past 3999 without non-standard notation, this calculator is limited to the conventional 1-3999 range.",
+      "Misreading subtractive notation direction, a smaller symbol before a larger one subtracts (IV = 4), while a smaller symbol after a larger one adds (VI = 6), reversing this misreads the numeral entirely.",
     ],
     relatedSlugs: ["number-sequence-calculator", "big-number-calculator", "factor-calculator"],
   },
