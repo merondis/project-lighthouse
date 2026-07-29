@@ -18,6 +18,13 @@ import { calculateAgeDifference } from "@/utils/calculators/age-difference-calcu
 import { calculateBusinessHours } from "@/utils/calculators/business-hours-calculator";
 import { calculateShift } from "@/utils/calculators/shift-calculator";
 import { calculatePayrollHours } from "@/utils/calculators/payroll-hours-calculator";
+import { calculateHealthyWeight } from "@/utils/calculators/healthy-weight-calculator";
+import { calculatePeriodForecast } from "@/utils/calculators/period-calculator";
+import { calculateConception } from "@/utils/calculators/conception-calculator";
+import { calculateGfr, GfrGender } from "@/utils/calculators/gfr-calculator";
+import { calculateFatIntake } from "@/utils/calculators/fat-intake-calculator";
+import { calculateCarbohydrateIntake } from "@/utils/calculators/carbohydrate-calculator";
+import { calculateBodyType, BodyFrameGender } from "@/utils/calculators/body-type-calculator";
 import { validateEmailFormat } from "@/utils/calculators/email-format-validator";
 import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
@@ -15236,6 +15243,438 @@ explanation: [
       },
     ],
     relatedSlugs: ["age-calculator", "date-calculator", "time-duration-calculator"],
+  },
+  {
+    slug: "healthy-weight-calculator",
+    category: "health",
+    title: "Healthy Weight Calculator",
+    shortDescription: "Find your healthy weight range based on the standard BMI range for your height.",
+    metaDescription:
+      "Free online healthy weight calculator to find your healthy weight range in kg and lb based on the standard BMI range (18.5-25) for your height.",
+    h1: "Healthy Weight Calculator",
+    intro:
+      "Enter your height to see the healthy weight range for your height, based on the standard BMI range of 18.5 to 25.",
+    icon: "⚖️",
+    status: "live",
+    inputFields: [{ key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" }],
+    resultFields: [
+      { key: "minWeightKg", label: "Healthy Weight Min", unit: "kg", highlight: true },
+      { key: "maxWeightKg", label: "Healthy Weight Max", unit: "kg", highlight: true },
+      { key: "minWeightLb", label: "Healthy Weight Min", unit: "lb" },
+      { key: "maxWeightLb", label: "Healthy Weight Max", unit: "lb" },
+    ],
+    calculate: (inputs) => {
+      const heightCm = Number(inputs.heightCm);
+      const output = calculateHealthyWeight(heightCm);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the healthy weight range is calculated",
+        paragraphs: [
+          "This calculator finds the weight range that corresponds to a BMI between 18.5 and 25, the range widely classified as 'normal weight'. It rearranges the BMI formula (BMI = weight ÷ height²) to solve for weight at each end of that range, using your height in meters squared.",
+        ],
+      },
+      {
+        heading: "How this differs from the Ideal Weight Calculator",
+        paragraphs: [
+          "The Ideal Weight Calculator uses the Devine formula to give a single point estimate based on height and gender. This calculator instead gives a full range based on the standard BMI classification, which doesn't factor in gender at all, since BMI ranges are defined the same way for men and women.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why doesn't this calculator ask for my gender?",
+        answer:
+          "The standard BMI healthy-weight range (18.5-25) is defined the same way regardless of gender, so gender isn't a factor in this particular calculation.",
+      },
+      {
+        question: "Is BMI a perfect measure of healthy weight?",
+        answer:
+          "No, BMI doesn't distinguish between muscle and fat mass, so athletes and very muscular individuals may fall outside this range while still being healthy. Use this as a general reference, not a definitive assessment.",
+      },
+      {
+        question: "How is this different from the Ideal Weight Calculator?",
+        answer:
+          "The Ideal Weight Calculator gives one specific target weight using the Devine formula. This calculator gives a broader healthy range based on standard BMI classification instead.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "ideal-weight-calculator", "body-fat-calculator"],
+  },
+  {
+    slug: "period-calculator",
+    category: "health",
+    title: "Period Calculator",
+    shortDescription: "Forecast your next several expected period dates based on your cycle.",
+    metaDescription:
+      "Free online period calculator to forecast your next several expected period start dates based on the first day of your last period and average cycle length.",
+    h1: "Period Calculator",
+    intro:
+      "Enter the first day of your last period and your average cycle length to forecast your next several expected period dates.",
+    icon: "🩸",
+    status: "live",
+    inputFields: [
+      { key: "lastPeriodDate", label: "First Day of Last Period", type: "date" },
+      { key: "cycleLength", label: "Average Cycle Length (days)", type: "number", step: 1, defaultValue: 28, min: 21, max: 45 },
+      { key: "numberOfCycles", label: "Number of Cycles to Forecast", type: "number", step: 1, defaultValue: 6, min: 1, max: 12 },
+    ],
+    resultFields: [
+      { key: "period1", label: "Next Period", highlight: true },
+      { key: "period2", label: "2nd Period After" },
+      { key: "period3", label: "3rd Period After" },
+      { key: "period4", label: "4th Period After" },
+      { key: "period5", label: "5th Period After" },
+      { key: "period6", label: "6th Period After" },
+    ],
+    calculate: (inputs) => {
+      const lastPeriodDate = String(inputs.lastPeriodDate ?? "");
+      const cycleLength = Number(inputs.cycleLength);
+      const numberOfCycles = Number(inputs.numberOfCycles ?? 6);
+      const output = calculatePeriodForecast(lastPeriodDate, cycleLength, numberOfCycles);
+      const result: Record<string, string> = {};
+      output.periods.forEach((date, index) => {
+        result["period" + (index + 1)] = date;
+      });
+      return result;
+    },
+    explanation: [
+      {
+        heading: "How future period dates are forecast",
+        paragraphs: [
+          "This calculator repeatedly adds your average cycle length to the first day of your last period to project each subsequent period's start date, up to the number of cycles you choose to forecast.",
+        ],
+      },
+      {
+        heading: "How this differs from the Ovulation Calculator",
+        paragraphs: [
+          "The Ovulation Calculator focuses on a single upcoming ovulation date and fertile window. This tool instead forecasts a longer list of upcoming period start dates, useful for general planning rather than conception timing.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How accurate is this forecast?",
+        answer:
+          "It assumes your cycle length stays consistent, which is a simplification, real cycles can vary from month to month, especially with irregular cycles, so treat this as a planning estimate rather than a guarantee.",
+      },
+      {
+        question: "How many future periods can I forecast?",
+        answer: "You can forecast up to 12 cycles ahead by adjusting the 'Number of Cycles to Forecast' field.",
+      },
+      {
+        question: "Is this the same as the Ovulation Calculator?",
+        answer:
+          "No, this tool forecasts a list of upcoming period dates. The Ovulation Calculator instead estimates a single ovulation date and fertile window for conception planning.",
+      },
+    ],
+    relatedSlugs: ["ovulation-calculator", "conception-calculator", "pregnancy-due-date-calculator"],
+  },
+  {
+    slug: "conception-calculator",
+    category: "health",
+    title: "Conception Calculator",
+    shortDescription: "Estimate your likely conception date and window from a known or expected due date.",
+    metaDescription:
+      "Free online conception calculator to estimate your likely conception date and conception window, working backward from your due date.",
+    h1: "Conception Calculator",
+    intro:
+      "Enter your due date to work backward and estimate your likely date of conception, along with a conception window and the corresponding last menstrual period date.",
+    icon: "🤰",
+    status: "live",
+    inputFields: [{ key: "dueDate", label: "Due Date", type: "date" }],
+    resultFields: [
+      { key: "likelyConceptionDate", label: "Likely Conception Date", highlight: true },
+      { key: "conceptionWindowStart", label: "Conception Window Start" },
+      { key: "conceptionWindowEnd", label: "Conception Window End" },
+      { key: "lastPeriodDate", label: "Corresponding Last Period Date" },
+    ],
+    calculate: (inputs) => {
+      const dueDate = String(inputs.dueDate ?? "");
+      const output = calculateConception(dueDate);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How conception date is estimated from a due date",
+        paragraphs: [
+          "This calculator works backward from your due date using the standard 266-day gestation period counted from conception (as opposed to the 280 days counted from your last menstrual period, which includes about two extra weeks before ovulation). It also shows a small conception window around that date, and the corresponding last menstrual period date for reference.",
+        ],
+      },
+      {
+        heading: "How this differs from the Pregnancy Due Date Calculator",
+        paragraphs: [
+          "The Pregnancy Due Date Calculator works forward, from your last period to your due date. This calculator works in the opposite direction, from a known or expected due date back to an estimated conception date, useful when you know your due date but want to estimate when conception likely occurred.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is the conception date shown as a range?",
+        answer:
+          "Conception can't be pinpointed to an exact day from a due date alone, since ovulation timing varies. The window reflects a few days of typical uncertainty around the calculated estimate.",
+      },
+      {
+        question: "Can I use this if I only know my baby's actual birth date?",
+        answer:
+          "Yes, you can enter the actual birth date in place of a due date for a similar backward estimate, keeping in mind that babies aren't always born exactly on their due date.",
+      },
+      {
+        question: "How is this different from the Pregnancy Due Date Calculator?",
+        answer:
+          "This calculator works backward from a due date to estimate conception. The Pregnancy Due Date Calculator works forward from your last period to estimate a due date. They're inverse calculations.",
+      },
+    ],
+    relatedSlugs: ["pregnancy-due-date-calculator", "ovulation-calculator", "period-calculator"],
+  },
+  {
+    slug: "gfr-calculator",
+    category: "health",
+    title: "GFR Calculator",
+    shortDescription: "Estimate glomerular filtration rate (eGFR) and kidney function stage from serum creatinine.",
+    metaDescription:
+      "Free online GFR calculator to estimate glomerular filtration rate (eGFR) and CKD stage using the 2021 CKD-EPI creatinine equation.",
+    h1: "GFR Calculator",
+    intro:
+      "Estimate your glomerular filtration rate (eGFR), a key measure of kidney function, from your age, gender and serum creatinine level using the 2021 CKD-EPI creatinine equation.",
+    icon: "🫘",
+    status: "live",
+    inputFields: [
+      { key: "gender", label: "Gender", type: "select", options: [
+        { label: "Male", value: "male" }, { label: "Female", value: "female" },
+      ] },
+      { key: "age", label: "Age (years)", type: "number", step: 1, placeholder: "e.g. 45" },
+      { key: "serumCreatinine", label: "Serum Creatinine (mg/dL)", type: "number", step: 0.01, placeholder: "e.g. 1.0" },
+    ],
+    resultFields: [
+      { key: "gfr", label: "Estimated GFR", unit: "mL/min/1.73m²", highlight: true },
+      { key: "stage", label: "CKD Stage" },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as GfrGender;
+      const age = Number(inputs.age);
+      const serumCreatinine = Number(inputs.serumCreatinine);
+      const output = calculateGfr(gender, age, serumCreatinine);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How eGFR is calculated (2021 CKD-EPI creatinine equation)",
+        paragraphs: [
+          "This calculator uses the 2021 CKD-EPI creatinine equation, the current race-free standard recommended by the National Kidney Foundation and American Society of Nephrology, which estimates GFR from serum creatinine, age and gender using published coefficients that differ slightly for men and women.",
+        ],
+      },
+      {
+        heading: "Understanding CKD stages",
+        paragraphs: [
+          "GFR results are grouped into stages of chronic kidney disease (CKD): G1 (90+, normal), G2 (60-89, mildly decreased), G3a (45-59), G3b (30-44), G4 (15-29, severely decreased), and G5 (below 15, kidney failure). A single low result isn't a diagnosis, kidney function should be assessed by a healthcare provider using multiple readings and additional tests.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Is this a medical diagnosis?",
+        answer:
+          "No, this is an estimate for informational purposes only, based on a single equation and a single lab value. Always consult a healthcare provider for an actual kidney function assessment.",
+      },
+      {
+        question: "Where do I find my serum creatinine value?",
+        answer:
+          "It's reported on a standard blood test (a basic or comprehensive metabolic panel) as 'creatinine', usually in mg/dL.",
+      },
+      {
+        question: "Why does this equation no longer use race as a factor?",
+        answer:
+          "The 2021 CKD-EPI equation removed race from the calculation to address concerns that earlier race-based versions could lead to inequities in diagnosis and care, and it's now the recommended standard.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "bmr-calculator", "body-fat-calculator"],
+  },
+  {
+    slug: "fat-intake-calculator",
+    category: "health",
+    title: "Fat Intake Calculator",
+    shortDescription: "Estimate your recommended daily fat intake range from your calorie target.",
+    metaDescription:
+      "Free online fat intake calculator to estimate your recommended daily fat intake range in grams, based on your daily calorie target and standard dietary guidelines.",
+    h1: "Fat Intake Calculator",
+    intro:
+      "Enter your daily calorie target to estimate a healthy daily fat intake range in grams, based on the standard dietary guideline of 20-35% of calories from fat.",
+    icon: "🥓",
+    status: "live",
+    inputFields: [
+      { key: "dailyCalories", label: "Daily Calorie Target", type: "number", step: 1, placeholder: "e.g. 2000" },
+    ],
+    resultFields: [
+      { key: "fatGramsMin", label: "Fat Intake Min", unit: "g", highlight: true },
+      { key: "fatGramsMax", label: "Fat Intake Max", unit: "g", highlight: true },
+      { key: "fatCaloriesMin", label: "Calories from Fat (Min)", unit: "kcal" },
+      { key: "fatCaloriesMax", label: "Calories from Fat (Max)", unit: "kcal" },
+    ],
+    calculate: (inputs) => {
+      const dailyCalories = Number(inputs.dailyCalories);
+      const output = calculateFatIntake(dailyCalories);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the fat intake range is calculated",
+        paragraphs: [
+          "This calculator applies the standard Dietary Guidelines for Americans recommendation of 20-35% of total daily calories from fat, converting that percentage range of calories into grams using 9 calories per gram of fat.",
+        ],
+      },
+      {
+        heading: "How this differs from the Macro Calculator",
+        paragraphs: [
+          "The Macro Calculator estimates your full daily calorie target from your body stats, activity level and goal, then splits it into protein, carbs and fat. This calculator skips that step and works directly from a calorie target you already have, giving a quick standalone fat intake range.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Where does the 20-35% range come from?",
+        answer:
+          "It's the standard fat intake range recommended in the Dietary Guidelines for Americans for general health, balancing enough fat for hormone production and nutrient absorption without excess saturated fat intake.",
+      },
+      {
+        question: "How do I find my daily calorie target?",
+        answer:
+          "Use the Calorie Goal Calculator or TDEE Calculator to estimate your daily calorie needs, then enter that figure here.",
+      },
+      {
+        question: "Should I aim for the low or high end of the range?",
+        answer:
+          "It depends on your goals and diet style, lower-fat, higher-carb diets and higher-fat, lower-carb diets can both fit within healthy guidelines. Use the Macro Calculator if you want a specific diet-style-based split.",
+      },
+    ],
+    relatedSlugs: ["macro-calculator", "carbohydrate-calculator", "protein-calculator"],
+  },
+  {
+    slug: "carbohydrate-calculator",
+    category: "health",
+    title: "Carbohydrate Calculator",
+    shortDescription: "Estimate your recommended daily carbohydrate intake range from your calorie target.",
+    metaDescription:
+      "Free online carbohydrate calculator to estimate your recommended daily carbohydrate intake range in grams, based on your daily calorie target and standard dietary guidelines.",
+    h1: "Carbohydrate Calculator",
+    intro:
+      "Enter your daily calorie target to estimate a healthy daily carbohydrate intake range in grams, based on the standard dietary guideline of 45-65% of calories from carbohydrates.",
+    icon: "🍞",
+    status: "live",
+    inputFields: [
+      { key: "dailyCalories", label: "Daily Calorie Target", type: "number", step: 1, placeholder: "e.g. 2000" },
+    ],
+    resultFields: [
+      { key: "carbGramsMin", label: "Carb Intake Min", unit: "g", highlight: true },
+      { key: "carbGramsMax", label: "Carb Intake Max", unit: "g", highlight: true },
+      { key: "carbCaloriesMin", label: "Calories from Carbs (Min)", unit: "kcal" },
+      { key: "carbCaloriesMax", label: "Calories from Carbs (Max)", unit: "kcal" },
+    ],
+    calculate: (inputs) => {
+      const dailyCalories = Number(inputs.dailyCalories);
+      const output = calculateCarbohydrateIntake(dailyCalories);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How the carbohydrate intake range is calculated",
+        paragraphs: [
+          "This calculator applies the standard Dietary Guidelines for Americans recommendation of 45-65% of total daily calories from carbohydrates, converting that percentage range of calories into grams using 4 calories per gram of carbohydrate.",
+        ],
+      },
+      {
+        heading: "How this differs from the Macro Calculator",
+        paragraphs: [
+          "The Macro Calculator estimates your full daily calorie target from your body stats, activity level and goal, then splits it into protein, carbs and fat based on a chosen diet style. This calculator skips that step and works directly from a calorie target you already have, giving a quick standalone carbohydrate range based on general guidelines rather than a specific diet style.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Where does the 45-65% range come from?",
+        answer:
+          "It's the standard carbohydrate intake range recommended in the Dietary Guidelines for Americans for general health and adequate energy availability.",
+      },
+      {
+        question: "Is a low-carb diet outside this range unhealthy?",
+        answer:
+          "Not necessarily, low-carb and ketogenic diets intentionally fall below this general guideline range and can be appropriate for specific goals. Use the Macro Calculator's Low Carb or Keto diet styles for a tailored split.",
+      },
+      {
+        question: "How do I find my daily calorie target?",
+        answer:
+          "Use the Calorie Goal Calculator or TDEE Calculator to estimate your daily calorie needs, then enter that figure here.",
+      },
+    ],
+    relatedSlugs: ["macro-calculator", "fat-intake-calculator", "protein-calculator"],
+  },
+  {
+    slug: "body-type-calculator",
+    category: "health",
+    title: "Body Type Calculator",
+    shortDescription: "Estimate your body frame size (small, medium or large) from height and wrist circumference.",
+    metaDescription:
+      "Free online body type calculator to estimate your body frame size, small, medium or large, from your height and wrist circumference.",
+    h1: "Body Type Calculator",
+    intro:
+      "Enter your height and wrist circumference to estimate your body frame size, small, medium or large, using the standard height-to-wrist ratio method.",
+    icon: "🧍",
+    status: "live",
+    inputFields: [
+      { key: "gender", label: "Gender", type: "select", options: [
+        { label: "Male", value: "male" }, { label: "Female", value: "female" },
+      ] },
+      { key: "heightCm", label: "Height (cm)", type: "number", step: 0.1, placeholder: "e.g. 175" },
+      { key: "wristCm", label: "Wrist Circumference (cm)", type: "number", step: 0.1, placeholder: "e.g. 16" },
+    ],
+    resultFields: [
+      { key: "frameSize", label: "Body Frame Size", highlight: true },
+      { key: "ratio", label: "Height-to-Wrist Ratio" },
+    ],
+    calculate: (inputs) => {
+      const gender = String(inputs.gender) as BodyFrameGender;
+      const heightCm = Number(inputs.heightCm);
+      const wristCm = Number(inputs.wristCm);
+      const output = calculateBodyType(gender, heightCm, wristCm);
+      return { ...output };
+    },
+    interpret: (result) => {
+      return [
+        "Based on your height-to-wrist ratio of " + result.ratio + ", your estimated body frame size is " + result.frameSize + ".",
+        "Frame size is a general reference used alongside weight and body composition tools, it doesn't measure fitness or health on its own.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How body frame size is calculated",
+        paragraphs: [
+          "This calculator divides your height by your wrist circumference, both in centimeters, to get a ratio. That ratio is compared against standard thresholds that differ for men and women, a higher ratio (a comparatively thinner wrist for your height) indicates a smaller frame, while a lower ratio indicates a larger frame.",
+        ],
+      },
+      {
+        heading: "What frame size is used for",
+        paragraphs: [
+          "Frame size is sometimes used alongside height-and-weight charts to adjust a healthy weight range up or down, since two people of the same height can have naturally different bone structures. It's a rough classification, not a precise measurement of body composition.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How do I measure my wrist circumference accurately?",
+        answer:
+          "Wrap a flexible tape measure snugly around your wrist, just below the wrist bone, and record the measurement in centimeters.",
+      },
+      {
+        question: "Does frame size change over time?",
+        answer:
+          "No, frame size is based on bone structure, which is essentially fixed in adulthood, unlike weight or body fat percentage, which can change.",
+      },
+      {
+        question: "Is this the same as a somatotype (ectomorph/mesomorph/endomorph) classification?",
+        answer:
+          "It's related but simpler, this calculator classifies bone frame size specifically, while somatotype classification more broadly describes body shape and composition tendencies.",
+      },
+    ],
+    relatedSlugs: ["bmi-calculator", "ideal-weight-calculator", "healthy-weight-calculator"],
   },
 ];
 
