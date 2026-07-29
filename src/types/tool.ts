@@ -21,7 +21,7 @@ export type ToolStatus = "live" | "comingSoon";
 export interface InputFieldConfig {
   key: string;
   label: string;
-  type: "number" | "date" | "datetime" | "select" | "text" | "textarea" | "checkbox";
+  type: "number" | "date" | "datetime" | "time" | "select" | "text" | "textarea" | "checkbox";
   unit?: string;
   placeholder?: string;
   min?: number;
@@ -94,7 +94,8 @@ export interface ToolConfig {
     | "imageToJpg"
     | "imageStripMetadata"
     | "exifViewer"
-    | "growthChart";
+    | "growthChart"
+    | "stopwatch";
   amortizationTenureUnit?: "months" | "years";
   growthKey?: string;
   aiSystemPrompt?: string;

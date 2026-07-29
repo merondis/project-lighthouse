@@ -8,6 +8,7 @@ interface ButtonProps {
   className?: string;
   type?: "button" | "submit";
   onClick?: () => void;
+  disabled?: boolean;
 }
 
 export function Button({
@@ -17,6 +18,7 @@ export function Button({
   className = "",
   type = "button",
   onClick,
+  disabled = false,
 }: ButtonProps) {
   const base =
     "inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-accent";
@@ -24,6 +26,7 @@ export function Button({
     variant === "primary"
       ? "bg-brand-primary text-white hover:bg-blue-700"
       : "bg-brand-card text-white hover:bg-slate-700";
+  const disabledStyles = disabled ? "cursor-not-allowed opacity-50 hover:bg-brand-card" : "";
 
   if (href) {
     return (
@@ -34,7 +37,12 @@ export function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} className={`${base} ${styles} ${className}`}>
+    <button
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${base} ${styles} ${disabledStyles} ${className}`}
+    >
       {children}
     </button>
   );

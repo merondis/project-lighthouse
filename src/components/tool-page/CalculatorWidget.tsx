@@ -122,6 +122,13 @@ export function CalculatorWidget({ slug }: { slug: string }) {
                   onChange={(e) => handleChange(field.key, e.target.value)}
                   className="rounded-lg border border-white/10 bg-brand-bg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none [color-scheme:dark]"
                 />
+              ) : field.type === "time" ? (
+                <input
+                  type="time"
+                  value={values[field.key] ?? ""}
+                  onChange={(e) => handleChange(field.key, e.target.value)}
+                  className="rounded-lg border border-white/10 bg-brand-bg px-4 py-2.5 text-white focus:border-brand-accent focus:outline-none [color-scheme:dark]"
+                />
               ) : field.type === "textarea" ? (
                 <textarea
                   value={values[field.key] ?? ""}

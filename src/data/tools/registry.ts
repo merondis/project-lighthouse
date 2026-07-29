@@ -14,6 +14,10 @@ function formatTimezoneLabel(tz: string): string {
   return cityLabel + " (" + regionLabel + ")";
 }
 import { calculateWorkingDays } from "@/utils/calculators/working-days-calculator";
+import { calculateAgeDifference } from "@/utils/calculators/age-difference-calculator";
+import { calculateBusinessHours } from "@/utils/calculators/business-hours-calculator";
+import { calculateShift } from "@/utils/calculators/shift-calculator";
+import { calculatePayrollHours } from "@/utils/calculators/payroll-hours-calculator";
 import { validateEmailFormat } from "@/utils/calculators/email-format-validator";
 import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
@@ -14894,6 +14898,344 @@ explanation: [
       },
     ],
     relatedSlugs: ["annuity-calculator", "present-value-calculator", "rmd-calculator"],
+  },
+  {
+    slug: "stopwatch",
+    category: "date-time",
+    title: "Stopwatch",
+    shortDescription: "A simple online stopwatch with start, pause, reset and lap timing.",
+    metaDescription:
+      "Free online stopwatch with start, pause, reset and lap tracking. Precise timing that runs entirely in your browser.",
+    h1: "Stopwatch",
+    intro:
+      "Start, pause and reset a precise stopwatch right in your browser, and record lap times to track splits along the way.",
+    icon: "⏱️",
+    status: "live",
+    widgetType: "stopwatch",
+    explanation: [
+      {
+        heading: "How this stopwatch works",
+        paragraphs: [
+          "This stopwatch runs entirely in your browser using your device's clock, so timing stays accurate even if the page redraws slowly. Press Start to begin timing, Pause to freeze the count without losing it, and Resume to continue from where you left off.",
+          "Use Lap while the stopwatch is running to record a split time. Each lap shows both the time since the previous lap and the total elapsed time at that moment, useful for tracking intervals during a workout, a presentation rehearsal, or any timed activity.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does the stopwatch keep running if I switch tabs?",
+        answer:
+          "Yes, the timer is based on the actual start time rather than a simple counter, so it stays accurate even if you switch tabs or the browser throttles background timers.",
+      },
+      {
+        question: "Can I record multiple lap times?",
+        answer:
+          "Yes, press Lap as many times as you like while the stopwatch is running. Each lap is added to the list along with its split and cumulative time.",
+      },
+      {
+        question: "Does resetting the stopwatch clear my laps?",
+        answer: "Yes, Reset clears the elapsed time back to zero and removes all recorded laps.",
+      },
+    ],
+    relatedSlugs: ["countdown-timer", "time-duration-calculator", "shift-calculator"],
+  },
+  {
+    slug: "business-hours-calculator",
+    category: "date-time",
+    title: "Business Hours Calculator",
+    shortDescription: "Calculate the elapsed business hours between two dates within a working-hours window.",
+    metaDescription:
+      "Free online business hours calculator. Find the total working hours between two dates and times, counting only business days and a chosen daily working-hours window.",
+    h1: "Business Hours Calculator",
+    intro:
+      "Calculate the total business hours between a start and end date and time, counting only Monday through Friday within your chosen daily working-hours window.",
+    icon: "🏢",
+    status: "live",
+    inputFields: [
+      { key: "startDateTime", label: "Start Date & Time", type: "datetime" },
+      { key: "endDateTime", label: "End Date & Time", type: "datetime" },
+      { key: "businessStartTime", label: "Business Day Starts At", type: "time", defaultValue: "09:00" },
+      { key: "businessEndTime", label: "Business Day Ends At", type: "time", defaultValue: "17:00" },
+    ],
+    resultFields: [
+      { key: "totalHoursDecimal", label: "Business Hours", highlight: true, unit: "hrs" },
+      { key: "businessDaysSpanned", label: "Business Days Touched" },
+    ],
+    calculate: (inputs) => {
+      const result = calculateBusinessHours(
+        String(inputs.startDateTime ?? ""),
+        String(inputs.endDateTime ?? ""),
+        String(inputs.businessStartTime ?? "09:00"),
+        String(inputs.businessEndTime ?? "17:00")
+      );
+      return { ...result };
+    },
+    interpret: (result) => {
+      const hours = Number(result.totalHoursDecimal);
+      const days = Number(result.businessDaysSpanned);
+      return [
+        "That's " + hours + " business hours across " + days + " business day" + (days === 1 ? "" : "s") + ".",
+        "Weekends and time outside your chosen working-hours window are excluded from the total.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How business hours are calculated",
+        paragraphs: [
+          "This tool steps through each calendar day between your start and end date and time. For every Monday through Friday, it finds the overlap between your chosen daily working-hours window (for example, 9:00 AM to 5:00 PM) and the actual start/end range, then adds up the overlapping minutes across all days.",
+          "Weekends are skipped entirely, and any time before the business day starts or after it ends on a given day doesn't count, so a request submitted at 6:00 PM on a Friday and answered at 10:00 AM the following Monday would only count the time from 9:00 AM to 10:00 AM Monday, not the entire weekend.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this account for weekends?",
+        answer:
+          "Yes, only Monday through Friday are counted as business days. Any time falling on a Saturday or Sunday is excluded from the total.",
+      },
+      {
+        question: "Can I set a different working-hours window, like 8 AM to 4 PM?",
+        answer:
+          "Yes, enter any start and end time for your business day. The calculator only counts elapsed time that falls within that window on each business day.",
+      },
+      {
+        question: "How is this different from the Working Days Calculator?",
+        answer:
+          "The Working Days Calculator counts whole business days between two dates. This tool goes a step further and calculates actual elapsed hours within a working-hours window, accounting for partial days at the start and end of the range.",
+      },
+    ],
+    relatedSlugs: ["working-days-calculator", "time-duration-calculator", "shift-calculator"],
+  },
+  {
+    slug: "shift-calculator",
+    category: "date-time",
+    title: "Shift Calculator",
+    shortDescription: "Calculate hours worked in a single shift from clock-in and clock-out times, minus breaks.",
+    metaDescription:
+      "Free online shift calculator to find hours worked from clock-in and clock-out times, including a break deduction and support for overnight shifts.",
+    h1: "Shift Calculator",
+    intro:
+      "Enter your clock-in and clock-out times along with any unpaid break to calculate exactly how many hours you worked, including overnight shifts that cross midnight.",
+    icon: "🕒",
+    status: "live",
+    inputFields: [
+      { key: "clockIn", label: "Clock In", type: "time", defaultValue: "09:00" },
+      { key: "clockOut", label: "Clock Out", type: "time", defaultValue: "17:00" },
+      { key: "breakMinutes", label: "Unpaid Break (minutes)", type: "number", step: 1, defaultValue: 30 },
+    ],
+    resultFields: [
+      { key: "netHoursDecimal", label: "Net Hours Worked", highlight: true, unit: "hrs" },
+      { key: "netFormatted", label: "Net Time" },
+      { key: "grossFormatted", label: "Gross Time (before break)" },
+      { key: "overnight", label: "Overnight Shift" },
+    ],
+    calculate: (inputs) => {
+      const shift = calculateShift(
+        String(inputs.clockIn ?? ""),
+        String(inputs.clockOut ?? ""),
+        Number(inputs.breakMinutes ?? 0)
+      );
+      return {
+        netHoursDecimal: shift.netHoursDecimal,
+        netFormatted: shift.netHours + "h " + shift.netMinutes + "m",
+        grossFormatted: shift.grossHours + "h " + shift.grossMinutes + "m",
+        overnight: shift.isOvernight ? "Yes" : "No",
+      };
+    },
+    explanation: [
+      {
+        heading: "How shift hours are calculated",
+        paragraphs: [
+          "This tool converts your clock-in and clock-out times into total elapsed minutes, then subtracts your unpaid break to get net hours worked. If your clock-out time is earlier than or equal to your clock-in time, the shift is treated as overnight, spanning into the next day, so a 10:00 PM to 6:00 AM shift correctly calculates as 8 hours rather than a negative duration.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does this handle overnight shifts that cross midnight?",
+        answer:
+          "Yes, if your clock-out time is earlier than your clock-in time, the calculator automatically assumes the shift ends the next day and calculates the duration correctly.",
+      },
+      {
+        question: "Should I include paid breaks in the break minutes field?",
+        answer:
+          "No, only enter unpaid break time. Paid breaks are already included in your working hours and shouldn't be deducted.",
+      },
+      {
+        question: "How is this different from the Payroll Hours Calculator?",
+        answer:
+          "This tool calculates a single shift. The Payroll Hours Calculator aggregates multiple shifts across a full week, including overtime, for payroll purposes.",
+      },
+    ],
+    relatedSlugs: ["payroll-hours-calculator", "time-duration-calculator", "hourly-wage-calculator"],
+  },
+  {
+    slug: "payroll-hours-calculator",
+    category: "date-time",
+    title: "Payroll Hours Calculator",
+    shortDescription: "Total up hours worked across a week from daily clock-in/out times, with overtime and pay.",
+    metaDescription:
+      "Free online payroll hours calculator to total weekly hours worked from daily clock-in and clock-out times, including break deductions, overtime, and gross pay.",
+    h1: "Payroll Hours Calculator",
+    intro:
+      "Enter clock-in and clock-out times for each day worked in a week to total your hours, split regular from overtime, and estimate gross pay.",
+    icon: "🧾",
+    status: "live",
+    inputFields: [
+      { key: "monIn", label: "Monday - Clock In", type: "time" },
+      { key: "monOut", label: "Monday - Clock Out", type: "time" },
+      { key: "monBreak", label: "Monday - Break (minutes)", type: "number", step: 1, defaultValue: 0 },
+      { key: "tueIn", label: "Tuesday - Clock In", type: "time" },
+      { key: "tueOut", label: "Tuesday - Clock Out", type: "time" },
+      { key: "tueBreak", label: "Tuesday - Break (minutes)", type: "number", step: 1, defaultValue: 0 },
+      { key: "wedIn", label: "Wednesday - Clock In", type: "time" },
+      { key: "wedOut", label: "Wednesday - Clock Out", type: "time" },
+      { key: "wedBreak", label: "Wednesday - Break (minutes)", type: "number", step: 1, defaultValue: 0 },
+      { key: "thuIn", label: "Thursday - Clock In", type: "time" },
+      { key: "thuOut", label: "Thursday - Clock Out", type: "time" },
+      { key: "thuBreak", label: "Thursday - Break (minutes)", type: "number", step: 1, defaultValue: 0 },
+      { key: "friIn", label: "Friday - Clock In", type: "time" },
+      { key: "friOut", label: "Friday - Clock Out", type: "time" },
+      { key: "friBreak", label: "Friday - Break (minutes)", type: "number", step: 1, defaultValue: 0 },
+      { key: "satIn", label: "Saturday - Clock In", type: "time" },
+      { key: "satOut", label: "Saturday - Clock Out", type: "time" },
+      { key: "satBreak", label: "Saturday - Break (minutes)", type: "number", step: 1, defaultValue: 0 },
+      { key: "sunIn", label: "Sunday - Clock In", type: "time" },
+      { key: "sunOut", label: "Sunday - Clock Out", type: "time" },
+      { key: "sunBreak", label: "Sunday - Break (minutes)", type: "number", step: 1, defaultValue: 0 },
+      { key: "hourlyRate", label: "Hourly Rate (optional)", type: "number", step: 0.01, placeholder: "e.g. 22" },
+      { key: "overtimeThreshold", label: "Overtime Threshold (hours/week)", type: "number", step: 1, defaultValue: 40 },
+      { key: "overtimeMultiplier", label: "Overtime Multiplier", type: "number", step: 0.1, defaultValue: 1.5 },
+    ],
+    resultFields: [
+      { key: "totalHours", label: "Total Hours", highlight: true, unit: "hrs" },
+      { key: "regularHours", label: "Regular Hours", unit: "hrs" },
+      { key: "overtimeHours", label: "Overtime Hours", unit: "hrs" },
+      { key: "daysWorked", label: "Days Worked" },
+      { key: "grossPay", label: "Estimated Gross Pay", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const dayKeys = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
+      const days = dayKeys.map((d) => ({
+        clockIn: String(inputs[d + "In"] ?? ""),
+        clockOut: String(inputs[d + "Out"] ?? ""),
+        breakMinutes: Number(inputs[d + "Break"] ?? 0),
+      }));
+      const result = calculatePayrollHours(
+        days,
+        Number(inputs.hourlyRate ?? 0),
+        Number(inputs.overtimeThreshold ?? 40),
+        Number(inputs.overtimeMultiplier ?? 1.5)
+      );
+      return { ...result };
+    },
+    interpret: (result) => {
+      const overtimeHours = Number(result.overtimeHours);
+      const insights = [
+        "You worked " + result.totalHours + " hours across " + result.daysWorked + " day" + (Number(result.daysWorked) === 1 ? "" : "s") + " this period.",
+      ];
+      if (overtimeHours > 0) {
+        insights.push("That includes " + overtimeHours + " overtime hours above your weekly threshold.");
+      } else {
+        insights.push("No overtime hours were triggered this period.");
+      }
+      return insights;
+    },
+    explanation: [
+      {
+        heading: "How weekly payroll hours are totaled",
+        paragraphs: [
+          "For each day you enter both a clock-in and clock-out time, this tool calculates net hours worked after subtracting any unpaid break, the same way the Shift Calculator does. It then sums all days worked into a weekly total, splits that total into regular hours (up to your overtime threshold) and overtime hours (anything beyond it), and multiplies by your hourly rate, applying the overtime multiplier to overtime hours, to estimate gross pay.",
+          "Leave both the clock-in and clock-out fields blank for any day you didn't work; you don't need to fill in all seven days.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Do I need to fill in every day of the week?",
+        answer:
+          "No, only fill in clock-in and clock-out times for the days you actually worked. Leave both fields blank for days off.",
+      },
+      {
+        question: "What overtime threshold should I use?",
+        answer:
+          "40 hours per week is the most common threshold in many countries, but check your local labor law or employment contract, some jurisdictions calculate overtime daily rather than weekly.",
+      },
+      {
+        question: "Is the gross pay estimate exact?",
+        answer:
+          "It's a close estimate based on the hourly rate and overtime rules you enter, but it doesn't account for taxes, deductions, shift differentials, or other pay rules your employer might apply.",
+      },
+    ],
+    relatedSlugs: ["shift-calculator", "hourly-wage-calculator", "business-hours-calculator"],
+  },
+  {
+    slug: "age-difference-calculator",
+    category: "date-time",
+    title: "Age Difference Calculator",
+    shortDescription: "Calculate the exact age gap between two people's birth dates.",
+    metaDescription:
+      "Free online age difference calculator. Find the exact age gap between two people in years, months and days from their birth dates.",
+    h1: "Age Difference Calculator",
+    intro:
+      "Enter two birth dates to find the exact age gap between two people in years, months and days, and see who's older.",
+    icon: "👥",
+    status: "live",
+    inputFields: [
+      { key: "birthDate1", label: "First Person's Birth Date", type: "date" },
+      { key: "birthDate2", label: "Second Person's Birth Date", type: "date" },
+    ],
+    resultFields: [
+      { key: "years", label: "Years", highlight: true },
+      { key: "months", label: "Months", highlight: true },
+      { key: "days", label: "Days", highlight: true },
+      { key: "totalDays", label: "Total Days Apart" },
+      { key: "olderPerson", label: "Older" },
+    ],
+    calculate: (inputs) => {
+      const result = calculateAgeDifference(String(inputs.birthDate1 ?? ""), String(inputs.birthDate2 ?? ""));
+      return { ...result };
+    },
+    interpret: (result) => {
+      if (result.olderPerson === "Same date") {
+        return ["Both people share the same birth date, so there's no age gap between them."];
+      }
+      return [
+        result.olderPerson + " is the older of the two, by " + result.years + " years, " + result.months + " months and " + result.days + " days.",
+        "That's a total of " + Number(result.totalDays).toLocaleString() + " days apart.",
+      ];
+    },
+    explanation: [
+      {
+        heading: "How the age difference is calculated",
+        paragraphs: [
+          "This tool finds the calendar difference between two birth dates by counting complete years, then complete months within the remaining time, then the remaining days, the same method used to calculate a single person's age. The order of the two dates doesn't matter, the calculator automatically identifies which date is earlier and reports who's older.",
+        ],
+      },
+      {
+        heading: "How this differs from the Age Calculator",
+        paragraphs: [
+          "The Age Calculator finds how old one person is today (or on a chosen date) from a single birth date. This tool instead compares two different birth dates directly to find the gap between them, useful for comparing siblings, partners, or any two people's ages.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Does it matter which birth date I enter first?",
+        answer:
+          "No, enter the two birth dates in either order. The calculator automatically determines which person is older.",
+      },
+      {
+        question: "Can I use this to compare my age to a celebrity or historical figure?",
+        answer: "Yes, enter any two birth dates to see the exact gap between them, real or historical.",
+      },
+      {
+        question: "Why does the age gap in years sometimes seem off by one compared to a quick birth-year subtraction?",
+        answer:
+          "A simple birth-year subtraction doesn't account for whether each person has had their birthday yet this year. This calculator counts complete years, months and days between the two exact dates for an accurate result.",
+      },
+    ],
+    relatedSlugs: ["age-calculator", "date-calculator", "time-duration-calculator"],
   },
 ];
 
