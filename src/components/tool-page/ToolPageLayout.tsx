@@ -1,6 +1,8 @@
+import { RelatedBlogPosts } from "@/components/tool-page/RelatedBlogPosts";
 import { ShareEmbedWidget } from "@/components/tool-page/ShareEmbedWidget";
 import { ReferenceTable } from "@/components/tool-page/ReferenceTable";
 import { ToolExplanation } from "@/components/tool-page/ToolExplanation";
+import { CommonMistakes } from "@/components/tool-page/CommonMistakes";
 import { RecordRecentTool } from "@/components/tool-page/RecordRecentTool";
 import { PrintButton } from "@/components/ui/PrintButton";
 import { getToolIcon } from "@/lib/icons";
@@ -77,8 +79,11 @@ export function ToolPageLayout({ tool }: { tool: ToolConfig }) {
 
         <ToolExplanation sections={tool.explanation} />
 
+        <CommonMistakes mistakes={tool.commonMistakes} />
+
         <ToolFAQ faqs={tool.faqs} />
         <RelatedTools slugs={tool.relatedSlugs} />
+        <RelatedBlogPosts slugs={tool.relatedPostSlugs} />
 
         <div className="mt-12">
           <AdSensePlaceholder />

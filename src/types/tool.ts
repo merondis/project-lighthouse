@@ -139,4 +139,6 @@ calculate?: (
   faqs: FaqItem[];
   relatedSlugs: string[];
   explanation?: ExplanationSection[];
+  commonMistakes?: string[];
+  relatedPostSlugs?: string[];
 }
