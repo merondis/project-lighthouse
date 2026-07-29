@@ -137,6 +137,14 @@ export const categories: Category[] = [
     intro:
       "These tools cover the everyday math of student life, working out a cumulative GPA across semesters, what score you need on a final exam, converting marks to a percentage, tracking attendance against a target, or planning how much time to study before an exam. All calculations run in your browser using standard formulas, with nothing to sign up for and nothing sent to a server.",
   },
+  {
+    slug: "science",
+    name: "Science & Engineering",
+    icon: "🔬",
+    description: "Electrical, chemistry and physics calculators for students and hobbyists.",
+    intro:
+      "From sizing a wire run with the Voltage Drop Calculator to working out a solution's concentration with the Molarity Calculator, these tools cover common electrical, chemistry and physics calculations using standard formulas and reference tables. They're built for students, hobbyists and DIYers, and every calculation runs instantly in your browser.",
+  },
 ];
 
 export function getCategory(slug: string) {

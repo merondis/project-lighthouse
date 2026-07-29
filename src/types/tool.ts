@@ -14,7 +14,8 @@ export type ToolCategorySlug =
   | "automotive"
   | "seo"
   | "image"
-  | "education";
+  | "education"
+  | "science";
 
 export type ToolStatus = "live" | "comingSoon";
 

@@ -38,6 +38,16 @@ import { calculateSampleSize } from "@/utils/calculators/sample-size-calculator"
 import { calculateHalfLife } from "@/utils/calculators/half-life-calculator";
 import { calculateBigNumber, BigNumberOperation } from "@/utils/calculators/big-number-calculator";
 import { calculateRounding, RoundingMode } from "@/utils/calculators/rounding-calculator";
+import { calculateSleepTimes, SleepMode } from "@/utils/calculators/sleep-calculator";
+import { convertRomanNumeral, RomanConversionMode } from "@/utils/calculators/roman-numeral-converter";
+import { calculateStairs } from "@/utils/calculators/stair-calculator";
+import { calculateVoltageDrop, WIRE_GAUGE_OPTIONS, WireMaterial, PhaseType } from "@/utils/calculators/voltage-drop-calculator";
+import { calculateOhmsLaw } from "@/utils/calculators/ohms-law-calculator";
+import { calculateElectricityCost } from "@/utils/calculators/electricity-calculator";
+import { calculateBandwidth, FileSizeUnit, SpeedUnit } from "@/utils/calculators/bandwidth-calculator";
+import { calculateDensity } from "@/utils/calculators/density-calculator";
+import { calculateMolarity } from "@/utils/calculators/molarity-calculator";
+import { calculateEngineHorsepower } from "@/utils/calculators/engine-horsepower-calculator";
 import { validateEmailFormat } from "@/utils/calculators/email-format-validator";
 import { hslToHexResult } from "@/utils/calculators/hsl-converter";
 import { solveQuadratic } from "@/utils/calculators/quadratic-solver";
@@ -16416,6 +16426,585 @@ explanation: [
       },
     ],
     relatedSlugs: ["bmi-calculator", "body-type-calculator", "length-converter"],
+  },
+  {
+    slug: "sleep-calculator",
+    category: "health",
+    title: "Sleep Calculator",
+    shortDescription: "Find the best bedtime or wake-up time based on 90-minute sleep cycles.",
+    metaDescription:
+      "Free online sleep calculator to find the best bedtime or wake-up time based on complete 90-minute sleep cycles, so you wake up feeling rested.",
+    h1: "Sleep Calculator",
+    intro:
+      "Enter a wake-up time or bedtime to see several options for the other, timed to complete full 90-minute sleep cycles so you wake up feeling rested rather than groggy.",
+    icon: "😴",
+    status: "live",
+    inputFields: [
+      { key: "mode", label: "I want to calculate", type: "select", options: [
+        { label: "Bedtime options (I know my wake-up time)", value: "wakeUp" },
+        { label: "Wake-up options (I'm going to sleep now / at this time)", value: "bedtime" },
+      ] },
+      { key: "timeInput", label: "Time (24-hour HH:MM)", type: "text", placeholder: "e.g. 07:00" },
+    ],
+    resultFields: [
+      { key: "option1", label: "6 Cycles (9h)", highlight: true },
+      { key: "option2", label: "5 Cycles (7.5h)", highlight: true },
+      { key: "option3", label: "4 Cycles (6h)" },
+      { key: "option4", label: "3 Cycles (4.5h)" },
+    ],
+    calculate: (inputs) => {
+      const mode = String(inputs.mode) as SleepMode;
+      const timeInput = String(inputs.timeInput ?? "");
+      const output = calculateSleepTimes(mode, timeInput);
+      const result: Record<string, string> = {};
+      output.options.forEach((option, index) => {
+        result["option" + (index + 1)] = option.time;
+      });
+      return result;
+    },
+    explanation: [
+      {
+        heading: "How sleep cycle timing works",
+        paragraphs: [
+          "A full sleep cycle lasts about 90 minutes, moving through light sleep, deep sleep and REM sleep. Waking up in the middle of a cycle (especially during deep sleep) tends to feel groggy, while waking up at the end of a complete cycle tends to feel more refreshed. This calculator works in 90-minute increments from your entered time, and adds about 15 minutes for the average time it takes to fall asleep.",
+        ],
+      },
+      {
+        heading: "Why several options are shown",
+        paragraphs: [
+          "Everyone's ideal sleep duration varies, most adults need 4 to 6 complete cycles (6 to 9 hours) per night. Showing multiple cycle-count options lets you pick a bedtime or wake-up time that both fits your schedule and lands at the end of a complete cycle.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "How many sleep cycles should I aim for?",
+        answer:
+          "Most adults feel best with 5 to 6 complete cycles (7.5 to 9 hours) per night, though this varies by individual. Fewer than 3-4 cycles is generally considered insufficient sleep for most adults.",
+      },
+      {
+        question: "Why does it add 15 minutes?",
+        answer:
+          "It typically takes the average person about 15 minutes to fall asleep after getting into bed, this calculator accounts for that so the cycle timing starts from when you're actually asleep, not just from when you lie down.",
+      },
+      {
+        question: "Is 90 minutes exact for everyone?",
+        answer:
+          "No, actual sleep cycle length varies somewhat by individual, typically 70-120 minutes. 90 minutes is a widely used average for general planning purposes.",
+      },
+    ],
+    relatedSlugs: ["age-calculator", "time-duration-calculator", "stopwatch"],
+  },
+  {
+    slug: "roman-numeral-converter",
+    category: "math",
+    title: "Roman Numeral Converter",
+    shortDescription: "Convert numbers to Roman numerals, or Roman numerals back to numbers.",
+    metaDescription: "Free online Roman numeral converter to convert numbers (1-3999) to Roman numerals, or convert Roman numerals back to numbers.",
+    h1: "Roman Numeral Converter",
+    intro: "Convert any whole number from 1 to 3999 into Roman numerals, or convert a Roman numeral back into a regular number.",
+    icon: "🏛️",
+    status: "live",
+    inputFields: [
+      { key: "mode", label: "Direction", type: "select", options: [
+        { label: "Number → Roman Numeral", value: "toRoman" },
+        { label: "Roman Numeral → Number", value: "toNumber" },
+      ] },
+      { key: "value", label: "Value", type: "text", placeholder: "e.g. 2026 or MMXXVI" },
+    ],
+    resultFields: [{ key: "output", label: "Result", highlight: true, wide: true }],
+    calculate: (inputs) => {
+      const mode = String(inputs.mode) as RomanConversionMode;
+      const value = String(inputs.value ?? "");
+      const output = convertRomanNumeral(mode, value);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How Roman numerals work",
+        paragraphs: [
+          "Roman numerals use combinations of seven letters: I (1), V (5), X (10), L (50), C (100), D (500) and M (1000). Symbols are normally added together in decreasing order (VI = 6), but a smaller symbol placed before a larger one is subtracted instead (IV = 4, IX = 9, XL = 40), a convention called subtractive notation.",
+        ],
+      },
+      {
+        heading: "Why the range is limited to 3999",
+        paragraphs: [
+          "Standard Roman numerals don't have a symbol for numbers 4000 and above without adding special notation (like a bar over a numeral to multiply it by 1000), so this calculator, like most standard implementations, supports the conventional range of 1 to 3999.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What's the Roman numeral for zero?",
+        answer: "There isn't one, the standard Roman numeral system has no symbol for zero, it wasn't part of the original system.",
+      },
+      {
+        question: "Why is 4 written as IV instead of IIII?",
+        answer:
+          "IV uses subtractive notation (one less than V), which became the standard convention, though IIII does appear historically and is still sometimes used on clock faces.",
+      },
+    ],
+    relatedSlugs: ["number-sequence-calculator", "big-number-calculator", "factor-calculator"],
+  },
+  {
+    slug: "stair-calculator",
+    category: "construction",
+    title: "Stair Calculator",
+    shortDescription: "Calculate the number of steps, riser height, run and stringer length for a staircase.",
+    metaDescription:
+      "Free online stair calculator to find the number of steps, actual riser height, total run and stringer length needed for a staircase from total rise and tread depth.",
+    h1: "Stair Calculator",
+    intro:
+      "Enter the total rise (floor-to-floor height) along with your desired riser height and tread depth to calculate the number of steps, actual riser height, total run and stringer length.",
+    icon: "🪜",
+    status: "live",
+    inputFields: [
+      { key: "totalRiseInches", label: "Total Rise (inches)", type: "number", step: 0.1, placeholder: "e.g. 108" },
+      { key: "desiredRiserInches", label: "Desired Riser Height (inches)", type: "number", step: 0.1, defaultValue: 7 },
+      { key: "treadDepthInches", label: "Tread Depth (inches)", type: "number", step: 0.1, defaultValue: 10 },
+    ],
+    resultFields: [
+      { key: "numberOfSteps", label: "Number of Steps", highlight: true },
+      { key: "actualRiserHeight", label: "Actual Riser Height", unit: "in", highlight: true },
+      { key: "numberOfTreads", label: "Number of Treads" },
+      { key: "totalRun", label: "Total Run", unit: "in" },
+      { key: "stringerLength", label: "Stringer Length", unit: "in" },
+      { key: "angleDegrees", label: "Stair Angle", unit: "°" },
+    ],
+    calculate: (inputs) => {
+      const totalRiseInches = Number(inputs.totalRiseInches);
+      const desiredRiserInches = Number(inputs.desiredRiserInches ?? 7);
+      const treadDepthInches = Number(inputs.treadDepthInches ?? 10);
+      const output = calculateStairs(totalRiseInches, desiredRiserInches, treadDepthInches);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How stair dimensions are calculated",
+        paragraphs: [
+          "The number of steps is your total rise divided by your desired riser height, rounded to the nearest whole number, since you can't have a fractional step. That rounding means the actual riser height (total rise ÷ number of steps) usually differs slightly from your desired height, this calculator shows you the real figure so every step comes out even.",
+          "Total run is the tread depth multiplied by the number of treads (one fewer than the number of steps, since the top step is the landing or floor itself). Stringer length is the diagonal distance from the bottom to the top of the stair run, found using the Pythagorean theorem on the total rise and total run.",
+        ],
+      },
+      {
+        heading: "Common riser and tread guidelines",
+        paragraphs: [
+          "Most residential building codes call for a riser height between 7 and 7.75 inches and a tread depth of at least 10 inches, aiming for a comfortable stride. Always check your local building code before finalizing a staircase design.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why doesn't my actual riser height match what I entered?",
+        answer:
+          "Riser height is adjusted slightly so the total rise divides evenly across a whole number of steps, this keeps every step the same height, which is both safer and typically required by code.",
+      },
+      {
+        question: "What's the difference between total rise and stringer length?",
+        answer:
+          "Total rise is the straight-up vertical height. Stringer length is the diagonal length of the support board running under the stairs, which is longer than the rise since it also accounts for the horizontal run.",
+      },
+    ],
+    relatedSlugs: ["concrete-calculator", "triangle-calculator", "roofing-calculator"],
+  },
+  {
+    slug: "voltage-drop-calculator",
+    category: "science",
+    title: "Voltage Drop Calculator",
+    shortDescription: "Calculate voltage drop across a wire run from current, length and wire gauge.",
+    metaDescription:
+      "Free online voltage drop calculator to find voltage drop, percent drop and voltage at the load from wire gauge, current, length and system voltage.",
+    h1: "Voltage Drop Calculator",
+    intro:
+      "Calculate the voltage drop across a wire run from the wire gauge, current, one-way length and system voltage, for both single-phase and three-phase circuits.",
+    icon: "⚡",
+    status: "live",
+    inputFields: [
+      { key: "material", label: "Wire Material", type: "select", options: [
+        { label: "Copper", value: "copper" }, { label: "Aluminum", value: "aluminum" },
+      ] },
+      { key: "wireGauge", label: "Wire Gauge", type: "select", options: WIRE_GAUGE_OPTIONS.map((w) => ({ label: w.label, value: w.value })) },
+      { key: "phase", label: "Phase", type: "select", options: [
+        { label: "Single-Phase", value: "single" }, { label: "Three-Phase", value: "three" },
+      ] },
+      { key: "current", label: "Current (amps)", type: "number", step: 0.1, placeholder: "e.g. 20" },
+      { key: "lengthFeet", label: "One-Way Length (feet)", type: "number", step: 1, placeholder: "e.g. 100" },
+      { key: "systemVoltage", label: "System Voltage", type: "number", step: 1, defaultValue: 120 },
+    ],
+    resultFields: [
+      { key: "voltageDrop", label: "Voltage Drop", unit: "V", highlight: true },
+      { key: "percentDrop", label: "Percent Drop", unit: "%", highlight: true },
+      { key: "voltageAtLoad", label: "Voltage at Load", unit: "V" },
+    ],
+    calculate: (inputs) => {
+      const material = String(inputs.material) as WireMaterial;
+      const wireGauge = String(inputs.wireGauge);
+      const phase = String(inputs.phase) as PhaseType;
+      const current = Number(inputs.current);
+      const lengthFeet = Number(inputs.lengthFeet);
+      const systemVoltage = Number(inputs.systemVoltage);
+      const output = calculateVoltageDrop(material, wireGauge, current, lengthFeet, systemVoltage, phase);
+      return { ...output };
+    },
+    interpret: (result) => {
+      const percentDrop = Number(result.percentDrop);
+      const insights = ["A voltage drop of " + result.percentDrop + "% " + (percentDrop <= 3 ? "is within the commonly recommended 3% limit for branch circuits." : "exceeds the commonly recommended 3% limit, consider a larger wire gauge or shorter run.")];
+      return insights;
+    },
+    explanation: [
+      {
+        heading: "How voltage drop is calculated",
+        paragraphs: [
+          "This calculator uses the standard formula: Voltage Drop = (2 × K × I × L) ÷ CM for single-phase circuits, or (√3 × K × I × L) ÷ CM for three-phase circuits, where K is a resistivity constant for the wire material (12.9 for copper, 21.2 for aluminum), I is current in amps, L is the one-way wire length in feet, and CM is the wire's cross-sectional area in circular mils, looked up from standard AWG wire gauge tables.",
+        ],
+      },
+      {
+        heading: "Why voltage drop matters",
+        paragraphs: [
+          "Excessive voltage drop wastes energy as heat and can cause equipment to run inefficiently or fail to operate correctly. The National Electrical Code recommends keeping voltage drop under 3% for branch circuits and under 5% for the total of feeder and branch circuit combined, though it isn't a hard code requirement in most cases.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why does three-phase use √3 instead of 2?",
+        answer:
+          "In a single-phase circuit, current flows out and back through two conductors, doubling the effective resistance path. Three-phase circuits are more efficient due to their phase relationships, so the standard formula uses √3 (about 1.732) instead of 2.",
+      },
+      {
+        question: "What if my voltage drop is too high?",
+        answer:
+          "Use a larger wire gauge (a lower AWG number means a thicker wire with more circular mils), or shorten the run if possible, both reduce voltage drop for the same current.",
+      },
+      {
+        question: "Is this a substitute for an electrician?",
+        answer:
+          "No, this is a planning estimate only. Always have electrical work verified by a licensed electrician and checked against your local electrical code.",
+      },
+    ],
+    relatedSlugs: ["ohms-law-calculator", "electricity-calculator", "length-converter"],
+  },
+  {
+    slug: "ohms-law-calculator",
+    category: "science",
+    title: "Ohm's Law Calculator",
+    shortDescription: "Solve for voltage, current or resistance from the other two, plus power.",
+    metaDescription: "Free online Ohm's Law calculator to solve for voltage, current or resistance from the other two values, using V = I × R, plus power.",
+    h1: "Ohm's Law Calculator",
+    intro:
+      "Enter any two of voltage, current and resistance, leaving the third blank, to solve for the missing value using Ohm's Law (V = I × R), along with power.",
+    icon: "🔌",
+    status: "live",
+    inputFields: [
+      { key: "voltage", label: "Voltage (V, volts)", type: "text", placeholder: "leave blank to solve for this" },
+      { key: "current", label: "Current (I, amps)", type: "text", placeholder: "leave blank to solve for this" },
+      { key: "resistance", label: "Resistance (R, ohms)", type: "text", placeholder: "leave blank to solve for this" },
+    ],
+    resultFields: [
+      { key: "voltage", label: "Voltage", unit: "V", highlight: true },
+      { key: "current", label: "Current", unit: "A", highlight: true },
+      { key: "resistance", label: "Resistance", unit: "Ω", highlight: true },
+      { key: "power", label: "Power", unit: "W" },
+    ],
+    calculate: (inputs) => {
+      const voltage = String(inputs.voltage ?? "");
+      const current = String(inputs.current ?? "");
+      const resistance = String(inputs.resistance ?? "");
+      const output = calculateOhmsLaw(voltage, current, resistance);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How Ohm's Law works",
+        paragraphs: [
+          "Ohm's Law states that voltage equals current multiplied by resistance: V = I × R. This calculator rearranges the formula depending on which value you leave blank: current = voltage ÷ resistance, or resistance = voltage ÷ current. Power is then calculated as voltage × current (P = VI) using the completed set of values.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "What happens if I fill in all three fields?",
+        answer: "Leave exactly one field blank, the one you want to solve for. If all three are filled in, the calculator will ask you to leave one blank.",
+      },
+      {
+        question: "What happens if I only fill in one field?",
+        answer: "You need at least two of the three values (voltage, current, resistance) filled in for the calculator to solve for the third.",
+      },
+    ],
+    relatedSlugs: ["voltage-drop-calculator", "electricity-calculator", "density-calculator"],
+  },
+  {
+    slug: "electricity-calculator",
+    category: "science",
+    title: "Electricity Calculator",
+    shortDescription: "Estimate the electricity usage and cost of running an appliance.",
+    metaDescription: "Free online electricity calculator to estimate the kWh usage and cost of running an appliance daily, monthly and yearly, from wattage and your electricity rate.",
+    h1: "Electricity Calculator",
+    intro:
+      "Enter an appliance's wattage, how many hours a day it runs, and your electricity rate to estimate its energy usage and cost daily, monthly and yearly.",
+    icon: "💡",
+    status: "live",
+    inputFields: [
+      { key: "watts", label: "Power (watts)", type: "number", step: 1, placeholder: "e.g. 1500" },
+      { key: "hoursPerDay", label: "Hours Used per Day", type: "number", step: 0.1, placeholder: "e.g. 3" },
+      { key: "daysPerMonth", label: "Days Used per Month", type: "number", step: 1, defaultValue: 30 },
+      { key: "costPerKwh", label: "Cost per kWh (your currency)", type: "number", step: 0.001, placeholder: "e.g. 0.15" },
+    ],
+    resultFields: [
+      { key: "kwhPerMonth", label: "kWh per Month", highlight: true },
+      { key: "costPerMonth", label: "Cost per Month", highlight: true },
+      { key: "kwhPerYear", label: "kWh per Year" },
+      { key: "costPerYear", label: "Cost per Year" },
+      { key: "kwhPerDay", label: "kWh per Day" },
+      { key: "costPerDay", label: "Cost per Day" },
+    ],
+    calculate: (inputs) => {
+      const watts = Number(inputs.watts);
+      const hoursPerDay = Number(inputs.hoursPerDay);
+      const daysPerMonth = Number(inputs.daysPerMonth ?? 30);
+      const costPerKwh = Number(inputs.costPerKwh);
+      const output = calculateElectricityCost(watts, hoursPerDay, daysPerMonth, costPerKwh);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How electricity cost is calculated",
+        paragraphs: [
+          "Energy usage in kilowatt-hours (kWh) is calculated as watts × hours used ÷ 1000, since a kilowatt-hour is 1000 watts sustained for one hour. That daily figure is then scaled up to monthly and yearly usage, and multiplied by your cost per kWh (found on your electricity bill) to estimate cost.",
+        ],
+      },
+      {
+        heading: "Where to find an appliance's wattage",
+        paragraphs: [
+          "Check the appliance's nameplate, manual, or a label near the power cord, it's often listed directly in watts. If only amps and voltage are given, multiply them together (watts = amps × volts) to get an estimate.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Where do I find my cost per kWh?",
+        answer: "It's listed on your electricity bill, often called the 'energy charge' or 'supply rate', usually in cents or dollars per kWh.",
+      },
+      {
+        question: "Does this account for appliances that cycle on and off, like a refrigerator?",
+        answer:
+          "Not directly, this calculator assumes the wattage you enter is drawn for the full duration you specify. For cycling appliances, use their average or effective run time per day for a more accurate estimate.",
+      },
+    ],
+    relatedSlugs: ["ohms-law-calculator", "voltage-drop-calculator", "inflation-calculator"],
+  },
+  {
+    slug: "bandwidth-calculator",
+    category: "developer",
+    title: "Bandwidth Calculator",
+    shortDescription: "Calculate how long a file will take to download or upload at a given connection speed.",
+    metaDescription: "Free online bandwidth calculator to estimate download or upload time for a file, based on file size and your connection speed.",
+    h1: "Bandwidth Calculator",
+    intro: "Enter a file size and your connection speed to estimate how long it will take to download or upload.",
+    icon: "📶",
+    status: "live",
+    inputFields: [
+      { key: "fileSize", label: "File Size", type: "number", step: 0.01, placeholder: "e.g. 5" },
+      { key: "fileSizeUnit", label: "File Size Unit", type: "select", options: [
+        { label: "KB", value: "KB" }, { label: "MB", value: "MB" }, { label: "GB", value: "GB" }, { label: "TB", value: "TB" },
+      ], defaultValue: "GB" },
+      { key: "connectionSpeed", label: "Connection Speed", type: "number", step: 0.1, placeholder: "e.g. 100" },
+      { key: "speedUnit", label: "Speed Unit", type: "select", options: [
+        { label: "Kbps", value: "Kbps" }, { label: "Mbps", value: "Mbps" }, { label: "Gbps", value: "Gbps" }, { label: "MB/s", value: "MBps" },
+      ], defaultValue: "Mbps" },
+    ],
+    resultFields: [
+      { key: "formattedTime", label: "Estimated Transfer Time", highlight: true, wide: true },
+      { key: "transferTimeSeconds", label: "Total Seconds" },
+    ],
+    calculate: (inputs) => {
+      const fileSize = Number(inputs.fileSize);
+      const fileSizeUnit = String(inputs.fileSizeUnit ?? "GB") as FileSizeUnit;
+      const connectionSpeed = Number(inputs.connectionSpeed);
+      const speedUnit = String(inputs.speedUnit ?? "Mbps") as SpeedUnit;
+      const output = calculateBandwidth(fileSize, fileSizeUnit, connectionSpeed, speedUnit);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How transfer time is calculated",
+        paragraphs: [
+          "This calculator converts your file size into bits (1 byte = 8 bits, using decimal units where 1 MB = 1,000,000 bytes, the networking convention) and your connection speed into bits per second, then divides total bits by bits per second to get transfer time in seconds.",
+          "Note that connection speeds are conventionally measured in bits per second (Mbps), while file sizes are conventionally measured in bytes (MB), a common point of confusion, a 100 Mbps connection transfers about 12.5 megabytes per second, not 100.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Why is my actual download slower than this estimate?",
+        answer:
+          "This calculator shows a theoretical maximum based on your stated connection speed. Real-world transfers are often slower due to network overhead, server-side limits, Wi-Fi interference, and other traffic sharing your connection.",
+      },
+      {
+        question: "What's the difference between Mbps and MB/s?",
+        answer:
+          "Mbps (megabits per second) is the standard unit for connection speed. MB/s (megabytes per second) is the standard unit for file size and download progress. Divide Mbps by 8 to get an approximate MB/s figure.",
+      },
+    ],
+    relatedSlugs: ["data-storage-converter", "digital-transfer-rate-converter", "percentage-calculator"],
+  },
+  {
+    slug: "density-calculator",
+    category: "science",
+    title: "Density Calculator",
+    shortDescription: "Solve for mass, volume or density from the other two values.",
+    metaDescription: "Free online density calculator to solve for mass, volume or density from the other two values, using Density = Mass ÷ Volume.",
+    h1: "Density Calculator",
+    intro:
+      "Enter any two of mass, volume and density, leaving the third blank, to solve for the missing value using Density = Mass ÷ Volume.",
+    icon: "🧱",
+    status: "live",
+    inputFields: [
+      { key: "mass", label: "Mass (g)", type: "text", placeholder: "leave blank to solve for this" },
+      { key: "volume", label: "Volume (cm³)", type: "text", placeholder: "leave blank to solve for this" },
+      { key: "density", label: "Density (g/cm³)", type: "text", placeholder: "leave blank to solve for this" },
+    ],
+    resultFields: [
+      { key: "massGrams", label: "Mass", unit: "g", highlight: true },
+      { key: "volumeCm3", label: "Volume", unit: "cm³", highlight: true },
+      { key: "densityGcm3", label: "Density", unit: "g/cm³", highlight: true },
+    ],
+    calculate: (inputs) => {
+      const mass = String(inputs.mass ?? "");
+      const volume = String(inputs.volume ?? "");
+      const density = String(inputs.density ?? "");
+      const output = calculateDensity(mass, volume, density);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How density is calculated",
+        paragraphs: [
+          "Density is mass divided by volume: ρ = m ÷ V. This calculator rearranges the formula depending on which field you leave blank, solving for mass (volume × density), volume (mass ÷ density), or density (mass ÷ volume). Note that 1 g/cm³ equals 1 kg/L, so results can be scaled to other common unit systems by the same ratio.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Can I use different units, like kilograms and liters?",
+        answer:
+          "Yes, as long as you keep your units consistent (grams with cm³, or kilograms with liters, since both pairs give the same numeric density ratio). Just remember the result will be labeled in this calculator's default units.",
+      },
+      {
+        question: "Why is water's density 1 g/cm³?",
+        answer: "By definition, one gram was originally set as the mass of one cubic centimeter of water at 4°C, which is why water's density conveniently works out to almost exactly 1 g/cm³.",
+      },
+    ],
+    relatedSlugs: ["molarity-calculator", "ohms-law-calculator", "weight-converter"],
+  },
+  {
+    slug: "molarity-calculator",
+    category: "science",
+    title: "Molarity Calculator",
+    shortDescription: "Calculate the molarity of a solution from the solute's mass, molar mass and solution volume.",
+    metaDescription: "Free online molarity calculator to find a solution's molarity (mol/L) and moles of solute from mass, molar mass and solution volume.",
+    h1: "Molarity Calculator",
+    intro:
+      "Enter the mass of solute, its molar mass, and the total solution volume to calculate the number of moles and the resulting molarity of the solution.",
+    icon: "🧪",
+    status: "live",
+    inputFields: [
+      { key: "massGrams", label: "Mass of Solute (g)", type: "number", step: 0.001, placeholder: "e.g. 58.44" },
+      { key: "molarMassGmol", label: "Molar Mass (g/mol)", type: "number", step: 0.001, placeholder: "e.g. 58.44 for NaCl" },
+      { key: "volumeLiters", label: "Solution Volume (L)", type: "number", step: 0.001, placeholder: "e.g. 1" },
+    ],
+    resultFields: [
+      { key: "molarity", label: "Molarity", unit: "mol/L", highlight: true },
+      { key: "molesOfSolute", label: "Moles of Solute", unit: "mol" },
+    ],
+    calculate: (inputs) => {
+      const massGrams = Number(inputs.massGrams);
+      const molarMassGmol = Number(inputs.molarMassGmol);
+      const volumeLiters = Number(inputs.volumeLiters);
+      const output = calculateMolarity(massGrams, molarMassGmol, volumeLiters);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How molarity is calculated",
+        paragraphs: [
+          "Molarity (concentration) is calculated in two steps: first, moles of solute = mass (g) ÷ molar mass (g/mol). Then, molarity (mol/L) = moles of solute ÷ solution volume (L). Molar mass is specific to each compound, for table salt (NaCl) it's about 58.44 g/mol, found by summing the atomic masses of all atoms in the formula.",
+        ],
+      },
+      {
+        heading: "A worked example",
+        paragraphs: [
+          "Dissolving 58.44 g of NaCl (1 mole) into a total solution volume of 1 liter gives a 1 mol/L (1 M) solution, a standard reference concentration used throughout chemistry.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Where do I find a compound's molar mass?",
+        answer:
+          "Add up the atomic masses (from the periodic table) of every atom in the compound's chemical formula. Many reference sites and chemistry textbooks also list molar masses directly for common compounds.",
+      },
+      {
+        question: "Does solution volume mean just the water I added?",
+        answer:
+          "No, it means the total final volume of the solution after the solute is fully dissolved, not just the volume of solvent used, this is an important distinction in accurate lab work.",
+      },
+    ],
+    relatedSlugs: ["density-calculator", "ohms-law-calculator", "percentage-calculator"],
+  },
+  {
+    slug: "engine-horsepower-calculator",
+    category: "automotive",
+    title: "Engine Horsepower Calculator",
+    shortDescription: "Estimate engine horsepower from a quarter-mile trap speed or elapsed time.",
+    metaDescription: "Free online engine horsepower calculator to estimate horsepower from a vehicle's weight and its quarter-mile trap speed or elapsed time.",
+    h1: "Engine Horsepower Calculator",
+    intro:
+      "Estimate your vehicle's engine horsepower from its weight and either a quarter-mile trap speed or elapsed time, using the standard drag racing horsepower formulas.",
+    icon: "🏎️",
+    status: "live",
+    inputFields: [
+      { key: "weightLb", label: "Vehicle Weight (lb, including driver)", type: "text", placeholder: "e.g. 3400" },
+      { key: "trapSpeedMph", label: "Quarter-Mile Trap Speed (mph)", type: "text", placeholder: "leave blank if using elapsed time" },
+      { key: "elapsedTimeSec", label: "Quarter-Mile Elapsed Time (seconds)", type: "text", placeholder: "leave blank if using trap speed" },
+    ],
+    resultFields: [
+      { key: "horsepower", label: "Estimated Horsepower", unit: "hp", highlight: true },
+      { key: "method", label: "Method Used" },
+    ],
+    calculate: (inputs) => {
+      const weightLb = String(inputs.weightLb ?? "");
+      const trapSpeedMph = String(inputs.trapSpeedMph ?? "");
+      const elapsedTimeSec = String(inputs.elapsedTimeSec ?? "");
+      const output = calculateEngineHorsepower(weightLb, trapSpeedMph, elapsedTimeSec);
+      return { ...output };
+    },
+    explanation: [
+      {
+        heading: "How horsepower is estimated",
+        paragraphs: [
+          "The trap speed method uses the formula: Horsepower = Weight × (Trap Speed ÷ 234)³, based on the vehicle's weight and its speed at the end of a quarter-mile run. The elapsed time method instead uses: Horsepower = Weight ÷ (Elapsed Time ÷ 5.825)³, based on how long the quarter-mile took. Both are widely used drag-racing estimation formulas, fill in whichever measurement you have.",
+        ],
+      },
+      {
+        heading: "How accurate is this estimate?",
+        paragraphs: [
+          "These formulas give a rough estimate of flywheel horsepower and don't account for aerodynamic drag, tire grip, driver skill, altitude or weather conditions, all of which affect real quarter-mile performance. Use this as a general reference, not a dyno-certified figure.",
+        ],
+      },
+    ],
+    faqs: [
+      {
+        question: "Which method is more accurate, trap speed or elapsed time?",
+        answer:
+          "Trap speed is generally considered the more reliable indicator of horsepower, since elapsed time is more sensitive to launch technique and traction. If you have both, the trap speed method is usually preferred.",
+      },
+      {
+        question: "What weight should I use?",
+        answer: "Use the vehicle's total weight as raced, including the driver and any fuel or ballast, not just the vehicle's curb weight alone.",
+      },
+    ],
+    relatedSlugs: ["fuel-economy-calculator", "tire-size-calculator", "auto-loan-calculator"],
   },
 ];
 
