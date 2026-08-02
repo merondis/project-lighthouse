@@ -536,9 +536,9 @@ explanation: [
   {
     slug: "credit-card-interest-calculator",
     category: "finance",
-    title: "Credit Card Interest Calculator",
-    shortDescription: "Calculate how much interest a credit card charges in one billing cycle.",
-    metaDescription: "Free online credit card interest calculator to calculate the interest charged on a credit card balance for one billing cycle using the average daily balance method.",
+    title: "Credit Card Interest Calculator - Monthly & APR Interest Charges",
+    shortDescription: "Calculate your monthly credit card interest charge and see how APR affects what you owe.",
+    metaDescription: "Free credit card interest calculator. Find out how much interest you'll be charged this month based on your balance and APR, using the same average daily balance method your card issuer uses.",
     h1: "Credit Card Interest Calculator",
     intro: "Calculate the actual interest charge for one billing cycle based on your average daily balance and APR, the same method most credit card issuers use.",
     icon: "📊",
@@ -6519,9 +6519,9 @@ explanation: [
   {
     slug: "subnet-calculator",
     category: "security",
-    title: "Subnet Calculator",
+    title: "Subnet Calculator - CIDR, Subnet Mask & IP Range Calculator",
     shortDescription: "Calculate network address, broadcast address, usable host range and more from an IP and subnet mask.",
-    metaDescription: "Free online subnet calculator to find the network address, broadcast address, usable host range, wildcard mask and CIDR from an IPv4 address and subnet mask.",
+    metaDescription: "Free subnet calculator to find network address, broadcast address, usable IP range, subnet mask and CIDR notation for any IP address.",
     h1: "Subnet Calculator",
     intro: "Enter an IPv4 address and a subnet mask or CIDR prefix to calculate the network address, broadcast address, usable host range and more.",
     icon: "🌐",
@@ -6588,7 +6588,7 @@ explanation: [
   {
     slug: "cidr-range-calculator",
     category: "security",
-    title: "CIDR to IP Range Calculator",
+    title: "CIDR Range Calculator - Calculate IP Range from CIDR Notation",
     shortDescription: "Convert a CIDR block into its first and last IP address.",
     metaDescription: "Free online CIDR to IP range calculator to convert a CIDR block (like 192.168.1.0/24) into its first address, last address and total address count.",
     h1: "CIDR to IP Range Calculator",
@@ -6649,7 +6649,7 @@ explanation: [
   {
     slug: "ip-address-converter",
     category: "security",
-    title: "IP Address Converter",
+    title: "IP Address to Hex Converter - Convert IP to Hexadecimal",
     shortDescription: "Convert an IPv4 address between decimal, binary and hexadecimal.",
     metaDescription: "Free online IP address converter to convert an IPv4 address between dotted-decimal, binary and hexadecimal formats.",
     h1: "IP Address Converter",
