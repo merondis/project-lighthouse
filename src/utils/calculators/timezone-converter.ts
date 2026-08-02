@@ -162,11 +162,6 @@ export function convertTimezone(
     month: "long",
     day: "numeric",
   });
-  console.log("DEBUG:", {
-    input: { year, month, day, hour, minute, fromZone, toZone },
-    utcInstantMs,
-    utcInstantISO: new Date(utcInstantMs).toISOString(),
-  });
   return { convertedTime, convertedDate };
 }
 

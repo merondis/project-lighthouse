@@ -294,7 +294,7 @@ calculate: (inputs) => {
     },
 explanation: [
       {
-        heading: "How to calculate exact age (formula and example)",
+        heading: "How to calculate exact age (formula and worked example)",
         paragraphs: [
           "To calculate age from date of birth, this tool finds the difference between your date of birth and a target date (today, by default) by counting complete years, then complete months within the remaining time, then the remaining days.",
           "For example, someone born on March 15, 2000, calculating their exact age on July 15, 2026, has completed 26 full years (March 2000 to March 2026), plus 4 more complete months (March to July), plus 0 remaining days, giving an age of 26 years, 4 months, 0 days.",
@@ -323,6 +323,11 @@ explanation: [
         answer:
           "Yes, it accounts for leap years and different month lengths to give you a precise breakdown in years, months and days.",
       },
+    ],
+    commonMistakes: [
+      "Assuming age in years alone tells the full story near a birthday, someone '26 years old' could be anywhere from 26 years 0 months to 26 years 11 months, the months and days breakdown gives the precise picture.",
+      "Using a rough 365-day-per-year estimate to sanity-check the total days figure, leap years mean the actual total varies slightly from a flat 365 × years calculation, this tool counts real calendar days instead.",
+      "Forgetting to use the 'Age at Date' field when you actually want age on a specific past or future date, leaving it blank calculates age as of today, not the date you may have had in mind.",
     ],
     relatedSlugs: ["date-calculator", "countdown-timer", "bmi-calculator"],
   },
@@ -381,6 +386,12 @@ explanation: [
           "Time zone offsets aren't fixed year-round in many regions due to daylight saving time, and some countries change DST rules on different dates than others, which is why a simple fixed-hour-difference calculation can be wrong depending on the time of year.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 2:30 PM on July 20, 2026 in New York (America/New_York, on Eastern Daylight Time, UTC−4 in July) to Kolkata (Asia/Kolkata, UTC+5:30) gives 12:00 AM on Tuesday, July 21, the 9.5-hour offset between the two zones pushes the converted time past midnight into the next calendar day.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -391,6 +402,11 @@ explanation: [
         question: "What format should I use for the date and time?",
         answer: "Enter the date and time in the format YYYY-MM-DDTHH:MM, for example 2026-07-20T14:30 for July 20, 2026 at 2:30 PM.",
       },
+    ],
+    commonMistakes: [
+      "Not accounting for the converted time landing on a different calendar day, as the worked example shows, a large time zone offset can easily push a conversion past midnight, always check the converted date, not just the time.",
+      "Assuming a time zone's UTC offset is fixed year-round, regions observing daylight saving time shift their offset twice a year, so the same clock time converts differently in January than in July.",
+      "Converting using a fixed 'X hours ahead/behind' rule of thumb memorized for a specific pair of cities, since DST start and end dates can differ between countries (or not exist at all in some), a memorized offset can be wrong for part of the year.",
     ],
     relatedSlugs: ["date-calculator", "countdown-timer"],
   },
@@ -674,6 +690,12 @@ explanation: [
           "This calculator excludes weekends only, it doesn't account for public holidays, which vary by country and region. For project planning around specific holidays, subtract those dates manually from the working days total.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "From Monday, August 3, 2026 to Friday, August 14, 2026 (two full work weeks, 12 total days inclusive), this tool reports 10 working days and 2 weekend days, the two Saturday/Sunday pairs falling within that span.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -684,6 +706,11 @@ explanation: [
         question: "Are both the start and end date included in the count?",
         answer: "Yes, both dates are included as part of the total day count, consistent with how most people count 'from X to Y' inclusively.",
       },
+    ],
+    commonMistakes: [
+      "Assuming this excludes public holidays automatically, it only excludes Saturdays and Sundays, holidays falling on a weekday still count as a working day here, subtract them manually if needed for accurate project planning.",
+      "Forgetting both the start and end date are counted inclusively, a 'from Monday to Friday' range is 5 days, not 4, since both endpoints are included in the total.",
+      "Using this for international teams without accounting for different weekend conventions, some countries treat Friday-Saturday (not Saturday-Sunday) as the weekend, this tool assumes the Saturday/Sunday convention throughout.",
     ],
     relatedSlugs: ["date-calculator", "age-calculator"],
   },
@@ -754,6 +781,12 @@ explanation: [
           "A font-based signature is quick and consistent, useful for casual documents or a polished, repeatable look. For documents requiring a more personal, hand-drawn appearance, our Handwritten Signature Pad lets you draw your signature directly.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Type \"Alex Rivera\" and choose a cursive handwriting-style font from the dropdown, the canvas immediately re-renders your name centered in that font. Clicking download exports the canvas exactly as shown, a fixed-size transparent-background PNG, ready to drop into a PDF signature line or paste above your printed name in a document, note the canvas size stays the same regardless of name length, so a very long name renders smaller relative to the canvas than a short one.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -764,6 +797,11 @@ explanation: [
         question: "Does the downloaded image have a transparent background?",
         answer: "Yes, the downloaded PNG has a transparent background, making it easy to place on top of documents or letterheads.",
       },
+    ],
+    commonMistakes: [
+      "Using a font-based signature image on a contract or legal document expecting it to hold the same weight as a proper e-signature, it's a static image with no identity verification or audit trail, use a dedicated e-signature service for anything legally binding.",
+      "Picking an overly ornate script font that becomes illegible at small sizes, test the downloaded image at the actual size you'll use it (like a document footer) before finalizing, not just at the large preview size.",
+      "Not checking how the transparent PNG looks against a colored or dark background before using it, some fonts render with anti-aliased edges that can look faintly outlined on non-white backgrounds.",
     ],
     relatedSlugs: ["handwritten-signature-pad", "email-signature-generator"],
   },
@@ -791,6 +829,12 @@ explanation: [
           "While this works with a mouse, drawing a natural-looking signature is usually easier on a touchscreen device like a phone or tablet, or with a stylus if your device supports one.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "On a phone or tablet, drag your finger across the canvas to draw your signature, the tool records each connected stroke as you go, so lifting your finger and drawing a second stroke (like crossing a 't' or dotting an 'i') simply adds another connected line to the same image rather than starting over. Once you're happy with it, download exports the canvas as-is, a transparent PNG containing just your drawn strokes, with no background to remove afterward.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -801,6 +845,11 @@ explanation: [
         question: "Can I redo my signature if I make a mistake?",
         answer: "Yes, use the Clear button to erase the canvas and start over.",
       },
+    ],
+    commonMistakes: [
+      "Drawing with a mouse and expecting the same natural line variation you'd get from a pen, mouse-drawn signatures tend to look stiffer, a touchscreen or stylus device typically produces a much more natural result.",
+      "Closing or refreshing the tab before downloading, since the signature only exists in the browser for that session, an unsaved drawing is lost and has to be redrawn from scratch.",
+      "Drawing a signature that's too small on the canvas, then scaling the downloaded image up significantly for a large use case, this can make strokes look pixelated, draw it as large as the canvas comfortably allows for the best quality at your intended output size.",
     ],
     relatedSlugs: ["font-signature-generator", "email-signature-generator"],
   },
@@ -828,6 +877,12 @@ explanation: [
           "A good email signature is simple, includes only essential contact details, and avoids large images or excessive links that can slow down loading or look cluttered on mobile devices.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Fill in name \"Jordan Lee\", title \"Account Manager\", company \"Merondis\", phone, and email, the tool builds an HTML table with your name in bold, title and company on the next line, and phone/email below that, spaced and sized for readability in an inbox. Copying the rendered preview (not the raw HTML source) and pasting it into Gmail's or Outlook's signature settings box carries over the formatting directly, since both accept pasted rich text.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -838,6 +893,11 @@ explanation: [
         question: "Is my information stored anywhere?",
         answer: "No, everything is generated locally in your browser, your details are never sent to or stored on any server.",
       },
+    ],
+    commonMistakes: [
+      "Copying the raw HTML source code and pasting that as plain text into the signature box, most email clients expect you to copy the rendered preview (rich text) so formatting carries over, pasting raw HTML source just shows literal tags.",
+      "Packing in too many links and icons (social media, scheduling links, banners), cluttered signatures can look unprofessional and are more likely to get flagged or stripped by some email clients and spam filters.",
+      "Using a very large embedded image or logo, this bloats every email's size and can look oversized or broken on recipients' mobile clients, keep images small and appropriately sized if you include one at all.",
     ],
     relatedSlugs: ["font-signature-generator", "handwritten-signature-pad"],
   },
@@ -877,6 +937,12 @@ explanation: [
           "This tool checks format only, it does not verify whether the mailbox actually exists or is currently active, since that would require server-side domain and mailbox verification beyond what a browser-based tool can safely or appropriately perform.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering jane@gmial.com passes the basic format check (it has a username, an @ symbol, and a domain with a dot), but since 'gmial.com' matches a known common typo, the result flags it as 'Valid Format, but the domain looks like a possible typo' and suggests jane@gmail.com instead. Entering something with no @ symbol or no domain at all, like 'not-an-email', fails the format check entirely and returns 'Invalid'.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -887,6 +953,11 @@ explanation: [
         question: "Is my email address sent anywhere?",
         answer: "No, all checking happens directly in your browser, the email address you enter is never transmitted or stored anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Treating a 'Valid Format' result as proof the email address actually works, this only checks structure and common domain typos, it can't confirm a mailbox actually exists or is currently receiving mail.",
+      "Assuming the typo suggestion list catches every possible domain misspelling, it only flags a specific list of commonly seen typos (like gmial.com or yahooo.com), an unusual or less common misspelling of a domain won't be caught.",
+      "Ignoring a flagged typo suggestion because the address still technically passes the format check, a domain typo means mail sent to that address likely won't reach the intended recipient at all, even though the format itself is syntactically valid.",
     ],
     relatedSlugs: ["password-generator"],
   },
@@ -914,6 +985,12 @@ explanation: [
           "Watermarks are commonly used to mark documents as DRAFT, CONFIDENTIAL, or SAMPLE, or to indicate ownership before sharing a document publicly, without permanently editing the original content underneath.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 3-page PDF, type \"CONFIDENTIAL\" as the watermark text, and set opacity to 0.3. Every page gets the same gray text drawn diagonally (rotated 45°) through its center, sized proportionally to that page's dimensions, so a large page gets larger watermark text and a small page gets smaller text, keeping the watermark visually consistent in scale across mixed page sizes. At 0.3 opacity, the underlying page content remains clearly readable through the watermark, raising it toward 1.0 makes the watermark far more prominent (and the content proportionally harder to read through it).",
+        ],
+      },
     ],
     faqs: [
       {
@@ -924,6 +1001,11 @@ explanation: [
         question: "Does this upload my file anywhere?",
         answer: "No, the watermark is applied entirely in your browser, your PDF is never uploaded to any server.",
       },
+    ],
+    commonMistakes: [
+      "Setting opacity to 1.0 for a document you still need to read normally, at full opacity the watermark text becomes a solid block over the content underneath, a lower value like 0.2-0.3 keeps the page usable while still clearly marking it.",
+      "Applying the watermark and then discarding the original file, this tool bakes the watermark permanently into a new PDF's page content rather than adding a removable layer, keep your unwatermarked original if you'll ever need it again.",
+      "Choosing very long watermark text on a small page, since font size scales down to fit the page's proportions, an overly long phrase on a small page can render quite small and less visually prominent than a short word like DRAFT.",
     ],
     relatedSlugs: ["merge-pdf", "rotate-pdf", "compress-pdf"],
   },
@@ -1059,6 +1141,12 @@ explanation: [
           "Since rotation is applied locally using your browser's own processing, your PDF file is never uploaded to any server.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a PDF scanned sideways and choose 90° Clockwise, every page's rotation setting is increased by 90° from whatever it currently is. If you then run the result back through this tool and choose 90° Clockwise again, the pages end up rotated 180° total, not back to upright, since each pass adds to the existing rotation rather than resetting it. To undo a 90° clockwise rotation, choose 270° (90° Counter-Clockwise) on the next pass, since 90 + 270 = 360, back to the original orientation.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1069,6 +1157,11 @@ explanation: [
         question: "Will rotating reduce PDF quality?",
         answer: "No, rotation only changes the page's orientation metadata, the actual page content is unaffected.",
       },
+    ],
+    commonMistakes: [
+      "Rotating an already-rotated PDF and expecting it to reset to upright, each pass adds the chosen rotation to whatever rotation the page already has, running 90° twice produces 180°, not a return to the original orientation.",
+      "Assuming pages with mixed original orientations (some portrait, some already rotated) will all end up upright after one uniform rotation choice, since the same rotation amount is applied to every page equally, pages that started in different orientations will need different corrections, which this tool doesn't handle per-page.",
+      "Expecting rotation to redraw or resize the visible page content, it only changes the stored rotation metadata that PDF viewers read to display the page, this is why it's instant and lossless, but it also means it can't fix content drawn at the wrong angle within the page itself.",
     ],
     relatedSlugs: ["merge-pdf", "split-pdf", "compress-pdf"],
   },
@@ -1096,6 +1189,12 @@ explanation: [
           "# creates a heading, ** or __ around text makes it bold, * or _ makes it italic, - or * at the start of a line creates a bullet list, and [text](url) creates a hyperlink.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Typing '## Release Notes\\n\\nThis version fixes a **critical** bug and adds *minor* polish.\\n\\n- Fixed login crash\\n- Improved load time' renders as a medium heading reading 'Release Notes', followed by a paragraph where 'critical' appears bold and 'minor' appears italic, followed by a two-item bullet list. Note the blank line between the heading and the paragraph, without it many Markdown parsers merge the heading and the following text into one line instead of treating them as separate blocks.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1106,6 +1205,11 @@ explanation: [
         question: "Which Markdown flavor does this support?",
         answer: "This uses standard Markdown syntax (the CommonMark-based 'marked' parser), covering headings, lists, links, bold/italic text, code blocks and more.",
       },
+    ],
+    commonMistakes: [
+      "Forgetting the blank line between a heading (or paragraph) and the block that follows it, without it, some parsers won't treat them as separate elements and the formatting won't render as expected.",
+      "Using a single asterisk or underscore for bold text, *text* or _text_ produces italics, you need double characters, **text** or __text__, for bold.",
+      "Writing a bullet list immediately after a paragraph with no blank line in between, the list may get absorbed into the paragraph text instead of rendering as a separate bulleted list.",
     ],
     relatedSlugs: ["word-counter", "json-formatter"],
   },
@@ -1181,6 +1285,12 @@ explanation: [
           "Unlike many online image-to-PDF converters that upload your files to a server, this tool builds the PDF locally using your browser's own processing, so your images are never transmitted anywhere.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Select three photos, a portrait-orientation photo, a landscape-orientation photo, and a PNG screenshot, in that upload order. The resulting PDF has three pages in that same order, each page sized to match its own image's original dimensions, so the portrait photo produces a taller page and the landscape photo produces a wider one, rather than every page being forced to a uniform size. Using the up/down arrows to move the screenshot to the front changes only the page order, not each page's individual size.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1191,6 +1301,11 @@ explanation: [
         question: "Can I change the order of pages?",
         answer: "Yes, use the up and down buttons next to each image to reorder them before converting, images are added to the PDF in the order shown.",
       },
+    ],
+    commonMistakes: [
+      "Uploading a mix of portrait and landscape photos and expecting uniform page sizes in the output, each page is sized to match its own image's dimensions exactly, so page size varies across the document, this is by design, not a bug.",
+      "Forgetting to check image order before converting, images are added to the PDF in exactly the order shown in the upload list, review and reorder with the up/down arrows before clicking convert rather than after.",
+      "Uploading very large, high-resolution photos straight from a camera without resizing first, since each image is embedded at full resolution, a PDF made from several full-size camera photos can end up much larger than expected, use our Image Compressor first if file size matters.",
     ],
     relatedSlugs: ["pdf-to-jpg", "merge-pdf"],
   },
@@ -1455,6 +1570,12 @@ explanation: [
           "Enabling 'Use Regular Expression' lets you use pattern-matching syntax in the Find field, for example \\d+ to match any sequence of digits, useful for more advanced find-and-replace operations beyond exact text matches.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Plain text mode: finding 'cat' and replacing with 'dog' in 'The cat sat on the mat' gives 'The dog sat on the mat', only the standalone word 'cat' is matched, not 'cat' as a substring of some other word. Regex mode: finding \\d+ and replacing with 'NUM' in 'Item 42 costs $19' gives 'Item NUM costs $NUM', every run of digits gets replaced, regardless of exact value.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1465,6 +1586,11 @@ explanation: [
         question: "What happens if my regex pattern is invalid?",
         answer: "If you enable regex mode and enter an invalid pattern, the tool will show an error explaining the pattern couldn't be processed.",
       },
+    ],
+    commonMistakes: [
+      "Leaving 'Use Regular Expression' off when you actually meant to match a pattern (like any digit or any whitespace), without it, your Find value is treated as literal text, not a pattern.",
+      "Forgetting that regex special characters (like ., *, +, ?, (, )) have meaning in regex mode, searching for a literal period or parenthesis in regex mode requires escaping it with a backslash, or the search may match more than intended.",
+      "Expecting case-sensitive matching by default, case sensitivity is off by default here, so 'Cat' would also match 'cat', enable the case-sensitive option if that distinction matters.",
     ],
     relatedSlugs: ["text-diff-checker", "regex-tester"],
   },
@@ -1630,6 +1756,12 @@ explanation: [
           "Lines shown in green with a plus sign were added in the second text. Lines shown in red with a minus sign were present in the first text but removed. Unmarked lines are unchanged and appear in both versions.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Comparing 'Hello world\\nThis is line two\\nGoodbye' against 'Hello world\\nThis is a new line two\\nGoodbye' shows the first and third lines as unchanged (no markup), while the second line appears as a removed line ('This is line two', in red) directly followed by an added line ('This is a new line two', in green), since even a one-word change makes the two lines register as entirely different at the line level.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1640,6 +1772,11 @@ explanation: [
         question: "Is my text sent to a server?",
         answer: "No, the comparison happens entirely in your browser using JavaScript, your text is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Expecting word-level highlighting within a changed line, this tool compares at the line level, so a single-word edit shows the entire line as removed-and-re-added rather than highlighting just the changed word.",
+      "Not accounting for trailing whitespace differences, a line that looks identical but has an extra trailing space will register as a change, since the comparison is exact, character for character.",
+      "Pasting text with different line-ending styles (like Windows CRLF vs Unix LF) copied from different sources, this can cause every line to appear changed even when the visible content is identical.",
     ],
     relatedSlugs: ["word-counter", "remove-duplicate-lines"],
   },
@@ -1679,6 +1816,12 @@ explanation: [
           "With case-sensitive matching enabled, 'Apple' and 'apple' are treated as different lines. With whitespace trimming enabled, trailing spaces or leading indentation won't prevent otherwise identical lines from being treated as duplicates.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Given the four lines 'apple', 'banana', 'apple', 'cherry', the result keeps only the first occurrence of each: 'apple', 'banana', 'cherry', the second 'apple' is dropped and the original order of the remaining lines is preserved. With case-sensitive matching enabled instead, 'Apple' and 'apple' would each be kept as separate, distinct lines.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1689,6 +1832,11 @@ explanation: [
         question: "Is my text sent to a server?",
         answer: "No, all processing happens directly in your browser, your text is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Expecting whitespace-only differences to always count as duplicates, trailing spaces or different indentation only get normalized when 'Ignore Leading/Trailing Whitespace' is enabled, with it off, 'apple' and 'apple ' are treated as distinct lines.",
+      "Assuming line order is preserved arbitrarily, it isn't, the first occurrence of each unique line is always the one kept, later duplicates are simply dropped, not reordered.",
+      "Using this to deduplicate an unordered dataset where order doesn't matter but exact case does, forgetting to disable case-sensitive matching (or leaving it enabled unintentionally) changes which lines count as duplicates.",
     ],
     relatedSlugs: ["text-diff-checker", "word-counter"],
   },
@@ -1913,6 +2061,12 @@ explanation: [
           "UUIDs are commonly used as database primary keys, session identifiers, API request tracking IDs, and unique object references in distributed systems, anywhere a unique identifier is needed without coordinating with a central authority.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Setting count to 3 and generating produces three independent version 4 UUIDs, such as 3fa85f64-5717-4562-b3fc-2c963f66afa6, 9b2e4f1a-8c3d-4a7e-9f1b-6d5c8e2a0f4b, and c1a2b3d4-e5f6-4789-a1b2-c3d4e5f6a7b8. Each one has '4' as the first character of the third group (marking version 4) and a variant digit of 8, 9, a, or b as the first character of the fourth group, the rest of the characters are randomly generated hexadecimal digits.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1924,7 +2078,12 @@ explanation: [
         answer: "Yes, this uses your browser's built-in cryptographically secure random number generator when available, and never sends any data to a server.",
       },
     ],
-    relatedSlugs: ["password-generator"],
+    commonMistakes: [
+      "Assuming UUIDs are sequential or sortable by creation time, version 4 UUIDs are fully random, so they carry no information about when they were generated, use a timestamp field or a UUID v7/ULID if ordering matters.",
+      "Using a freshly generated UUID as a human-facing reference number (like an order number a customer reads over the phone), UUIDs are long and error-prone to transcribe by hand, a shorter alphanumeric code is usually better for that purpose.",
+      "Assuming every 32-character hex string is a valid UUID, a valid v4 UUID has specific version and variant digits in fixed positions, use the UUID Validator to check whether a given string actually conforms to the format.",
+    ],
+    relatedSlugs: ["password-generator", "uuid-validator", "random-number-generator"],
   },
   {
     slug: "lorem-ipsum-generator",
@@ -1964,6 +2123,12 @@ explanation: [
           "Using neutral placeholder text keeps focus on layout, typography, and spacing rather than the meaning of the words themselves, which is why Lorem Ipsum has remained the standard choice in design and publishing for decades.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Setting count to 5 with the unit set to 'Words' produces a five-word snippet drawn from the standard Lorem Ipsum word list, such as 'lorem ipsum dolor sit amet'. Switching the unit to 'Sentences' with count 2 instead produces two full punctuated sentences built from randomly assembled words of varying length, and 'Paragraphs' groups multiple such sentences into paragraph blocks separated by blank lines.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -1975,7 +2140,12 @@ explanation: [
         answer: "Yes, choose 'Words' from the unit dropdown and enter your desired word count instead of paragraphs or sentences.",
       },
     ],
-    relatedSlugs: ["word-counter"],
+    commonMistakes: [
+      "Using Lorem Ipsum text in a final, published product instead of just a design mockup, since it's meaningless filler, it should always be replaced with real copy before anything ships.",
+      "Generating a word count so small it doesn't reflect how the layout will actually look with realistic paragraph lengths, for previewing body text it's usually more useful to generate full paragraphs rather than a handful of words.",
+      "Assuming the generated text is deterministic, each generation pulls randomly from the word list, so re-generating with the same count and unit will produce different wording, not the same text twice.",
+    ],
+    relatedSlugs: ["word-counter", "character-counter", "markdown-previewer"],
   },
   {
     slug: "mortgage-calculator",
@@ -2022,7 +2192,7 @@ explanation: [
     relatedSlugs: ["emi-calculator", "loan-calculator", "house-affordability-calculator"],
   },
   {
-slug: "volume-converter",
+    slug: "volume-converter",
     category: "converters",
     title: "Volume Converter",
     shortDescription: "Convert between milliliters, liters, cups, gallons and more.",
@@ -2046,6 +2216,12 @@ slug: "volume-converter",
           "Metric units (milliliters, liters) scale by powers of ten and are used for cooking, science, and most countries outside the US. US customary units (cups, pints, quarts, gallons) are common in US recipes and packaging. Note that a US gallon (3.785 L) differs from a UK imperial gallon (4.546 L), this tool uses US customary definitions.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 1 liter to cups gives approximately 4.226757 cups, and converting 1 US gallon to liters gives approximately 3.78541 liters. If you instead meant a UK imperial gallon (4.546 liters), this tool's result would be off by about 20%, since it uses the US customary gallon definition throughout.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2057,10 +2233,15 @@ slug: "volume-converter",
         answer: "Conversions use standard exact conversion factors and are accurate to six decimal places.",
       },
     ],
+    commonMistakes: [
+      "Assuming 'gallon' and 'cup' always mean the same thing worldwide, this tool uses US customary definitions, a UK imperial gallon (4.546 L) is meaningfully larger than a US gallon (3.785 L), and a UK 'cup' isn't a standardized unit the way the US cup is.",
+      "Confusing a US customary cup (used for cooking measurements) with a metric cup (exactly 250 mL, used in some countries' recipes), the two differ by about 6%, which can matter in baking.",
+      "Mixing up teaspoons and tablespoons, a tablespoon is exactly 3 teaspoons, entering the wrong one silently produces a result three times too large or too small.",
+    ],
     relatedSlugs: ["weight-converter", "length-converter"],
   },
   {
-slug: "speed-converter",
+    slug: "speed-converter",
     category: "converters",
     title: "Speed Converter",
     shortDescription: "Convert between mph, km/h, m/s and knots.",
@@ -2084,6 +2265,12 @@ slug: "speed-converter",
           "Mph is standard for road speeds in the US and UK, while km/h is used for road speeds in most other countries. Meters per second is the SI unit used in physics and engineering. Knots (nautical miles per hour) are used in aviation and maritime navigation.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 60 mph to km/h gives approximately 96.56 km/h (60 × 1.609343), a common highway-speed reference point. Converting that same 60 mph to knots instead gives approximately 52.14 knots, useful if you're cross-referencing a boat or aircraft's speed against a car's.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2095,10 +2282,15 @@ slug: "speed-converter",
         answer: "A knot is a unit of speed equal to one nautical mile per hour, commonly used in aviation and maritime navigation.",
       },
     ],
+    commonMistakes: [
+      "Confusing a knot with a mile per hour, a knot (nautical mile per hour) is about 15% faster than a statute mph, treating them as interchangeable will meaningfully misstate aviation or maritime speeds.",
+      "Forgetting that m/s is the SI base unit here, not km/h, when working through physics problems, converting to m/s first before further calculation avoids compounding rounding errors from an intermediate km/h step.",
+      "Assuming feet per second and mph convert with a simple round number, 1 mph is about 1.467 ft/s, not exactly 1.5, small errors compound when scaling up to highway speeds.",
+    ],
     relatedSlugs: ["length-converter"],
   },
   {
-slug: "area-converter",
+    slug: "area-converter",
     category: "converters",
     title: "Area Converter",
     shortDescription: "Convert between square meters, square feet, acres and hectares.",
@@ -2122,6 +2314,12 @@ slug: "area-converter",
           "Acres are the standard land unit in the US and UK for real estate and agriculture, while hectares (10,000 square meters) are used in most metric countries and in international agriculture and forestry statistics. One hectare is approximately 2.47 acres.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 1 acre to square feet gives 43,560.06 sq ft (rounding to the standard reference figure of 43,560), and converting 1 hectare to acres gives approximately 2.471 acres. A 5-acre property, then, works out to roughly 2.02 hectares, useful when comparing US real estate listings against metric land measurements.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2132,6 +2330,11 @@ slug: "area-converter",
         question: "What's the difference between an acre and a hectare?",
         answer: "A hectare (10,000 square meters) is larger than an acre (about 4,047 square meters), hectares are the standard metric unit for land area used in most countries outside the US.",
       },
+    ],
+    commonMistakes: [
+      "Confusing linear and area scaling, doubling a room's length and width doesn't double its area, it quadruples it, a common source of error when estimating material needs from a doubled dimension.",
+      "Mixing up square miles with acres when discussing land area, one square mile is 640 acres, a substantial difference easy to overlook when skimming a property listing.",
+      "Assuming 'square meter' and 'meter squared' always refer to the same context-appropriate unit as an international reader would expect, always double check whether an unfamiliar source is using metric or imperial area units before comparing figures.",
     ],
     relatedSlugs: ["length-converter", "volume-converter"],
   },
@@ -2159,6 +2362,12 @@ slug: "area-converter",
           "'g' (global) finds all matches instead of stopping at the first one. 'i' (case-insensitive) ignores letter case. 'm' (multiline) changes how ^ and $ behave across multiple lines. Flags can be combined, for example 'gi' for global, case-insensitive matching.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Using the pattern \\d{3}-\\d{4} with the 'g' flag against the text 'Call 555-1234 or 555-5678' matches both '555-1234' and '555-5678', since \\d{3} matches exactly three digits, the literal hyphen matches itself, and \\d{4} matches exactly four digits. Without the 'g' flag, only the first match, '555-1234', would be reported, matching stops at the first occurrence.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2169,6 +2378,11 @@ slug: "area-converter",
         question: "Is my text sent to a server?",
         answer: "No, all pattern matching happens directly in your browser using JavaScript's built-in regex engine, your text is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Forgetting the 'g' flag when expecting all matches in the text, without it, JavaScript regex stops after the first match instead of finding every occurrence.",
+      "Not escaping special characters that should be matched literally, a period (.) matches any character unless escaped as \\., and a literal parenthesis or dollar sign needs \\( or \\$ if you mean the character itself rather than its regex meaning.",
+      "Assuming regex is 'greedy' matching is always what you want, a pattern like <.+> against '<b>bold</b>' matches the entire string from the first < to the last >, not just '<b>', use <.+?> (non-greedy) if you want the shortest possible match instead.",
     ],
     relatedSlugs: ["json-formatter", "url-encoder"],
   },
@@ -2196,6 +2410,12 @@ slug: "area-converter",
           "Hex codes are the most common format in CSS and design tools, while RGB notation is often used when you need to work with individual color channel values directly, such as adjusting brightness or blending colors programmatically.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting rgb(37, 99, 235) to hex: each channel is converted to a two-digit hexadecimal number, 37 becomes 25, 99 becomes 63, and 235 becomes EB, joined together as #2563EB. Going the other direction, #2563EB splits into the pairs 25, 63 and EB, each converted back from base-16 to decimal to give rgb(37, 99, 235).",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2207,7 +2427,12 @@ slug: "area-converter",
         answer: "No, this tool converts standard 6-digit hex and RGB values without an alpha channel. 8-digit hex codes with transparency aren't currently supported.",
       },
     ],
-    relatedSlugs: ["json-formatter"],
+    commonMistakes: [
+      "Entering an RGB value above 255 for a channel, each channel is capped at 255 (the maximum a single byte can represent), values above that aren't valid standard RGB.",
+      "Forgetting the # prefix when typing a hex code directly into CSS, most tools and browsers require it to recognize the value as a hex color rather than a keyword or invalid value.",
+      "Mixing up a 3-digit hex shorthand (like #25E) with a full 6-digit code, shorthand hex duplicates each digit (#25E expands to #2255EE), it isn't simply the first three characters of a longer code.",
+    ],
+    relatedSlugs: ["json-formatter", "hsl-converter", "color-palette-generator"],
   },
   {
     slug: "contrast-checker",
@@ -2233,6 +2458,12 @@ slug: "area-converter",
           "WCAG AA requires a minimum contrast ratio of 4.5:1 for normal text and 3:1 for large text (18pt or larger, or 14pt bold). WCAG AAA is stricter, requiring 7:1 for normal text and 4.5:1 for large text. AA is the commonly required standard for most websites.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Pure black text (#000000) on a pure white background (#FFFFFF) gives the maximum possible ratio, 21:1, comfortably passing both AA and AAA at any text size. A mid-gray #767676 on white gives a ratio of about 4.54:1, which just barely passes WCAG AA for normal text (4.5:1 minimum) but falls short of AAA (7:1), illustrating how a seemingly reasonable gray can sit right at the edge of acceptability.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2243,6 +2474,11 @@ slug: "area-converter",
         question: "Does font size affect the required contrast ratio?",
         answer: "Yes, large text (18pt+/24px+, or 14pt/19px+ bold) has lower minimum contrast requirements than normal-sized text, since larger text is inherently easier to read at lower contrast.",
       },
+    ],
+    commonMistakes: [
+      "Only checking contrast for body text and forgetting about other essential elements like placeholder text, disabled buttons, or icons, these are just as subject to WCAG requirements when they convey information.",
+      "Assuming a color pair that looks fine visually automatically passes, light grays on white or pastel combinations often look acceptable on a good monitor but fail the 4.5:1 AA threshold, always check the actual ratio.",
+      "Checking contrast against the wrong background, if text sits on an image or a gradient, the ratio needs to be checked against the actual pixel color behind the text, not just the nominal background color of the container.",
     ],
     relatedSlugs: ["hex-rgb-converter", "color-palette-generator"],
   },
@@ -2270,6 +2506,12 @@ slug: "area-converter",
           "This tool converts your base hex color to HSL (Hue, Saturation, Lightness), rotates the hue value according to your chosen harmony type, then converts each resulting hue back to hex, keeping saturation and lightness consistent across the palette.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Starting from base color #2563EB, which converts to roughly hue 221°, saturation 83%, lightness 53%, the complementary harmony rotates the hue by 180° to about 41°, converting back to approximately #EBAC24, a warm orange, the visual opposite of the original blue. A triadic harmony instead rotates by 120° and 240°, producing two additional colors evenly spaced around the color wheel from the base.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2281,7 +2523,12 @@ slug: "area-converter",
         answer: "Yes, each generated color is shown as a standard hex code, ready to use directly in CSS, design tools, or anywhere hex colors are accepted.",
       },
     ],
-    relatedSlugs: ["hex-rgb-converter", "contrast-checker"],
+    commonMistakes: [
+      "Assuming a color harmony rule guarantees a good-looking palette on its own, complementary and triadic rotations are a mathematical starting point, real designs usually still need adjustments to saturation, lightness, or which color dominates.",
+      "Using a very low-saturation or near-white/near-black base color, hue becomes visually meaningless at very low saturation or extreme lightness, so rotating it produces colors that look barely different from each other.",
+      "Applying full-saturation generated colors directly as large background areas, harmony-generated hues are useful as accents but can be overwhelming at high saturation across large surfaces, consider reducing saturation or lightness for backgrounds.",
+    ],
+    relatedSlugs: ["hex-rgb-converter", "contrast-checker", "hsl-converter"],
   },
   {
     slug: "hsl-converter",
@@ -2322,6 +2569,12 @@ slug: "area-converter",
           "HSL makes it easy to create color variations, keep the same hue and adjust lightness for a tints/shades palette, or adjust saturation to make a color more muted or vivid, without needing to recalculate hex or RGB values manually.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting hsl(217, 83%, 53%): the hue of 217° falls in the blue range of the color wheel, with high saturation (83%) making it vivid rather than gray, and mid-range lightness (53%) keeping it neither too dark nor too pale. Running this through the standard HSL-to-RGB conversion formula gives RGB values of approximately (36, 112, 235), which converts to the hex code #2470eb.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2332,6 +2585,11 @@ slug: "area-converter",
         question: "Can I use HSL directly in CSS?",
         answer: "Yes, modern CSS supports HSL natively, for example hsl(217, 83%, 53%), as an alternative to hex or RGB notation.",
       },
+    ],
+    commonMistakes: [
+      "Entering saturation or lightness as a decimal fraction (like 0.83) instead of a percentage (83), this tool expects saturation and lightness as numbers from 0 to 100, not 0 to 1.",
+      "Expecting hue values above 360 or below 0 to be rejected, hue is circular, so 380° is equivalent to 20°, but entering an out-of-range value can be confusing if you're expecting an error instead.",
+      "Confusing lightness with brightness/value from the HSB/HSV model, at 100% lightness every hue becomes pure white regardless of saturation, which surprises people expecting a vivid, fully saturated color.",
     ],
     relatedSlugs: ["hex-rgb-converter", "color-palette-generator"],
   },
@@ -2359,6 +2617,12 @@ slug: "area-converter",
           "Unlike many online PDF to JPG converters that upload your file to a server, this tool uses your browser's own rendering engine to do the conversion locally, meaning your PDF is never transmitted anywhere.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 5-page PDF and click Convert, each of the 5 pages is rendered onto a canvas at 2x scale (roughly double the pixel dimensions of the page's default size, for sharper detail than a 1x render) and exported as its own JPG. You get 5 individual download links, one per page, plus a single button to download all 5 as one ZIP file, useful if you only need page 3 versus needing the whole set.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2373,6 +2637,11 @@ slug: "area-converter",
         question: "Does this work with scanned PDFs?",
         answer: "Yes, since this renders the visual page content directly, it works the same way for scanned PDFs and text-based PDFs alike.",
       },
+    ],
+    commonMistakes: [
+      "Expecting perfectly crisp, print-resolution output from a 2x-scale render intended for general screen and casual print use, if you specifically need very high-DPI output for professional printing, 2x may not be sharp enough at large sizes.",
+      "Converting a very long PDF and downloading each page individually one by one, use the single ZIP download instead when you need most or all of the pages, it's far faster than clicking through dozens of individual links.",
+      "Assuming JPG output preserves a scanned document's exact color fidelity, JPG uses lossy compression, if exact color accuracy matters (like for archival scans), a lossless format would preserve more detail than this tool's JPG output.",
     ],
     relatedSlugs: ["merge-pdf", "split-pdf", "compress-pdf"],
   },
@@ -2583,6 +2852,12 @@ explanation: [
           "When duplicates are allowed, each number is picked independently, so the same value can appear more than once, similar to rolling a die multiple times. When duplicates are disallowed, each number can only appear once, similar to drawing raffle tickets or lottery numbers without replacement, which requires the range to contain at least as many values as the count requested.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you set minimum 1, maximum 49, count 6, and disallow duplicates, like picking lottery numbers. Since every draw is random, the exact 6 numbers will differ each time you run it, but internally the tool builds the full pool of 49 numbers, shuffles it (a Fisher-Yates shuffle, giving every number an equal chance of any position), then takes the first 6 from the shuffled pool, guaranteeing no repeats. Try the same range with duplicates allowed instead, and each of the 6 numbers is picked independently, so seeing the same number twice (like two 23s) becomes possible.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2595,6 +2870,11 @@ explanation: [
         answer:
           "If you disable duplicates and request more numbers than exist in your chosen range, the tool will show an error explaining the range is too small for that count.",
       },
+    ],
+    commonMistakes: [
+      "Using this tool's output for anything security-sensitive, like generating a password or cryptographic key, it uses the browser's general-purpose random function, not a cryptographically secure source, use our Password Generator for that instead.",
+      "Requesting more unique numbers than the range allows and expecting the tool to silently expand the range, disallowing duplicates caps your count at the number of values actually in the range (e.g. at most 49 unique numbers from a 1-49 range), you'll get an explanatory error instead.",
+      "Assuming allowing duplicates and disallowing duplicates just differ in likelihood, they're fundamentally different processes, with duplicates allowed each number is independent, without duplicates the pool shrinks as numbers are drawn, closer to drawing raffle tickets than rolling dice.",
     ],
     relatedSlugs: ["password-generator"],
   },
@@ -2625,6 +2905,12 @@ explanation: [
           "Rather than running AI requests through our own paid account with usage limits, this tool uses your personal OpenAI API key, sent directly with each request and never stored. This keeps the summarizer completely free to use with no artificial caps, while you only pay OpenAI directly for what you use, often covered by free trial credit for light usage.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Paste in a 900-word news article covering several distinct points, enter your API key, and click Summarize. Since the underlying model generates its own wording each time, the exact sentences will vary between runs, but the system prompt instructs it to return a 3-5 sentence summary capturing the key points, so expect a short paragraph hitting the article's main who/what/why rather than a sentence-by-sentence condensation or a bullet list.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2640,6 +2926,11 @@ explanation: [
         question: "Is my text sent anywhere else?",
         answer: "Your text and key are sent directly to OpenAI to generate the response and are not stored by Merondis.",
       },
+    ],
+    commonMistakes: [
+      "Pasting in very short text (a sentence or two) and expecting a meaningfully shorter summary, there's little to condense from already-brief text, this tool is most useful on longer articles, reports or documents.",
+      "Treating the AI-generated summary as a verbatim, guaranteed-accurate substitute for the source, language models can occasionally omit an important nuance or slightly misstate a detail, review the summary against the original for anything you plan to rely on or cite.",
+      "Pasting in sensitive or confidential text without considering that it's sent directly to OpenAI's API to generate the response, treat this the same as you would any third-party AI service when it comes to what you paste in.",
     ],
     relatedSlugs: ["paragraph-rewriter", "word-counter"],
   },
@@ -2786,6 +3077,12 @@ explanation: [
           "Storage device manufacturers typically advertise capacity using 1000 as the conversion factor (the decimal standard), while your computer's operating system displays file and drive sizes using 1024 (the binary standard). This is why a drive advertised as 1 TB often shows a slightly smaller capacity, around 931 GB, when viewed on your computer.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 1 gigabyte to megabytes gives exactly 1,024 MB, and converting 1 GB down to bytes gives 1,073,741,824 bytes (1024³), using this tool's binary (1024-based) convention throughout. That's why a manufacturer's '1 TB' drive, advertised using the decimal (1000-based) convention, shows up as roughly 931 GB once your operating system reports it using the binary convention this tool matches.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2797,7 +3094,12 @@ explanation: [
         answer: "Manufacturers typically advertise storage using the 1000-based decimal system, while operating systems display it using the 1024-based binary system, causing an apparent (but explainable) discrepancy.",
       },
     ],
-    relatedSlugs: ["length-converter", "weight-converter"],
+    commonMistakes: [
+      "Assuming a device's advertised capacity (typically 1000-based) will match exactly what your OS reports (1024-based), the two conventions diverge more as the numbers get larger, a 1 TB drive genuinely shows less than 1024 GB of usable space under the binary convention.",
+      "Mixing up bits and bytes, this tool clearly separates the two, but it's easy to misread 'Mb' (megabits, often used for network speeds) as 'MB' (megabytes, used for file sizes), an 8x difference.",
+      "Assuming this tool matches network speed conversions, bandwidth and transfer rate figures are conventionally decimal (1000-based, like our Bandwidth Calculator and Digital Transfer Rate Converter use), while storage capacity here uses the binary (1024-based) convention, don't mix the two conversion factors.",
+    ],
+    relatedSlugs: ["bandwidth-calculator", "digital-transfer-rate-converter"],
   },
   {
     slug: "url-encoder",
@@ -2841,6 +3143,12 @@ explanation: [
           "URL encoding is commonly needed when building query strings with user input, embedding special characters in a link, or passing data like an email address or search term as a URL parameter. Decoding reverses the process, turning percent-encoded text back into its original, readable form.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Encoding the text 'hello world & more' produces 'hello%20world%20%26%20more', each space becomes %20 and the ampersand becomes %26, since an unencoded & would otherwise be misread as separating two query string parameters. Decoding 'hello%20world%20%26%20more' reverses this exactly, returning the original 'hello world & more'.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2851,6 +3159,11 @@ explanation: [
         question: "What happens to spaces when encoding?",
         answer: "Spaces are converted to %20 in standard URL encoding, ensuring the URL remains valid and correctly interpreted by browsers and servers.",
       },
+    ],
+    commonMistakes: [
+      "Encoding an entire URL (including https:// and slashes) instead of just the parameter value, this turns the slashes and colons into percent-codes too, breaking the URL structure, only the query string value itself should typically be encoded.",
+      "Double-encoding a string that's already URL-encoded, encoding '%20' again produces '%2520', since the % itself gets encoded, always check whether text is already encoded before encoding it again.",
+      "Assuming a plus sign (+) and %20 are interchangeable in all contexts, + means a literal plus in a URL path but represents a space in traditional query-string (form) encoding, mixing the two conventions can cause spaces to be misinterpreted.",
     ],
     relatedSlugs: ["json-formatter", "base64-tool"],
   },
@@ -2881,6 +3194,12 @@ explanation: [
           "Rather than running AI requests through our own paid account with usage limits, this tool uses your personal OpenAI API key, sent directly with each request and never stored. This keeps the rewriter completely free to use with no artificial caps, while you only pay OpenAI directly for what you use.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Paste in \"The rapid growth of remote work has fundamentally changed how companies think about office space.\" and click Rewrite. Since the model generates fresh wording each time, the exact output varies between runs, but the system prompt instructs it to keep the same meaning and tone while changing the sentence structure and word choice, so expect something like \"Office space strategy has been reshaped by the swift rise of remote work,\" a genuinely different sentence conveying the same idea, not just a few synonym swaps.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -2891,6 +3210,11 @@ explanation: [
         question: "Why do I need my own API key?",
         answer: "This keeps the tool free with no usage limits imposed by us. Your key is used only for your request and is never stored or logged on our servers.",
       },
+    ],
+    commonMistakes: [
+      "Rewriting highly technical or precisely worded text (like legal or medical language) and assuming the meaning is preserved exactly, rephrasing can subtly shift precise terminology, always review technical rewrites carefully rather than using them verbatim.",
+      "Running the same text through the rewriter repeatedly expecting increasingly different results, each rewrite works from your original pasted text, not the previous output, chain multiple rewrites yourself (feeding one output back in) if you want progressively more altered phrasing.",
+      "Pasting in sensitive or confidential text without considering that it's sent directly to OpenAI's API to generate the response, treat this the same as you would any third-party AI service when it comes to what you paste in.",
     ],
     relatedSlugs: ["text-summarizer", "case-converter"],
   },
@@ -2939,6 +3263,12 @@ explanation: [
           "A JSON validator like this one flags common mistakes such as missing commas between properties, unquoted property names, trailing commas after the last item (not allowed in strict JSON), and mismatched or missing brackets and braces, all frequent causes of a 'invalid JSON' error when working with APIs or config files.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          '\'Format\' on the compact input {"name":"Alice","age":30} produces the pretty-printed version, with "name" and "age" each on their own indented line inside the braces. Running \'Minify\' on that pretty-printed version collapses it straight back down to {"name":"Alice","age":30}, with all extra whitespace and line breaks removed, the two operations are exact inverses of each other for valid JSON.',
+        ],
+      },
     ],
     faqs: [
       {
@@ -2954,7 +3284,12 @@ explanation: [
         answer: "Format adds indentation and line breaks for readability, while minify removes all unnecessary whitespace to reduce file size.",
       },
     ],
-    relatedSlugs: ["base64-tool"],
+    commonMistakes: [
+      "Leaving a trailing comma after the last item in an object or array, standard JSON (unlike JavaScript object literals) does not allow trailing commas, this is one of the most common causes of an 'invalid JSON' error.",
+      "Using single quotes around strings or property names, JSON requires double quotes exclusively, single-quoted strings that work fine in JavaScript will fail strict JSON parsing.",
+      "Including comments in the JSON, standard JSON has no comment syntax, // or /* */ comments that are valid in JSONC or JS config files will cause a parsing error here.",
+    ],
+    relatedSlugs: ["base64-tool", "url-encoder", "markdown-previewer"],
   },
   {
     slug: "base64-tool",
@@ -2998,6 +3333,12 @@ explanation: [
           "A common misconception is that Base64 provides security, it does not. Anyone can decode a Base64 string instantly using any Base64 decoder, including this one, since there's no key or secret involved. Base64 is purely a format conversion for compatibility, not a way to protect sensitive data.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Encoding the text 'Hello, World!' produces the Base64 string 'SGVsbG8sIFdvcmxkIQ==', the trailing '==' is padding, added because the original text's length doesn't divide evenly into the 3-byte groups Base64 encodes at a time. Decoding 'SGVsbG8sIFdvcmxkIQ==' reverses this exactly, returning the original 'Hello, World!'.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3014,7 +3355,12 @@ explanation: [
         answer: "No, Base64 is not encryption or security, it is simply a reversible encoding format and should not be used to protect sensitive data.",
       },
     ],
-    relatedSlugs: ["json-formatter"],
+    commonMistakes: [
+      "Treating Base64 as a way to secure or hide sensitive data like passwords or API keys, it's trivially reversible by anyone, use actual encryption if confidentiality matters.",
+      "Removing the '==' or '=' padding at the end of an encoded string, some systems require the padding to decode correctly, stripping it can cause a 'malformed' error in strict decoders even though the tool itself may tolerate it.",
+      "Assuming Base64-encoded text is roughly the same size as the original, Base64 increases data size by about 33%, which matters when embedding large payloads in URLs or headers with length limits.",
+    ],
+    relatedSlugs: ["json-formatter", "url-encoder"],
   },
   {
     slug: "merge-pdf",
@@ -3041,6 +3387,12 @@ explanation: [
           "Unlike many free PDF merge tools that upload your files to a server for processing, this tool uses client-side JavaScript to combine your PDFs locally on your device. Your files are never transmitted anywhere, which matters when merging documents containing sensitive or private information.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload cover-letter.pdf (1 page), resume.pdf (2 pages), and references.pdf (1 page), in that order, giving a 4-page combined document. If you then use the up arrow to move references.pdf above resume.pdf, the merged output becomes cover letter, references, resume, each source file's internal page order is preserved exactly, only the order of the files (and therefore their page blocks) relative to each other changes.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3055,6 +3407,11 @@ explanation: [
         question: "Is there a limit to how many PDFs I can merge?",
         answer: "There's no hard limit, but very large files or a very high number of PDFs may take longer to process depending on your device.",
       },
+    ],
+    commonMistakes: [
+      "Uploading files and assuming you can reorder individual pages within one file, the up/down arrows reorder whole files relative to each other, not individual pages inside a single source file, use Split PDF first if you need to reorder pages within one document.",
+      "Not double-checking file order before merging, since the merge happens instantly and the result downloads immediately, review the list order carefully first rather than merging and discovering the wrong sequence afterward.",
+      "Merging password-protected PDFs and expecting it to work seamlessly, an encrypted source file typically can't be read without first removing its password, address that before merging.",
     ],
     relatedSlugs: ["split-pdf", "compress-pdf"],
   },
@@ -3082,6 +3439,12 @@ widgetType: "splitPdf",
           "Splitting a PDF is useful when you only need to share, print, or archive a portion of a larger document, such as pulling one chapter from a report or isolating a signed page from a longer contract, without sending the entire original file.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 20-page report, the tool detects and shows '20 pages total', then set From Page 5 and To Page 9. The output is a brand new 5-page PDF containing exactly the original pages 5 through 9 inclusive, in their original order and formatting, pages 1-4 and 10-20 are simply left out. If you need pages 5-9 and separately pages 15-18, that's two separate runs of the tool, since only one continuous range is extracted per use.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3096,6 +3459,11 @@ widgetType: "splitPdf",
         question: "Will the extracted pages keep their original formatting?",
         answer: "Yes, page content, formatting and layout are preserved exactly as they appear in the original document.",
       },
+    ],
+    commonMistakes: [
+      "Entering a page range using a document's printed page numbers (like a preface numbered i-v) instead of its actual position in the PDF file, the From/To fields count physical pages in the file starting at 1, not whatever page numbers are printed on the pages themselves.",
+      "Trying to extract two non-adjacent ranges in a single run, like pages 2-4 and 10-12 together, this tool extracts one continuous range at a time, run it twice and keep both resulting files if you need two separate ranges.",
+      "Forgetting the range is inclusive of both endpoints, From 5 To 9 extracts 5 pages (5, 6, 7, 8 and 9), not 4, miscounting this can leave you one page short or long of what you intended.",
     ],
     relatedSlugs: ["merge-pdf", "compress-pdf"],
   },
@@ -3124,6 +3492,12 @@ explanation: [
           "Currency exchange rates fluctuate continuously based on global supply and demand, interest rate differences between countries, inflation, and economic events. This is different from fixed conversions like length or weight, which is why a currency calculator relies on regularly updated live exchange rate data rather than a static conversion factor.",
         ],
       },
+      {
+        heading: "Worked example (illustrative rates)",
+        paragraphs: [
+          "Say the live rate shows 1 USD = 0.92 EUR and 1 USD = 83 INR at a given moment. Converting 100 USD to EUR would go: 100 × 0.92 = 92 EUR. Converting that same 100 USD to INR (via the shared USD base) would go: 100 × 83 = 8,300 INR. These exact figures are only illustrative, since real exchange rates move constantly, the actual numbers you see when using the tool will differ from this example.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3138,6 +3512,11 @@ explanation: [
         question: "Which currencies are supported?",
         answer: "This tool supports major world currencies including USD, EUR, GBP, INR, JPY and more.",
       },
+    ],
+    commonMistakes: [
+      "Using the converted amount as a final, guaranteed transaction figure, this tool shows a reference rate, actual banks and payment providers apply their own margin/fee on top, so the amount you actually receive or pay will differ.",
+      "Assuming the rate shown is real-time to the second, exchange rates here are refreshed periodically rather than streamed continuously, for fast-moving currency pairs, the displayed rate could be a little stale.",
+      "Forgetting that some currencies use different decimal conventions (like the Japanese yen, which has no minor subunit in practice), rounding behavior that looks fine for USD/EUR can look odd for other currencies.",
     ],
     relatedSlugs: ["length-converter", "weight-converter"],
   },
@@ -3165,6 +3544,12 @@ widgetType: "compressPdf",
           "PDFs containing large, high-resolution embedded images typically see the biggest reduction in file size, while text-only PDFs or files already optimized by other software may show minimal change, since there's simply less redundant data left to remove.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 4 MB PDF exported from a design tool with unoptimized internal structure, and after compressing it shows something like '4 MB to 2.8 MB (30% smaller)'. Run the already-compressed 2.8 MB file back through the tool a second time, and expect little to no further reduction, once the redundant structural overhead is gone, there's nothing left for this technique to remove, this is normal and not a sign the tool failed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3179,6 +3564,11 @@ widgetType: "compressPdf",
         question: "Will compression affect the quality of my document?",
         answer: "Text and layout remain unaffected. This tool focuses on reducing file overhead rather than lowering image quality.",
       },
+    ],
+    commonMistakes: [
+      "Expecting dramatic size reduction on a PDF that's mostly text with few or no images, this tool optimizes internal file structure, not image quality, a text-heavy PDF simply doesn't have much redundant structural data to remove.",
+      "Running the same file through compression repeatedly expecting cumulative savings, once the structural overhead is removed on the first pass, later passes on the same file typically show little to no further reduction.",
+      "Assuming this works like an image-quality-reducing compressor, if a PDF's size is dominated by large embedded photos and you need a much smaller file regardless of image quality, downsampling the images before embedding them would achieve more than structural optimization alone.",
     ],
     relatedSlugs: ["merge-pdf", "split-pdf"],
   },
@@ -3393,7 +3783,7 @@ widgetType: "compressPdf",
     },
 explanation: [
       {
-        heading: "How to calculate a tip (tip formula)",
+        heading: "How to calculate a tip (tip formula and worked example)",
         paragraphs: [
           "To calculate a tip, the formula is: Tip Amount = Bill Amount × (Tip % ÷ 100). The total bill is then the original amount plus the tip. For example, calculating a 15% tip on a 50 bill: tip amount = 50 × (15 ÷ 100) = 7.50, for a total of 57.50.",
         ],
@@ -3414,6 +3804,11 @@ explanation: [
         question: "How is the per-person amount calculated?",
         answer: "The total bill, including tip, is divided evenly by the number of people entered.",
       },
+    ],
+    commonMistakes: [
+      "Calculating the tip on top of an already-discounted or already-tipped total, if a receipt shows a service charge already included, adding another full tip on top can significantly over-tip, check what's already included first.",
+      "Splitting only the base bill evenly and then each person tipping separately with rounding, small individual rounding differences can leave the group short of the intended total, splitting the already-combined total (bill plus tip) avoids this.",
+      "Assuming 15-20% is a universal standard, tipping norms vary significantly by country and even by service type, using a US dining norm in a context where tipping isn't customary (or is included by law) isn't appropriate.",
     ],
     relatedSlugs: ["percentage-calculator", "discount-calculator"],
   },
@@ -3545,6 +3940,12 @@ explanation: [
           "Sentences are detected by counting sequences of text ending in a period, question mark, or exclamation point. Paragraphs are counted by splitting text on line breaks and counting non-empty sections, this is how a word counter tool estimates structure for essays, articles, and word-limit-sensitive writing like tweets or meta descriptions.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For the text 'The quick brown fox. It jumps!' this tool reports 6 words, 30 characters (25 without spaces), and 2 sentences, one ending in a period and one ending in an exclamation point, both on a single paragraph since there's no line break.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3555,6 +3956,11 @@ explanation: [
         question: "Does this tool store my text?",
         answer: "No, all counting happens directly in your browser. Your text is never sent to or stored on our servers.",
       },
+    ],
+    commonMistakes: [
+      "Expecting sentence detection to handle abbreviations perfectly, a period after 'Mr.' or 'e.g.' is indistinguishable from a sentence-ending period to this simple detector, so abbreviation-heavy text can inflate the sentence count.",
+      "Assuming 'characters' and 'characters without spaces' will be used interchangeably by every platform, some character limits (like SMS or Twitter) count every character including spaces, check which figure actually matches your target platform's limit.",
+      "Treating a single long word as many, this tool splits strictly on whitespace, so a run-on string with no spaces (like a URL) counts as exactly one 'word' regardless of its length.",
     ],
     relatedSlugs: ["case-converter"],
   },
@@ -3602,6 +4008,12 @@ explanation: [
           "Title case is typically used for headlines, book titles, and proper names. Sentence case is standard for body text and most everyday writing. UPPERCASE is often used for emphasis, acronyms, or legal disclaimers, while lowercase is sometimes used stylistically in usernames, hashtags, or casual branding.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 'the great gatsby' to Title Case gives 'The Great Gatsby', each word's first letter is capitalized and the rest lowercased. Converting 'hello world. how ARE you?' to Sentence case instead gives 'Hello world. How are you?', only the first letter of each sentence is capitalized, and any existing unusual capitalization mid-sentence (like 'ARE') is normalized to lowercase.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3612,6 +4024,11 @@ explanation: [
         question: "What is Sentence case?",
         answer: "Sentence case capitalizes only the first letter of each sentence, similar to normal written English.",
       },
+    ],
+    commonMistakes: [
+      "Expecting Title Case to know which small words (like 'of', 'the', 'and') should stay lowercase in formal titles, this tool capitalizes every word's first letter uniformly, some style guides prefer lowercase for minor words, which would need manual adjustment afterward.",
+      "Assuming Sentence case preserves intentional mid-sentence capitalization, like an acronym or a proper noun, it lowercases everything except sentence-starting letters, so 'NASA' would need to be manually re-capitalized after converting.",
+      "Applying UPPERCASE to large blocks of body text for emphasis, in most style contexts, all-caps for long stretches of text is harder to read and can come across as shouting rather than emphasis.",
     ],
     relatedSlugs: ["word-counter"],
   },
@@ -3764,7 +4181,7 @@ explanation: [
     },
 explanation: [
       {
-        heading: "How to calculate fuel cost for a trip",
+        heading: "How to calculate fuel cost for a trip (worked example)",
         paragraphs: [
           "The fuel cost formula is: Fuel Needed = Distance ÷ Fuel Efficiency, and Total Cost = Fuel Needed × Fuel Price. For example, a 300-mile trip in a vehicle averaging 15 miles per gallon needs 300 ÷ 15 = 20 gallons of fuel, costing 20 × 1.50 = 30 at 1.50 per gallon.",
         ],
@@ -3786,7 +4203,12 @@ explanation: [
         answer: "No, this calculator uses a fixed fuel efficiency value you provide. Actual fuel consumption can vary based on traffic, terrain, speed and driving habits.",
       },
     ],
-    relatedSlugs: ["length-converter", "currency-converter"],
+    commonMistakes: [
+      "Using your vehicle's official rated fuel efficiency instead of your actual real-world efficiency from a recent fill-up, real-world driving (traffic, hills, AC use) typically uses more fuel than the rated figure, understating your actual trip cost.",
+      "Mixing unit systems, like entering distance in kilometers but efficiency in miles per gallon, this tool doesn't convert between systems, all three inputs need to use one consistent set of units (see our Fuel Economy Calculator if you need to convert your efficiency figure first).",
+      "Forgetting that this calculates fuel cost only, not total trip cost, tolls, parking, and vehicle wear aren't included, budget separately for those if you need a full trip cost estimate.",
+    ],
+    relatedSlugs: ["fuel-economy-calculator", "currency-converter"],
   },
   {
     slug: "length-converter",
@@ -3814,6 +4236,12 @@ explanation: [
           "Frequently used conversions include feet to meters (1 foot = 0.3048 m), miles to kilometers (1 mile = 1.609344 km), and centimeters to inches (1 cm ≈ 0.3937 in). The quick reference table below shows several common length and distance conversions at a glance.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 10 inches to centimeters gives exactly 25.4 cm (10 × 2.54), and converting a 26.2-mile marathon distance to kilometers gives approximately 42.16 km (26.2 × 1.609344), the standard marathon distance you'll often see quoted in kilometers.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3824,6 +4252,11 @@ explanation: [
         question: "Can I convert between metric and imperial units?",
         answer: "Yes, you can convert between any combination of metric (mm, cm, m, km) and imperial (in, ft, yd, mi) units.",
       },
+    ],
+    commonMistakes: [
+      "Confusing a UK/international mile with a nautical mile, a nautical mile (1,852 m) is longer than a standard statute mile (1,609.344 m), mixing them up matters most in aviation and maritime contexts.",
+      "Rounding intermediate results before a multi-step conversion, converting inches to feet to meters and rounding at each step can introduce small compounding errors, convert directly in one step whenever possible.",
+      "Assuming 'meter' and 'yard' are close enough to treat as equal, a yard (0.9144 m) is about 8.6% shorter than a meter, a gap that adds up over longer distances like a football field or running track.",
     ],
     relatedSlugs: ["weight-converter", "temperature-converter"],
   },
@@ -3853,6 +4286,12 @@ explanation: [
           "Frequently used conversions include kilograms to pounds (kg to lbs), pounds to kilograms, and grams to ounces, commonly needed for cooking, fitness tracking, or shipping weight limits. The quick reference table below shows several common weight conversions at a glance.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 70 kg to pounds gives approximately 154.32 lb (70 × 2.204623), a common body-weight conversion. Converting that same 70 kg to stone instead gives approximately 11.02 stone (70,000 g ÷ 6,350.29318 g per stone), the unit commonly used for body weight in the UK and Ireland.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3863,6 +4302,11 @@ explanation: [
         question: "How many pounds are in a stone?",
         answer: "One stone equals 14 pounds, a unit commonly used in the UK and Ireland for body weight.",
       },
+    ],
+    commonMistakes: [
+      "Confusing a metric tonne (1,000 kg) with a US short ton (about 907 kg) or a UK long ton (about 1,016 kg), the three differ enough to matter for shipping and freight calculations, this tool's 'tonne' is the metric tonne.",
+      "Mixing up avoirdupois ounces (used for general weight, 28.35 g) with troy ounces (used for precious metals, 31.10 g), they're different units despite sharing a name, this converter uses the standard avoirdupois ounce.",
+      "Forgetting that stone is only really used for body weight in UK/Irish English, converting a shipping or industrial weight into stone would be unusual and likely to confuse the intended audience.",
     ],
     relatedSlugs: ["length-converter", "bmi-calculator"],
   },
@@ -3892,6 +4336,12 @@ explanation: [
           "Useful reference points for temperature conversion: water freezes at 0°C (32°F), room temperature is around 20°C (68°F), body temperature is approximately 37°C (98.6°F), and water boils at 100°C (212°F) at sea level. See the full temperature reference table below.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 37°C (normal human body temperature) to Fahrenheit: (37 × 9/5) + 32 = 66.6 + 32 = 98.6°F. Converting that same 37°C to Kelvin is simpler, just add 273.15: 37 + 273.15 = 310.15 K, no multiplication needed since Kelvin and Celsius share the same degree size, just a different zero point.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -3902,6 +4352,11 @@ explanation: [
         question: "What is 0 Kelvin?",
         answer: "0 Kelvin, known as absolute zero, is equal to -273.15°C, the theoretical point where molecular motion stops.",
       },
+    ],
+    commonMistakes: [
+      "Applying the same multiply-and-add formula to Kelvin as to Fahrenheit, Kelvin only needs addition (K = °C + 273.15), there's no multiplication step since a Kelvin and a Celsius degree are the same size.",
+      "Forgetting that a 'one degree' change means something different in each scale, a 1°C change equals a 1.8°F change but only a 1 K change, this matters when reasoning about a temperature difference rather than an absolute reading.",
+      "Reporting a negative Kelvin value, Kelvin has no negative numbers in physical reality, since 0 K is absolute zero, a negative result signals an input or conversion error rather than a valid temperature.",
     ],
     relatedSlugs: ["length-converter", "weight-converter"],
   },
@@ -4073,6 +4528,12 @@ explanation: [
           "Every additional character multiplies the total number of possible password combinations, rather than just adding to it. A longer strong password made from a smaller set of characters (say, just lowercase letters and numbers) can still be harder to crack than a shorter complex password using every character type, simply because of how quickly the possibilities compound with length.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Generating a 16-character password with uppercase, lowercase and numbers enabled (symbols off) draws from a combined character set with easily-confused characters like 0/O and l/1/I deliberately excluded, so every generated password is unambiguous to read and retype by hand. Enabling symbols too widens the character set further, meaningfully increasing the total number of possible combinations for the same 16-character length, which is why adding a character type is generally a bigger security gain than a small increase in length alone.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -4089,6 +4550,11 @@ explanation: [
         question: "Should I reuse passwords across sites?",
         answer: "No, it's recommended to use a unique password for each account, ideally managed with a password manager.",
       },
+    ],
+    commonMistakes: [
+      "Choosing a short password purely because every character type is enabled, character variety matters less than raw length once you're combining multiple types, a longer password is almost always the bigger security win over adding one more character type to a short one.",
+      "Reusing a single generated password across multiple accounts, even a strong random password becomes a liability everywhere at once if that one account is ever compromised, generate and store a unique password per account, ideally in a password manager.",
+      "Disabling every character type except one (like lowercase letters only) for 'ease of typing', this dramatically shrinks the pool of possible characters at each position, making the password meaningfully easier to guess even at the same length.",
     ],
     relatedSlugs: ["uuid-generator", "random-number-generator"],
   },
@@ -4366,7 +4832,7 @@ explanation: [
     },
 explanation: [
       {
-        heading: "How to calculate the number of days between two dates",
+        heading: "How to calculate the number of days between two dates (worked example)",
         paragraphs: [
           "To find the difference between two dates, this tool counts the exact number of calendar days, then converts that into complete years, months and remaining days, the same way you'd count age or a duration by hand, but automated and accounting for leap years and varying month lengths.",
           "For example, from January 1, 2026 to July 15, 2026 is 195 days, or 6 months and 14 days when broken into a years/months/days format.",
@@ -4389,6 +4855,11 @@ explanation: [
         question: "Can I calculate the difference between two future dates?",
         answer: "Yes, both dates can be in the future, the past, or one of each.",
       },
+    ],
+    commonMistakes: [
+      "Expecting the years/months/days breakdown to add up the same way as a flat day-count divided by 365, months have different lengths, so 195 days works out to 6 months 14 days, not a clean fraction of a year.",
+      "Assuming the total weeks figure is always a whole number of the total days divided evenly, total weeks is the floor of total days ÷ 7, a remainder of a few days is simply dropped from that particular figure.",
+      "Entering the same date as both start and end and expecting an error, this is a valid input that correctly returns a zero difference across every field.",
     ],
     relatedSlugs: ["age-calculator", "countdown-timer"],
   },
@@ -4453,7 +4924,7 @@ explanation: [
     },
     explanation: [
       {
-        heading: "How to calculate GPA (Grade Point Average)",
+        heading: "How to calculate GPA (Grade Point Average, with a worked example)",
         paragraphs: [
           "GPA is calculated by converting each letter grade to a grade point value (A = 4.0, B = 3.0, C = 2.0, and so on), multiplying by that course's credit hours, summing all the results, then dividing by the total credit hours attempted.",
           "For example, an A (4.0) in a 3-credit course and a B (3.0) in a 4-credit course gives (4.0×3 + 3.0×4) ÷ (3+4) = 24 ÷ 7 ≈ 3.43 GPA.",
@@ -4479,6 +4950,11 @@ explanation: [
         question: "I need my GPA across multiple semesters, not just one. Where do I do that?",
         answer: "Use the CGPA Calculator instead. It combines each semester's GPA and credit hours into one cumulative figure, rather than calculating a single semester from letter grades.",
       },
+    ],
+    commonMistakes: [
+      "Averaging letter grades directly without weighting by credit hours, a 1-credit A and a 4-credit C are not equal contributions to your GPA, each course's grade points need to be multiplied by its credit hours before summing.",
+      "Assuming this unweighted calculator matches a high school transcript that uses weighted GPA (extra points for honors/AP courses), an unweighted 4.0 scale and a weighted 5.0-capable scale aren't directly comparable.",
+      "Using this single-semester tool to try to track a multi-semester cumulative GPA, entering old semesters' grades alongside new ones loses the actual per-semester breakdown, use the CGPA Calculator to combine semester GPAs correctly instead.",
     ],
     relatedSlugs: ["percentage-calculator", "cgpa-calculator"],
   },
@@ -4748,6 +5224,12 @@ explanation: [
           "A live countdown is commonly used to track time remaining until an event, deadline, product launch, holiday, or any specific date and time you want to keep visible while the page stays open in your browser.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Setting a target of December 31, 2026 at 11:59 PM while the current moment is July 30, 2026 shows a countdown starting at roughly 155 days, then ticking down hour by hour, minute by minute, and second by second in real time as you watch the page, exactly like the display would recompute if you refreshed at any later moment.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -4758,6 +5240,11 @@ explanation: [
         question: "What happens when the countdown reaches zero?",
         answer: "The timer will display a completion message once the target date and time have passed.",
       },
+    ],
+    commonMistakes: [
+      "Setting a target date in the past by mistake, this immediately shows a completion message rather than a countdown, double-check the date and time before relying on it for an upcoming event.",
+      "Assuming the countdown accounts for your visitor's specific time zone automatically if you share a link, the target moment is fixed, but make sure everyone involved understands which time zone the target time was set in.",
+      "Closing the browser tab and expecting the countdown to resume from where it was, this timer computes live from the current time versus the target each time the page loads, it isn't a persistent timer that runs in the background when the tab is closed.",
     ],
     relatedSlugs: ["date-calculator", "age-calculator"],
   },
@@ -5171,6 +5658,12 @@ explanation: [
           "This is useful for calculating deadlines (e.g. 'net 30' payment terms), shipping or delivery estimates, warranty expiration dates, or any situation where you need to project a date a fixed number of days into the future.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Adding 45 days to July 1, 2026 gives August 15, 2026, a Saturday, crossing over both the end of July (31 days) into August seamlessly, exactly the kind of month-boundary rollover this tool handles automatically.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5181,6 +5674,11 @@ explanation: [
         question: "What if I need to go backward instead?",
         answer: "Use our Subtract Days Calculator to move a date backward by a number of days instead.",
       },
+    ],
+    commonMistakes: [
+      "Confusing calendar days with business days, adding 30 days to a date includes weekends in that count, if you need '30 business days from now,' use the Working Days Calculator's logic in reverse instead.",
+      "Assuming the day of the week shifts predictably (like always landing on the same weekday), unless the number of days added is a multiple of 7, the resulting date falls on a different day of the week than the start date.",
+      "Forgetting a 'net 30' or similar payment term typically counts from the invoice date itself as day zero, double-check whether your specific contract counts the start date as day 1 or day 0 before relying on the exact resulting date.",
     ],
     relatedSlugs: ["subtract-days-calculator", "date-calculator", "working-days-calculator"],
   },
@@ -5221,6 +5719,12 @@ explanation: [
           "This is useful for finding a date a certain number of days before an event, calculating when to start a task to meet a deadline, or figuring out a past date, such as '90 days before my due date' or a project's required start date.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Subtracting 90 days from July 30, 2026 gives May 1, 2026, a Friday, correctly stepping backward across the boundaries of June and July (30 and 31 days respectively) without any manual month-by-month arithmetic.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5231,6 +5735,11 @@ explanation: [
         question: "What if I need to go forward instead?",
         answer: "Use our Add Days Calculator to move a date forward by a number of days instead.",
       },
+    ],
+    commonMistakes: [
+      "Confusing calendar days with business days, subtracting 90 days includes weekends in that count, if you specifically need '90 business days before,' that's a different calculation than this tool performs.",
+      "Assuming the resulting day of the week follows a simple pattern, unless the number of days subtracted is a multiple of 7, the result lands on a different weekday than the start date.",
+      "Mixing up which direction is 'before' when planning backward from a deadline, double-check that subtracting (not adding) is actually what your specific planning scenario calls for.",
     ],
     relatedSlugs: ["add-days-calculator", "date-calculator", "working-days-calculator"],
   },
@@ -5275,6 +5784,12 @@ explanation: [
           "Unlike a simple date difference calculator, this tool accounts for the specific time of day on both ends, making it accurate for tracking things like elapsed work hours, event durations, or the precise time between two timestamped events, even when they span midnight or multiple days.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "From July 1, 2026 at 9:00 AM to July 3, 2026 at 5:30 PM, this tool reports a duration of 2 days, 8 hours, 30 minutes, equivalently 56 total hours or 3,390 total minutes, precise down to the exact time of day on both ends, not just a whole-day count.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5285,6 +5800,11 @@ explanation: [
         question: "Can I calculate a duration that spans multiple days?",
         answer: "Yes, the duration can span any length of time, from a few minutes to multiple days, months or years, and will be broken down into days, hours and minutes accordingly.",
       },
+    ],
+    commonMistakes: [
+      "Using this when only whole calendar days matter, entering just dates without meaningful times can give a duration that looks a day off from what a simple date-only calculator would show, since partial days are measured precisely down to the minute here.",
+      "Forgetting time zone context when comparing two timestamps from different sources, this tool works entirely on the date-time values you enter, if one came from a UTC log and the other from local time, the raw duration will be off by your UTC offset unless converted first.",
+      "Reading 'days' as complete 24-hour periods when the total also includes leftover hours and minutes, the days, hours, and minutes fields together represent the full duration, the 'days' field alone isn't the whole picture.",
     ],
     relatedSlugs: ["date-calculator", "countdown-timer", "working-days-calculator"],
   },
@@ -5322,6 +5842,12 @@ explanation: [
           "ISO week numbers are widely used in business, manufacturing and project planning for consistent weekly reporting, since every ISO week has exactly 7 days and starts on the same weekday (Monday), unlike calendar weeks which can be split unevenly across months.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "January 1, 2023 fell on a Sunday, and this calculator reports it as week 52 of ISO year 2022, not week 1 of 2023, since ISO week 1 is defined by the year's first Thursday, and that Sunday belonged to the same Monday-to-Sunday week as the final Thursday of December 2022. The very next day, January 2, 2023 (a Monday), correctly starts ISO week 1 of 2023.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5332,6 +5858,11 @@ explanation: [
         question: "Does the week start on Sunday or Monday?",
         answer: "This calculator follows the ISO 8601 standard, where weeks start on Monday. This differs from some calendars and regions that start the week on Sunday.",
       },
+    ],
+    commonMistakes: [
+      "Assuming January 1st is always in week 1, as the worked example shows, it depends entirely on which day of the week January 1st falls on, some years it belongs to the last week of the previous ISO year instead.",
+      "Mixing up the ISO week year with the calendar year near year boundaries, a date's 'ISO Week Year' result can differ from its calendar year for a handful of days at the very start or end of December/January.",
+      "Assuming this matches a US-style week numbering system, some US conventions start the week on Sunday and count week 1 differently, this calculator strictly follows the international ISO 8601 standard (Monday start, first-Thursday rule).",
     ],
     relatedSlugs: ["date-calculator", "working-days-calculator", "countdown-timer"],
   },
@@ -5624,6 +6155,12 @@ explanation: [
           "For small projects like fence posts or a small pad, bagged concrete mixed on-site is usually more practical. For larger pours (roughly a cubic yard or more), ready-mix concrete delivered by truck is typically more cost-effective and easier to place in one continuous pour.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 10 ft × 10 ft slab, 4 inches thick: volume = 10 × 10 × (4 ÷ 12) = 33.33 cubic feet, or 33.33 ÷ 27 ≈ 1.235 cubic yards. Using 60 lb bags (yielding 0.45 cu ft each): 33.33 ÷ 0.45 ≈ 74.1, rounded up to 75 bags needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5634,6 +6171,11 @@ explanation: [
         question: "Does this account for rebar or wire mesh?",
         answer: "No, this calculator estimates concrete volume only. Reinforcement like rebar or wire mesh doesn't meaningfully change the concrete volume needed and should be planned separately.",
       },
+    ],
+    commonMistakes: [
+      "Entering thickness in feet instead of inches, this calculator's thickness field expects inches specifically, entering '4' meaning 4 feet instead of 4 inches would inflate the volume estimate twelvefold.",
+      "Ordering exactly the calculated amount with no buffer, real pours lose some material to spillage, uneven subgrade and over-excavation, most contractors add 5-10% on top of the theoretical volume.",
+      "Assuming a larger bag size always means fewer bags in a simple ratio, bag yield doesn't scale perfectly linearly with weight in casual estimation, always use the actual yield figure (cubic feet per bag) printed on the specific bag, not just its weight.",
     ],
     relatedSlugs: ["gravel-calculator", "flooring-calculator", "roofing-calculator"],
   },
@@ -5681,6 +6223,12 @@ explanation: [
           "10% is a common default for straight tile layouts. Diagonal layouts, rooms with lots of corners or fixtures, or large-format tiles that are harder to cut efficiently often warrant a higher allowance, sometimes 15-20%.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 12 ft × 10 ft room (120 sq ft) using 12 in × 12 in tiles (1 sq ft each) with a 10% waste allowance: area including waste = 120 × 1.10 = 132 sq ft. Dividing by the 1 sq ft tile area gives exactly 132 tiles needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5691,6 +6239,11 @@ explanation: [
         question: "Should I buy exactly the amount this calculator suggests?",
         answer: "It's a good idea to round up to the nearest full box, and consider keeping a few extra tiles on hand for future repairs, since matching a discontinued tile later can be difficult.",
       },
+    ],
+    commonMistakes: [
+      "Entering tile dimensions in feet instead of inches, this calculator's tile length and width fields expect inches, entering the room's units by mistake will produce a wildly incorrect tile count.",
+      "Using too low a waste allowance for a diagonal layout or a room with lots of corners and fixtures, those layouts need significantly more cutting, a 10% allowance meant for a simple straight layout can leave you short.",
+      "Forgetting that grout line width isn't factored in separately, this calculator uses the tile's stated size directly, for most standard grout widths this has only a small effect, but very wide grout lines with small tiles can meaningfully shift the real count.",
     ],
     relatedSlugs: ["flooring-calculator", "paint-calculator", "concrete-calculator"],
   },
@@ -5742,6 +6295,12 @@ explanation: [
           "Most paint covers around 350-400 sq ft per gallon on a smooth, primed surface, but this varies by paint brand, sheen, and the porosity or texture of your walls. Check your specific paint can's label for its stated coverage rate for the most accurate estimate.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 12 ft × 10 ft room with 8 ft walls, 1 door and 1 window, 2 coats, at 350 sq ft coverage per gallon: perimeter = 2 × (12+10) = 44 ft, gross wall area = 44 × 8 = 352 sq ft. Subtracting openings (1 door at 21 sq ft, 1 window at 15 sq ft = 36 sq ft) gives a net wall area of 352 − 36 = 316 sq ft. For 2 coats, total paint area = 316 × 2 = 632 sq ft. Dividing by 350 sq ft per gallon: 632 ÷ 350 ≈ 1.81, rounded up to 2 gallons needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5752,6 +6311,11 @@ explanation: [
         question: "How many coats do I need?",
         answer: "Two coats is standard for most new paint jobs. A single coat may work for a minor touch-up in a similar color, while three coats might be needed for a light color covering a much darker existing wall.",
       },
+    ],
+    commonMistakes: [
+      "Forgetting to subtract doors and windows from the wall area, this calculator does it automatically using standard estimated sizes, but if your openings are unusually large or numerous, the standard 21 sq ft door / 15 sq ft window estimate may undercount how much area you're actually saving.",
+      "Using the wall area for a single coat when the room needs two, this calculator multiplies net wall area by the number of coats before converting to gallons, forgetting to double it (when estimating by hand) is a common way to under-order paint.",
+      "Assuming every paint's coverage rate is the same, coverage varies meaningfully by brand, sheen and wall texture, always check the specific can's label rather than assuming the 350 sq ft per gallon default.",
     ],
     relatedSlugs: ["tile-calculator", "flooring-calculator", "concrete-calculator"],
   },
@@ -5797,6 +6361,12 @@ explanation: [
           "10% is a typical default for straightforward rectangular rooms. Rooms with lots of corners, closets or angled walls, or flooring installed diagonally, generally need a higher allowance since more cutting is involved.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 12 ft × 10 ft room (120 sq ft), boxes covering 20 sq ft each, with a 10% waste allowance: area including waste = 120 × 1.10 = 132 sq ft. Dividing by 20 sq ft per box: 132 ÷ 20 = 6.6, rounded up to 7 boxes needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5807,6 +6377,11 @@ explanation: [
         question: "Should I buy exactly this many boxes?",
         answer: "It's wise to round up to the nearest full box and keep any leftover material for future repairs, since matching a discontinued flooring style later can be difficult.",
       },
+    ],
+    commonMistakes: [
+      "Using a generic coverage-per-box figure instead of the one printed on the actual product, coverage per box varies by plank size and brand, using a wrong or estimated figure can lead to ordering too few or too many boxes.",
+      "Applying too low a waste allowance for a room with lots of corners, closets or diagonal installation, those situations require more cutting and offcuts than a simple rectangular room, and often need 15% or more.",
+      "Forgetting that boxes must be purchased as whole units, this calculator rounds up to the next full box automatically, buying the unrounded fractional amount would leave the job short.",
     ],
     relatedSlugs: ["tile-calculator", "paint-calculator", "concrete-calculator"],
   },
@@ -5853,6 +6428,12 @@ explanation: [
           "Roof pitch is usually expressed as 'X/12,' meaning the roof rises X inches for every 12 inches of horizontal run. A 4/12 roof is fairly shallow, while a 12/12 roof is a steep 45-degree slope. Check your building plans, or measure with a level and tape measure along a section of exposed rafter.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 40 ft × 30 ft building footprint with a 6/12 pitch and a 10% waste allowance: footprint area = 40 × 30 = 1,200 sq ft. Pitch multiplier = √(144 + 6²) ÷ 12 = √180 ÷ 12 ≈ 1.1180. Roof area = 1,200 × 1.1180 ≈ 1,341.64 sq ft. Adding 10% waste: 1,341.64 × 1.10 ≈ 1,475.80 sq ft. Squares needed = 1,475.80 ÷ 100 ≈ 14.76, and bundles needed (3 per square, rounded up) = 45.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5863,6 +6444,11 @@ explanation: [
         question: "What waste allowance should I use?",
         answer: "10% is a reasonable default for a simple roof shape. More complex roofs with lots of cuts, hips or valleys typically need 15% or more.",
       },
+    ],
+    commonMistakes: [
+      "Using the building's flat footprint area directly as the roof area without applying the pitch multiplier, a sloped roof always has more actual surface area than the footprint beneath it, skipping this step significantly undercounts materials.",
+      "Assuming this estimate works for complex roof shapes with hips, valleys or dormers, it's built for a simple gabled or shed roof, complex shapes have extra surface area and cutting waste this calculator doesn't capture.",
+      "Forgetting shingle bundles are packaged 3 per square, ordering by 'squares needed' directly instead of converting to bundles (or vice versa) will throw off the actual order quantity.",
     ],
     relatedSlugs: ["concrete-calculator", "gravel-calculator", "paint-calculator"],
   },
@@ -5906,6 +6492,12 @@ explanation: [
           "Actual gravel density depends on the material type and how compacted it is, ranging roughly from 1.2 to 1.5 tons per cubic yard. For a large or expensive order, it's worth confirming the exact density figure with your specific supplier for a more precise quantity.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 20 ft × 10 ft area, 4 inches deep: volume = 20 × 10 × (4 ÷ 12) ≈ 66.67 cubic feet, or 66.67 ÷ 27 ≈ 2.469 cubic yards. Converting to tons using the 1.4 tons per cubic yard density: 2.469 × 1.4 ≈ 3.46 tons needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5916,6 +6508,11 @@ explanation: [
         question: "Should I order extra gravel?",
         answer: "Many suppliers recommend ordering 5-10% extra to account for compaction and an uneven base, especially for larger or irregularly shaped areas.",
       },
+    ],
+    commonMistakes: [
+      "Using the default 1.4 tons per cubic yard density for a very different gravel type, actual density can range from about 1.2 to 1.5 tons per cubic yard depending on material, for a large order, confirm the exact figure with your supplier.",
+      "Entering depth in feet instead of inches, this calculator's depth field expects inches, entering the intended feet value directly would inflate the volume estimate twelvefold.",
+      "Not accounting for compaction when ordering, gravel settles once compacted, ordering exactly the theoretical volume with no buffer can leave a driveway or path slightly short, many suppliers suggest 5-10% extra.",
     ],
     relatedSlugs: ["concrete-calculator", "roofing-calculator", "flooring-calculator"],
   },
@@ -5964,6 +6561,12 @@ explanation: [
           "CIDR notation (like /24) expresses the subnet mask as a prefix length, the number of leading 1 bits in the mask. This is equivalent to a dotted-decimal mask like 255.255.255.0, this calculator accepts either format and shows both in the results, along with the wildcard mask, the inverse of the subnet mask used in access control lists on some network equipment.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering IP address 192.168.1.10 with a /24 subnet mask gives: network address 192.168.1.0, broadcast address 192.168.1.255, a usable host range of 192.168.1.1 through 192.168.1.254 (254 usable hosts), subnet mask 255.255.255.0, and wildcard mask 0.0.0.255. Try the special-case /31 instead (say 10.0.0.0/31) and you'll see both 10.0.0.0 and 10.0.0.1 listed as usable hosts, per RFC 3021, since a two-device point-to-point link doesn't need a separate broadcast address.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -5974,6 +6577,11 @@ explanation: [
         question: "Why does a /31 subnet have 2 usable hosts instead of 0?",
         answer: "Per RFC 3021, /31 subnets are a special case used for point-to-point links, both addresses in the subnet are usable as host addresses since there's no need for a separate broadcast address on a two-device link.",
       },
+    ],
+    commonMistakes: [
+      "Assigning the network address or broadcast address to a device, these two addresses at the very start and end of the range are reserved (except in the /31 special case), assigning either to a host causes routing and broadcast conflicts on the network.",
+      "Confusing the wildcard mask with the subnet mask, the wildcard mask is the bitwise inverse of the subnet mask, used specifically in access control list configurations on some network equipment, plugging a wildcard mask in where a regular subnet mask is expected (or vice versa) inverts your intended matching logic.",
+      "Assuming every subnet has usable hosts equal to total addresses minus 2, that formula only applies to /0 through /30, /31 has exactly 2 usable hosts (both addresses) and /32 has exactly 1 (a single host route), both special cases this calculator handles correctly but are easy to miscalculate by hand.",
     ],
     relatedSlugs: ["cidr-range-calculator", "ip-address-converter", "password-generator"],
   },
@@ -6014,6 +6622,12 @@ explanation: [
           "This is useful when reviewing firewall rules, cloud security groups, or access control lists that reference CIDR blocks, letting you quickly see exactly which IP addresses a given rule covers, or how many total addresses (including network and broadcast) a block contains.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering 192.168.1.0/24 gives a first address of 192.168.1.0, a last address of 192.168.1.255, a total of 256 addresses, and an equivalent subnet mask of 255.255.255.0. That total of 256 includes both the network address and the broadcast address, if you specifically need the usable host range excluding those two (254 hosts in this case), use the Subnet Calculator instead.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -6024,6 +6638,11 @@ explanation: [
         question: "What format should I use?",
         answer: "Enter the block as an IP address followed by a forward slash and the prefix length, for example 10.0.0.0/16 or 192.168.1.0/24.",
       },
+    ],
+    commonMistakes: [
+      "Treating the total address count as the usable host count, this figure includes the reserved network and broadcast addresses, for the actual usable host range (excluding those two), use the Subnet Calculator instead.",
+      "Entering an IP address that isn't actually the network address for that prefix, like 192.168.1.5/24, this tool masks the address down to its network boundary first, so the result is still correct, but it means the range shown may not start exactly at the IP you typed.",
+      "Assuming a /16 and a /24 cover a similar-sized range, each step down in prefix length doubles the address count, a /16 contains 65,536 addresses versus a /24's 256, an easy-to-miss order-of-magnitude difference when skimming CIDR notation.",
     ],
     relatedSlugs: ["subnet-calculator", "ip-address-converter", "password-generator"],
   },
@@ -6076,6 +6695,12 @@ explanation: [
           "Binary representation makes it easy to see exactly which bits are part of the network portion versus the host portion when working with subnetting, since subnet masks operate directly on these bits. Hexadecimal is commonly seen in low-level networking tools, packet captures and some router or firewall configuration formats.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering 192.168.1.1 in decimal format converts to binary 11000000.10101000.00000001.00000001, hexadecimal (dotted) C0.A8.01.01 or (compact) 0xC0A80101, and the 32-bit integer 3232235777, all four representing the exact same underlying address. Entering that same binary string back in with Input Format set to Binary reproduces the identical decimal, hex and integer values, since it's just a different display of the same 32-bit number.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -6086,6 +6711,11 @@ explanation: [
         question: "What format should binary or hex input be in?",
         answer: "Binary input should be 32 digits of 0s and 1s, optionally grouped with periods into four 8-bit octets. Hex input should be 8 hex digits, optionally grouped with periods into four 2-digit octets, or prefixed with '0x'.",
       },
+    ],
+    commonMistakes: [
+      "Leaving the Input Format dropdown set to the wrong format for what you actually typed, entering a decimal address while Binary is selected causes a validation error rather than a conversion, since the parser expects exactly 32 binary digits.",
+      "Entering fewer than 32 binary digits or 8 hex digits, a shortened or truncated address (missing leading zeros in an octet, for example) won't parse, each octet needs its full digit count even if the value is small.",
+      "Assuming this tool validates whether an address is actually routable or in a reserved range, it converts between number formats only, it doesn't check whether the address falls in a private, reserved, or otherwise special-use range.",
     ],
     relatedSlugs: ["subnet-calculator", "cidr-range-calculator", "hex-rgb-converter"],
   },
@@ -6140,6 +6770,12 @@ explanation: [
           "An undersized unit will run constantly and struggle to cool or heat the space, while an oversized unit cycles on and off too quickly, which wastes energy and can leave a room feeling clammy since it doesn't run long enough to properly dehumidify. Getting the BTU rating right balances comfort and efficiency.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 300 sq ft room with moderate sun exposure, 2 typical occupants, and not a kitchen: the DOE sizing chart gives a base rating of 7,000 BTU for that square footage. Since sun exposure is moderate (no adjustment), occupants are exactly 2 (no extra), and it's not a kitchen, no further adjustments apply, so the recommended rating stays at 7,000 BTU, equivalent to about 0.58 tons (7,000 ÷ 12,000).",
+        ],
+      },
     ],
     faqs: [
       {
@@ -6154,6 +6790,11 @@ explanation: [
         question: "Does this account for insulation quality or ceiling height?",
         answer: "No, this calculator uses room square footage as the primary factor, along with sun exposure, occupancy and kitchen use. Poor insulation, very high ceilings, or extreme climates may require sizing beyond this general estimate, consult an HVAC professional for a precise load calculation.",
       },
+    ],
+    commonMistakes: [
+      "Assuming a bigger BTU rating is always better, an oversized unit cycles on and off too quickly, which wastes energy and leaves a room feeling clammy since it doesn't run long enough to properly dehumidify, correct sizing (not maximum sizing) is the goal.",
+      "Forgetting the occupancy adjustment only applies beyond 2 people, this calculator only adds extra BTU for occupants past the first two, a room with exactly 1 or 2 typical occupants gets no occupancy adjustment.",
+      "Treating this as a substitute for a professional load calculation in edge cases, this estimate doesn't account for insulation quality, ceiling height or extreme climates, homes with those factors may need sizing beyond what this general estimate suggests.",
     ],
     relatedSlugs: ["square-footage-calculator", "concrete-calculator", "gravel-calculator"],
   },
@@ -6297,6 +6938,12 @@ explanation: [
           "Square feet is the standard unit for most home improvement projects in the US. Square yards is commonly used when buying carpet (9 square feet = 1 square yard). Square meters is the standard metric unit, useful when working with international suppliers or specifications.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a rectangle 12 ft × 10 ft: area = 12 × 10 = 120 sq ft, which is 120 ÷ 9 ≈ 13.33 sq yards, or 120 × 0.092903 ≈ 11.15 sq meters.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -6307,6 +6954,11 @@ explanation: [
         question: "What if I only know the radius, not the diameter, of a circle?",
         answer: "Multiply the radius by 2 to get the diameter, then enter that value in the 'Length, Base, or Diameter' field.",
       },
+    ],
+    commonMistakes: [
+      "Entering a circle's radius instead of its diameter, this calculator's first field expects the diameter for circles, entering the radius by mistake would produce an area only a quarter of the correct size.",
+      "Forgetting to halve the base × height for a triangle, unlike a rectangle (length × width), a triangle's area is ½ × base × height, using the rectangle formula for a triangular space would double the true area.",
+      "Not splitting an L-shaped or irregular room into simpler pieces first, this calculator handles single rectangles, circles or triangles only, complex shapes need to be broken into simpler pieces and added together.",
     ],
     relatedSlugs: ["tile-calculator", "flooring-calculator", "btu-calculator"],
   },
@@ -6915,6 +7567,12 @@ explanation: [
           "Residual value is the vehicle's estimated worth at the end of the lease, set by the leasing company based on expected depreciation. A higher residual value means less depreciation to pay for over the lease, generally resulting in a lower monthly payment, though it also means a higher price if you choose to buy the vehicle at lease end.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $35,000 vehicle, no down payment, an $18,000 residual value, a 36-month term, 5% APR, and no sales tax: monthly depreciation fee = ($35,000 − $18,000) ÷ 36 = $472.22. The 5% APR converts to a money factor of 5 ÷ 2400 = 0.002083, giving a monthly finance fee of ($35,000 + $18,000) × 0.002083 = $110.42. The base payment is $472.22 + $110.42 = $582.64, and with no sales tax, the total monthly payment is also $582.64, for a total lease cost of $20,975 over the 36-month term.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -6990,6 +7648,12 @@ explanation: [
         heading: "Why capitalized interest matters",
         paragraphs: [
           "Because capitalized interest becomes part of the principal, it increases the total interest you'll pay over the life of the loan, above and beyond what you'd pay if the loan started accruing interest only once repayment began. This is why unsubsidized loans generally cost more in total interest than subsidized loans of the same size and rate.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $30,000 unsubsidized loan at 5.5% APR, a 10-year term, and a 6-month grace period: interest accrues during the grace period at a monthly rate of 5.5% ÷ 12 = 0.4583%, so capitalized interest = $30,000 × 0.004583 × 6 = $825. That gets added to the balance, so repayment actually begins on $30,825, not $30,000. Amortizing that larger balance over 120 months at the same rate gives a monthly payment of $334.53, and total interest of $10,143.87 over the life of the loan, higher than it would have been without the grace-period capitalization.",
         ],
       },
     ],
@@ -7083,6 +7747,13 @@ explanation: [
         heading: "A few simplifying assumptions",
         paragraphs: [
           "This calculator doesn't enforce the IRS annual Roth IRA contribution limit, which changes periodically and depends on your income and filing status, so make sure your entered annual contribution reflects your actual allowed limit. It also assumes the taxable comparison account is taxed annually on gains realized that year, a simplification of how many taxable accounts (like a brokerage account you don't actively sell in) actually work in practice.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Starting at age 30 with a $10,000 balance, contributing $6,500 a year until retirement at 65 (35 years), at an expected 7% annual return, with a 15% comparison tax rate: the Roth IRA balance grows to $1,090,632.76 tax-free, on $227,500 of total contributions, for $853,132.76 of total growth. The equivalent taxable account, earning the same return but taxed annually on its gains at 15%, ends up at $848,415.44, a tax-free advantage of $242,217.32, the concrete dollar value of never paying tax on Roth growth.",
+          "Note: growth here compounds monthly (not annually), so a 7% annual return behaves like a 7.23% effective annual rate, which is why the balance comes out higher than a simple annual-compounding hand calculation would suggest.",
         ],
       },
     ],
@@ -7270,6 +7941,12 @@ explanation: [
           "The 'net interest after tax' figure is the more realistic number for comparing a taxable savings account to tax-advantaged alternatives, since the advertised interest rate on a savings account is always pre-tax. If you're deciding between a taxable savings account and something like a Roth IRA for money you don't need immediate access to, comparing after-tax outcomes gives a fairer picture.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $5,000 initial deposit, $100 added monthly, at 4.5% annual interest for 5 years, with no tax rate applied: the ending balance comes to $12,973.53. Total contributions (the $5,000 initial deposit plus 60 months of $100 deposits) add up to $11,000, meaning $1,973.53 of that ending balance is interest earned, since no tax rate was entered here, the pre-tax and after-tax interest figures are identical in this example.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -7352,6 +8029,12 @@ explanation: [
           "Biweekly means every 2 weeks, 26 paychecks a year, and occasionally 27 in a year with an extra pay period. Semi-monthly means twice a month, always 24 paychecks a year, typically on fixed dates like the 15th and the last day of the month. Because 26 and 24 are different numbers, the same annual salary produces a different per-paycheck amount under each schedule, which is why this calculator treats them as distinct frequencies rather than treating semi-monthly as 'half of biweekly'.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering $25 an hour, 40 hours a week: weekly pay = $25 × 40 = $1,000, so annual = $1,000 × 52 = $52,000. From there, biweekly = $2,000, semi-monthly = $52,000 ÷ 24 = $2,166.67, monthly = $52,000 ÷ 12 = $4,333.33, and daily = $1,000 ÷ 5 days = $200. Notice biweekly ($2,000) and semi-monthly ($2,166.67) are meaningfully different figures for the exact same $52,000 salary, precisely the mix-up described above.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -7418,6 +8101,12 @@ explanation: [
         heading: "What the effective hourly rate shows",
         paragraphs: [
           "The effective hourly rate blends your regular and overtime pay across all hours worked that week, giving you a single average rate. This number is naturally higher than your base hourly rate whenever you work any overtime, and it's a useful figure for comparing total compensation against a job with a different hourly rate but no overtime.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $22/hour rate, 40 regular hours, 5 overtime hours at a 1.5x multiplier, 52 paid weeks a year: regular weekly pay = $22 × 40 = $880, overtime weekly pay = $22 × 1.5 × 5 = $165, for a total weekly pay of $1,045, or $54,340 annually. The effective hourly rate across all 45 hours worked that week is $1,045 ÷ 45 = $23.22, higher than the $22 base rate specifically because of the overtime premium blended in.",
         ],
       },
     ],
@@ -9415,6 +10104,12 @@ explanation: [
           "A depth of 2 to 4 inches is commonly recommended for most garden beds, deep enough to suppress weeds and retain soil moisture, without piling mulch so high it smothers plant roots or traps excess moisture against stems and trunks.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 20 ft × 10 ft garden bed, 3 inches deep: volume = 20 × 10 × (3 ÷ 12) = 50 cubic feet, or 50 ÷ 27 ≈ 1.852 cubic yards. In standard 2 cubic foot bags: 50 ÷ 2 = 25 bags needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9429,6 +10124,11 @@ explanation: [
         question: "Should I subtract the area taken up by plants?",
         answer: "For a rough estimate, most people calculate mulch for the full bed area and accept a small amount of surplus, since precisely subtracting plant footprints is rarely worth the extra effort for typical garden beds.",
       },
+    ],
+    commonMistakes: [
+      "Piling mulch too deep, more than about 4 inches can smother plant roots and trap excess moisture against stems and trunks, deeper isn't always better even if it means fewer future top-ups.",
+      "Entering depth in feet instead of inches, this calculator's depth field expects inches, entering the intended feet value directly would inflate the volume estimate twelvefold.",
+      "Assuming mulch type changes the volume calculation, it doesn't, volume depends only on area and depth, but different mulch types decompose and settle at different rates, which affects how often you'll need to reapply, not how much you need for one application.",
     ],
     relatedSlugs: ["soil-calculator", "gravel-calculator", "square-footage-calculator"],
   },
@@ -9472,6 +10172,12 @@ explanation: [
           "Residential driveways are commonly paved 2 to 3 inches thick, while areas handling heavier vehicle loads (like a commercial lot) often use a thicker layer. Always check local specifications or with your paving contractor for the appropriate thickness for your specific use case and climate.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 40 ft × 12 ft driveway, 3 inches thick: volume = 40 × 12 × (3 ÷ 12) = 120 cubic feet, or 120 ÷ 27 ≈ 4.444 cubic yards. Converting to weight at 145 lb per cubic foot: (120 × 145) ÷ 2000 = 17,400 ÷ 2000 = 8.7 tons needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9486,6 +10192,11 @@ explanation: [
         question: "Does this include the base layer beneath the asphalt?",
         answer: "No, this calculates the asphalt layer only. Most driveways also need a compacted gravel base beneath the asphalt, which would need to be estimated separately.",
       },
+    ],
+    commonMistakes: [
+      "Forgetting this estimates the asphalt layer only, most driveways also need a compacted gravel base beneath the asphalt, which needs to be estimated and ordered separately from this tool's result.",
+      "Entering thickness in feet instead of inches, this calculator's thickness field expects inches, entering the intended feet value directly would inflate the tonnage estimate twelvefold.",
+      "Assuming asphalt is sold in bags like concrete mix, it isn't, asphalt is delivered hot and installed immediately by paving equipment, so it's quoted and ordered by weight (tons), not by a bag count.",
     ],
     relatedSlugs: ["gravel-calculator", "concrete-calculator", "square-footage-calculator"],
   },
@@ -9535,6 +10246,12 @@ explanation: [
           "Mortar bag needs are estimated using a commonly cited rule of thumb of roughly 3 standard 80 lb mortar mix bags per 100 bricks laid with standard joints. Actual mortar consumption varies with joint thickness and workmanship, so treat this as a planning estimate and buy a little extra.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 20 ft × 6 ft wall using standard 8 in × 2.25 in bricks with a 3/8 in (0.375 in) mortar joint and 10% waste: the 'Wall Area' result you see is the raw, pre-waste figure, 20 × 6 = 120 sq ft. Internally, the calculator also works out an area with waste added (120 × 1.10 = 132 sq ft) to determine the brick count, but that waste-adjusted number isn't itself shown as a separate result, only the final brick count reflects it. Each brick's effective footprint is (8+0.375) × (2.25+0.375) ÷ 144 = 8.375 × 2.625 ÷ 144 ≈ 0.1527 sq ft, so bricks needed = 132 ÷ 0.1527 ≈ 864.7, rounded up to 865 bricks. Mortar bags needed = (865 ÷ 100) × 3 ≈ 25.95, rounded up to 26 bags.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9549,6 +10266,11 @@ explanation: [
         question: "How much waste allowance should I use?",
         answer: "10% is a reasonable default for most projects, accounting for cutting, breakage and mistakes. Complex patterns or a lot of cutting around openings may call for a higher allowance.",
       },
+    ],
+    commonMistakes: [
+      "Using the brick's raw dimensions without adding the mortar joint, this calculator adds joint thickness to both brick dimensions to get its true 'footprint' on the wall, using only the raw brick size overstates how many bricks are needed.",
+      "Assuming mortar bag count scales exactly linearly and forgetting to round up, this calculator rounds up both the brick count and the derived mortar bag count to whole units, since you can't buy a fraction of a brick or bag.",
+      "Not subtracting door and window openings from the wall area before entering it, this calculator computes bricks for the full wall area you provide, subtract any large openings first for a more accurate count.",
     ],
     relatedSlugs: ["concrete-block-calculator", "square-footage-calculator", "paint-calculator"],
   },
@@ -9596,6 +10318,12 @@ explanation: [
           "The default 16 in × 8 in nominal size reflects the most common standard concrete block used in the US, though the actual block (before accounting for the mortar joint) measures closer to 15.625 in × 7.625 in. Always confirm the exact block size you're using, since other sizes (like 4 in or 12 in wide blocks) are also common depending on the application.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 20 ft × 8 ft wall using standard 16 in × 8 in nominal blocks and 10% waste: the 'Wall Area' result you see is the raw, pre-waste figure, 20 × 8 = 160 sq ft. Internally, the calculator also works out an area with waste added (160 × 1.10 = 176 sq ft) to determine the block count, but that waste-adjusted number isn't itself shown as a separate result, only the final block count reflects it. Each block's nominal face area is (16 × 8) ÷ 144 ≈ 0.8889 sq ft, so blocks needed = 176 ÷ 0.8889 = 198 blocks exactly. Mortar bags needed = (198 ÷ 100) × 3 ≈ 5.94, rounded up to 6 bags.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9610,6 +10338,11 @@ explanation: [
         question: "Does this account for corners or openings like doors?",
         answer: "No, this calculates blocks for the total wall area you enter. Subtract the area of any door or window openings from your wall area before entering it for a more accurate count.",
       },
+    ],
+    commonMistakes: [
+      "Entering the block's actual manufactured size instead of its nominal size, this calculator expects nominal dimensions (which already include the mortar joint allowance), using the smaller actual size would overcount how many blocks are needed.",
+      "Confusing this tool with the Brick Calculator, concrete blocks (CMU) are much larger than bricks and use nominal sizing that already bakes in the mortar joint, entering brick-scale dimensions here would produce a nonsensical result.",
+      "Forgetting to subtract door and window openings from the wall area first, this calculator computes blocks for the full area entered, ignoring openings will overstate the true material need.",
     ],
     relatedSlugs: ["brick-calculator", "concrete-calculator", "square-footage-calculator"],
   },
@@ -9659,6 +10392,12 @@ explanation: [
           "This calculator covers decking boards (the visible surface) only, it doesn't estimate the substructure beneath (joists, beams, footings) or fasteners, which depend heavily on your specific framing plan, span requirements and local building code, best worked out with a framing plan or contractor.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 16 ft × 12 ft deck (192 sq ft) using 5.5 in wide boards with a 0.25 in gap, 12 ft board length, and 10% waste: each board's effective coverage width is (5.5 + 0.25) ÷ 12 ≈ 0.4792 ft. Total linear feet needed = (192 ÷ 0.4792) × 1.10 ≈ 440.8 linear feet. Dividing by the 12 ft board length: 440.8 ÷ 12 ≈ 36.7, rounded up to 37 boards.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9673,6 +10412,11 @@ explanation: [
         question: "Does this include stairs or railings?",
         answer: "No, this covers the main deck surface area only. Stairs, railings and any additional decking on landings would need to be estimated separately and added to this result.",
       },
+    ],
+    commonMistakes: [
+      "Forgetting this calculates decking boards only, the substructure (joists, beams, footings) and fasteners aren't included, and depend on your specific framing plan, span requirements and local building code.",
+      "Entering board width in feet instead of inches, this calculator's board width and gap fields expect inches, entering the wrong unit would substantially distort the effective coverage width and resulting board count.",
+      "Not accounting for stairs, railings or landings, this covers the main deck surface only, any additional decking on stairs or landings needs to be estimated and added separately.",
     ],
     relatedSlugs: ["fence-calculator", "square-footage-calculator", "flooring-calculator"],
   },
@@ -9721,6 +10465,12 @@ explanation: [
           "Post spacing of 6 to 8 feet is common for residential wood fences, balancing material cost against structural stability, closer spacing generally means a sturdier fence but more posts and post-hole digging. Taller fences or areas with high wind exposure often call for closer spacing.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 100 ft fence with 8 ft post spacing, 2 rails per section, and 5.5 in pickets with a 0.25 in gap: sections = ceil(100 ÷ 8) = 13, so posts needed = 13 + 1 = 14. Rails needed = 13 × 2 = 26. For pickets, the fence length in inches is 100 × 12 = 1,200 in, and each picket's unit width is 5.5 + 0.25 = 5.75 in, so pickets needed = ceil(1,200 ÷ 5.75) ≈ 209.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9735,6 +10485,11 @@ explanation: [
         question: "Does this account for gates?",
         answer: "No, gates typically use different hardware and framing than standard fence sections, so budget for gate materials separately from this calculator's picket and rail estimates.",
       },
+    ],
+    commonMistakes: [
+      "Assuming post count equals the number of sections, it's always sections plus one, since adjacent sections share a post, doubling the section count for posts would significantly overcount.",
+      "Forgetting this calculator doesn't include a separate waste allowance for pickets or rails, unlike some of the area-based calculators in this category, actual purchases often benefit from a small buffer for cutting and breakage on top of this exact count.",
+      "Not budgeting separately for gates, gate hardware and framing differ from standard fence sections and aren't included in this calculator's post, rail or picket counts.",
     ],
     relatedSlugs: ["deck-calculator", "square-footage-calculator", "paint-calculator"],
   },
@@ -9780,6 +10535,12 @@ explanation: [
           "Wallpaper typically needs a higher waste allowance than paint, commonly 15% or more, because patterns need to be matched at the seams between strips, which means cutting off and discarding a portion of each strip depending on the pattern's repeat length. Large, complex pattern repeats generally need an even higher waste allowance than simple or non-repeating patterns.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 40 ft wall length/perimeter, 8 ft wall height, 56 sq ft usable coverage per roll, and 15% waste: 'Wall Area' shows the raw figure, 40 × 8 = 320 sq ft. 'Area Including Waste' is displayed as its own separate result here (unlike some of our other material calculators): 320 × 1.15 = 368 sq ft. Rolls needed = 368 ÷ 56 ≈ 6.57, rounded up to 7 rolls.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9794,6 +10555,11 @@ explanation: [
         question: "Does this work for wallpaper borders?",
         answer: "No, this calculator is designed for full-wall rolls. Borders are sold and measured differently, typically by linear footage rather than roll coverage.",
       },
+    ],
+    commonMistakes: [
+      "Using too low a waste allowance for a bold or large pattern repeat, matching a large repeat at the seams discards more of each strip than a small or non-repeating pattern, sometimes needing 20-25% instead of the 15% default.",
+      "Entering total wall square footage instead of length/perimeter, this calculator's first field expects a linear length (typically the room's perimeter), not a pre-computed area, entering an area value there would produce a nonsensical result.",
+      "Assuming the roll's total printed square footage equals its usable coverage, usable coverage is typically less than a roll's total area due to trimming and pattern matching, always check the specific product's stated usable coverage rather than assuming the 56 sq ft default.",
     ],
     relatedSlugs: ["paint-calculator", "square-footage-calculator", "drywall-calculator"],
   },
@@ -9846,6 +10612,12 @@ explanation: [
           "Skipping or under-building the gravel base and sand bedding is one of the most common causes of pavers shifting, sinking or becoming uneven over time, especially in areas with freeze-thaw cycles or poor natural drainage. Getting these layers right upfront saves significant rework later.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 15 ft × 10 ft patio (150 sq ft) using 12 in × 12 in pavers (1 sq ft each), 10% waste, 1 in sand bedding and 4 in gravel base: the 'Patio Area' result shown is the raw, pre-waste figure, 150 sq ft. Internally, the calculator also adds waste (150 × 1.10 = 165 sq ft) to determine the paver count, but that waste-adjusted figure isn't itself shown as a separate result, only the final paver count reflects it: 165 ÷ 1 = 165 pavers exactly (with this specific 1 sq ft paver size, the paver count and the internal waste-adjusted area happen to be the same number, that won't generally be true for other paver sizes). Sand needed = 150 × (1 ÷ 12) = 12.5 cu ft. Gravel base needed = 150 × (4 ÷ 12) = 50 cu ft.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9860,6 +10632,11 @@ explanation: [
         question: "Can I use this for a walkway instead of a patio?",
         answer: "Yes, the same length x width area math applies to a walkway, just enter its length and width like any other rectangular area.",
       },
+    ],
+    commonMistakes: [
+      "Reading the 'Patio Area' result as if it already includes the waste allowance, it doesn't, it's the raw pre-waste area, the waste adjustment is applied internally only to compute the paver count, not shown as its own separate figure.",
+      "Skipping or under-building the gravel base and sand bedding layers, this is one of the most common causes of pavers shifting, sinking or becoming uneven over time, especially with freeze-thaw cycles or poor drainage.",
+      "Using the same depth assumptions for every project, sand bedding and especially gravel base depth needs vary by soil stability and whether the area sees vehicle traffic, the 1 in / 4 in defaults suit a typical pedestrian patio, not every situation.",
     ],
     relatedSlugs: ["tile-calculator", "gravel-calculator", "square-footage-calculator"],
   },
@@ -9905,6 +10682,12 @@ explanation: [
           "Waste comes from cutting sheets around doors, windows, electrical boxes and corners, as well as occasional damaged sheets. 10% is a reasonable default for a fairly simple room; more complex layouts with many openings or angles typically need a higher allowance.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For 400 sq ft of total wall and ceiling area, standard 4 ft × 8 ft sheets (32 sq ft each), and 10% waste: sheets needed = (400 × 1.10) ÷ 32 = 440 ÷ 32 = 13.75, rounded up to 14 sheets. Note that neither the raw 400 sq ft nor the waste-adjusted 440 sq ft figure is shown as its own separate result, this tool only displays the final sheets, joint compound and tape counts, not the intermediate area calculations. Joint compound: 400 ÷ 500 = 0.8, rounded up to 1 bucket. Tape: 400 ÷ 350 ≈ 1.14, rounded up to 2 rolls.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9919,6 +10702,11 @@ explanation: [
         question: "Does this account for different drywall thicknesses?",
         answer: "No, sheet count is based purely on area and sheet dimensions, not thickness. Thickness (like 1/2 in vs 5/8 in) affects fire rating, soundproofing and cost per sheet, but not how many sheets are needed to cover a given area.",
       },
+    ],
+    commonMistakes: [
+      "Expecting to see the calculated area anywhere in the results, this tool only displays sheet, joint compound and tape counts, not the raw or waste-adjusted area used internally to derive them.",
+      "Treating the joint compound and tape figures as precise requirements, they're rough planning estimates based on commonly cited coverage rates, actual usage varies with how many seams and corners your layout has.",
+      "Assuming a thicker drywall sheet (like 5/8 in vs 1/2 in) changes the sheet count, it doesn't, sheet count depends only on area and sheet dimensions, thickness affects fire rating, soundproofing and cost per sheet, not how many sheets are needed.",
     ],
     relatedSlugs: ["wallpaper-calculator", "paint-calculator", "square-footage-calculator"],
   },
@@ -9973,6 +10761,12 @@ explanation: [
           "This calculator is built around bag counts for smaller projects like raised beds, garden borders or containers. For larger areas like a new lawn or major grading project, bulk topsoil delivered by the cubic yard is typically far more cost-effective than buying many bags, our Topsoil Calculator handles that bulk delivery case, working in cubic yards and delivered tons.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For an 8 ft × 4 ft raised bed, 8 inches deep, using 1.5 cu ft bags: volume = 8 × 4 × (8 ÷ 12) ≈ 21.33 cubic feet, or 21.33 ÷ 27 ≈ 0.79 cubic yards. Dividing by the 1.5 cu ft bag size: 21.33 ÷ 1.5 ≈ 14.2, rounded up to 15 bags needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -9987,6 +10781,11 @@ explanation: [
         question: "Should I fill a raised bed completely with new soil?",
         answer: "Not necessarily, many gardeners fill the bottom portion of a deep raised bed with cheaper fill material and reserve quality garden soil for the top layer where roots are most active, adjust your depth input accordingly if you're doing this.",
       },
+    ],
+    commonMistakes: [
+      "Using this bag-based calculator for a large area like a new lawn, bags become impractical and expensive at that scale, our Topsoil Calculator (working in cubic yards and delivered tons) is built for bulk delivery scenarios instead.",
+      "Entering depth in feet instead of inches, this calculator's depth field expects inches, entering the intended feet value directly would inflate the volume estimate twelvefold.",
+      "Filling an entire deep raised bed with premium garden soil, many gardeners fill the bottom portion with cheaper fill material and reserve quality soil for the top layer where roots are most active, adjust the depth entered here if doing this.",
     ],
     relatedSlugs: ["topsoil-calculator", "mulch-calculator", "square-footage-calculator"],
   },
@@ -10030,6 +10829,12 @@ explanation: [
           "This calculator is built for bulk delivery scenarios, larger areas like a new lawn, regrading, or major landscaping, where topsoil is quoted and delivered by the cubic yard (or truckload). For smaller garden beds or containers where buying individual bags makes more sense, our Soil Calculator gives a bag count instead.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 50 ft × 30 ft area, 4 inches deep: volume = 50 × 30 × (4 ÷ 12) = 500 cubic feet, or 500 ÷ 27 ≈ 18.519 cubic yards. Converting to weight at 1.1 tons per cubic yard: 18.519 × 1.1 ≈ 20.37 tons needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10044,6 +10849,11 @@ explanation: [
         question: "How deep should topsoil be for a new lawn?",
         answer: "4 to 6 inches of quality topsoil is commonly recommended as a base for a new lawn, deep enough to support healthy root development for grass, though this can vary based on your existing soil quality and drainage.",
       },
+    ],
+    commonMistakes: [
+      "Using this bulk calculator's cubic yard output to buy bagged soil, that's usually far more expensive per unit than a delivery truck order at this scale, for small areas where bags make more sense, use the Soil Calculator instead.",
+      "Forgetting topsoil density varies by moisture and composition, 1.1 tons per cubic yard is a reasonable average, but sandy or wet topsoil can weigh meaningfully more, confirm the exact figure with your supplier for a large or expensive order.",
+      "Entering depth in feet instead of inches, this calculator's depth field expects inches, entering the intended feet value directly would inflate the volume estimate twelvefold.",
     ],
     relatedSlugs: ["soil-calculator", "mulch-calculator", "gravel-calculator"],
   },
@@ -10111,6 +10921,12 @@ explanation: [
           "Bulk materials like concrete, mulch, gravel, topsoil and sand are commonly quoted and delivered by the cubic yard in the US, this calculator is a quick, material-agnostic way to convert a space's dimensions into that unit before calling a supplier, without needing to work out any specific material's density.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a space 10 ft long, 10 ft wide and 1 ft deep: volume = 10 × 10 × 1 = 100 cubic feet. Dividing by 27 (since a cubic yard is 3×3×3 = 27 cubic feet): 100 ÷ 27 ≈ 3.704 cubic yards. The same 100 cubic feet converts to about 2.832 cubic meters using the standard 0.0283168 cubic meters per cubic foot factor.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10125,6 +10941,11 @@ explanation: [
         question: "Why does the result show cubic feet and cubic meters too?",
         answer: "Since suppliers and contexts vary in which unit they quote, showing all three at once saves you from needing a separate conversion step if you end up needing a different unit than cubic yards.",
       },
+    ],
+    commonMistakes: [
+      "Assuming all three dimensions must share the same unit, they don't, each of length, width and height has its own independent unit selector, mixing feet and meters (for example) works fine and is converted correctly internally.",
+      "Using this generic tool when a material-specific calculator would give more complete information, this tool converts dimensions to volume only, it doesn't add material density to estimate weight, bags or bulk quantities the way our Concrete, Mulch or Gravel calculators do.",
+      "Double-checking a result that looks off without first checking each dimension's unit selector, mixing up feet and inches for even one dimension is a common source of results that are off by a large factor.",
     ],
     relatedSlugs: ["cubic-feet-calculator", "cubic-meter-calculator", "square-footage-calculator"],
   },
@@ -10192,6 +11013,12 @@ explanation: [
           "Cubic feet is commonly used for smaller volumes, like bagged materials (soil, mulch), appliance capacities (refrigerators, storage bins), aquarium or planter volume, or shipping and freight dimensions, generally where cubic yards would be an inconveniently large unit.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a space 10 ft long, 10 ft wide and 1 ft deep: volume = 10 × 10 × 1 = 100 cubic feet directly. The same volume is also shown as about 3.704 cubic yards (100 ÷ 27) and about 2.832 cubic meters (100 × 0.0283168).",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10206,6 +11033,11 @@ explanation: [
         question: "What if my result seems too large or small?",
         answer: "Double check the unit selected for each dimension, since mixing up feet and inches, for example, is a common source of results that are off by a large factor.",
       },
+    ],
+    commonMistakes: [
+      "Assuming this calculator differs mathematically from the Cubic Yard or Cubic Meter calculators, it doesn't, all three share the exact same underlying calculation and show all three units every time, only the highlighted primary result differs by page.",
+      "Forgetting each dimension has its own independent unit selector, mixing feet, inches, yards, meters or centimeters across length, width and height is fully supported and converted correctly internally.",
+      "Not double-checking unit selections when a result looks unexpectedly large or small, mixing up feet and inches for even one dimension is a common source of results off by a large factor (12x per mismatched dimension).",
     ],
     relatedSlugs: ["cubic-yard-calculator", "cubic-meter-calculator", "square-footage-calculator"],
   },
@@ -10273,6 +11105,12 @@ explanation: [
           "Cubic meters is the standard metric unit for volume used throughout most of the world outside the US, common for shipping container capacity, concrete and bulk material orders in metric countries, and general construction specifications where metric units are standard.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a space 3 meters long, 3 meters wide and 0.3 meters deep: converting each to feet internally (1 m ≈ 3.28084 ft) and multiplying gives about 95.35 cubic feet, which converts back to exactly 2.7 cubic meters (95.35 × 0.0283168 ≈ 2.7), matching the straightforward metric check of 3 × 3 × 0.3 = 2.7 cubic meters.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10287,6 +11125,11 @@ explanation: [
         question: "What's the exact conversion factor used?",
         answer: "1 cubic foot equals exactly 0.0283168 cubic meters, the standard, internationally recognized conversion factor, applied after this calculator computes your volume in cubic feet from the dimensions you entered.",
       },
+    ],
+    commonMistakes: [
+      "Assuming a fully metric calculation path avoids any rounding quirks, this calculator converts every dimension to feet internally first, then to cubic meters at the end, so extremely precise metric-to-metric conversions may show tiny rounding differences from a direct metric calculation.",
+      "Forgetting each dimension has its own independent unit selector, entering all dimensions in feet or inches still produces an accurate cubic meter result, there's no need to pre-convert to metric yourself.",
+      "Not double-checking unit selections when a result looks unexpectedly large or small, mixing up meters and centimeters for even one dimension is a common source of results off by a factor of 100.",
     ],
     relatedSlugs: ["cubic-yard-calculator", "cubic-feet-calculator", "square-footage-calculator"],
   },
@@ -10338,6 +11181,12 @@ explanation: [
           "Loose dry materials (cement, sand, aggregate) take up more space than they do once mixed with water and compacted, because dry particles have air gaps between them that close up during mixing. This calculator applies a standard bulking factor of 1.54 to convert your target finished (wet) volume into the total dry material volume you need to start with, then splits that dry volume across your mix ratio.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 10 ft × 10 ft slab, 4 inches thick, with a 1:2:4 (cement:sand:aggregate) mix ratio: wet (finished) volume = 10 × 10 × (4 ÷ 12) ≈ 33.33 cubic feet. Dry volume = 33.33 × 1.54 ≈ 51.33 cubic feet. With 7 total parts (1+2+4), cement gets 1/7 of that: 51.33 ÷ 7 ≈ 7.33 cu ft, rounded up to 8 bags (each 94 lb bag ≈ 1 cu ft). Sand gets 2/7: 51.33 × (2/7) ≈ 14.67 cu ft. Aggregate gets 4/7: 51.33 × (4/7) ≈ 29.33 cu ft.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10352,6 +11201,11 @@ explanation: [
         question: "Does this calculator account for water?",
         answer: "No, water quantity depends on the desired water-cement ratio for your specific strength and workability needs, and isn't part of the dry volume bulking calculation, consult mix design guidance for the correct water quantity for your ratio.",
       },
+    ],
+    commonMistakes: [
+      "Using the wet (finished) volume directly to buy dry materials, dry cement, sand and aggregate take up more space loose than once mixed and compacted, this calculator's 1.54 bulking factor accounts for that gap, skipping it would under-order materials.",
+      "Using a mix ratio meant for a different application without checking it's appropriate, 1:2:4 suits many general-purpose, non-structural uses, but load-bearing work typically needs a stronger ratio like 1:1.5:3, verify against project specs or an engineer's guidance for anything structural.",
+      "Forgetting this calculator doesn't estimate water, water quantity depends on the desired water-cement ratio for the required strength and workability, and needs to be worked out separately from this dry-material bulking calculation.",
     ],
     relatedSlugs: ["concrete-calculator", "sand-calculator", "concrete-block-calculator"],
   },
@@ -10395,6 +11249,12 @@ explanation: [
           "Play sand for a sandbox, leveling sand for pavers, and bedding sand for a paver base are all different products with slightly different properties, though this calculator's volume and weight math applies the same regardless of type. Depth requirements vary by use, a play area might use several inches, while paver bedding sand is typically just 1 inch.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 12 ft × 8 ft area, 2 inches deep: volume = 12 × 8 × (2 ÷ 12) = 16 cubic feet, or 16 ÷ 27 ≈ 0.593 cubic yards. Converting to weight at 1.35 tons per cubic yard: 0.593 × 1.35 ≈ 0.8 tons needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10409,6 +11269,11 @@ explanation: [
         question: "Should I buy bagged or bulk sand?",
         answer: "For small quantities, bagged sand is convenient. For larger areas, generally more than a cubic yard or two, bulk delivery is usually significantly more cost-effective per unit of coverage.",
       },
+    ],
+    commonMistakes: [
+      "Entering depth in feet instead of inches, this calculator's depth field expects inches, entering the intended feet value directly would inflate the volume estimate twelvefold.",
+      "Assuming wet sand weighs the same as the dry sand density this calculator uses, wet sand can weigh noticeably more per cubic yard than the 1.35 tons per cubic yard dry estimate, adjust expectations if ordering damp material.",
+      "Using the same depth for every use case, a play area might need several inches of sand while paver bedding is typically just 1 inch, using the wrong depth for your specific application over- or under-orders material.",
     ],
     relatedSlugs: ["gravel-volume-calculator", "cement-calculator", "paver-calculator"],
   },
@@ -10476,6 +11341,12 @@ explanation: [
           "Rectangle area is length × width. Circle area uses π × radius², with the diameter you enter divided by 2 to get the radius. Triangle area is 0.5 × base × height. Once the area is found, it's multiplied by depth (converted from inches to feet) to get volume, then converted to cubic yards and weight using your chosen gravel type's density.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a rectangular area 10 ft × 8 ft, 3 inches deep, using crushed stone (density 1.4 tons per cubic yard): area = 10 × 8 = 80 sq ft. Volume = 80 × (3 ÷ 12) = 20 cubic feet, or 20 ÷ 27 ≈ 0.741 cubic yards. Weight = 0.741 × 1.4 ≈ 1.04 tons needed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10490,6 +11361,11 @@ explanation: [
         question: "Do I need to enter the second dimension for a circle?",
         answer: "No, for a circle, enter only the diameter in the first field, the second dimension field is ignored for circular areas.",
       },
+    ],
+    commonMistakes: [
+      "Entering a circle's radius instead of its diameter, this calculator's first field expects the diameter for circles, entering the radius by mistake would produce an area only a quarter of the correct size.",
+      "Assuming all gravel types weigh the same per cubic yard, density varies meaningfully by material, pea gravel, river rock, crushed stone and decomposed granite each have their own typical density, selecting the wrong type in this calculator gives a weight estimate for the wrong material.",
+      "Entering depth in feet instead of inches, this calculator's depth field expects inches, entering the intended feet value directly would inflate the volume estimate twelvefold.",
     ],
     relatedSlugs: ["gravel-calculator", "sand-calculator", "square-footage-calculator"],
   },
@@ -10551,6 +11427,12 @@ explanation: [
           "Rebar 'size' numbers (like #4 or #5) correspond to the bar's diameter in eighths of an inch, a #4 bar is 1/2 inch, a #5 is 5/8 inch, and so on. Larger bars weigh more per foot and are used for greater reinforcement strength, this calculator uses standard published weight-per-foot figures for each size to estimate total weight.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a 20 ft × 15 ft slab, 12 in grid spacing, #4 bar, 20 ft stock bars: spacing = 12 ÷ 12 = 1 ft. Bars running lengthwise (spaced across the 15 ft width) = floor(15 ÷ 1) + 1 = 16. Bars running widthwise (spaced across the 20 ft length) = floor(20 ÷ 1) + 1 = 21. Total linear feet = (16 × 20) + (21 × 15) = 320 + 315 = 635 ft. Stock bars needed = 635 ÷ 20 ≈ 31.75, rounded up to 32. Total weight = 635 × 0.668 lb/ft (the #4 bar's published weight per foot) ≈ 424.2 lbs.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10565,6 +11447,11 @@ explanation: [
         question: "Is this calculator sufficient for structural design purposes?",
         answer: "No, this is a material quantity estimate only, not a structural design tool. Rebar size, spacing and grid pattern for any load-bearing application should be specified by a structural engineer according to your project's actual requirements and local building code.",
       },
+    ],
+    commonMistakes: [
+      "Using this material-quantity estimate as a structural design, it isn't one, rebar size, spacing and grid pattern for any load-bearing application need to be specified by a structural engineer according to your project's actual requirements and local building code.",
+      "Forgetting this estimate doesn't include bar overlap (lapping), real installations typically overlap adjoining bars by a code-specified length, which increases actual material needed slightly beyond this butt-to-edge estimate.",
+      "Mixing up which dimension the lengthwise vs widthwise bars are spaced across, bars 'running lengthwise' are spaced out across the slab's width (and vice versa), getting this backwards when cross-checking by hand can lead to confusion about which count applies to which direction.",
     ],
     relatedSlugs: ["concrete-calculator", "beam-load-calculator", "steel-weight-calculator"],
   },
@@ -10628,6 +11515,12 @@ explanation: [
           "This calculator checks bending stress only. It does not check deflection limits (a beam can meet bending strength but still sag more than acceptable), shear capacity, buckling, load duration factors, connection design, or any other requirement that matters for a safe, code-compliant structure. Actual beam sizing for any real construction project must be verified by a licensed structural engineer against your local building code, do not use this calculator as the sole basis for a real structural decision.",
         ],
       },
+      {
+        heading: "Worked example (educational only, not for real construction use)",
+        paragraphs: [
+          "For a beam 1.5 in wide, 9.25 in deep, spanning 12 ft, with an allowable bending stress of 1,000 psi, under a uniformly distributed load: section modulus = (1.5 × 9.25²) ÷ 6 ≈ 21.39 in³. Allowable moment = (1,000 × 21.39) ÷ 12 ≈ 1,782.6 ft-lb. Max distributed load = (8 × 1,782.6) ÷ 12² ≈ 99.0 lb per ft, or a max total of about 1,188.4 lb across the full 12 ft span. For the same beam under a center point load instead, max point load = (4 × 1,782.6) ÷ 12 ≈ 594.2 lb, notably less than the 1,188.4 lb total the same beam can carry when that weight is spread evenly, since a concentrated point load creates a higher peak bending moment than the same total weight distributed across the span.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10642,6 +11535,11 @@ explanation: [
         question: "Can I use this to size a beam for my deck or house?",
         answer: "No, use this only to build intuition about how beam dimensions and span relate to load capacity. Any beam supporting a real structure, a deck, floor, or roof, must be sized by a qualified professional accounting for all relevant load types, code requirements and safety factors.",
       },
+    ],
+    commonMistakes: [
+      "Using this calculator's result as the basis for an actual construction decision, it checks bending stress only and skips deflection, shear, buckling, load duration and connection design entirely, any real beam supporting a structure must be sized by a licensed structural engineer against local building code, not estimated with this tool.",
+      "Guessing at the allowable bending stress value, this figure varies enormously by material and grade (roughly 700-1500 psi for common softwood lumber vs around 22,000 psi for A36 structural steel), using the wrong value produces a load capacity estimate that's wrong by a large factor.",
+      "Treating the distributed-load and point-load results as interchangeable, a beam can typically carry meaningfully more total weight as a load spread evenly across its span than as the same total weight concentrated at the center, mixing these up overstates real capacity for a point-loaded scenario.",
     ],
     relatedSlugs: ["rebar-calculator", "steel-weight-calculator", "lumber-calculator"],
   },
@@ -10697,6 +11595,12 @@ explanation: [
           "0.2836 lb per cubic inch reflects standard carbon steel. Different steel alloys and stainless steel grades can have slightly different densities, so for precise material ordering, especially for a specialty alloy, check the specific material's published density rather than relying solely on this general estimate.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a flat bar 2 in wide, 0.25 in thick, 48 in long: volume = 2 × 0.25 × 48 = 24 cubic inches. Weight = 24 × 0.2836 ≈ 6.81 lbs, or 6.81 × 0.453592 ≈ 3.09 kg.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10711,6 +11615,11 @@ explanation: [
         question: "Does this work for stainless steel?",
         answer: "Stainless steel has a slightly different density than standard carbon steel (typically a bit higher, around 0.29 lb per cubic inch), so results using this calculator's carbon-steel density will be a close but not exact estimate for stainless steel pieces.",
       },
+    ],
+    commonMistakes: [
+      "Entering a pipe's outer diameter and wall thickness in a way that leaves no material, wall thickness must be less than half the outer diameter (otherwise there'd be no hollow center left), this calculator will flag that as an error.",
+      "Using the carbon-steel density for stainless steel or another alloy without adjusting, stainless steel is typically a bit denser (around 0.29 lb per cubic inch vs 0.2836), using this calculator's default density for a different alloy gives a close but not exact weight.",
+      "Entering dimensions in millimeters without converting first, this calculator's density constant is calibrated to inch-based dimensions, entering millimeter values directly (without converting to inches) produces a wildly incorrect weight.",
     ],
     relatedSlugs: ["rebar-calculator", "beam-load-calculator", "lumber-calculator"],
   },
@@ -10759,6 +11668,12 @@ explanation: [
           "Our Deck Calculator counts full-length decking boards needed to cover a specific deck surface area, factoring in board width and the gap between boards. This calculator is a general-purpose lumber estimator, useful for framing lumber, general carpentry, or any lumber order where you want a board-foot total and cost estimate rather than a coverage-area board count.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a single board 2 in thick, 6 in wide, 8 ft long, at $3.50 per board foot: board feet per board = (2 × 6 × 8) ÷ 12 = 96 ÷ 12 = 8 board feet. For a quantity of 1, total board feet = 8, and total linear feet = 8 × 1 = 8 ft. Estimated cost = 8 × $3.50 = $28.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10773,6 +11688,11 @@ explanation: [
         question: "Does nominal lumber size match actual dimensions?",
         answer: "No, a common nominal '2x6' board actually measures about 1.5 in × 5.5 in after milling and drying. For an accurate board-foot calculation, use the actual (dressed) dimensions rather than the nominal size printed on the label, unless your supplier specifically prices by nominal size.",
       },
+    ],
+    commonMistakes: [
+      "Using nominal lumber dimensions (like '2x6') instead of actual dressed dimensions, a nominal 2x6 actually measures about 1.5 in × 5.5 in after milling and drying, using the nominal size overstates board feet unless your supplier specifically prices by nominal size.",
+      "Forgetting to multiply per-board figures by quantity, board feet per board is just for a single board, total board feet and total cost both need the quantity applied, this calculator does that automatically, but it's easy to miss when cross-checking by hand.",
+      "Leaving price per board foot at the default 0 and being surprised the estimated cost shows $0, that field is optional and defaults to 0, enter your actual price per board foot to see a real cost estimate.",
     ],
     relatedSlugs: ["deck-calculator", "fence-calculator", "square-footage-calculator"],
   },
@@ -10836,6 +11756,12 @@ explanation: [
           "Our Fuel Cost Calculator estimates how much a trip will cost given a fuel efficiency rating and fuel price you already know. This calculator does the opposite, it derives your actual fuel economy from a real trip's distance and fuel used, and expresses it across every common unit system, useful for verifying your vehicle's real-world efficiency or comparing it against another vehicle's rating listed in a different unit.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Driving 300 miles and using 12 US gallons of fuel: US MPG = 300 ÷ 12 = 25 MPG. The same trip expressed in other systems comes out to about 30.02 MPG (UK/Imperial, since a UK gallon is larger), 9.41 L/100km, and 10.63 km/L, all four describing the exact same underlying fuel efficiency, just in the units common to different countries.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10850,6 +11776,11 @@ explanation: [
         question: "How do I measure fuel used for one tank?",
         answer: "Fill your tank completely, reset your trip odometer, drive normally, then fill up completely again and note the distance driven and the amount of fuel needed to refill, that's your fuel used for the trip.",
       },
+    ],
+    commonMistakes: [
+      "Comparing a US MPG figure directly against a UK-sourced MPG rating without converting first, a US gallon is about 17% smaller than a UK/Imperial gallon, so the same vehicle shows meaningfully different MPG numbers between the two systems, this tool converts both automatically so you're always comparing like with like.",
+      "Not filling the tank completely at both the start and end of the measurement period, a partial fill-up understates the actual fuel used for the distance driven, skewing the calculated economy in either direction.",
+      "Forgetting that L/100km runs in the opposite direction from MPG, a lower L/100km number means better efficiency, while a lower MPG means worse efficiency, misreading which direction is 'better' for L/100km is an easy mistake when switching between unit systems.",
     ],
     relatedSlugs: ["fuel-cost-calculator", "ev-charging-cost-calculator", "length-converter"],
   },
@@ -10914,6 +11845,12 @@ explanation: [
           "If you enter your vehicle's rated efficiency in miles per kWh (found in your owner's manual or EPA rating), this calculator estimates the miles that charging session added and the resulting cost per mile, letting you compare running costs directly against a gas vehicle's cost-per-mile from our Fuel Cost Calculator.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A 75 kWh battery charged from 20% to 100% at $0.15/kWh, 90% charger efficiency, and 3.5 miles/kWh vehicle efficiency: energy added to the battery = 75 × (100−20)/100 = 60 kWh. Because the charger is only 90% efficient, the grid actually supplies 60 ÷ 0.90 = 66.67 kWh, costing 66.67 × $0.15 = $10.00 total. At 3.5 miles/kWh, that 60 kWh added supports about 210 miles, working out to roughly $0.048 per mile.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10928,6 +11865,11 @@ explanation: [
         question: "Is public fast charging usually more expensive than home charging?",
         answer: "Yes, generally. Public DC fast charging networks typically charge a premium per kWh compared to residential electricity rates, so home charging is usually the cheaper option when available.",
       },
+    ],
+    commonMistakes: [
+      "Using the vehicle's rated miles-per-kWh figure for cost-per-mile while pricing the trip at a public fast-charging rate, mixing an efficiency figure from one context with a price from another (home vs public charging) skews the resulting cost-per-mile estimate.",
+      "Forgetting that the grid draws more energy than what actually reaches the battery, the cost is based on energy drawn from the grid (after charging losses), not just the energy added to the battery, ignoring the efficiency factor understates the real cost by 10% or more.",
+      "Applying a single flat electricity rate when your utility actually charges time-of-use pricing, if you charge overnight at a lower off-peak rate, use that specific rate rather than an average, since it can meaningfully change the total cost.",
     ],
     relatedSlugs: ["fuel-economy-calculator", "fuel-cost-calculator", "vehicle-depreciation-calculator"],
   },
@@ -10980,6 +11922,12 @@ explanation: [
           "Your speedometer and odometer are calibrated based on how far your original tires travel per wheel revolution. A replacement tire with a larger overall diameter travels farther per revolution, causing your speedometer to under-read your actual speed (and your odometer to under-count actual distance), while a smaller replacement tire causes the opposite, an over-read.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Comparing a current 225/45R17 tire against a replacement 235/40R18: current overall diameter = 17 × 25.4 + 2 × (225 × 0.45) = 24.97 inches, new overall diameter = 18 × 25.4 + 2 × (235 × 0.40) = 25.40 inches, a difference of about +1.72%. Since the new tire is slightly larger, revolutions per mile drop slightly (807.6 to 794.0), and your speedometer would under-read by about 1.72%, showing roughly 68.8 mph when you're actually going 70 mph, comfortably inside the commonly cited 3% safe-change guideline.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -10994,6 +11942,11 @@ explanation: [
         question: "What if my speedometer difference shows a negative number?",
         answer: "A negative percentage means your new tire is smaller in diameter than your current tire, causing your speedometer to over-read, showing a higher speed than you're actually traveling.",
       },
+    ],
+    commonMistakes: [
+      "Misreading the direction of the speedometer error, a larger new tire (positive percentage) makes your speedometer under-read, showing a lower speed than you're actually going, it's easy to assume the opposite intuitively.",
+      "Only checking diameter difference and skipping load rating, speed rating, and physical clearance, this calculator compares dimensions only, a tire that passes the 3% diameter guideline can still be the wrong load or speed rating, or physically rub against the fender or suspension.",
+      "Assuming aftermarket wheels with a different rim diameter always keep the same overall tire diameter, section width and aspect ratio both change the sidewall height too, plugging in a new rim size without recalculating the full tire size notation can produce a much bigger diameter change than expected.",
     ],
     relatedSlugs: ["fuel-economy-calculator", "vehicle-depreciation-calculator", "length-converter"],
   },
@@ -11041,6 +11994,12 @@ explanation: [
           "Actual depreciation varies significantly by make, model, mileage, condition and market demand. Some vehicles, especially certain trucks and popular used models, hold value notably better than the general averages used here. Treat this calculator's output as a planning estimate, not a guaranteed resale value.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $35,000 new car with 20% first-year depreciation and 15% annually after that, projected 5 years out: value after year 1 = $35,000 × (1 − 0.20) = $28,000. Each subsequent year multiplies by (1 − 0.15): by year 5 the value works out to $14,616.18, a total depreciation of $20,383.83, or about 58.24% of the original purchase price, over half its value lost in 5 years under these assumptions.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11055,6 +12014,11 @@ explanation: [
         question: "Can I use this for a used car I'm about to buy?",
         answer: "Yes, enter the price you're paying as the purchase price to project its value forward from today, though a used car may already be past its steepest first-year drop, so a single flat annual rate for both fields may be more realistic in that case.",
       },
+    ],
+    commonMistakes: [
+      "Applying the first-year rate to a used car's remaining value, a used vehicle you're buying today has typically already absorbed its steepest first-year drop, using the same first-year rate assumption for it as for a brand-new car overstates future depreciation, using one flat rate for both fields is often more realistic here.",
+      "Assuming depreciation is linear (an equal dollar amount lost each year), this model compounds a percentage each year, so the dollar amount lost shrinks over time even though the percentage rate stays constant, a common misreading of how declining-balance depreciation actually behaves.",
+      "Treating the projected value as a guaranteed resale figure, actual depreciation varies significantly by make, model, mileage, condition and market demand, this is a planning estimate based on general averages, not an appraisal.",
     ],
     relatedSlugs: ["auto-loan-calculator", "car-loan-affordability-calculator", "net-worth-calculator"],
   },
@@ -11112,6 +12076,12 @@ explanation: [
           "A commonly cited guideline is keeping your total vehicle costs, payment, insurance and fuel, to around 15-20% of gross monthly income, with the loan payment itself often targeted lower within that. This calculator lets you set your own target percentage to match your personal budget and other financial obligations.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $6,000 gross monthly income, targeting 15% for the car payment, with a $3,000 down payment, no trade-in, 6.5% APR over 60 months: max monthly payment = $6,000 × 0.15 = $900. Solving the loan formula backwards for that $900 payment at 6.5%/60 months gives a max loan amount of $45,997.81, plus the $3,000 down payment, a max affordable car price of about $48,997.81, with total interest of $8,002.19 over the loan's life.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11126,6 +12096,11 @@ explanation: [
         question: "Why does a lower interest rate increase what I can afford?",
         answer: "With a fixed monthly payment budget, a lower interest rate means less of each payment goes toward interest, so more of it goes toward principal, letting that same monthly payment support a larger loan amount.",
       },
+    ],
+    commonMistakes: [
+      "Treating the max affordable car price as the actual out-the-door price, sales tax, registration and dealer fees aren't included, they'd need to come from additional down payment or be added on top of this estimate.",
+      "Using net (take-home) income instead of gross income, this calculator follows the lending industry convention of using gross income, plugging in net income instead would understate what a lender's calculation would actually show as affordable.",
+      "Maxing out the percent-of-income target without leaving room for insurance, fuel, and maintenance, the commonly cited 15-20% guideline is meant to cover total vehicle costs, not the loan payment alone, budgeting the full percentage toward the payment itself can leave a tight margin for everything else a car costs to run.",
     ],
     relatedSlugs: ["auto-loan-calculator", "vehicle-depreciation-calculator", "dti-calculator"],
   },
@@ -11154,6 +12129,12 @@ explanation: [
           "Psi is common for tire pressure and hydraulics in the US. Bar and kilopascals are widely used in most other countries and in scientific contexts. Atmospheres are often used for general reference points, and torr (roughly equal to mmHg) is common in vacuum measurement and meteorology.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 32 psi (a typical car tire pressure) to bar gives approximately 2.21 bar (32 × 0.0689476), and converting that same 32 psi to atmospheres gives approximately 2.18 atm, useful for comparing a tire gauge reading against a specification sheet quoted in different units.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11164,6 +12145,11 @@ explanation: [
         question: "What's a typical car tire pressure in psi and bar?",
         answer: "Most passenger car tires are inflated to around 30-35 psi, which is roughly 2.07-2.41 bar.",
       },
+    ],
+    commonMistakes: [
+      "Confusing gauge pressure (measured relative to atmospheric pressure, what a tire gauge reads) with absolute pressure (measured relative to a vacuum), most everyday pressure readings like tire pressure are gauge pressure, mixing the two up introduces a roughly 14.7 psi (1 atm) offset.",
+      "Mixing up torr and mmHg as if they were meaningfully different, they're numerically almost identical (within 0.000015%), for everyday purposes they can be treated as the same unit.",
+      "Assuming 1 bar equals 1 atmosphere exactly, they're close (1 atm ≈ 1.01325 bar) but not identical, a distinction that matters in precise scientific or engineering work even though it's negligible for everyday use.",
     ],
     relatedSlugs: ["force-converter", "energy-converter", "density-converter"],
   },
@@ -11192,6 +12178,12 @@ explanation: [
           "Joules and kilojoules are the SI standard used in physics and on food labels in many countries. Calories and kilocalories (the 'Calories' on US food labels) measure food energy. Kilowatt-hours are used for electricity billing, and BTU is common for rating heating, cooling and appliance energy use in the US.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 1 kilowatt-hour (a standard unit on an electricity bill) to joules gives exactly 3,600,000 J, and converting that same 1 kWh to kilocalories gives approximately 860.42 kcal, the same amount of energy your utility bills you for, expressed in food-energy terms.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11202,6 +12194,11 @@ explanation: [
         question: "Is a food Calorie the same as a calorie?",
         answer: "A food 'Calorie' (capital C) is actually a kilocalorie, equal to 1,000 small calories. This converter's 'calorie' and 'kilocalorie' units follow that same distinction.",
       },
+    ],
+    commonMistakes: [
+      "Confusing a food 'Calorie' (capital C, actually a kilocalorie) with a scientific 'calorie' (lowercase, 1/1000th the size), reading a food label's Calories as if they were the smaller unit overstates actual energy by 1000x.",
+      "Mixing up energy (joules, calories, kWh) with power (watts, the rate energy is used), a kilowatt-hour is energy used over time, not an instantaneous rate, they're related but not interchangeable units.",
+      "Assuming BTU always means the same reference size, there are slightly different historical definitions of the BTU (thermochemical, international table, etc.), this tool uses the commonly cited international BTU (1,055.05585262 J), close enough for virtually all practical purposes.",
     ],
     relatedSlugs: ["power-converter", "pressure-converter", "ev-charging-cost-calculator"],
   },
@@ -11230,6 +12227,12 @@ explanation: [
           "Watts and kilowatts are the SI standard used for electrical appliances and generators. Horsepower is traditionally used for rating vehicle and small engine output. BTU per hour is common for rating heating and air conditioning capacity in the US.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting a 200 horsepower engine to kilowatts gives approximately 149.14 kW (200 × 0.745699872), useful when comparing a US-spec engine rating against a metric spec sheet that lists power in kW instead.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11240,6 +12243,11 @@ explanation: [
         question: "Which horsepower definition does this use?",
         answer: "This converter uses mechanical horsepower (745.7 watts), the most common definition. A small number of contexts use metric horsepower, which is very close but not identical (735.5 watts).",
       },
+    ],
+    commonMistakes: [
+      "Treating mechanical horsepower and metric horsepower as identical, they're close (745.7 W vs 735.5 W) but differ by about 1.4%, enough to matter when comparing precise spec sheets from different regions.",
+      "Confusing power (the rate energy is used or produced, watts) with energy itself (joules or kWh), a 100-watt bulb run for 10 hours uses 1 kWh of energy, watts alone don't tell you total energy consumed without a time component.",
+      "Assuming BTU/h and BTU are the same unit, BTU/h is a rate of energy transfer (power), while BTU alone is a quantity of energy, mixing them up is a common error when reading HVAC specifications.",
     ],
     relatedSlugs: ["energy-converter", "torque-converter", "fuel-economy-calculator"],
   },
@@ -11268,6 +12276,12 @@ explanation: [
           "The newton is the SI standard force unit, used throughout physics and engineering. Pound-force is common in US engineering contexts. Kilogram-force appears in some older or non-SI engineering references, and dynes are a smaller cgs unit occasionally used in physics.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 100 pound-force to newtons gives approximately 444.82 N (100 × 4.4482216153), useful when comparing a US engineering spec against a design worked in SI units.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11278,6 +12292,11 @@ explanation: [
         question: "What's the difference between kilogram-force and kilogram (mass)?",
         answer: "A kilogram is a unit of mass, while kilogram-force is a unit of force, the weight of one kilogram of mass under standard Earth gravity (9.80665 m/s²). They're related but not interchangeable.",
       },
+    ],
+    commonMistakes: [
+      "Treating mass (kilograms) and force (kilogram-force) as the same thing, a kilogram-force is the weight of one kilogram of mass under standard gravity, they're related by a factor of 9.80665, not interchangeable units.",
+      "Using dynes for large-scale engineering forces, the dyne is a very small cgs unit (1 N = 100,000 dynes), workable for lab-scale physics but awkward and error-prone for real-world engineering magnitudes.",
+      "Assuming kilogram-force means the same thing on every planet, since it's defined using standard Earth gravity (9.80665 m/s²), the same mass would correspond to a different kilogram-force value under a different gravitational acceleration.",
     ],
     relatedSlugs: ["pressure-converter", "torque-converter", "beam-load-calculator"],
   },
@@ -11306,6 +12325,12 @@ explanation: [
           "Kilograms per cubic meter is the SI standard, common in engineering and materials specifications. Grams per cubic centimeter (equivalently, kilograms per liter) is common for liquids and lab work. Pounds per cubic foot and pounds per gallon are common in US construction, aggregate and fuel contexts.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting water's density, 1,000 kg/m³, to pounds per cubic foot gives approximately 62.43 lb/ft³, the commonly cited imperial reference figure for water density used in US engineering and construction contexts.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11316,6 +12341,11 @@ explanation: [
         question: "What is the density of water?",
         answer: "Water's density is approximately 1,000 kg/m³, 1 g/cm³, or 1 kg/L at 4°C, one of the most commonly used reference densities.",
       },
+    ],
+    commonMistakes: [
+      "Confusing density (mass per unit volume) with specific gravity (a dimensionless ratio to water's density), a material with specific gravity 2.5 has a density of about 2,500 kg/m³, not 2.5 kg/m³, forgetting the water-density multiplier is a common source of error.",
+      "Mixing up US and other regional definitions of 'gallon' when converting to or from lb/gal, this converter's lb/gal unit is specifically pounds per US gallon, not the larger UK imperial gallon.",
+      "Forgetting that density changes with temperature, the water density figures used here (1,000 kg/m³) are specifically for water at 4°C, its densest point, water at other temperatures is measurably less dense.",
     ],
     relatedSlugs: ["viscosity-converter", "pressure-converter", "cement-calculator"],
   },
@@ -11344,6 +12374,12 @@ explanation: [
           "Torque specifications (like a lug nut or engine bolt spec) must be applied with the correct unit, mixing up newton-meters and pound-feet can lead to a fastener being significantly over- or under-tightened. Newton-meters are the SI standard, while pound-feet and pound-inches are common on US-made torque wrenches and specifications.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting a 100 lb-ft torque spec (a typical lug nut or wheel bolt figure) to newton-meters gives approximately 135.58 N·m (100 × 1.35581795), important to get right since a metric torque wrench set to the wrong unit could significantly over- or under-tighten a fastener.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11354,6 +12390,11 @@ explanation: [
         question: "When are pound-inches used instead of pound-feet?",
         answer: "Pound-inches are typically used for smaller torque specifications, like small fasteners or electronics, where pound-feet would be an awkwardly small fraction.",
       },
+    ],
+    commonMistakes: [
+      "Confusing pound-feet with foot-pounds of energy, they use the same units (a pound of force times a foot of distance) but represent different physical concepts, torque versus work/energy, which can cause confusion when reading engineering references.",
+      "Mixing up pound-feet and pound-inches on a torque wrench set to the wrong scale, since 1 lb-ft = 12 lb-in, an unnoticed unit mismatch can result in a fastener tightened 12 times more or less than intended.",
+      "Assuming a small numeric difference between similar-sounding units doesn't matter for critical fasteners, torque specs for things like wheel lug nuts or engine components are precise for safety reasons, always convert carefully rather than approximating.",
     ],
     relatedSlugs: ["force-converter", "power-converter", "beam-load-calculator"],
   },
@@ -11382,6 +12423,12 @@ explanation: [
           "Degrees are the everyday standard for angles, navigation and geometry. Radians are the SI standard used throughout math and physics, especially in calculus and trigonometry. Gradians appear in some surveying contexts, and arcminutes/arcseconds are used for very precise small-angle measurements in astronomy and navigation.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 45 degrees to radians gives exactly 0.785398 (45 × π/180), which is π/4, one of the standard reference angles used constantly in trigonometry, right alongside 0, π/6, π/3 and π/2.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11392,6 +12439,11 @@ explanation: [
         question: "How many arcminutes are in a degree?",
         answer: "There are 60 arcminutes in one degree, and 60 arcseconds in one arcminute, similar to how minutes and seconds divide an hour.",
       },
+    ],
+    commonMistakes: [
+      "Feeding a value in radians into a calculator or formula expecting degrees (or vice versa), this is one of the most common trigonometry errors, always double check which unit a function or spec expects before plugging in a value.",
+      "Assuming a gradian is close to a degree, a gradian (1/400 of a full revolution) is slightly smaller than a degree (1/360 of a revolution), close enough to cause subtle errors if treated as equivalent.",
+      "Forgetting that arcminutes and arcseconds divide a degree the same way minutes and seconds divide an hour, 30 arcminutes is half a degree, not 30 degrees, a mixup that matters in astronomy and precise navigation.",
     ],
     relatedSlugs: ["length-converter", "frequency-converter", "tire-size-calculator"],
   },
@@ -11420,6 +12472,12 @@ explanation: [
           "Internet plans are advertised in bits per second (like '500 Mbps'), but file download progress in a browser or app is typically shown in bytes per second (like 'MB/s'), and there are 8 bits in a byte. A 500 Mbps connection therefore tops out around 62.5 MB/s in a download manager, which can look surprisingly low compared to the advertised number even when everything is working correctly.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting a 500 Mbps internet plan to megabytes per second gives exactly 62.5 MB/s (500 ÷ 8), the maximum realistic download speed you'd see reported in a browser or download manager, which uses bytes rather than bits.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11430,6 +12488,11 @@ explanation: [
         question: "Does this use 1000 or 1024 for kilobit/megabit?",
         answer: "This converter uses decimal (1000-based) prefixes, the standard convention for network transfer rates. Our Data Storage Converter, by contrast, uses binary (1024-based) prefixes, matching how file sizes are typically measured.",
       },
+    ],
+    commonMistakes: [
+      "Reading 'Mbps' (megabits per second, a connection speed) as if it were 'MB/s' (megabytes per second, a download speed), an 8x mixup that makes an internet plan look either far faster or far slower than reality.",
+      "Assuming this converter uses the same 1024-based prefixes as file sizes, network transfer rates conventionally use decimal (1000-based) prefixes, unlike our Data Storage Converter, which uses binary (1024-based) prefixes for file sizes.",
+      "Expecting to actually hit the advertised speed in practice, the theoretical maximum from a plan's stated Mbps is rarely achieved consistently due to network overhead, server limits, and Wi-Fi conditions, similar to the caveat on our Bandwidth Calculator.",
     ],
     relatedSlugs: ["data-storage-converter", "frequency-converter", "length-converter"],
   },
@@ -11458,6 +12521,12 @@ explanation: [
           "Hertz and its multiples (kHz, MHz, GHz) measure cycles per second, used for everything from AC power and radio waves to computer processor clock speeds. RPM (revolutions per minute) is commonly used for rotational speed, such as engine, motor or hard drive spin rates, and converts directly to hertz since both describe repeating cycles.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 3,000 RPM (a typical engine idle-to-cruise range) to hertz gives exactly 50 Hz (3,000 ÷ 60), since RPM measures cycles per minute and hertz measures cycles per second, a straightforward division by 60 bridges the two.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11468,6 +12537,11 @@ explanation: [
         question: "What frequency is standard household electricity?",
         answer: "Household AC power runs at 60 Hz in the US and much of the Americas, and 50 Hz in Europe, Asia, Africa and most of the rest of the world.",
       },
+    ],
+    commonMistakes: [
+      "Forgetting that RPM and hertz measure cycles over different time windows, RPM is per minute, hertz is per second, skipping the ÷60 conversion produces a result 60 times too large.",
+      "Assuming kHz, MHz and GHz always refer to the same kind of frequency, both radio wave frequency and CPU clock speed use the same units, but they describe very different physical phenomena, don't assume comparability just because the units match.",
+      "Mixing up frequency (cycles per second) with wavelength (physical distance per cycle), the two are inversely related through the wave's speed, converting one to the other requires that additional speed value, which this tool doesn't handle.",
     ],
     relatedSlugs: ["digital-transfer-rate-converter", "angle-converter", "power-converter"],
   },
@@ -11496,6 +12570,12 @@ explanation: [
           "The sievert (and its smaller unit, the millisievert) is the SI unit for radiation equivalent dose, used internationally and in most modern scientific and medical contexts. Rem (and millirem) is an older unit still used in some US regulatory and occupational contexts. This converter covers equivalent dose only, used for assessing biological radiation exposure, not the separate concept of radioactivity (measured in becquerels or curies).",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting the commonly cited annual natural background radiation dose, about 3 millisieverts, to rem gives 0.3 rem (3 ÷ 10), letting you compare a dose reported in the international SI unit against an older US regulatory document that reports limits in rem or millirem.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11506,6 +12586,11 @@ explanation: [
         question: "How much radiation is a typical chest X-ray?",
         answer: "A chest X-ray is commonly cited as delivering around 0.1 millisieverts, a small fraction of the roughly 3 millisieverts most people receive annually from natural background radiation. This is general reference information, not medical advice.",
       },
+    ],
+    commonMistakes: [
+      "Confusing equivalent dose (sieverts/rem, this converter) with radioactivity itself (becquerels/curies), the two measure different things, how much biological harm a dose could cause versus how many atoms are decaying, and don't convert into each other.",
+      "Treating this reference information as medical guidance for a specific personal exposure, dose significance depends heavily on context (dose rate, exposure duration, body area affected), consult a qualified medical or radiation safety professional for any actual health-related radiation question.",
+      "Assuming sievert and rem differ by a small amount, they differ by a factor of 100 (1 Sv = 100 rem), a decimal-point-level mixup here represents a meaningfully different radiation dose.",
     ],
     relatedSlugs: ["energy-converter", "frequency-converter", "pressure-converter"],
   },
@@ -11534,6 +12619,12 @@ explanation: [
           "Pascal-seconds (and millipascal-seconds) are the SI standard, common in engineering and scientific contexts. Poise and centipoise are cgs units still widely used in industry and material data sheets, water at room temperature has a viscosity of almost exactly 1 centipoise, making it a handy reference point.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting 1 poise to centipoise gives exactly 100 cP (1 poise = 0.1 Pa·s = 100 mPa·s = 100 cP), so a material data sheet listing a fluid's viscosity as, say, 5 poise translates directly to 500 cP, roughly 500 times more viscous than water at room temperature.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11544,6 +12635,11 @@ explanation: [
         question: "What is the viscosity of water?",
         answer: "Water at about 20°C (68°F) has a viscosity of approximately 1 centipoise (1 millipascal-second), commonly used as a reference point when comparing other fluids.",
       },
+    ],
+    commonMistakes: [
+      "Confusing dynamic viscosity (this converter, resistance to flow under an applied force) with kinematic viscosity (dynamic viscosity divided by density, measured in units like centistokes), material data sheets sometimes report one or the other, and they aren't interchangeable without knowing the fluid's density.",
+      "Assuming viscosity is temperature-independent, most fluids (like motor oil) become noticeably less viscous when heated, a data sheet value is only valid at the specific temperature it was measured at.",
+      "Mixing up poise and pascal-seconds by an order of 10 rather than the correct factor, 1 poise equals 0.1 Pa·s, not 1 Pa·s, worth double-checking on any calculation that depends on getting this right.",
     ],
     relatedSlugs: ["density-converter", "flow-rate-converter", "pressure-converter"],
   },
@@ -11572,6 +12668,12 @@ explanation: [
           "Liters per second and cubic meters per second are the SI standard, common in engineering and scientific contexts. Gallons per minute (GPM) is widely used in the US for pumps, faucets and irrigation, while cubic feet per minute (CFM) is standard for airflow ratings on fans, HVAC equipment and compressors.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting a 5 GPM well pump's output to liters per minute gives approximately 18.93 L/min (5 × 3.78541), useful for comparing a US-spec pump rating against equipment documented in metric units.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11582,6 +12684,11 @@ explanation: [
         question: "Is CFM used for liquids or air?",
         answer: "CFM (cubic feet per minute) is almost always used for airflow, such as fan, blower or HVAC ratings, while GPM and liters per minute are more commonly used for liquid flow.",
       },
+    ],
+    commonMistakes: [
+      "Using GPM (a liquid flow unit) and CFM (an airflow unit) interchangeably, they measure flow of fundamentally different substances, a pump rated in GPM and a fan rated in CFM aren't directly comparable even after unit conversion.",
+      "Confusing gallons per minute with gallons per hour when reading a spec sheet, missing that distinction produces a result 60 times too large or small.",
+      "Assuming US and UK imperial gallons give the same GPM conversion, this tool's GPM unit uses the US gallon (3.78541 L), a UK imperial gallon (4.546 L) would need a different conversion factor entirely.",
     ],
     relatedSlugs: ["viscosity-converter", "volume-converter", "ev-charging-cost-calculator"],
   },
@@ -11625,6 +12732,12 @@ explanation: [
           "Different platforms and fields enforce different character limits for different technical or design reasons, SMS messages are limited by the underlying telecom protocol, while a meta description limit is really about how much text search engines display before truncating it. Set the limit field to match whatever you're writing for.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A 137-character piece of text against the default 280-character limit (a tweet) shows 143 characters remaining and 48.9% of the limit used, well within range. If that same text were checked against a 155-character meta description limit instead, it would show only 18 characters remaining, 88.4% used, illustrating why the same text can be comfortably short for one platform and nearly maxed out for another.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11635,6 +12748,11 @@ explanation: [
         question: "Is my text sent to a server?",
         answer: "No, all counting happens directly in your browser, your text is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Leaving the character limit at its default (280) when writing for a different platform, always set it to match your actual target, 160 for SMS, roughly 155-160 for a meta description, or whatever your specific platform enforces.",
+      "Assuming every platform counts characters the same way, some platforms count certain Unicode characters (like emoji) as more than one character internally, which can cause a small mismatch between what this tool reports and what the platform itself enforces.",
+      "Not accounting for the space a link or hashtag takes up on platforms that auto-shorten URLs, some social platforms count a long URL as a fixed shorter length regardless of its actual character count, which this general-purpose counter has no way to know about.",
     ],
     relatedSlugs: ["word-counter", "reading-time-calculator"],
   },
@@ -11676,6 +12794,12 @@ explanation: [
           "Displaying an estimated reading time (like '5 min read') alongside an article is a common practice on blogs and publishing platforms, helping readers decide whether they have time to read something right now. It's also a useful gut-check for writers on whether a piece has run longer than intended.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A 1,000-word article at the default 200 words per minute reading speed gives an estimated reading time of exactly 5 min 0 sec (1,000 ÷ 200 = 5 minutes). Bump the reading speed up to 300 wpm for a fast reader, and that same 1,000-word article drops to 3 min 20 sec.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11686,6 +12810,11 @@ explanation: [
         question: "Does this account for images or complex formatting?",
         answer: "No, this estimates reading time from word count alone. Some reading time calculators add a flat time penalty per image, this tool focuses on text only.",
       },
+    ],
+    commonMistakes: [
+      "Using the same reading speed for all types of content, technical documentation, code-heavy tutorials, or unfamiliar-vocabulary text is typically read more slowly than casual prose, adjust the words-per-minute field to fit your actual audience and content type.",
+      "Forgetting that this estimate excludes time spent on images, videos, code blocks, or interactive elements, an article-heavy page with lots of embedded media will take noticeably longer to consume than the text-only estimate suggests.",
+      "Treating the estimate as precise rather than a rough guide, actual reading speed varies significantly between individuals and even for the same person depending on focus and familiarity with the topic.",
     ],
     relatedSlugs: ["word-counter", "character-counter"],
   },
@@ -11733,6 +12862,12 @@ explanation: [
           "A slug is the human-readable part of a URL identifying a specific page, like the 'best-budget-laptops' in example.com/blog/best-budget-laptops. Clean, descriptive, hyphen-separated slugs are easier to read, share, and are generally considered good practice for SEO compared to URLs with spaces, special characters, or auto-generated IDs.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering '10 Best Budget Laptops in 2026!' with a hyphen separator and lowercase enabled produces '10-best-budget-laptops-in-2026', the exclamation mark is stripped entirely, spaces become hyphens, and every letter is lowercased. Disabling lowercase instead would preserve the original capitalization: '10-Best-Budget-Laptops-in-2026'.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11743,6 +12878,11 @@ explanation: [
         question: "What happens to accented characters like é or ñ?",
         answer: "They're converted to their closest plain-letter equivalent, for example é becomes e, since most URL slugs are expected to use only standard ASCII letters and numbers.",
       },
+    ],
+    commonMistakes: [
+      "Changing a page's slug after it's already been published and indexed, without a redirect from the old URL to the new one, this breaks existing links and loses any accumulated SEO value for that page.",
+      "Assuming underscores work identically to hyphens for SEO, most major search engines treat a hyphen as a word separator but don't reliably treat an underscore the same way, hyphens are the safer default.",
+      "Generating an extremely long slug directly from a long title, very long slugs are harder to read and share, consider shortening to the essential keywords rather than converting the entire title verbatim.",
     ],
     relatedSlugs: ["case-converter", "html-encoder-decoder"],
   },
@@ -11794,6 +12934,12 @@ explanation: [
           "Alphabetical sorting compares lines as text, character by character. Numerical sorting instead parses the leading number from each line and compares those values directly, so '9' correctly sorts before '10' (alphabetical sorting would place '10' before '9', since '1' comes before '9' character by character).",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Sorting the three lines '9', '10', '2' with Numerical (Ascending) gives '2', '9', '10', the actual numeric values are compared, so 10 correctly lands last. Sorting those same three lines Alphabetically (A-Z) instead would give '10', '2', '9', since character-by-character text comparison sees '1' as coming before '2' or '9', regardless of the numbers' actual size.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11804,6 +12950,11 @@ explanation: [
         question: "Does case sensitivity affect the sort order?",
         answer: "Yes, with case-sensitive sorting enabled, uppercase and lowercase letters may sort differently than with it disabled, since the comparison then treats 'Apple' and 'apple' as distinct values.",
       },
+    ],
+    commonMistakes: [
+      "Using Alphabetical sort on a list of numbers and expecting numeric order, text sorting compares characters left to right, so '10' sorts before '2', use Numerical sort instead when the lines represent actual quantities.",
+      "Forgetting that numerical sort only reads the leading number in each line, a line like '5 apples' sorts by the leading '5', but a line with no leading number at all is treated as infinitely large and pushed to the end.",
+      "Not realizing case sensitivity changes alphabetical order, with case-sensitive sorting on, all uppercase letters sort before all lowercase letters in standard character-code order, producing a different order than a case-insensitive sort of the same list.",
     ],
     relatedSlugs: ["alphabetizer", "remove-duplicate-lines"],
   },
@@ -11853,6 +13004,12 @@ explanation: [
           "This tool is purpose-built for alphabetizing lists of names, titles or items, entered either comma-separated or one per line, with the leading-article convention built in. Our more general Text Sorter instead sorts arbitrary text lines, alphabetically or numerically, without this list- and title-specific behavior.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Alphabetizing 'The Great Gatsby, A Tale of Two Cities, Moby Dick' with 'Ignore Leading Articles' enabled gives 'The Great Gatsby, Moby Dick, A Tale of Two Cities', sorted by 'Great Gatsby' (G), 'Moby Dick' (M), and 'Tale of Two Cities' (T), not by their literal first letters. With that option disabled instead, the same three titles would sort by their literal first characters: 'A Tale of Two Cities' (A), 'Moby Dick' (M), 'The Great Gatsby' (T).",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11863,6 +13020,11 @@ explanation: [
         question: "Why would I want to ignore leading articles?",
         answer: "It's the standard convention for alphabetizing titles, like book titles, movie titles, or article headlines, so that 'The Great Gatsby' and 'A Tale of Two Cities' sort under 'G' and 'T' rather than clustering under 'A' and 'T' for their articles.",
       },
+    ],
+    commonMistakes: [
+      "Leaving 'Ignore Leading Articles' enabled when alphabetizing something that isn't a title, like a list of plain names or product SKUs, this convention is specifically for titles, applying it to unrelated lists can produce an unexpected sort order.",
+      "Choosing the wrong list format (comma-separated vs one per line) for the actual input, mismatching the delimiter setting to the input format causes the entire list to be read as a single item instead of being split correctly.",
+      "Assuming this handles articles anywhere in the title, only a leading 'a', 'an', or 'the' is recognized and ignored, an article appearing mid-title (like 'Return of the King') is left in place and still counted for sorting.",
     ],
     relatedSlugs: ["text-sorter", "remove-duplicate-lines"],
   },
@@ -11903,6 +13065,12 @@ explanation: [
           "A line containing only spaces or a tab character looks empty but technically isn't blank. With 'treat whitespace-only lines as empty' enabled, these lines are removed too, useful when text was copied from a source that leaves invisible trailing whitespace on otherwise blank lines.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Given the text 'line1', a blank line, 'line2', a line with only spaces, and 'line3' (5 lines total), with 'treat whitespace-only as empty' enabled, the result keeps just 'line1', 'line2', 'line3' and reports 2 lines removed, both the genuinely blank line and the spaces-only line are stripped out.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11913,6 +13081,11 @@ explanation: [
         question: "Is my text sent to a server?",
         answer: "No, all processing happens directly in your browser, your text is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Leaving 'treat whitespace-only as empty' disabled when text has invisible trailing spaces on otherwise blank lines, those lines will look empty visually but won't be removed unless that option is enabled.",
+      "Using this tool to fix spacing within lines, it only ever removes entire lines, if the problem is extra spaces inside a line rather than blank lines themselves, use Remove Extra Spaces instead.",
+      "Expecting paragraph spacing (a single blank line intentionally separating paragraphs) to be preserved, this tool removes every blank line it finds, if you need to preserve paragraph breaks while cleaning up excess ones, review the result carefully afterward.",
     ],
     relatedSlugs: ["remove-extra-spaces", "remove-duplicate-lines"],
   },
@@ -11950,6 +13123,12 @@ explanation: [
           "This tool only affects horizontal whitespace within each line, it never deletes a line, even a blank one. Our Remove Empty Lines tool handles removing blank lines themselves. Use both together for a thorough text cleanup.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Given the line 'This   has    extra   spaces' (with irregular runs of multiple spaces), the result collapses down to 'This has extra spaces', every run of consecutive spaces becomes a single space. With 'Trim Leading/Trailing Whitespace' also enabled, any spaces at the very start or end of that line would be removed entirely rather than collapsed.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -11960,6 +13139,11 @@ explanation: [
         question: "Does this affect spacing inside words?",
         answer: "No, only runs of space or tab characters are collapsed, letters within a word are never affected.",
       },
+    ],
+    commonMistakes: [
+      "Expecting this to also remove blank lines, it only cleans up horizontal spacing within each line and never deletes a line entirely, use Remove Empty Lines alongside it for a complete cleanup.",
+      "Assuming this fixes spacing issues caused by tabs mixed with spaces for alignment (like in code), it collapses any run of spaces or tabs to a single space, which can actually break intentional tab-based alignment rather than fix it.",
+      "Running this on content where multiple spaces are meaningful, like pre-formatted text or certain markup languages, collapsing intentional multi-space formatting could change how that content is meant to display.",
     ],
     relatedSlugs: ["remove-empty-lines", "remove-duplicate-lines"],
   },
@@ -12006,6 +13190,12 @@ explanation: [
           "Reversing text is used for puzzles and wordplay, checking whether a word or phrase is a palindrome, or simply reordering a pasted list or set of lines without retyping it by hand.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Reversing 'hello' in Character mode gives 'olleh', letter by letter. Reversing 'the quick fox' in Word mode instead gives 'fox quick the', each word stays intact but their order flips, useful for checking whether a phrase reads the same as a palindrome (which 'hello' clearly doesn't, since 'olleh' isn't the same as 'hello').",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12016,6 +13206,11 @@ explanation: [
         question: "Does word mode preserve punctuation attached to words?",
         answer: "Yes, punctuation attached directly to a word (like a comma or period) moves with that word when the word order is reversed.",
       },
+    ],
+    commonMistakes: [
+      "Using Character mode to check a palindrome phrase with spaces or punctuation without normalizing first, 'A man a plan a canal Panama' reversed character-by-character won't exactly match the original due to capitalization and spacing, strip those first for an accurate palindrome check.",
+      "Expecting Word mode to reverse letters within each word, it only reverses the order of whole words, 'the quick fox' becomes 'fox quick the', not 'eht kciuq xof'.",
+      "Forgetting that Line mode reverses the order of lines, not their content, a numbered list reversed with Line mode will have its lines in opposite order but the numbers themselves stay exactly as typed, likely now out of sequence.",
     ],
     relatedSlugs: ["shuffle-text", "case-converter"],
   },
@@ -12062,6 +13257,12 @@ explanation: [
           "Shuffling lines is useful for randomizing a list, like quiz questions or a set of names for random assignment. Shuffling words can be used for word games or generating scrambled prompts, and shuffling characters is mostly used for puzzles, since it usually produces unreadable output.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Shuffling the three lines 'Alice', 'Bob', 'Carol' in Line mode produces one of the six equally likely orderings, like 'Carol', 'Alice', 'Bob', a genuinely random result rather than always the same rearrangement. Because the output is random by design, running the tool again on the exact same input produces a different order each time, unlike every other tool in this category.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12072,6 +13273,11 @@ explanation: [
         question: "Is this shuffle truly random?",
         answer: "It uses your browser's random number generator with a Fisher-Yates shuffle, which is statistically unbiased and suitable for general-purpose shuffling, though not intended for cryptographic use.",
       },
+    ],
+    commonMistakes: [
+      "Expecting reproducible output, this tool is intentionally random every time, if you need a specific, repeatable arrangement, a shuffler isn't the right tool, manually arrange the order instead.",
+      "Using this for anything requiring cryptographic randomness (like generating a secret token), it uses a standard, statistically fair Fisher-Yates shuffle suitable for games, quizzes and general randomization, but it's explicitly not intended for security-sensitive use.",
+      "Shuffling by character on a phrase and expecting a readable result, character-level shuffling on all but the shortest input almost always produces unreadable gibberish, that's expected behavior, not a bug.",
     ],
     relatedSlugs: ["reverse-text", "random-number-generator"],
   },
@@ -12117,6 +13323,12 @@ explanation: [
           "Displaying user-generated or code-like text safely inside an HTML page requires encoding special characters first, otherwise a stray '<' could be misinterpreted as the start of a tag. This is a common step when embedding code snippets in a web page or preparing text for an XML/HTML context.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Encoding \"<b>Bold</b> & 'quoted'\" gives '&lt;b&gt;Bold&lt;/b&gt; &amp; &#39;quoted&#39;', every special character (<, >, &, ') is swapped for its entity equivalent, so the browser displays it as literal text rather than interpreting '<b>' as an actual bold tag. Decoding a numeric entity like '&#169; 2026' or its hex equivalent '&#xA9; 2026' both correctly produce '© 2026'.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12127,6 +13339,11 @@ explanation: [
         question: "What entity formats are supported for decoding?",
         answer: "Common named entities (like &amp; and &lt;), decimal numeric entities (like &#169;), and hexadecimal numeric entities (like &#xA9;) are all supported.",
       },
+    ],
+    commonMistakes: [
+      "Forgetting to encode user-submitted text before displaying it inside HTML, an unencoded '<' or '&' in user input can be misinterpreted as markup, which is both a display bug and a potential security issue (cross-site scripting) if left unaddressed at the application level.",
+      "Assuming every named HTML entity is supported for decoding, this tool supports the most common ones (amp, lt, gt, quot, apos, nbsp) plus any numeric entity, but the full HTML5 spec defines hundreds of named entities, an unrecognized name is left unchanged rather than guessed at.",
+      "Double-encoding text that's already encoded, encoding '&amp;' again produces '&amp;amp;', since the & itself gets re-encoded, always check whether text is already in entity form before encoding it again.",
     ],
     relatedSlugs: ["slug-generator", "case-converter"],
   },
@@ -12166,6 +13383,12 @@ explanation: [
           "The version digit (the first character of the third group) indicates how the UUID was generated, version 4 is random, version 1 is timestamp-based, and so on. The variant (encoded in the top bits of the fourth group) indicates which layout rules the UUID follows, the vast majority of UUIDs in use today are RFC 4122 variant.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Validating 550e8400-e29b-41d4-a716-446655440000: the string matches the 8-4-4-4-12 hexadecimal pattern, so the status shows 'Valid'. The third group starts with '4' (in '41d4'), identifying it as Version 4 (randomly generated). The fourth group starts with 'a' (in 'a716'), which falls in the 8-b range that marks the RFC 4122 variant, the standard layout used by the vast majority of UUIDs.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12176,6 +13399,11 @@ explanation: [
         question: "Is my UUID sent to a server?",
         answer: "No, all validation happens entirely in your browser, your data is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Assuming any 32-character hex string with dashes is automatically a 'valid' UUID, the version digit must be 1-8 and the variant digit must fall in specific ranges, a string that merely looks UUID-shaped can still fail those checks.",
+      "Confusing curly-brace or urn-prefixed UUID formats (like {550e8400-...} or urn:uuid:550e8400-...) with the plain format, this validator expects the bare 8-4-4-4-12 pattern without extra wrapping characters.",
+      "Assuming an invalid result means the UUID was corrupted in transit, often it just means the string was generated by a non-standard method or is a different kind of identifier entirely (like a database auto-increment ID formatted to look similar).",
     ],
     relatedSlugs: ["uuid-generator", "json-formatter"],
   },
@@ -12211,6 +13439,12 @@ explanation: [
           "Since formatting requires understanding the tag structure, this tool also surfaces common well-formedness problems as it goes: unclosed tags, mismatched opening/closing tag pairs, and multiple root elements (valid XML must have exactly one root element).",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Formatting <root><item>value</item></root> produces three lines: <root> on its own line, <item>value</item> indented two spaces on the next line (kept on one line since it's a simple text-only element), and </root> back at the left margin. If the input were instead <root><item>value</root> (missing the </item> closing tag), the tool would throw an error, 'Mismatched closing tag: expected </item> but found </root>', instead of returning formatted output.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12221,6 +13455,11 @@ explanation: [
         question: "Does this validate against a schema (XSD/DTD)?",
         answer: "No, this checks well-formedness only (correct tag structure), not validity against a specific schema. Schema validation is a separate, more involved process.",
       },
+    ],
+    commonMistakes: [
+      "Assuming this checks validity against a schema (XSD/DTD), it only checks well-formedness (correct tag nesting and structure), not whether your specific elements and attributes match a schema's rules.",
+      "Including multiple top-level elements without a single wrapping root, XML requires exactly one root element, siblings at the top level (like <a/><b/>) will be flagged as an error even though each tag individually is well-formed.",
+      "Forgetting that XML tags are case-sensitive, <Item> and <item> are different tag names, a closing tag must match the opening tag's case exactly or it will be reported as mismatched.",
     ],
     relatedSlugs: ["xml-validator", "json-formatter"],
   },
@@ -12259,6 +13498,12 @@ explanation: [
           "'Well-formed' and 'valid' are different concepts in XML. Well-formed means the syntax is structurally correct, which is what this tool checks. 'Valid' additionally means the document conforms to a specific schema (like an XSD or DTD) defining which elements and attributes are allowed, this tool doesn't check schema validity.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Validating <root><item>value</item></root> returns 'Valid' with the message 'This XML is well-formed.' Validating <root><item>value</root> instead, where the </item> closing tag is missing, returns 'Invalid' with the message 'Mismatched closing tag: expected </item> but found </root>.', pinpointing exactly which tag pair doesn't line up.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12269,6 +13514,11 @@ explanation: [
         question: "Is my XML sent to a server?",
         answer: "No, all validation happens entirely in your browser, your data is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Expecting a 'Valid' result to mean the document matches a particular schema, well-formedness only confirms correct tag structure, a well-formed document can still be 'invalid' against a specific XSD or DTD.",
+      "Assuming self-closing tags need an explicit closing tag, <br/> or <item/> are already complete on their own, adding </item> afterward would actually create a mismatched-tag error.",
+      "Not noticing that unescaped special characters (like a bare & or < inside text content) can break well-formedness, these need to be written as &amp; and &lt; when they're meant as literal text rather than markup.",
     ],
     relatedSlugs: ["xml-formatter", "json-formatter"],
   },
@@ -12315,6 +13565,12 @@ explanation: [
           "Converting spreadsheet or export data (CSV) into JSON is a common step when feeding data into an API, a JavaScript application, or a NoSQL database, all of which typically expect JSON rather than tabular CSV.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting the CSV 'name,age\\nAlice,30\\nBob,25' with a comma delimiter produces a JSON array of two objects, [{\"name\": \"Alice\", \"age\": \"30\"}, {\"name\": \"Bob\", \"age\": \"25\"}], using the first row as the object keys. Note that every value comes out as a string, including 'age', this tool doesn't try to guess and convert numeric types, since CSV itself has no type information to preserve.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12325,6 +13581,11 @@ explanation: [
         question: "Does this handle quoted fields with embedded commas?",
         answer: "Yes, a field like \"New York, NY\" wrapped in quotes is correctly kept as a single value rather than being split into two fields.",
       },
+    ],
+    commonMistakes: [
+      "Expecting numeric or boolean values to convert to actual JSON numbers/booleans automatically, every CSV value becomes a JSON string ('30' not 30), you'd need to convert types separately if your downstream use case requires them.",
+      "Selecting the wrong delimiter for the source file, a comma-delimited parse of semicolon-separated data will treat each entire row as one field, always match the delimiter dropdown to how the CSV was actually exported.",
+      "Forgetting that the CSV needs a header row, the first row is always treated as field names, not data, a CSV with only data rows and no header will misassign the first row as keys.",
     ],
     relatedSlugs: ["json-to-csv", "json-formatter"],
   },
@@ -12371,6 +13632,12 @@ explanation: [
           "If some objects are missing a field that others have, the resulting CSV cell for that row and column is simply left blank, the header row always includes every key seen across the full array.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting [{\"name\":\"Alice\",\"age\":30},{\"name\":\"Bob\",\"age\":25}] with a comma delimiter produces the header row 'name,age' followed by 'Alice,30' and 'Bob,25', three lines total. If a value itself contained a comma, like a name 'Smith, John', that field would automatically be wrapped in quotes in the output so it isn't mistaken for two separate columns.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12381,6 +13648,11 @@ explanation: [
         question: "What happens to nested objects or arrays inside a field?",
         answer: "They're converted to their JSON string representation in the CSV cell, since CSV itself has no concept of nested structure.",
       },
+    ],
+    commonMistakes: [
+      "Passing a single JSON object instead of an array, even one record needs to be wrapped in an array, [{...}], or the tool will reject it as not being an array of objects.",
+      "Not realizing the header row reflects the union of every object's keys, if one object has an extra field the others lack, that field still gets its own column, with blank cells for the objects missing it.",
+      "Assuming a nested object or array inside a field converts to separate columns, it's instead flattened to its JSON string representation in a single cell, since plain CSV has no way to represent nested structure.",
     ],
     relatedSlugs: ["csv-to-json", "json-formatter"],
   },
@@ -12416,6 +13688,12 @@ explanation: [
           "Because it works from keywords rather than a true SQL grammar, this tool won't perfectly handle every edge case, deeply nested subqueries, vendor-specific syntax, or unusual keyword usage inside string literals may not format exactly as a dedicated SQL IDE would. For everyday query cleanup and readability, it works well.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Formatting 'SELECT id, name FROM users WHERE age > 18 ORDER BY name' produces four lines, one per major clause: 'SELECT id, name', 'FROM users', 'WHERE age > 18', and 'ORDER BY name', each keyword uppercased and pushed to the start of its own line. A query with multiple conditions, like '...WHERE age > 18 AND status = \\'active\\'', would additionally indent the AND onto its own line beneath WHERE.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12426,6 +13704,11 @@ explanation: [
         question: "Will this change my SQL's behavior?",
         answer: "No, only whitespace and line breaks are changed, the query's keywords, identifiers and logic are left exactly as written.",
       },
+    ],
+    commonMistakes: [
+      "Expecting this to catch SQL syntax errors, it's a whitespace/line-break formatter based on keyword matching, not a real SQL parser, invalid SQL will still get reformatted rather than flagged as an error.",
+      "Assuming it understands vendor-specific dialects perfectly, unusual syntax from a specific database (like PostgreSQL's DISTINCT ON or SQL Server's TOP) may not break onto its own line the way standard clause keywords do.",
+      "Expecting keywords appearing inside string literals to be left alone in all cases, since this is a keyword-matching formatter rather than a full parser, an unusual literal that happens to contain a clause keyword could in rare cases get an unwanted line break.",
     ],
     relatedSlugs: ["json-formatter", "csv-to-json"],
   },
@@ -12465,6 +13748,12 @@ explanation: [
           "Verifying a JWT's signature requires the secret key (for HS256) or public key (for RS256/ES256) it was signed with, information this tool never asks for or has access to. Decoding shows you what's inside the token, it doesn't confirm the token is authentic or hasn't been tampered with, that check has to happen on the server that issued it.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Decoding the classic example token eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c splits into three periods-separated segments. The first decodes to the header {\"alg\": \"HS256\", \"typ\": \"JWT\"}, the second decodes to the payload {\"sub\": \"1234567890\", \"name\": \"John Doe\", \"iat\": 1516239022}, and the third segment, SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c, is shown as-is as the raw signature, since decoding it further would require the secret key used to create it.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12475,6 +13764,11 @@ explanation: [
         question: "Can I use this to create a valid JWT?",
         answer: "No, this tool only decodes existing tokens. Use our JWT Generator to create a new signed token.",
       },
+    ],
+    commonMistakes: [
+      "Treating a successfully decoded token as proof it's authentic, decoding only reveals the contents, anyone can construct a JWT-shaped string with an arbitrary header and payload, only signature verification (which requires the secret or public key) confirms it wasn't tampered with.",
+      "Storing sensitive data in a JWT payload assuming it's hidden, the payload is only base64url-encoded, not encrypted, anyone who has the token can decode and read it just as this tool does.",
+      "Pasting a token missing one of its three segments (or with extra periods) and expecting it to decode, a JWT must have exactly three period-separated segments, header.payload.signature, malformed input will be rejected.",
     ],
     relatedSlugs: ["jwt-generator", "hash-generator"],
   },
@@ -12516,6 +13810,12 @@ explanation: [
           "Anyone with your secret key can generate valid tokens that your server will accept, or verify tokens they intercept, so treat it like a password. This tool runs entirely in your browser and never transmits your secret anywhere, but you should still avoid using a real production secret in any external tool, use this for testing, prototyping, or generating tokens with throwaway secrets.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Signing the payload {\"sub\":\"1234567890\",\"name\":\"John Doe\"} with the secret key 'your-secret-key' produces the header segment eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9, the payload segment eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIn0, and a computed HMAC-SHA256 signature joined with periods into a complete token. Change even one character of the secret and the entire signature segment comes out completely different, that's the point, only someone with the exact same secret can produce a matching signature for the same header and payload.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12530,6 +13830,11 @@ explanation: [
         question: "Can I verify a token this tool generated?",
         answer: "Yes, paste the generated token into our JWT Decoder to see its decoded header and payload. Full signature verification would require re-computing the HMAC with the same secret, which this decoder intentionally doesn't do since it never asks for a secret.",
       },
+    ],
+    commonMistakes: [
+      "Using a real production secret key to generate a test token in any third-party tool, treat secrets like passwords, use a disposable throwaway value for testing and prototyping instead.",
+      "Expecting this to produce RS256 or other asymmetric-algorithm tokens, this generator only supports HS256 (a shared-secret HMAC scheme), asymmetric signing requires a private/public key pair and different tooling.",
+      "Entering payload JSON that isn't a flat object, like a bare array or a primitive value, a JWT payload must be a JSON object (even if it's simple), passing anything else will be rejected.",
     ],
     relatedSlugs: ["jwt-decoder", "hash-generator"],
   },
@@ -12569,6 +13874,12 @@ explanation: [
           "MD5 and SHA-1 are fast but considered cryptographically broken, both have known collision vulnerabilities and shouldn't be used for security-sensitive purposes like password storage, though they're still common for non-security uses like checksums and cache keys. SHA-256 is currently considered secure and is the standard choice for security-relevant hashing today.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Hashing the text 'hello' produces MD5 5d41402abc4b2a76b9719d911017c592, SHA-1 aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d, and SHA-256 2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824. These are fixed-length, deterministic outputs, hashing 'hello' again (or on any other device) always produces exactly these same three values, but changing even one character, like to 'Hello', produces three completely different hashes.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12579,6 +13890,11 @@ explanation: [
         question: "Is my text sent to a server?",
         answer: "No, all hashing happens entirely in your browser, your text is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Using MD5 or SHA-1 for anything security-sensitive, like verifying a password or a file's authenticity against a malicious actor, both have known practical collision attacks, use SHA-256 (or a dedicated password hashing algorithm for passwords specifically) instead.",
+      "Assuming a matching hash proves two files or strings are identical with absolute certainty, collisions are astronomically unlikely for SHA-256 but not mathematically impossible, for anything but casual integrity checks, this distinction rarely matters in practice.",
+      "Forgetting that hashing is one-way, there's no 'unhash' operation to recover the original text from any of these hash values, they're for comparison and verification, not encoding or encryption.",
     ],
     relatedSlugs: ["jwt-generator", "jwt-decoder"],
   },
@@ -12625,6 +13941,12 @@ explanation: [
           "'0 9 * * *' runs daily at 9:00 AM. '*/15 * * * *' runs every 15 minutes. '0 0 * * 0' runs weekly at midnight on Sunday. '0 0 1 * *' runs monthly on the 1st at midnight. Cron is used by task schedulers across servers, CI/CD pipelines, and cloud platforms to trigger jobs on a recurring schedule.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering minute 0, hour 9, and * for day of month, month and day of week builds the expression '0 9 * * *', with the description 'Runs daily at 09:00.' Changing minute to '*/15' and leaving hour as '*' instead builds '*/15 * * * *', described as 'Runs every 15 minutes.', since the step syntax means 'every 15 units starting from 0' within that field.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12635,6 +13957,11 @@ explanation: [
         question: "Can I combine day of month and day of week?",
         answer: "Some cron implementations treat this as 'either/or' (OR logic) rather than requiring both to match, behavior can vary slightly between systems (like standard cron vs. Quartz), check your specific scheduler's documentation if you're combining both fields.",
       },
+    ],
+    commonMistakes: [
+      "Assuming cron uses a 12-hour clock, the hour field is always 0-23 (24-hour time), entering 9 means 9 AM, for 9 PM you'd need to enter 21.",
+      "Confusing day-of-month and day-of-week semantics when combining both, leaving one as '*' means 'don't restrict on this field', explicitly setting both narrows the schedule further (or acts as OR logic, depending on the scheduler), which can produce a schedule that doesn't run when expected.",
+      "Forgetting that cron's minimum granularity is one minute, there's no way to express 'every 30 seconds' in standard 5-field cron, that requires a different mechanism (like a loop inside the job itself, or a scheduler-specific extension).",
     ],
     relatedSlugs: ["unix-timestamp-converter", "date-calculator"],
   },
@@ -12689,6 +14016,12 @@ explanation: [
           "Some systems (like Unix/Linux and most databases) use seconds, while others (like JavaScript's Date.now()) use milliseconds. This tool auto-detects which one you've entered based on magnitude, and always shows both in the result alongside ISO 8601, UTC, local time, and a human-readable relative time.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Converting the timestamp 1700000000 (recognized as seconds, since it's well below the 100-billion millisecond threshold) gives the ISO 8601 value 2023-11-14T22:13:20.000Z, the same instant shown in UTC as 'Tue, 14 Nov 2023 22:13:20 GMT', and the milliseconds field shown as 1700000000000, exactly 1000 times the seconds value.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12699,6 +14032,11 @@ explanation: [
         question: "What date formats are accepted for Date → Timestamp?",
         answer: "Standard formats like 2026-07-28, 2026-07-28T14:30:00, or 2026-07-28T14:30:00Z are all accepted, parsed using your browser's native date parsing.",
       },
+    ],
+    commonMistakes: [
+      "Assuming a timestamp is always in seconds without checking magnitude, a JavaScript Date.now() value (milliseconds) plugged in as if it were seconds would be misread as a date far in the future, this tool auto-detects based on size, but it's worth sanity-checking the result.",
+      "Entering a date without a timezone and assuming it's parsed as UTC, a plain date/time string like '2026-07-28T14:30:00' (no trailing Z) is parsed in your browser's local timezone, add a Z suffix if you specifically mean UTC.",
+      "Forgetting the Unix epoch only counts forward from January 1, 1970, dates before that require a negative timestamp, which is valid but easy to overlook when reasoning about very old dates.",
     ],
     relatedSlugs: ["cron-expression-generator", "date-calculator"],
   },
@@ -12734,6 +14072,12 @@ explanation: [
           "This is a regex/heuristic-based minifier, not a full HTML parser, so it won't rename attributes, remove optional quotes, or perform the more aggressive optimizations a build-tool-grade minifier would. It focuses on the safe, high-impact wins: comments and whitespace, which typically account for most of the reducible size in hand-written HTML.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Minifying '<div>\\n  <p>Hello</p>\\n</div>' (a div containing a paragraph, spread across three lines with indentation) collapses down to '<div><p>Hello</p></div>' on a single line, the newlines and indentation between tags are removed entirely since they have no visual effect in rendered HTML.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12744,6 +14088,11 @@ explanation: [
         question: "Is my HTML sent to a server?",
         answer: "No, all minification happens entirely in your browser, your code is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Expecting this to rewrite attributes or remove optional quotes the way a build-tool-grade minifier (like html-minifier-terser) would, this tool focuses specifically on comments and whitespace, the two safest, highest-impact wins for hand-written HTML.",
+      "Worrying that minifying will break a <pre> block's meaningful whitespace, content inside <pre>, <script>, <style> and <textarea> is explicitly protected and passed through untouched.",
+      "Running minified output back through a diff tool and being surprised by 'everything changed', since whitespace and line breaks are removed, a line-based diff against the original will show the whole file as different even though the rendered result is identical.",
     ],
     relatedSlugs: ["html-beautifier", "css-minifier"],
   },
@@ -12779,6 +14128,12 @@ explanation: [
           "Unlike our XML Formatter, this tool doesn't throw an error on mismatched or unclosed tags. Real-world HTML5 permits optional closing tags for several elements (like <li>, <p>, and <td> in certain contexts), so a strict well-formedness check would produce false errors on perfectly valid HTML, this tool prioritizes producing a reasonable, readable result over strict validation.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Beautifying the minified '<div><p>Hello</p></div>' expands it back to three lines: '<div>' on its own line, '  <p>Hello</p>' indented two spaces beneath it (kept together since 'Hello' is a single text child), and '</div>' back at the left margin, restoring the readable structure that was collapsed during minification.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12789,6 +14144,11 @@ explanation: [
         question: "Is my HTML sent to a server?",
         answer: "No, all formatting happens entirely in your browser, your code is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Expecting an error message when the HTML has mismatched or unclosed tags, this tool is deliberately lenient (real HTML5 allows optional closing tags in several cases), it does its best to produce readable output rather than flagging structural problems the way the XML Formatter does.",
+      "Assuming void elements like <br>, <img>, or <input> need closing tags, they never do, and this tool correctly excludes them from affecting indentation depth.",
+      "Expecting semantic reformatting (like reordering attributes or wrapping long attribute lists), this tool only handles indentation based on tag nesting depth, it doesn't touch anything inside a tag's opening bracket.",
     ],
     relatedSlugs: ["html-minifier", "css-beautifier"],
   },
@@ -12824,6 +14184,12 @@ explanation: [
           "Removing comments and unnecessary whitespace reduces file size, which means faster downloads and slightly faster parsing, especially on larger stylesheets. It's a standard step in most production front-end build pipelines.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Minifying '.box {\\n  color: red;\\n  padding: 10px;\\n}' (a rule spread across four lines with indentation) collapses down to '.box{color:red;padding:10px}' on a single line, the spaces around { and : and ; are removed, and the final semicolon before the closing brace is dropped since it's unnecessary.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12834,6 +14200,11 @@ explanation: [
         question: "Is my CSS sent to a server?",
         answer: "No, all minification happens entirely in your browser, your code is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Expecting this to remove unused CSS rules or merge duplicate selectors, it only strips comments and whitespace, dead-code elimination requires actually analyzing which selectors match elements in your HTML, which this text-based tool doesn't do.",
+      "Assuming minified CSS behaves differently from the original, minifying only removes whitespace and comments, it doesn't change any selector, property, or value, so the rendered result is identical.",
+      "Manually editing minified CSS afterward, since everything is on one line, a typo becomes very hard to spot, keep an unminified source copy and re-minify from that rather than editing the compressed output directly.",
     ],
     relatedSlugs: ["css-beautifier", "html-minifier"],
   },
@@ -12869,6 +14240,12 @@ explanation: [
           "This tool does the opposite of our CSS Minifier, adding readable formatting back to compressed or single-line CSS, rather than stripping it out. Use whichever direction matches what you're trying to do with the stylesheet.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Beautifying the minified '.box{color:red;padding:10px}' expands it to four lines: '.box {' opens the rule, 'color: red;' and 'padding: 10px;' each get their own indented line with a space added after the colon, and '}' closes the rule back at the left margin, restoring the readable, one-declaration-per-line format.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12879,6 +14256,11 @@ explanation: [
         question: "Is my CSS sent to a server?",
         answer: "No, all formatting happens entirely in your browser, your code is never transmitted anywhere.",
       },
+    ],
+    commonMistakes: [
+      "Expecting this to validate the CSS, it's a formatter based on tracking braces and semicolons, not a full parser, so invalid CSS gets reformatted according to the same brace/semicolon rules rather than flagged as an error.",
+      "Assuming beautifying changes what the CSS does, only indentation and line breaks are added, selectors, properties and values are left exactly as written.",
+      "Pasting CSS with unbalanced braces (like a missing closing }) and expecting a clear error message, since this is a state-machine formatter rather than a validator, unbalanced braces can produce oddly indented output rather than a descriptive error.",
     ],
     relatedSlugs: ["css-minifier", "html-beautifier"],
   },
@@ -12929,6 +14311,12 @@ explanation: [
           "No, major search engines like Google have not used the keywords meta tag for ranking purposes in a very long time. It's included here mainly for completeness and for any legacy systems that might still reference it, description and title tags are what's worth focusing your effort on.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you enter title \"Free Loan Calculator\", description \"Calculate your monthly loan payments instantly.\", leave keywords and author blank, and check 'Allow indexing' but uncheck 'Allow following links' (perhaps this is a duplicate variant of another page). With viewport and charset both enabled, the output is: <meta charset=\"UTF-8\">, <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">, <title>Free Loan Calculator</title>, <meta name=\"description\" content=\"Calculate your monthly loan payments instantly.\">, and <meta name=\"robots\" content=\"index, nofollow\">, note the robots tag combines your two checkbox choices into a single comma-separated value.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12939,6 +14327,11 @@ explanation: [
         question: "When should I set robots to noindex?",
         answer: "Use noindex for pages you don't want appearing in search results, like internal search result pages, thank-you/confirmation pages, staging environments, or duplicate content variants.",
       },
+    ],
+    commonMistakes: [
+      "Writing a meta description over ~160 characters and not checking how it actually truncates, use the Google SERP Preview tool rather than guessing from character count alone since Google truncates by pixel width.",
+      "Confusing 'noindex' with 'nofollow', noindex keeps a page out of search results, nofollow just tells crawlers not to pass ranking signal through that page's outbound links, they solve different problems and are often needed independently.",
+      "Still spending time filling in the keywords meta tag, it has no ranking effect on major search engines today, that effort is better spent refining the title and description instead.",
     ],
     relatedSlugs: ["open-graph-generator", "google-serp-preview", "canonical-tag-generator"],
   },
@@ -12983,6 +14376,12 @@ explanation: [
           "Disallowing a path in robots.txt prevents crawling, but a disallowed URL can still occasionally appear in search results (without a snippet) if it's linked from elsewhere. To reliably keep a specific page out of search results, use a noindex meta tag on that page instead (see our Meta Tag Generator), robots.txt and noindex serve different purposes and are often used together.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you set User-agent to *, list /admin and /cart as disallowed paths, leave allowed paths blank, set your sitemap URL to https://example.com/sitemap.xml, and set a crawl-delay of 10. The output is: User-agent: *, Disallow: /admin, Disallow: /cart, Crawl-delay: 10, then a blank line followed by Sitemap: https://example.com/sitemap.xml, note each path automatically gets a leading slash added if you forget it.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -12993,6 +14392,11 @@ explanation: [
         question: "What does User-agent: * mean?",
         answer: "The asterisk (*) is a wildcard meaning the rules apply to all crawlers. You can add separate User-agent blocks with different rules for specific crawlers if needed.",
       },
+    ],
+    commonMistakes: [
+      "Assuming a Disallow rule keeps a page out of search results entirely, it only blocks crawling, a linked disallowed URL can still surface (without a snippet). Use a noindex meta tag on the page itself if the goal is to keep it out of search results.",
+      "Relying on robots.txt to hide sensitive or private content, it's a publicly readable file and a request, not an access control, well-behaved crawlers respect it but nothing enforces it, so it should never substitute for real authentication.",
+      "Forgetting that most crawl-delay directives are ignored by Google (which paces crawling automatically), it's mainly honored by some other search engines and bots, don't rely on it to solve a Google-specific server load problem.",
     ],
     relatedSlugs: ["xml-sitemap-generator", "meta-tag-generator"],
   },
@@ -13050,6 +14454,12 @@ explanation: [
           "Priority (0.0-1.0) and changefreq are hints to search engines about relative importance and how often a page changes, Google has stated it largely ignores these values for ranking purposes, though some other search engines and crawlers may still use them. lastmod (last modified date) is the most consistently useful of the three, helping crawlers prioritize re-crawling recently updated pages.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you paste two lines: https://example.com/ (using the defaults) and https://example.com/about, 0.8, monthly, 2026-01-15 (overriding priority and adding a last modified date). With default priority 0.5 and default changefreq 'monthly', the homepage entry gets <priority>0.5</priority> and <changefreq>monthly</changefreq> with no <lastmod>, while the about-page entry gets <priority>0.8</priority>, <changefreq>monthly</changefreq>, and <lastmod>2026-01-15</lastmod>, each wrapped in its own <url> block inside the <urlset> root element.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13060,6 +14470,11 @@ explanation: [
         question: "Where do I submit my sitemap?",
         answer: "Upload the generated sitemap.xml to your site's root directory, then submit it through Google Search Console (and other search engines' equivalent webmaster tools), or reference it in your robots.txt file.",
       },
+    ],
+    commonMistakes: [
+      "Including URLs that redirect, return errors, or are blocked by robots.txt/noindex, a sitemap should only list canonical, indexable URLs, listing broken or blocked ones sends mixed signals and wastes crawl budget.",
+      "Expecting this (or any) sitemap tool to discover your pages automatically, browsers can't crawl arbitrary external sites due to CORS, you need to supply the URL list yourself from your CMS export, site crawler, or a manual list.",
+      "Obsessing over priority and changefreq values, Google has said it largely ignores them, a consistently accurate lastmod date is worth far more attention than fine-tuning priority numbers.",
     ],
     relatedSlugs: ["robots-txt-generator", "canonical-tag-generator"],
   },
@@ -13116,6 +14531,12 @@ explanation: [
           "A common recommendation is 1200×630 pixels for og:image, which displays well as a large preview card on most platforms without being cropped awkwardly. Use an absolute URL (starting with https://), not a relative path, since the platform fetching the image won't know your site's domain.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you enter title \"Free Loan Calculator\", description \"Calculate your monthly payments.\", image https://example.com/og.jpg, url https://example.com/loan-calculator, type Website, and site name \"Merondis\". The output is six meta tags in order: og:title, og:description, og:image, og:url, og:type (defaulting to \"website\" if left blank), and og:site_name, each holding exactly the value you entered.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13126,6 +14547,11 @@ explanation: [
         question: "How do I test how my Open Graph tags will look?",
         answer: "Facebook's Sharing Debugger and LinkedIn's Post Inspector are the standard tools platforms provide for previewing and re-scraping your Open Graph tags after you update them.",
       },
+    ],
+    commonMistakes: [
+      "Using a relative image path (like /images/og.jpg) for og:image, the platform fetching the preview has no notion of your domain, so it needs a full absolute URL starting with https://.",
+      "Skipping og:url, without it some platforms canonicalize the shared link to whatever URL they crawled (which may include tracking parameters or a redirect target), rather than the clean URL you intended.",
+      "Only setting Open Graph tags and assuming X/Twitter will use them, X supports Open Graph as a fallback but a dedicated Twitter Card gives more reliable, predictable results there (see our Twitter Card Generator).",
     ],
     relatedSlugs: ["twitter-card-generator", "meta-tag-generator"],
   },
@@ -13182,6 +14608,12 @@ explanation: [
           "If no Twitter Card tags are present, X often falls back to using your Open Graph tags where compatible (og:title, og:description, og:image), but adding explicit Twitter Card tags gives you more reliable, predictable control over exactly how the preview appears there.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you choose card type 'Summary with Large Image', enter title \"Free Loan Calculator\", description \"Calculate your monthly payments.\", image https://example.com/og.jpg, and site handle \"merondis\" (no @ symbol), leaving creator blank. The output is: twitter:card content \"summary_large_image\", twitter:title, twitter:description, twitter:image, and twitter:site content \"@merondis\", note the tool automatically prepends the @ symbol you left off, and the blank creator field is simply omitted from the output rather than included empty.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13192,6 +14624,11 @@ explanation: [
         question: "Does the @ symbol matter for twitter:site and twitter:creator?",
         answer: "The standard format includes the @ symbol (like @merondis). This tool automatically adds it if you leave it off.",
       },
+    ],
+    commonMistakes: [
+      "Choosing 'Summary with Large Image' but supplying a small or oddly-cropped image, this card type displays the image at full width, a low-resolution or extreme aspect-ratio image will look stretched or blurry compared to the compact 'Summary' card.",
+      "Leaving twitter:site blank, without it X can't attribute the card to your brand's account, which matters for analytics and for the account shown alongside the preview.",
+      "Assuming Twitter Card tags automatically pull from Open Graph tags, they're separate meta tag sets, if you set Open Graph tags but skip Twitter Card ones, X falls back to Open Graph only where it happens to be compatible, not a guaranteed 1:1 mapping.",
     ],
     relatedSlugs: ["open-graph-generator", "meta-tag-generator"],
   },
@@ -13280,6 +14717,12 @@ explanation: [
           "schema.org defines hundreds of types with deeply nested optional properties. This generator focuses on four of the most commonly used types for typical websites, Article, Product, LocalBusiness and FAQPage, covering the fields that matter most for each rather than attempting exhaustive coverage of the entire vocabulary.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you select Product, enter name \"Wireless Mouse\", brand \"Acme\", price 29.99, currency USD, availability In Stock, and URL https://example.com/mouse, leaving description and image blank. The output is a <script type=\"application/ld+json\"> block containing @type \"Product\", name \"Wireless Mouse\", a nested brand object of @type \"Brand\", and a nested offers object with @type \"Offer\", price \"29.99\", priceCurrency \"USD\", availability \"https://schema.org/InStock\", and url, note the offers object is only included at all because a price was entered, leave price blank and it's omitted entirely.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13294,6 +14737,11 @@ explanation: [
         question: "Do I need all the fields for my schema type?",
         answer: "No, only fields relevant to your selected schema type are used, fields for other types are simply ignored. Within a type, only the fields you fill in are included in the output.",
       },
+    ],
+    commonMistakes: [
+      "Filling in a Product's price but leaving currency blank and assuming it's obvious, the generator defaults to USD if left blank, which is wrong for a non-US store, always set currency explicitly to match what you actually charge.",
+      "Adding structured data that doesn't match what's visibly on the page, e.g. marking a product 'InStock' in schema while the page shows it as sold out, Google's guidelines require structured data to reflect visible page content, mismatches can lead to a manual action against rich results.",
+      "Expecting JSON-LD alone to guarantee a rich result in search, it makes your page eligible, it doesn't guarantee Google will choose to display it, eligibility and actual display are two different things.",
     ],
     relatedSlugs: ["json-formatter", "meta-tag-generator"],
   },
@@ -13330,6 +14778,12 @@ explanation: [
           "Pointing the canonical to an http:// URL when your site actually serves https:// (or vice versa), including tracking query parameters in the canonical URL, and inconsistent trailing slashes are all common mistakes that undermine what a canonical tag is meant to fix. This tool flags each of these automatically.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering http://example.com/blog/post/ produces the tag <link rel=\"canonical\" href=\"http://example.com/blog/post/\">, but the checks flag two issues: the URL uses http:// instead of https://, and it has a trailing slash on a non-root path. If your site actually serves this page at https://example.com/blog/post (no trailing slash), that's the version you should actually use as the canonical, this tool builds the tag from exactly what you type, it doesn't correct these issues for you.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13340,6 +14794,11 @@ explanation: [
         question: "Can a canonical tag point to a different domain?",
         answer: "Yes, cross-domain canonicals are valid and used when the same content is intentionally published on multiple domains, pointing all copies to a single preferred domain.",
       },
+    ],
+    commonMistakes: [
+      "Pasting in whatever URL happens to be in the address bar (with tracking parameters or a session ID attached) rather than the clean, preferred URL, the canonical should point to the version you actually want indexed, not whatever variant a visitor arrived on.",
+      "Setting a canonical tag but not actually checking it against the page it's on, a canonical pointing to a different page entirely (a copy-paste mistake) tells search engines to ignore the current page in favor of another one.",
+      "Mixing http and https across a site's canonical tags, if your site has fully migrated to https, every canonical should consistently use https, a stray http:// canonical undermines the migration's consolidation of ranking signals.",
     ],
     relatedSlugs: ["hreflang-generator", "xml-sitemap-generator"],
   },
@@ -13384,6 +14843,12 @@ explanation: [
           "The x-default entry specifies which version to show visitors whose language or region doesn't match any of your other listed versions, commonly your default or a language-selector page. It's optional but recommended for sites targeting multiple locales.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Entering en, https://example.com/en on one line, fr, https://example.com/fr on the next, and es, https://example.com/es on a third, with x-default enabled and set to https://example.com/en, produces four link tags: one hreflang=\"en\" tag, one hreflang=\"fr\" tag, one hreflang=\"es\" tag, each pointing to its respective URL, plus a final hreflang=\"x-default\" tag pointing to the English version. All four tags together are the block that belongs on every one of these three pages, not just the English one.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13394,6 +14859,11 @@ explanation: [
         question: "Do I need to include a self-referencing tag?",
         answer: "Yes, each page's hreflang set should include a tag pointing to itself as well as to all other language versions, this tool's output is the same complete block meant to be placed on every page in the set.",
       },
+    ],
+    commonMistakes: [
+      "Placing only the tags relevant to other languages on each page, and omitting the self-referencing tag, Google's guidelines require each page to include a hreflang tag pointing to itself as well as to every alternate version.",
+      "Putting the complete set of tags only on the homepage instead of on every page in the set, each language/region version needs the identical full block of hreflang tags, not just the default version.",
+      "Using inconsistent language/region codes across the site (like 'en' on one page and 'en-US' on another) for what's meant to be the same version, pick one consistent scheme and use it in every hreflang tag referencing that version.",
     ],
     relatedSlugs: ["canonical-tag-generator", "xml-sitemap-generator"],
   },
@@ -13444,6 +14914,12 @@ explanation: [
           "No, the once-popular idea of a target keyword density (like '2%') is outdated advice, modern search engines evaluate content quality and topical relevance far more holistically than counting exact keyword repetitions. This tool is best used as a sanity check, to catch accidental over-repetition or confirm your target terms actually appear naturally, not as a percentage to optimize toward.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Take a 23-word passage that repeats \"calculator\" four times, \"loan\" twice and \"payments\" twice. In Single Words mode, the tool reports 23 total words, 17 unique words, and a top-repeated-phrases list of: calculator — 4 times (17.39%), loan — 2 times (8.7%), payments — 2 times (8.7%). The 17.39% comes from 4 occurrences divided by 23 total words (not 23 minus stopwords), and only phrases repeated more than once appear in the list at all, a word used just once never shows up here regardless of how rare or important it is.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13454,6 +14930,11 @@ explanation: [
         question: "Should I be worried about 'keyword stuffing'?",
         answer: "Unnaturally repeating a phrase far more than normal writing would (keyword stuffing) can hurt rather than help, both from a search engine quality perspective and for readability. Use this tool to spot unintentional over-repetition.",
       },
+    ],
+    commonMistakes: [
+      "Treating a specific density percentage as a target to hit, this style of keyword optimization is outdated, modern search engines judge topical relevance and quality far more holistically than counting repetitions.",
+      "Checking single-word density and concluding your target phrase is underused, because the exact multi-word phrase you care about only shows up in two- or three-word phrase mode, switch modes to match the phrase length you're actually evaluating.",
+      "Pasting text with a lot of boilerplate (navigation links, repeated headers/footers) along with the actual content, this inflates counts for unrelated repeated words and skews the results away from what matters, paste just the main content.",
     ],
     relatedSlugs: ["word-counter", "meta-tag-generator"],
   },
@@ -13481,6 +14962,12 @@ explanation: [
           "This shows you a close approximation of typical desktop search result styling. Google sometimes rewrites titles or descriptions automatically if it judges your provided version to be a poor match for the search query, or generates a different snippet from your on-page content entirely, so treat this as a strong guide for what you're providing Google to work with, not a pixel-perfect guarantee of the final result.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you enter a 68-character title and a 175-character meta description. Against the tool's ~60-character title guideline and ~155-character description guideline, both are flagged as likely to be truncated, the preview shows the title cut off with an ellipsis partway through, similar to how Google typically displays an overly long title, giving you a chance to tighten the wording before it goes live rather than discovering the truncation after publishing.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13491,6 +14978,11 @@ explanation: [
         question: "Does a well-optimized snippet improve rankings?",
         answer: "Not directly, but a compelling, accurate title and description can improve your click-through rate, which is a reasonable goal in its own right even though it isn't a direct ranking factor.",
       },
+    ],
+    commonMistakes: [
+      "Treating the ~60/~155 character guidelines as a hard, guaranteed cutoff, Google actually truncates by pixel width, so a title full of narrow letters can run longer than 60 characters and still fit, use this as a useful approximation, not an exact rule.",
+      "Assuming the preview here is exactly what will appear in Google forever, Google can rewrite your title or generate a different snippet from on-page content if it judges your version a poor match for a given search query, this tool shows what you're providing, not a locked-in guarantee.",
+      "Writing a generic, keyword-stuffed description purely to fit the character limit, a compelling and accurate description that earns clicks matters more than merely satisfying the guideline, don't sacrifice readability chasing an exact character count.",
     ],
     relatedSlugs: ["meta-tag-generator", "character-counter"],
   },
@@ -13537,6 +15029,12 @@ explanation: [
           "utm_source identifies where the traffic came from (e.g. 'newsletter', 'facebook'). utm_medium identifies the marketing medium (e.g. 'email', 'cpc', 'social'). utm_campaign identifies the specific campaign or promotion (e.g. 'summer_sale'). utm_term and utm_content are optional, used for paid keyword tracking and A/B testing different links within the same campaign, respectively.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say your landing page URL already has a query parameter, https://example.com/landing-page?ref=abc, and you set source \"newsletter\", medium \"email\", campaign \"summer_sale\", leaving term and content blank. The result is https://example.com/landing-page?ref=abc&utm_source=newsletter&utm_medium=email&utm_campaign=summer_sale, note the existing ?ref=abc parameter is preserved rather than overwritten, and the optional utm_term/utm_content parameters are simply left out since they weren't filled in.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13547,6 +15045,11 @@ explanation: [
         question: "What if my base URL already has query parameters?",
         answer: "This tool preserves any existing query parameters on your base URL and adds the UTM parameters alongside them, rather than overwriting them.",
       },
+    ],
+    commonMistakes: [
+      "Using inconsistent casing or wording for the same source/medium across different campaigns (like 'Newsletter' vs 'newsletter' vs 'email-newsletter'), analytics tools treat these as distinct values, inconsistency fragments your reporting into separate rows for what should be one channel.",
+      "Forgetting to set a canonical tag on the landing page pointing to the clean, UTM-free URL, without it search engines may index the tagged URL as a separate page from the plain version.",
+      "Adding UTM parameters to internal links between your own pages, UTM parameters are meant for tracking traffic arriving from outside sources, using them internally can incorrectly overwrite the original source/medium recorded for that visitor session.",
     ],
     relatedSlugs: ["url-redirect-generator", "meta-tag-generator"],
   },
@@ -13599,6 +15102,12 @@ explanation: [
           "Use a 301 (permanent) redirect when a page has moved for good, this passes SEO ranking signals to the new URL and tells search engines to update their index. Use a 302 (temporary) redirect when the move is short-term, like a temporary maintenance page, since it tells search engines to keep the original URL indexed.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say you enter old path /old-page, new destination https://example.com/new-page, and choose 301 (Permanent). The Apache output is Redirect 301 /old-page https://example.com/new-page (for .htaccess). The Nginx output is location = /old-page { return 301 https://example.com/new-page; }. The HTML fallback is <meta http-equiv=\"refresh\" content=\"0; url=https://example.com/new-page\">. The JavaScript fallback is window.location.href = \"https://example.com/new-page\";, only use the server-level Apache or Nginx version in production, the HTML/JS versions are last-resort options for when you lack server config access.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13609,6 +15118,11 @@ explanation: [
         question: "When would I use a JavaScript or meta-refresh redirect instead?",
         answer: "Mainly when you don't have access to server configuration, like on some static hosting or page-builder platforms. They work, but are slower and less SEO-friendly than a proper server-level redirect.",
       },
+    ],
+    commonMistakes: [
+      "Using a 302 (temporary) redirect for what's actually a permanent move, search engines keep the original URL indexed for a 302, so ranking signals never consolidate onto the new URL the way they would with a 301.",
+      "Deploying an HTML meta-refresh or JavaScript redirect when server-level access is actually available, both are slower (they require the page to load first) and less reliably followed by crawlers than a proper .htaccess or Nginx redirect.",
+      "Setting up the redirect code but never verifying it actually works after deploying, this tool generates the code, it can't check a live redirect on the internet, confirm it manually with your browser's network tab or a tool like curl after deployment.",
     ],
     relatedSlugs: ["utm-url-builder", "canonical-tag-generator"],
   },
@@ -13636,6 +15150,12 @@ explanation: [
           "Resizing without keeping the original width-to-height ratio stretches or squashes the image. With 'lock aspect ratio' enabled, changing the width automatically recalculates a proportional height (and vice versa), so the image keeps its natural proportions.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 3000×2000 pixel photo (a 3:2 ratio) and set width to 1500 with aspect ratio locked, height automatically recalculates to 1000 (1500 ÷ 1.5), preserving the original proportions exactly. If you instead unlock the ratio and manually set width 1500 and height 1500, the photo gets squashed into a square, visibly distorting anything round or symmetrical in the original image, like a face or a logo.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13646,6 +15166,11 @@ explanation: [
         question: "Is my image uploaded anywhere?",
         answer: "No, resizing happens entirely in your browser using canvas rendering, your image is never sent to or stored on our servers.",
       },
+    ],
+    commonMistakes: [
+      "Enlarging a small image well beyond its original dimensions, upscaling can't add real detail that wasn't captured, a photo stretched far past its native resolution typically looks soft or blurry rather than genuinely higher quality.",
+      "Manually typing both width and height without locking the aspect ratio, unless you specifically want a different proportion (like cropping into a square), this stretches or squashes the image, lock the ratio and let one dimension drive the other.",
+      "Resizing when the actual goal is a smaller file size, resizing changes pixel dimensions, which often shrinks file size as a side effect, but if the image will be displayed at its original size and you just need a smaller file, use the Image Compressor instead.",
     ],
     relatedSlugs: ["image-compressor", "image-metadata-remover"],
   },
@@ -13673,6 +15198,12 @@ explanation: [
           "Browsers only expose an adjustable lossy quality setting for JPEG (and WebP) when re-encoding via canvas, PNG re-encoding is always lossless with no size-quality tradeoff. Standardizing on JPEG output gives predictable, meaningful compression regardless of your source format. If you specifically need a compressed WebP file, use our JPG to WebP or Image Resizer tools with a lower quality/resolution instead.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 5 MB PNG screenshot and set quality to 80%, the output is a JPEG, typically well under 1 MB for a screenshot-style image, since screenshots often have large flat color areas that compress efficiently. If the source PNG had a transparent background (like a logo cut out from its background), that transparent area shows up filled with solid white in the JPEG output, since JPEG has no transparency channel at all.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13683,6 +15214,11 @@ explanation: [
         question: "Will this work well on PNG images with transparency?",
         answer: "The output will be a JPEG with transparent areas filled white, since JPEG has no transparency channel. If you need to keep transparency, this tool isn't the right fit, consider resizing instead.",
       },
+    ],
+    commonMistakes: [
+      "Compressing a PNG logo or graphic that relies on transparency, the JPEG output fills transparent areas with solid white, which looks fine on a white webpage background but shows an ugly white box on any other background color.",
+      "Setting quality very low (under 40%) on a photo with fine detail or gradients, visible blocky compression artifacts become noticeable at low quality settings, especially in skies, skin tones, and smooth gradients.",
+      "Compressing an image repeatedly across multiple sessions, each JPEG re-compression re-applies lossy encoding on top of the previous pass's artifacts, always compress from the original source image rather than re-compressing an already-compressed JPEG.",
     ],
     relatedSlugs: ["image-resizer", "jpg-to-webp"],
   },
@@ -13710,6 +15246,12 @@ explanation: [
           "WebP offers better compression than JPEG for the same visual quality, but JPG remains the most universally compatible format, useful when submitting to a platform, printing service, or older software that doesn't accept WebP files.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 400 KB WebP photo downloaded from a website, this tool decodes it and re-exports it as a JPG, typically somewhat larger than the source WebP since WebP generally compresses more efficiently at equivalent quality, that's the tradeoff for gaining universal compatibility with older software, print services, and platforms that don't accept WebP uploads.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13720,6 +15262,11 @@ explanation: [
         question: "Is this tool free to use?",
         answer: "Yes, completely free, with no sign-up, watermarks, or file limits beyond what your browser can handle.",
       },
+    ],
+    commonMistakes: [
+      "Converting a WebP image that relies on transparency (like a graphic or sticker), the JPG output fills transparent areas with solid white, if you need to keep transparency, this isn't the right conversion direction.",
+      "Expecting the resulting JPG to be smaller than the source WebP, WebP typically compresses more efficiently than JPEG at similar visual quality, so converting often increases file size somewhat, that's the cost of gaining broader compatibility.",
+      "Converting an animated WebP expecting an animated result, JPG has no support for animation, only a single still frame is captured in the conversion.",
     ],
     relatedSlugs: ["jpg-to-webp", "image-compressor"],
   },
@@ -13747,6 +15294,12 @@ explanation: [
           "WebP typically produces smaller file sizes than JPEG or PNG at a comparable visual quality, which helps pages load faster. It's supported by all modern browsers, making it a solid choice for web images where broad legacy compatibility isn't a concern.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a 2 MB PNG logo with a transparent background and convert it at 85% quality, the transparency is preserved in the WebP output (unlike converting to JPG, which always fills transparent areas with white), and the resulting file is typically meaningfully smaller than the source PNG, since WebP's compression is generally more efficient at a comparable visual quality.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13757,6 +15310,11 @@ explanation: [
         question: "What quality setting should I use?",
         answer: "80-90% is a reasonable starting point for most images, balancing file size against visual quality. Adjust the slider and compare the resulting file size for your specific image.",
       },
+    ],
+    commonMistakes: [
+      "Converting images to WebP for use somewhere that doesn't actually support it, like certain older email clients or some design software, always confirm your target platform accepts WebP before switching an entire workflow to it.",
+      "Assuming WebP is always smaller regardless of quality setting or source image, at very high quality settings the size advantage over JPEG narrows, compare the resulting file size against your source rather than assuming a fixed percentage savings.",
+      "Not testing the output for the specific use case, like a print workflow, print software and some older applications have inconsistent WebP support, verify compatibility with your specific tools before replacing your JPG/PNG originals entirely.",
     ],
     relatedSlugs: ["webp-to-jpg", "image-compressor"],
   },
@@ -13799,6 +15357,12 @@ explanation: [
           "Design tools frequently export path coordinates with far more decimal places than are visually meaningful (like 12.340000000001 instead of 12.34), a side effect of internal floating-point math. Rounding this precision, and only within known coordinate attributes so nothing else in the file is affected, shrinks path data without any visible change to how the SVG renders.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Paste in an Inkscape-exported SVG containing an XML comment, an inkscape:version attribute, a <metadata> element, and a path with coordinates like 'M10.123456789 20.987654321 L30.5 40.2', at precision 2. The output strips the comment, the Inkscape-specific attribute, and the metadata element entirely, rounds the path to 'M10.12 20.99 L30.5 40.2', and collapses extra whitespace between tags, shrinking a 274-byte original down to 103 bytes, a 62.4% reduction, with no visible change to how the SVG renders.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13809,6 +15373,11 @@ explanation: [
         question: "Does this rewrite or simplify path data itself?",
         answer: "No, this tool doesn't merge, simplify, or restructure path commands, a task that requires real path-data parsing. It focuses on safe removals and precision rounding, the highest-value, lowest-risk cleanups for typical exported SVGs.",
       },
+    ],
+    commonMistakes: [
+      "Setting precision to 0 on an SVG with fine, sub-pixel-scale detail, rounding coordinates to whole numbers can introduce a visible shift or distortion in complex or small-scale artwork, 1-2 decimal places is a safer default for most designs.",
+      "Expecting SVGO-level file size reduction, this is a safe, heuristic text-based cleanup (comments, metadata, whitespace, coordinate precision), not a full path-simplifying optimizer, savings are real but generally more modest than a dedicated AST-based tool would achieve.",
+      "Running already-hand-optimized, minified SVG through this tool expecting further large gains, once comments, metadata and excess precision are already gone, there's little reducible size left for this particular cleanup approach to find.",
     ],
     relatedSlugs: ["image-metadata-remover", "html-minifier"],
   },
@@ -13836,6 +15405,12 @@ explanation: [
           "Photos taken on phones and cameras often embed GPS coordinates, device information, and timestamps in EXIF metadata. Stripping this before sharing a photo publicly (on a website, marketplace listing, or social media) prevents that hidden information, including your exact location, from being unintentionally exposed to anyone who inspects the file.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a photo taken on your phone that includes GPS coordinates, camera model, and a timestamp in its EXIF data (visible if you first check it with our EXIF Viewer). Running it through this tool re-encodes the image via canvas, which only ever carries visible pixel data, and produces a new file with none of that metadata. Run the output back through EXIF Viewer afterward and it should report no EXIF data found, confirming the removal worked.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13846,6 +15421,11 @@ explanation: [
         question: "How do I check whether metadata was actually removed?",
         answer: "Run the output file through our EXIF Viewer, it should show no EXIF data found.",
       },
+    ],
+    commonMistakes: [
+      "Sharing the original photo publicly before running it through this tool, once a photo with embedded GPS coordinates has been posted or sent, stripping metadata from a copy afterward doesn't undo the earlier exposure, strip metadata before sharing, not after.",
+      "Assuming a screenshot needs metadata removal, screenshots and graphics typically don't carry camera EXIF data (GPS, device model) to begin with, this tool matters most for actual camera and phone photos.",
+      "Not verifying the removal actually worked, since it's easy to assume re-encoding always succeeds, running the output through the EXIF Viewer afterward confirms metadata is genuinely gone rather than just trusting the process silently.",
     ],
     relatedSlugs: ["exif-viewer", "image-compressor"],
   },
@@ -13873,6 +15453,12 @@ explanation: [
           "EXIF metadata can include the camera make and model, exposure time, f-number (aperture), ISO speed, focal length, orientation, and the date and time the photo was taken. Some photos also include GPS location data, though this tool focuses on the camera and exposure details most people are looking for.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Upload a JPEG photo taken straight off a phone or camera (not one that's been through social media or messaging apps, which typically strip EXIF on upload), and you'd typically see fields like camera make and model, an exposure time such as 1/250s, an f-number like f/2.8, ISO 200, and the exact date and time the shot was taken. Upload the same photo after it's been downloaded from Instagram or sent through WhatsApp instead, and expect to see 'no EXIF data found', since most social and messaging platforms strip this metadata during upload as a privacy measure.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -13883,6 +15469,11 @@ explanation: [
         question: "Does this work for PNG or WebP files?",
         answer: "No, this tool currently supports JPEG files only, since JPEG's EXIF-in-APP1-segment structure is what this parser reads. JPEG is by far the most common format for photos carrying EXIF data from cameras and phones.",
       },
+    ],
+    commonMistakes: [
+      "Uploading a photo downloaded from social media or a messaging app and expecting to see the original camera details, most of these platforms strip EXIF metadata during upload as a standard privacy practice, so 'no EXIF data found' there is expected, not a tool malfunction.",
+      "Uploading a PNG or WebP file and expecting EXIF results, this tool currently reads JPEG's specific EXIF-in-APP1-segment structure only, other formats aren't parsed even if they happen to carry some metadata of their own.",
+      "Assuming the absence of GPS data means no location information exists anywhere, some photos include location in other metadata fields, or the platform may have already stripped just the GPS tags while leaving other EXIF data intact, don't treat a clean GPS field alone as proof of no location trail.",
     ],
     relatedSlugs: ["image-metadata-remover", "image-resizer"],
   },
@@ -14440,10 +16031,10 @@ explanation: [
     },
     explanation: [
       {
-        heading: "How CGPA is calculated",
+        heading: "How CGPA is calculated (worked example)",
         paragraphs: [
           "CGPA (Cumulative Grade Point Average) is a credit-weighted average of your GPA across all semesters: multiply each semester's GPA by its credit hours, sum those values, then divide by your total credit hours across every semester.",
-          "For example, a 3.5 GPA over 15 credits in one semester and a 3.8 GPA over 16 credits in the next gives a CGPA of (3.5×15 + 3.8×16) ÷ (15+16) ≈ 3.65.",
+          "For example, a 3.5 GPA over 15 credits in one semester and a 3.8 GPA over 16 credits in the next gives a CGPA of (3.5×15 + 3.8×16) ÷ (15+16) = 113.3 ÷ 31 = 3.655, and a total of 31 credits, note this is a credit-weighted average, not a simple average of 3.5 and 3.8 (which would incorrectly give 3.65 regardless of how many credits each semester carried).",
         ],
       },
       {
@@ -14462,6 +16053,11 @@ explanation: [
         question: "How is this different from the GPA Calculator?",
         answer: "The GPA Calculator converts letter grades to a GPA for a single semester's courses. This CGPA Calculator combines multiple semesters' already-calculated GPAs, weighted by credits, into one cumulative figure.",
       },
+    ],
+    commonMistakes: [
+      "Averaging semester GPAs directly without weighting by credits, a 3.5 GPA from a 12-credit semester and a 3.5 GPA from an 18-credit semester should count differently in a true cumulative average, a simple average ignores that difference entirely.",
+      "Entering a semester's letter grades directly into this calculator instead of that semester's already-calculated GPA, this tool combines pre-calculated semester GPAs, use the GPA Calculator first to convert a single semester's letter grades into a GPA.",
+      "Leaving a semester's GPA field filled in with 0 instead of actually leaving both fields blank, a semester entered as 0 GPA with real credits pulls your CGPA down artificially, unused semester rows should be left entirely blank so they're excluded rather than counted as a failed term.",
     ],
     relatedSlugs: ["gpa-calculator", "grade-percentage-calculator", "final-grade-calculator"],
   },
@@ -14490,10 +16086,10 @@ explanation: [
     },
     explanation: [
       {
-        heading: "How the needed final exam score is calculated",
+        heading: "How the needed final exam score is calculated (worked example)",
         paragraphs: [
           "Needed Score = (Desired Grade − Current Grade × (1 − Final Weight)) ÷ Final Weight, where Final Weight is entered as a decimal (30% becomes 0.3). This works backward from your target overall grade to find what the final exam alone needs to contribute.",
-          "For example, with a 75% current grade, a final exam worth 30% of your overall grade, and a target of 80% overall, you'd need to score about 91.7% on the final.",
+          "For example, with a 75% current grade, a final exam worth 30% of your overall grade, and a target of 80% overall: needed score = (80 − 75 × 0.7) ÷ 0.3 = (80 − 52.5) ÷ 0.3 = 91.67%, meaning you'd need a 91.67% on the final exam alone to bring your overall grade up to 80%.",
         ],
       },
       {
@@ -14512,6 +16108,11 @@ explanation: [
         question: "What does it mean if the needed score is negative or over 100%?",
         answer: "A negative result means you've already reached your target grade regardless of the final. A result over 100% means the target isn't achievable given your current grade and the final's weight.",
       },
+    ],
+    commonMistakes: [
+      "Entering the final exam's weight as a whole number percentage where a decimal was expected (or vice versa), this calculator expects the weight field as a percentage like 30 (for 30%), it converts internally, entering 0.3 instead of 30 would produce a nonsensical result.",
+      "Confusing 'current grade' with just your most recent test score, current grade should reflect your overall grade in the course so far (all assignments, tests, etc. before the final), not a single recent assignment score.",
+      "Assuming a result over 100% means to just aim for the highest possible score, it actually means the target grade is mathematically unreachable given your current grade and the final's weight, no achievable final exam score gets you there, the target itself needs to be revised.",
     ],
     relatedSlugs: ["grade-percentage-calculator", "cgpa-calculator"],
   },
@@ -14541,10 +16142,10 @@ explanation: [
     },
     explanation: [
       {
-        heading: "How percentage and letter grade are calculated",
+        heading: "How percentage and letter grade are calculated (worked example)",
         paragraphs: [
           "Percentage = Marks Obtained ÷ Total Marks × 100. The letter grade shown uses a common general scale (90%+ = A, 80-89% = B, 70-79% = C, 60-69% = D, below 60% = F).",
-          "For example, 425 marks out of 500 gives 85%, which falls in the B range on this general scale.",
+          "For example, 425 marks out of 500 gives 425 ÷ 500 × 100 = 85%, which falls in the 80-89% range, an approximate letter grade of B on this general scale.",
         ],
       },
       {
@@ -14563,6 +16164,11 @@ explanation: [
         question: "Can I use this for a single assignment or a whole course?",
         answer: "Both. Enter whatever marks obtained and total marks apply, whether that's one test, one assignment, or your combined marks across an entire course.",
       },
+    ],
+    commonMistakes: [
+      "Assuming the letter grade shown matches your institution's exact scale, this uses a common general approximation without plus/minus grades, many schools use different cutoffs or add +/- grading, always check your institution's official scale for the grade that actually counts.",
+      "Mixing up marks obtained and total marks, entering them in the wrong fields produces a percentage over 100% (or a fraction of what it should be), double check which number is your score and which is the maximum possible.",
+      "Treating this as a substitute for weighted grade calculations, this is a simple ratio of marks obtained to total marks, if your course averages multiple weighted components, this tool won't combine them for you, calculate each component separately or use it once per component.",
     ],
     relatedSlugs: ["final-grade-calculator", "cgpa-calculator"],
   },
@@ -14595,10 +16201,10 @@ explanation: [
     },
     explanation: [
       {
-        heading: "How attendance projections are calculated",
+        heading: "How attendance projections are calculated (worked example)",
         paragraphs: [
           "Current attendance is Classes Attended ÷ Total Classes Held × 100. Classes needed to reach a target assumes you attend every future class from now on, and solves for how many additional classes (attended and held) bring your percentage up to the target. Classes you can skip assumes you keep attending as before, and finds how many future classes (held but not attended) you can miss while staying at or above the target.",
-          "For example, with 40 of 50 classes attended (80%) and a 75% target, you're already above target, so the calculator shows how many classes you can still skip rather than how many more you need.",
+          "For example, with 40 of 50 classes attended, current attendance = 40 ÷ 50 × 100 = 80%. Against a 75% target, you're already above it, so classes needed shows 0, and classes you can skip works out to 3, meaning you could miss the next 3 classes entirely and your attendance would still land right at 75%.",
         ],
       },
       {
@@ -14617,6 +16223,11 @@ explanation: [
         question: "What if my target is 100%?",
         answer: "If you've already missed any classes, 100% attendance can no longer be reached since past classes can't be un-missed, so the calculator shows this as not applicable.",
       },
+    ],
+    commonMistakes: [
+      "Reading 'classes needed' and 'classes can skip' as both being live, relevant numbers at once, only one is typically meaningful at a time, if you're below target you'll see a real 'classes needed' figure and a 0 for 'can skip', and vice versa if you're above target.",
+      "Forgetting that 'classes needed' assumes perfect attendance from now on, if you expect to miss any future classes too, you'll need more than the calculated number of additional classes to actually reach your target.",
+      "Setting a 100% target after already missing classes and expecting a usable number back, past absences can't be undone, so 100% becomes mathematically unreachable at that point, the calculator correctly flags this as not applicable rather than showing a misleading number.",
     ],
     relatedSlugs: ["study-time-calculator", "grade-percentage-calculator"],
   },
@@ -14649,10 +16260,10 @@ explanation: [
     },
     explanation: [
       {
-        heading: "How required study time is calculated",
+        heading: "How required study time is calculated (worked example)",
         paragraphs: [
           "Days remaining is the gap between today and your exam date. That's converted to weeks remaining, then multiplied by your chosen study days per week to get your total number of study sessions. Total study hours needed is then divided by that session count (for hours per day) and by weeks remaining (for hours per week).",
-          "For example, with 20 days remaining, 5 study days a week, and 40 hours of material to cover, that's roughly 14.3 study sessions, about 2.8 hours per session, or 14 hours per week.",
+          "For example, with 20 days remaining, 5 study days a week, and 40 hours of material to cover: weeks remaining = 20 ÷ 7 = 2.857, total study sessions = 2.857 × 5 = 14.29, hours per day = 40 ÷ 14.29 = 2.80 hours per session, and hours per week = 40 ÷ 2.857 = 14.00 hours per week.",
         ],
       },
       {
@@ -14671,6 +16282,11 @@ explanation: [
         question: "How do I estimate total study hours needed?",
         answer: "A common starting point is 1-3 hours of focused review per topic or chapter, adjusted for how well you already know the material and how difficult the exam is expected to be.",
       },
+    ],
+    commonMistakes: [
+      "Underestimating total study hours needed at the outset, if that estimate is too low, the calculated hours per day and per week will look deceptively manageable, revisit and increase the total hours estimate if you find you're not actually retaining material at the calculated pace.",
+      "Setting study days per week to 7 when that's not realistic to sustain, spreading the same total hours across every single day leaves no buffer for a bad day or unexpected conflict, a more conservative days-per-week figure builds in some slack.",
+      "Not updating the calculation as the exam date approaches, hours needed per day increases as days remaining shrinks for the same total hours, recalculating partway through your study plan (using hours actually completed and remaining) keeps the daily target realistic.",
     ],
     relatedSlugs: ["attendance-calculator", "final-grade-calculator"],
   },
@@ -14854,6 +16470,12 @@ explanation: [
           "Operating expenses typically include property tax, insurance, maintenance and repairs, property management fees, and a vacancy allowance, but exclude the mortgage payment itself, which is entered separately.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $250,000 property, $50,000 down payment, $2,200 monthly rent, $500 monthly operating expenses, and a $1,100 monthly mortgage payment: monthly NOI = $2,200 − $500 = $1,700, so monthly cash flow after the mortgage = $1,700 − $1,100 = $600, or $7,200 a year. Cap rate = ($1,700 × 12) ÷ $250,000 × 100 = 8.16%, ignoring financing entirely. Cash-on-cash return instead compares that $7,200 annual cash flow to just the $50,000 actually invested: $7,200 ÷ $50,000 × 100 = 14.4%, notably higher than the cap rate here because the mortgage rate is lower than the property's return, a case of positive leverage.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -14913,6 +16535,12 @@ explanation: [
         heading: "Using APR to compare loan offers",
         paragraphs: [
           "APR is designed to let you compare loan offers with different fee structures on equal footing. A loan with a lower stated rate but high fees can end up with a higher APR than a loan with a slightly higher rate but low fees, always compare APR, not just the headline interest rate.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $200,000 loan at a stated 6% rate over 360 months (30 years), with $4,000 in upfront fees: the monthly payment based on the full $200,000 at 6% works out to $1,199.10. But since you actually only receive $200,000 − $4,000 = $196,000 net of fees, and you're still paying that same $1,199.10 monthly payment, the true APR (the rate that would produce that payment on the smaller $196,000) comes out to 6.189%, meaningfully higher than the 6% stated rate.",
         ],
       },
     ],
@@ -14977,6 +16605,12 @@ explanation: [
         heading: "How much can you actually borrow?",
         paragraphs: [
           "Lenders typically cap total borrowing (your existing mortgage plus the new home equity loan) at 80-85% of your home's value, known as combined loan-to-value (CLTV). Your available equity is the theoretical maximum, but your actual approved amount depends on your lender's CLTV limit, credit profile and income.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A home currently worth $400,000 with a $220,000 remaining mortgage balance has available equity of $400,000 − $220,000 = $180,000. Borrowing $50,000 of that against an 8% rate over a 10-year term amortizes to a monthly payment of $606.64, for total payments of $72,796.56 and total interest of $22,796.56 over the life of the loan, well within the $180,000 of theoretical equity, though the actual approved amount would still depend on the lender's CLTV cap, credit profile and income.",
         ],
       },
     ],
@@ -15079,6 +16713,12 @@ explanation: [
           "This calculator assumes you hold the CD to maturity. Withdrawing early typically triggers a penalty, often a forfeiture of some months of interest, which isn't reflected here. Check your CD's specific terms before committing funds you might need early.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A $10,000 deposit at 4.5% APY, compounded monthly, over a 12-month term: maturity value = $10,000 × (1 + 0.045/12)^(12×1) = $10,459.40, for $459.40 in total interest earned by the time the CD matures, on a fixed deposit with no further contributions along the way.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15178,6 +16818,13 @@ explanation: [
         heading: "Which one is better depends on your tax rates",
         paragraphs: [
           "A Traditional IRA tends to come out ahead if your tax rate in retirement will be lower than it is now, since you get the deduction at today's (higher) rate and pay tax later at a lower one. A Roth tends to come out ahead in the reverse situation. Compare this calculator's after-tax result against our Roth IRA Calculator's tax-free balance to see which fits your situation.",
+        ],
+      },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Starting at age 30 with a $10,000 balance, contributing $6,500 a year until retirement at 65, at an expected 7% return, a 24% current tax rate, and a 12% expected retirement tax rate: the pre-tax balance at retirement grows to $1,090,632.76, on $227,500 of contributions. This year's $6,500 contribution is worth $6,500 × 24% = $1,560 in immediate tax savings. At withdrawal, taxed at the lower 12% retirement rate, the after-tax value works out to $1,090,632.76 × (1 − 0.12) = $959,756.83, illustrating why a Traditional IRA tends to come out ahead when your retirement tax rate is lower than your current one.",
+          "Note: growth here compounds monthly (not annually), so a 7% annual return behaves like a 7.23% effective annual rate, which is why the balance comes out higher than a simple annual-compounding hand calculation would suggest.",
         ],
       },
     ],
@@ -15742,6 +17389,12 @@ explanation: [
           "Use Lap while the stopwatch is running to record a split time. Each lap shows both the time since the previous lap and the total elapsed time at that moment, useful for tracking intervals during a workout, a presentation rehearsal, or any timed activity.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Starting the stopwatch and pressing Lap at 1:15, 2:40, and 3:50 records three laps: the first shows a 1:15 split (1:15 total), the second shows a 1:25 split (2:40 total), and the third shows a 1:10 split (3:50 total), letting you compare how each interval performed against the others at a glance.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15758,6 +17411,11 @@ explanation: [
         question: "Does resetting the stopwatch clear my laps?",
         answer: "Yes, Reset clears the elapsed time back to zero and removes all recorded laps.",
       },
+    ],
+    commonMistakes: [
+      "Closing the browser tab expecting the stopwatch to keep running in the background, once the tab is closed, the timing session ends, this only stays accurate while the page remains open, even in a background tab.",
+      "Confusing the per-lap split time with the cumulative total time, both are shown for each lap, mixing them up when comparing interval performance can make a fast lap look slow or vice versa.",
+      "Forgetting that Reset clears recorded laps permanently, if you need to preserve a set of lap times, note them down before resetting, since there's no way to recover them afterward.",
     ],
     relatedSlugs: ["countdown-timer", "time-duration-calculator", "shift-calculator"],
   },
@@ -15808,6 +17466,12 @@ explanation: [
           "Weekends are skipped entirely, and any time before the business day starts or after it ends on a given day doesn't count, so a request submitted at 6:00 PM on a Friday and answered at 10:00 AM the following Monday would only count the time from 9:00 AM to 10:00 AM Monday, not the entire weekend.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A request submitted Friday, August 7, 2026 at 6:00 PM and resolved Monday, August 10, 2026 at 10:00 AM, with a 9:00 AM to 5:00 PM business window, comes out to exactly 1 business hour across 1 business day, the entire weekend plus the after-hours portion of Friday evening is excluded, leaving only Monday's 9:00 AM to 10:00 AM window.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15825,6 +17489,11 @@ explanation: [
         answer:
           "The Working Days Calculator counts whole business days between two dates. This tool goes a step further and calculates actual elapsed hours within a working-hours window, accounting for partial days at the start and end of the range.",
       },
+    ],
+    commonMistakes: [
+      "Expecting time outside the business hours window to count toward the total, as the worked example shows, evenings, nights and weekends are entirely excluded, only time falling within your specified daily window on a weekday counts.",
+      "Using this when you actually just need whole business days counted, not elapsed hours within a window, the simpler Working Days Calculator is the better fit for that use case.",
+      "Setting a business hours window that doesn't match your actual support or operating hours, the accuracy of this calculation depends entirely on entering the real window your business or team operates within.",
     ],
     relatedSlugs: ["working-days-calculator", "time-duration-calculator", "shift-calculator"],
   },
@@ -15871,6 +17540,12 @@ explanation: [
           "This tool converts your clock-in and clock-out times into total elapsed minutes, then subtracts your unpaid break to get net hours worked. If your clock-out time is earlier than or equal to your clock-in time, the shift is treated as overnight, spanning into the next day, so a 10:00 PM to 6:00 AM shift correctly calculates as 8 hours rather than a negative duration.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Clocking in at 10:00 PM and clocking out at 6:00 AM the next morning, with a 30-minute unpaid break, gives a gross time of 8h 0m (correctly recognized as overnight, since 6:00 AM is earlier than 10:00 PM), and a net time of 7h 30m worked after the break deduction, shown as 7.5 in the decimal hours field.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15888,6 +17563,11 @@ explanation: [
         answer:
           "This tool calculates a single shift. The Payroll Hours Calculator aggregates multiple shifts across a full week, including overtime, for payroll purposes.",
       },
+    ],
+    commonMistakes: [
+      "Including paid breaks in the break minutes field, only unpaid break time should be deducted, subtracting a paid break as well understates actual hours worked for payroll purposes.",
+      "Entering an identical clock-in and clock-out time expecting a zero-hour result, since clock-out equal to clock-in is treated as a full 24-hour overnight shift by this tool's logic, not a zero-duration shift.",
+      "Forgetting that a clock-out time earlier than clock-in always triggers overnight logic, if you actually meant a same-day shift but mistyped the clock-out time, the result will silently calculate as an overnight shift instead of flagging the likely typo.",
     ],
     relatedSlugs: ["payroll-hours-calculator", "time-duration-calculator", "hourly-wage-calculator"],
   },
@@ -15971,6 +17651,12 @@ explanation: [
           "Leave both the clock-in and clock-out fields blank for any day you didn't work; you don't need to fill in all seven days.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Working five 9-hour shifts (with breaks already deducted to 9 net hours each) totals 45 hours for the week. At the default 40-hour overtime threshold and 1.5x multiplier, that splits into 40 regular hours and 5 overtime hours. At an hourly rate of $20, gross pay works out to (40 × $20) + (5 × $20 × 1.5) = $800 + $150 = $950 for the week.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -15988,6 +17674,11 @@ explanation: [
         answer:
           "It's a close estimate based on the hourly rate and overtime rules you enter, but it doesn't account for taxes, deductions, shift differentials, or other pay rules your employer might apply.",
       },
+    ],
+    commonMistakes: [
+      "Filling in only a clock-in or only a clock-out time for a day, both fields are required together for any day counted, leaving one blank while filling the other will trigger an error rather than silently skip that day.",
+      "Assuming overtime is calculated per day rather than for the week as a whole, this tool applies the threshold to your weekly total by default, some jurisdictions actually calculate overtime daily instead, check your local rules if that distinction matters.",
+      "Treating the gross pay figure as your actual take-home pay, it's a pre-tax, pre-deduction estimate based only on the hourly rate and overtime rules entered, actual pay will differ once taxes and other withholdings are applied.",
     ],
     relatedSlugs: ["shift-calculator", "hourly-wage-calculator", "business-hours-calculator"],
   },
@@ -16040,6 +17731,12 @@ explanation: [
           "The Age Calculator finds how old one person is today (or on a chosen date) from a single birth date. This tool instead compares two different birth dates directly to find the gap between them, useful for comparing siblings, partners, or any two people's ages.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Comparing a birth date of May 10, 1990 against November 20, 1985 gives an age gap of 4 years, 5 months, 20 days (1,632 total days apart), with the person born in 1985 identified as the older of the two, even though a naive '1990 − 1985 = 5 years' subtraction would overstate the gap by not accounting for exactly where each birthday falls in the calendar year.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -16056,6 +17753,11 @@ explanation: [
         answer:
           "A simple birth-year subtraction doesn't account for whether each person has had their birthday yet this year. This calculator counts complete years, months and days between the two exact dates for an accurate result.",
       },
+    ],
+    commonMistakes: [
+      "Subtracting birth years directly as a shortcut, as the worked example shows, this ignores where each birthday falls in the year and can overstate or understate the true gap by a year.",
+      "Assuming the 'Older' result refers to birth date order rather than actual age, the person born earlier (further in the past) is always the older one, regardless of which input field their birth date was entered into.",
+      "Entering the same birth date for both people and expecting an error, this is valid input, correctly reported as a zero age gap ('Same date') rather than treated as a mistake.",
     ],
     relatedSlugs: ["age-calculator", "date-calculator", "time-duration-calculator"],
   },
@@ -17380,6 +19082,12 @@ explanation: [
           "Studies suggest a large share of women wear an incorrectly fitted bra, partly because band and cup measurements aren't standardized across countries or even between manufacturers, a 34B from one brand may not fit the same as a 34B from another. Treat this calculator's result as a solid starting point for trying on bras, not a guaranteed exact fit.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Say your band measurement is 29 inches and your bust measurement is 35 inches. The band size rounds to the nearest even number, 30. The difference is then measured from that rounded band, not your raw underbust number, so it's 35 − 30 = 5 inches, which maps to a US cup size of E/DD and a UK/AU cup size of DD (each full inch of difference steps up one cup letter, 1\" is A, 2\" is B, and so on). That gives an estimated size of 30E/DD in the US or 30DD in the UK/Australia, alongside matching EU and FR/BE/ES band conversions shown in the results.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17402,6 +19110,11 @@ explanation: [
         answer:
           "This calculator's band size table covers 28 to 46 inches (XXS to 5XL), the most commonly stocked range. Measurements outside this range are clamped to the nearest end of the table.",
       },
+    ],
+    commonMistakes: [
+      "Measuring the band over a padded, ill-fitting, or overly loose bra, this throws off both the band and bust readings, measure band snugly (but not tight) directly underneath the breasts, and bust at the fullest point wearing a properly fitted, non-padded bra.",
+      "Assuming a cup letter means the same thing across every brand or country, cup sizing is relative to band size and isn't standardized between manufacturers, treat the result as a starting point for trying on bras, not a guaranteed universal fit.",
+      "Confusing the US cup letter with the UK/Australian one at larger sizes, they diverge after the D cup (e.g. a 6\" difference is F/DDD in the US but only E in the UK/Australia system), use the conversion this tool provides rather than assuming the letters match internationally.",
     ],
     relatedSlugs: ["bmi-calculator", "body-type-calculator", "length-converter"],
   },
@@ -17587,6 +19300,12 @@ explanation: [
           "Most residential building codes call for a riser height between 7 and 7.75 inches and a tread depth of at least 10 inches, aiming for a comfortable stride. Always check your local building code before finalizing a staircase design.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "For a total rise of 108 inches, a desired riser height of 7 inches, and a 10 inch tread depth: number of steps = round(108 ÷ 7) = round(15.43) = 15. Actual riser height = 108 ÷ 15 = 7.2 inches (slightly taller than the 7 inch target, so the rise divides evenly). Number of treads = 15 − 1 = 14 (the top step is the landing itself). Total run = 14 × 10 = 140 inches. Stringer length = √(108² + 140²) = √(11,664 + 19,600) = √31,264 ≈ 176.82 inches. Stair angle = arctan(108 ÷ 140) ≈ 37.65°.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17599,6 +19318,11 @@ explanation: [
         answer:
           "Total rise is the straight-up vertical height. Stringer length is the diagonal length of the support board running under the stairs, which is longer than the rise since it also accounts for the horizontal run.",
       },
+    ],
+    commonMistakes: [
+      "Treating the entered 'desired' riser height as the final answer, this calculator rounds to a whole number of steps first, then recalculates the actual riser height so every step comes out exactly even, the actual figure (not your original entry) is what to build to.",
+      "Forgetting the number of treads is one less than the number of steps, the top step is the landing or floor itself, not an additional tread, using the step count directly for tread material would overcount by one.",
+      "Skipping a local building code check, most residential codes call for a riser height roughly 7 to 7.75 inches and a tread depth of at least 10 inches, this calculator computes the geometry but doesn't verify your specific inputs against any code.",
     ],
     relatedSlugs: ["concrete-calculator", "triangle-calculator", "roofing-calculator"],
   },
@@ -17659,6 +19383,12 @@ explanation: [
           "Excessive voltage drop wastes energy as heat and can cause equipment to run inefficiently or fail to operate correctly. The National Electrical Code recommends keeping voltage drop under 3% for branch circuits and under 5% for the total of feeder and branch circuit combined, though it isn't a hard code requirement in most cases.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A single-phase 120V circuit carrying 20 amps over a 100-foot copper 12 AWG run: voltage drop = (2 × 12.9 × 20 × 100) ÷ 6,530 circular mils = 7.90V, a percent drop of 7.90 ÷ 120 × 100 = 6.58%, leaving 112.10V at the load. That 6.58% exceeds the commonly recommended 3% limit for branch circuits, stepping up to a thicker 10 AWG wire (10,380 circular mils) would roughly cut the voltage drop in proportion to the increase in circular mils.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17676,6 +19406,11 @@ explanation: [
         answer:
           "No, this is a planning estimate only. Always have electrical work verified by a licensed electrician and checked against your local electrical code.",
       },
+    ],
+    commonMistakes: [
+      "Entering the round-trip distance instead of the one-way length, this calculator's formula already accounts for the return path internally (via the phase factor of 2 for single-phase), entering the full there-and-back distance effectively double-counts it.",
+      "Mixing up copper and aluminum, aluminum has a notably higher resistivity constant (21.2 vs 12.9), using the wrong material setting understates voltage drop on an aluminum run by more than half.",
+      "Ignoring a voltage drop percentage over 3% because the circuit still technically works, excessive voltage drop isn't usually an immediate failure, it shows up as wasted energy, dimmer lighting, or equipment running inefficiently over time.",
     ],
     relatedSlugs: ["ohms-law-calculator", "electricity-calculator", "length-converter"],
   },
@@ -17715,6 +19450,12 @@ explanation: [
           "Ohm's Law states that voltage equals current multiplied by resistance: V = I × R. This calculator rearranges the formula depending on which value you leave blank: current = voltage ÷ resistance, or resistance = voltage ÷ current. Power is then calculated as voltage × current (P = VI) using the completed set of values.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "Enter voltage 12 and resistance 4, leaving current blank: current = 12 ÷ 4 = 3 amps, and power = 12 × 3 = 36 watts. If instead you entered voltage 12 and current 3 (leaving resistance blank), the calculator would solve resistance = 12 ÷ 3 = 4 ohms, arriving at the identical complete set of values either way, since any two of the three values fully determine the third.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17725,6 +19466,11 @@ explanation: [
         question: "What happens if I only fill in one field?",
         answer: "You need at least two of the three values (voltage, current, resistance) filled in for the calculator to solve for the third.",
       },
+    ],
+    commonMistakes: [
+      "Filling in all three fields at once, the calculator needs exactly one field left blank to know which value to solve for, if all three are filled it can't tell which one you actually want calculated.",
+      "Entering resistance as zero when solving for current, dividing voltage by zero resistance is undefined (a short circuit in practice), the calculator will flag this rather than return an answer.",
+      "Forgetting that power depends on the completed set of all three values, not just two, if you only intended to check voltage and current, the resistance value shown is still a real, calculated part of the answer, not a placeholder.",
     ],
     relatedSlugs: ["voltage-drop-calculator", "electricity-calculator", "density-calculator"],
   },
@@ -17774,6 +19520,12 @@ explanation: [
           "Check the appliance's nameplate, manual, or a label near the power cord, it's often listed directly in watts. If only amps and voltage are given, multiply them together (watts = amps × volts) to get an estimate.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A 1500W space heater run 3 hours a day at $0.15 per kWh: daily usage = 1500 × 3 ÷ 1000 = 4.5 kWh, costing 4.5 × $0.15 = $0.68 per day. Over a 30-day month that's 135 kWh costing $20.25, and annualized (using 365 days) it comes to 1,642.5 kWh, or roughly $246.38 per year, for one appliance run on that schedule.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17785,6 +19537,11 @@ explanation: [
         answer:
           "Not directly, this calculator assumes the wattage you enter is drawn for the full duration you specify. For cycling appliances, use their average or effective run time per day for a more accurate estimate.",
       },
+    ],
+    commonMistakes: [
+      "Entering an appliance's amp rating in the watts field directly, if the nameplate only lists amps and voltage, multiply them together first (watts = amps × volts), plugging the amp figure straight into a watts field understates usage significantly for most household voltages.",
+      "Using full running wattage for an appliance that mostly cycles on and off, like a refrigerator or AC unit, these don't draw their rated wattage continuously, use an estimated average or effective daily run time instead of assuming full-power operation for the entire period.",
+      "Forgetting that daysPerMonth affects the monthly figure but the yearly figure is always calculated from a fixed 365 days times the daily rate, not by multiplying the monthly figure by 12, so a daysPerMonth value other than about 30.4 will make the monthly and yearly figures not scale by exactly 12x.",
     ],
     relatedSlugs: ["ohms-law-calculator", "voltage-drop-calculator", "inflation-calculator"],
   },
@@ -17828,6 +19585,12 @@ explanation: [
           "Note that connection speeds are conventionally measured in bits per second (Mbps), while file sizes are conventionally measured in bytes (MB), a common point of confusion, a 100 Mbps connection transfers about 12.5 megabytes per second, not 100.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A 5 GB file on a 100 Mbps connection: 5 GB converts to 5 × 8,000,000,000 = 40,000,000,000 bits, and 100 Mbps converts to 100,000,000 bits per second. Dividing gives 40,000,000,000 ÷ 100,000,000 = 400 seconds, displayed as '6m 40s'. A smaller 500 MB file on a 50 Mbps connection instead gives 500 × 8,000,000 ÷ 50,000,000 = 80 seconds, or '1m 20s'.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17841,7 +19604,12 @@ explanation: [
           "Mbps (megabits per second) is the standard unit for connection speed. MB/s (megabytes per second) is the standard unit for file size and download progress. Divide Mbps by 8 to get an approximate MB/s figure.",
       },
     ],
-    relatedSlugs: ["data-storage-converter", "digital-transfer-rate-converter", "percentage-calculator"],
+    commonMistakes: [
+      "Confusing Mbps (megabits per second, used for connection speed) with MB/s (megabytes per second, used for file size and download progress), an 8x mixup that makes an estimate look 8 times faster or slower than reality.",
+      "Assuming the estimated time is what you'll actually experience, this is a theoretical maximum based purely on the stated speed, real transfers are typically slower due to network overhead, server-side throttling, Wi-Fi conditions, and other traffic sharing the connection.",
+      "Mixing up decimal (1000-based) and binary (1024-based) unit conventions, this calculator uses the networking convention of decimal units (1 MB = 1,000,000 bytes), which differs slightly from the binary convention (1 MiB = 1,048,576 bytes) some operating systems use when reporting file sizes.",
+    ],
+    relatedSlugs: ["data-storage-converter", "digital-transfer-rate-converter"],
   },
   {
     slug: "density-calculator",
@@ -17878,6 +19646,12 @@ explanation: [
           "Density is mass divided by volume: ρ = m ÷ V. This calculator rearranges the formula depending on which field you leave blank, solving for mass (volume × density), volume (mass ÷ density), or density (mass ÷ volume). Note that 1 g/cm³ equals 1 kg/L, so results can be scaled to other common unit systems by the same ratio.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "You have a metal sample weighing 474 g and know it's iron (density about 7.9 g/cm³), but you don't have a way to directly measure its volume. Entering mass 474 and density 7.9, leaving volume blank, solves volume = 474 ÷ 7.9 = 60 cm³, letting you back into volume for an irregular solid shape you couldn't otherwise measure directly (for instance by comparing it to how much water it would displace).",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17889,6 +19663,11 @@ explanation: [
         question: "Why is water's density 1 g/cm³?",
         answer: "By definition, one gram was originally set as the mass of one cubic centimeter of water at 4°C, which is why water's density conveniently works out to almost exactly 1 g/cm³.",
       },
+    ],
+    commonMistakes: [
+      "Mixing unit systems within one calculation, like entering mass in kilograms but volume in cm³, the calculator has no way to detect this, it just divides the numbers you enter, so inconsistent units silently produce a meaningless result rather than an error.",
+      "Leaving more than one field blank, or filling in all three, the calculator needs exactly two known values to solve for the third, it can't solve with only one value given, and it can't tell which field to solve for if none are left blank.",
+      "Assuming density is a fixed property regardless of temperature or state, most materials expand slightly when heated (lowering density) and contract when cooled, a density figure looked up at one temperature may not exactly match a measurement taken at a different one.",
     ],
     relatedSlugs: ["molarity-calculator", "ohms-law-calculator", "weight-converter"],
   },
@@ -17945,6 +19724,11 @@ explanation: [
           "No, it means the total final volume of the solution after the solute is fully dissolved, not just the volume of solvent used, this is an important distinction in accurate lab work.",
       },
     ],
+    commonMistakes: [
+      "Using the volume of solvent added instead of the total final solution volume, dissolving a solid changes the total volume somewhat, molarity is defined using the final solution volume after mixing, not just how much water you started with.",
+      "Looking up the wrong molar mass for a hydrated compound, many lab reagents are hydrates (like CuSO₄·5H₂O), which have a meaningfully higher molar mass than the anhydrous form, using the wrong one skews the resulting molarity.",
+      "Mixing up mass and moles when reading a recipe or procedure, this calculator takes mass in grams as input and converts to moles internally, entering a moles value directly into the mass field would give a nonsensical result.",
+    ],
     relatedSlugs: ["density-calculator", "ohms-law-calculator", "percentage-calculator"],
   },
   {
@@ -17987,6 +19771,12 @@ explanation: [
           "These formulas give a rough estimate of flywheel horsepower and don't account for aerodynamic drag, tire grip, driver skill, altitude or weather conditions, all of which affect real quarter-mile performance. Use this as a general reference, not a dyno-certified figure.",
         ],
       },
+      {
+        heading: "Worked example",
+        paragraphs: [
+          "A 3,400 lb car running a quarter-mile at a 100 mph trap speed: horsepower = 3,400 × (100 ÷ 234)³ ≈ 265.36 hp. If instead you only recorded a 13-second elapsed time for the same car, the other formula gives horsepower = 3,400 ÷ (13 ÷ 5.825)³ ≈ 305.87 hp, a meaningfully different estimate, since elapsed time is more sensitive to launch technique and traction than trap speed is, trap speed is generally considered the more reliable of the two when you have both.",
+        ],
+      },
     ],
     faqs: [
       {
@@ -17998,6 +19788,11 @@ explanation: [
         question: "What weight should I use?",
         answer: "Use the vehicle's total weight as raced, including the driver and any fuel or ballast, not just the vehicle's curb weight alone.",
       },
+    ],
+    commonMistakes: [
+      "Using the vehicle's curb weight instead of its actual weight as raced, forgetting to include the driver, a full fuel tank, or any ballast understates the true weight and throws off the horsepower estimate in either formula.",
+      "Filling in both trap speed and elapsed time and expecting them to be averaged, the calculator uses trap speed if it's provided, only falling back to elapsed time if trap speed is left blank, it doesn't combine the two.",
+      "Treating the result as a dyno-certified figure, these are widely used drag-racing estimation formulas based purely on weight and quarter-mile performance, they don't account for aerodynamic drag, tire grip, altitude or weather, real dyno-measured horsepower can differ meaningfully from this estimate.",
     ],
     relatedSlugs: ["fuel-economy-calculator", "tire-size-calculator", "auto-loan-calculator"],
   },
