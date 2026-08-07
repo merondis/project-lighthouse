@@ -267,6 +267,28 @@ relatedToolSlugs: ["compress-pdf", "merge-pdf", "split-pdf"],
     relatedToolSlugs: ["mortgage-refinance-calculator", "mortgage-calculator"],
     relatedPostSlugs: [],
   },
+  {
+    slug: "how-much-is-my-business-worth",
+    title: "How Much Is My Business Actually Worth? A Plain-English Guide to Valuation Multiples",
+    metaDescription:
+      "Business valuation doesn't have to be mysterious. Here's how the earnings multiple method actually works, with a real worked example.",
+    excerpt:
+      "Most small business valuations come down to one simple idea: your earnings times a multiple. Here's how that multiple actually gets chosen, and why it matters more than the earnings number itself.",
+    publishedDate: "2026-08-06",
+    content: [
+      "If you've ever tried to answer \"what's my business worth\" by searching online, you've probably run into a wall of jargon, EBITDA, discounted cash flow, comparable transactions, that makes a fairly simple underlying idea sound far more complicated than it needs to be for most small and mid-sized businesses.",
+      "For the vast majority of privately held businesses, valuation comes down to one core method: take your annual earnings, multiply it by a number that reflects how much risk and growth potential a buyer sees in your business, and add back the value of anything separate from ongoing operations, like cash reserves or equipment that isn't tied to earning power. That's it. The complexity almost entirely lives in figuring out what that multiple should be, not in the math itself.",
+      "The formula looks like this: estimated value equals annual earnings multiplied by the multiple, plus any add-back assets. If your business earns 500,000 dollars a year, and buyers in your industry typically pay a 3x multiple for businesses like yours, and you have 50,000 dollars in equipment or cash that isn't part of daily operations, your estimated value works out to 500,000 times 3, which is 1,500,000, plus the 50,000 in add-backs, for a total of 1,550,000 dollars.",
+      "Separately, it's worth tracking your adjusted earnings too, your annual earnings plus those same add-back assets, which in this example comes to 550,000 dollars. This number isn't what gets multiplied, the multiple applies to your core annual earnings alone, but adjusted earnings gives a fuller picture of what the business is actually generating and holding when you're preparing to discuss value with a buyer or advisor.",
+      "So where does the multiple itself actually come from? It's shaped by a handful of real factors: how stable and recurring your revenue is, how dependent the business is on you personally versus a team or systems that could run it without you, how much growth potential the buyer sees, and what similar businesses in your industry have actually sold for recently. A business with predictable, contract-based revenue and a management team in place might command a 4x or 5x multiple, while a business that's entirely dependent on the owner's personal relationships might struggle to get above 2x, regardless of how profitable it currently is.",
+      "This is exactly why two businesses with identical annual earnings can have wildly different valuations. The earnings number is only half the equation, the multiple is doing at least as much work, and it's the part most business owners have the least visibility into, because it depends on how a buyer perceives risk, not just on your own financial statements.",
+      "A rough, honest way to sanity-check your own multiple is to look at recent sale data for businesses genuinely similar to yours, in your industry, at a comparable size and revenue stability, rather than defaulting to whatever multiple sounds impressive. Industry associations, business brokers, and some public transaction databases publish average multiples by sector, and starting from that real benchmark, then adjusting up or down for your specific business's stability and growth trajectory, gets you to a far more defensible number than guessing.",
+      "Our Business Valuation Calculator handles the arithmetic instantly once you have real inputs, annual earnings, your chosen multiple, and any add-back assets, so you can quickly model a few different multiple scenarios and see how sensitive your estimated value actually is to that one number. That sensitivity is often the most useful thing to see directly: a shift from a 2.5x to a 3.5x multiple on the same earnings can swing your estimated value by hundreds of thousands of dollars, which is exactly why getting a realistic sense of your multiple matters more than refining your earnings number down to the last dollar.",
+      "If you're seriously preparing to sell, this kind of quick estimate is a starting point for a conversation, not a substitute for a formal valuation from a business appraiser or broker, who can account for factors specific to your business and industry that a simple multiple can't fully capture. But for getting a realistic ballpark before that conversation even starts, understanding the multiple, and why it's doing more work than your earnings statement, is the single most useful thing to internalize.",
+    ],
+    relatedToolSlugs: ["business-valuation-calculator", "net-worth-calculator"],
+    relatedPostSlugs: [],
+  },
  ];
   export function getBlogPostBySlug(slug: string) {
   return blogPosts.find((post) => post.slug === slug);
